@@ -2,7 +2,6 @@ import React, { useRef, useContext } from "react";
 import { Container, Typography, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import colors from "../../../constants/colors";
-import screen1 from "../../../assets/images/screen1.png";
 import TheContext from "../../../context/context";
 import Sale from "../../../assets/icons/sale.png";
 import Members from "../../../assets/icons/member.png";
@@ -10,6 +9,7 @@ import Rate from "../../../assets/icons/rate.png";
 import Heart from "../../../assets/icons/heart.png";
 import Avatar from "../../../assets/images/avatar.jpg";
 import Test from "../../../assets/images/test.png";
+import Plat from "../../../assets/images/plat.png";
 import StarIcon from "@mui/icons-material/Star";
 export default function Section1(props) {
   const classes = useStyles(props);
@@ -96,103 +96,201 @@ const SliderItem = (props) => {
     </svg>
   );
   return (
-    <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg} />
-      <div className={classes.sliderItemContainer}>
-        <div className={classes.row1}>
-          <div className={classes.textContainer}>
-            {path}
-            <div className={classes.avatar}>
-              <img alt="JamukhImg" src={Avatar} className={classes.avatarImg} />
+    <Container disableGutters maxWidth={false} >
+      <div className={classes.rootRow}>
+        <div className={classes.sliderItemBackImg} />
+        <div className={classes.sliderItemContainer}>
+          <div className={classes.row1}>
+            <div className={classes.textContainer}>
+              {path}
+              <div className={classes.avatar}>
+                <img alt="JamukhImg" src={Avatar} className={classes.avatarImg} />
+              </div>
+              <Typography className={classes.title}>{props?.title}</Typography>
+              <Typography className={classes.email}>{props?.email}</Typography>
+              <div className={classes.row}>
+                <div className={classes.column}>
+                  <img alt="JamukhImg" src={Sale} className={classes.icons} />
+                  <div className={classes.saleText}>My sales</div>
+                  <div className={classes.saleCount}>12</div>
+                </div>
+                <div className={classes.column}>
+                  <img alt="JamukhImg" src={Members} className={classes.icons} />
+                  <div className={classes.saleText}>Members</div>
+                  <div className={classes.saleCount}>12</div>
+                </div>
+                <div className={classes.column}>
+                  <img alt="JamukhImg" src={Rate} className={classes.icons} />
+                  <div className={classes.saleText}>My rate</div>
+                  <div className={classes.saleCount}>12</div>
+                </div>
+                <div className={classes.column}>
+                  <img alt="JamukhImg" src={Heart} className={classes.icons} />
+                  <div className={classes.saleText}>Favorita</div>
+                  <div className={classes.saleCount}>12</div>
+                </div>
+              </div>
             </div>
-            <Typography className={classes.title}>{props?.title}</Typography>
-            <Typography className={classes.email}>{props?.email}</Typography>
-            <div className={classes.row}>
-              <div className={classes.column}>
-                <img alt="JamukhImg" src={Sale} className={classes.icons} />
-                <div className={classes.saleText}>My sales</div>
-                <div className={classes.saleCount}>12</div>
+            <div className={classes.memberContainer}>
+              <div className={classes.memberTop}>
+                <div className={classes.memberTitle}>MEMBERS</div>
+                <div className={classes.memberTitleSEE}>SEE ALL ></div>
               </div>
-              <div className={classes.column}>
-                <img alt="JamukhImg" src={Members} className={classes.icons} />
-                <div className={classes.saleText}>Members</div>
-                <div className={classes.saleCount}>12</div>
-              </div>
-              <div className={classes.column}>
-                <img alt="JamukhImg" src={Rate} className={classes.icons} />
-                <div className={classes.saleText}>My rate</div>
-                <div className={classes.saleCount}>12</div>
-              </div>
-              <div className={classes.column}>
-                <img alt="JamukhImg" src={Heart} className={classes.icons} />
-                <div className={classes.saleText}>Favorita</div>
-                <div className={classes.saleCount}>12</div>
+              <div className={classes.memberSmallProfiles}>
+                <div className={classes.smallProfile}>
+                  <div className={classes.smallProfileAvatar}>
+                    <img
+                      alt="JamukhImg"
+                      src={Avatar}
+                      className={classes.avatarImage}
+                    />
+                    <div className={classes.smallProfileTitle}>Gantulga</div>
+                    <div className={classes.smallProfileRank}>
+                      <StarIcon className={classes.starRank} />
+                      4.6
+                    </div>
+                  </div>
+                </div>
+                <div className={classes.smallProfile}>
+                  <div className={classes.smallProfileAvatar}>
+                    <img
+                      alt="JamukhImg"
+                      src={Avatar}
+                      className={classes.avatarImage}
+                    />
+                    <div className={classes.smallProfileTitle}>Gantulga</div>
+                    <div className={classes.smallProfileRank}>
+                      <StarIcon className={classes.starRank} />
+                      4.6
+                    </div>
+                  </div>
+                </div>
+                <div className={classes.smallProfile}>
+                  <div className={classes.smallProfileAvatar}>
+                    <img
+                      alt="JamukhImg"
+                      src={Avatar}
+                      className={classes.avatarImage}
+                    />
+                    <div className={classes.smallProfileTitle}>Gantulga</div>
+                    <div className={classes.smallProfileRank}>
+                      <StarIcon className={classes.starRank} />
+                      4.6
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className={classes.memberContainer}>
-            <div className={classes.memberTop}>
-              <div className={classes.memberTitle}>MEMBERS</div>
-              <div className={classes.memberTitleSEE}>SEE ALL ></div>
+          <div className={classes.mySales}>MY SALES</div>
+          <div className={classes.myDiv}>
+            <img src={Test} style={{ height: "300px", width: "200px" }} alt="test"/>
+            <img src={Test} style={{ height: "300px", width: "200px" }} alt="test"/>
+            <img src={Test} style={{ height: "300px", width: "200px" }} alt="test"/>
+            <img src={Test} style={{ height: "300px", width: "200px" }} alt="test"/>
+            <img src={Test} style={{ height: "300px", width: "200px" }} alt="test"/>
+          </div>
+
+        </div>
+        <div className={classes.membersAdvantage}>
+          <div className={classes.membersAdvantageContaint}>
+            <div>
+              <img src={Plat} className={classes.membersLogo} />
             </div>
-            <div className={classes.memberSmallProfiles}>
-              <div className={classes.smallProfile}>
-                <div className={classes.smallProfileAvatar}>
-                  <img
-                    alt="JamukhImg"
-                    src={Avatar}
-                    className={classes.avatarImage}
-                  />
-                  <div className={classes.smallProfileTitle}>Gantulga</div>
-                  <div className={classes.smallProfileRank}>
-                    <StarIcon className={classes.starRank} />
-                    4.6
-                  </div>
-                </div>
+            <div className={classes.membersTextContainer}>
+              <div className={classes.membersTitle}>
+                PLATINIUM MEMBERS ADVENTAGE
               </div>
-              <div className={classes.smallProfile}>
-                <div className={classes.smallProfileAvatar}>
-                  <img
-                    alt="JamukhImg"
-                    src={Avatar}
-                    className={classes.avatarImage}
-                  />
-                  <div className={classes.smallProfileTitle}>Gantulga</div>
-                  <div className={classes.smallProfileRank}>
-                    <StarIcon className={classes.starRank} />
-                    4.6
-                  </div>
-                </div>
+              <div className={classes.membersDescription}>
+                Ideally, architects of houses design rooms to meet the needs of the people who will live in the house.
+                Feng shui, originally a Chinese method of moving houses according to such factors as rain and micro-
+                climates, has recently expanded its scope to address the design of interior spaces, with a view to
+                promoting harmonious effects on the people living inside the house, although no actual effect has ever…
               </div>
-              <div className={classes.smallProfile}>
-                <div className={classes.smallProfileAvatar}>
-                  <img
-                    alt="JamukhImg"
-                    src={Avatar}
-                    className={classes.avatarImage}
-                  />
-                  <div className={classes.smallProfileTitle}>Gantulga</div>
-                  <div className={classes.smallProfileRank}>
-                    <StarIcon className={classes.starRank} />
-                    4.6
-                  </div>
+              <div className={classes.membersButtonContainer}>
+                <div className={classes.membersButton}>
+                  SEE ALL >
                 </div>
               </div>
             </div>
           </div>
         </div>
-           <div className={classes.mySales}>MY SALES</div>
-            <div className={classes.myDiv}>
-                <img src={Test} style={{height:"300px",width:"200px"}}/>
-                <img src={Test} style={{height:"300px",width:"200px"}}/>
-                <img src={Test} style={{height:"300px",width:"200px"}}/>
-                <img src={Test} style={{height:"300px",width:"200px"}}/>
-                <img src={Test} style={{height:"300px",width:"200px"}}/>
-            </div>
-            <div className={classes.membersAdvantage}>
+        <div className={classes.mySales}>MY SALES</div>
+        <div className={classes.myDiv}>
+          <img src={Test} style={{ height: "300px", width: "200px" }} />
+          <img src={Test} style={{ height: "300px", width: "200px" }} />
+          <img src={Test} style={{ height: "300px", width: "200px" }} />
+          <img src={Test} style={{ height: "300px", width: "200px" }} />
+          <img src={Test} style={{ height: "300px", width: "200px" }} />
+        </div>
 
-
-            </div>  
+        <div className={classes.aboutContainers}>
+          <div className={classes.aboutContainer}>
+              <div className={classes.aboutGenerel}>
+                <img src={Avatar} className={classes.aboutGenerelImg}/>
+                <Typography className={classes.title}>{props?.title}</Typography>
+                <Typography className={classes.email1}>{props?.email}</Typography>
+              </div>
+              <div className={classes.aboutMe}>
+                  <div  className={classes.aboutMeTitle}>
+                    ABOUT ME
+                  </div>
+                  <div  className={classes.aboutMeDescription}>
+                      Ideally, architects of houses design rooms to meet the needs of 
+                      the people who will live in the house. Feng shui, originally a Chinese 
+                      method of moving houses according to such factors as rain and 
+                      micro-climates, has recently expanded its scope to address the
+                      design of interior spaces, with a view to promoting harmonious 
+                      effects on the people living inside the house, although no actual 
+                      effect has ever been demonstrated. Feng shui can also mean the 
+                      “aura” in or around a dwelling, making it comparable to the real 
+                      estate sales concept of “indoor-outdoor flow”.
+                  </div>
+              </div>
+          </div>    
+          <div className={classes.aboutCv}>
+                   <div  className={classes.aboutMeTitle}>
+                    CV
+                  </div>
+                    <table style={{width:"100%"}}>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Name</td>
+                          <td className={classes.td}>Irmuunzaya</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Years</td>
+                          <td className={classes.td}>1988.05.06</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Education</td>
+                          <td className={classes.td}>USA,Oxford Univercity, 
+International Management </td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Work experience</td>
+                          <td className={classes.td}>Google Group, Marketing 
+Manager</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>References</td>
+                          <td className={classes.td}>English, Spanish, Germany</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Career</td>
+                          <td className={classes.td}>Mongolian Leader Manager</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Certifications</td>
+                          <td className={classes.td}>International TOP 
+Manager 2012</td>
+                        </tr>
+                        <tr className={classes.tableBorder}>
+                          <td className={classes.tdF}>Projects</td>
+                          <td className={classes.td}>Golomt bank </td>
+                        </tr>
+                    </table>
+          </div>
+        </div>
       </div>
     </Container>
   );
@@ -212,31 +310,142 @@ const sliderConfig = {
 };
 
 const useStyles = makeStyles({
+  aboutContainers:{
+    display:"flex",
+    backgroundColor:"green",
+    marginBottom:"100px",
+    height:"2000px"
+  },
+  tableBorder:{
+    display:"flex",
+    width:"100%",
+    padding:"5px",
+    borderBottom:"1px solid #F0F0F0"
+  },
+   
   root: {
     minHeight: (props) => (props.phone ? 780 : 560),
     width: "100%",
     fontFamily: "Roboto Condensed",
+    backgroundColor: colors.backgroundColor
+  },
+  tdF:{
+    textAlign:"left",
+    width:"50%",
+    fontWeight:"300"
+  },
+  td:{
+    textAlign:"left",
+    width:"50%"
+  },
+  aboutGenerelImg:{
+    width:"150px",
+    borderRadius:"100%",
+    marginBottom:"20px"
+  },
+  aboutMeDescription:{
+    textAlign:"justify",
+    fontWeight:"300",
+    fontSize:"26px"
+  },
+  aboutCv:{
+    width:"30%",
+    height:"100%",
+    backgroundColor:"white",
+    padding:"20px",
+  },
+  aboutMeTitle:{
+    display:"flex",
+    justifyContent:"flex-start",
+    color:colors.brandTextColor,
+    fontSize:"32px",
+    fontWeight:"bold",
+    marginBottom:"30px"
+  },
+  aboutMe:{
+    padding:"20px",
+   
+  },
+  aboutContainer: {
+    display: "flex",
+    backgroundColor:"white",
+      
+    width:"70%",
+    marginRight:"10px"
+  },
+  aboutContainers:{
+    display:"flex",
+    margin: " 0px 40px",
+    justifyContent:"space-between"
+  },
+  aboutGenerel:{
+    padding:"40px",
+    borderRight:"1px solid #CBCBCB"
+  },
+  membersButtonContainer: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
+  membersButton: {
+    display: "flex",
+    width: "100px",
+    justifyContent: "center",
+    marginTop: "20px",
+    color: "white",
+    padding: "5px",
+    background: "linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)"
+  },
+  rootRow: {
+    backgroundColor: colors.backgroundColor,
+    height: "auto"
   },
   starRank: {
     fontSize: "18px",
   },
-  membersAdvantage:{
-    backgroundColor:"green",
-    height:"100px",
-    width:"100%"
+  membersTextContainer: {
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "left"
+
   },
-  myDiv:{
-    display:"flex",
-    padding:"40px",
+  membersAdvantageContaint: {
+    margin: "40px",
+    backgroundColor: "white",
+    display: "flex",
+    alignItems: "center",
+    padding: "30px"
+  },
+  membersLogo: {
+    height: "200px",
+    marginRight: "30px"
+  },
+  membersTitle: {
+    color: colors.brandTextColor,
+    fontSize: "34px",
+    marginBottom: "10px"
+  },
+  membersDescription: {
+    color: "black",
+    fontSize: "20px"
+
+
+  },
+  membersAdvantage: {
+
+
+  },
+  myDiv: {
+    display: "flex",
+    padding: "40px",
     justifyContent: "space-between"
   },
-  mySales:{
-    display:"flex",
-    flexDirection:"row",
-    padding:"0 50px",
-    fontSize:"28px",
-    fontWeight:"bold",
-    color:colors.brandTextColor
+  mySales: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0 50px",
+    fontSize: "28px",
+    fontWeight: "bold",
+    color: colors.brandTextColor
   },
   smallProfile: {},
   memberSmallProfiles: {
@@ -345,7 +554,6 @@ const useStyles = makeStyles({
     fontFamily: "Roboto Condensed",
   },
   sliderItemBackImg: {
-    background: colors.lightGray,
     boxShadow:
       " rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset",
     backgroundImage: (props) =>
@@ -436,6 +644,11 @@ const useStyles = makeStyles({
   },
   email: {
     color: "white",
+    minHeight: 64,
+    fontSize: "12px",
+  },
+  email1: {
+    color: "black",
     minHeight: 64,
     fontSize: "12px",
   },

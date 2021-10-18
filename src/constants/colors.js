@@ -8,10 +8,12 @@ const colors = {
   black70: '#626262',
   lightWhite:"#FFFFFF",
   brandTextColor:"#AA7654",
+  backgroundColor:"#252525",
   // khb
   gray70: "rgba(0,0,0,0.7)",
   gray50: "rgba(0,0,0,0.5)",
   gray0: "rgba(0,0,0,0)",
+
 };
 
 export default colors;

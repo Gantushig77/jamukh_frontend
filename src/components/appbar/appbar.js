@@ -290,8 +290,8 @@ export default function Appbar(props) {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link to={'/login'} className={classes.authLink}>
-                        {contextText.appbar.login}
+                       <Link to={'/login'} className={classes.authLink}>
+                          {contextText.appbar.login}
                       </Link>
                     </MenuItem>
                   </div>
@@ -759,6 +759,7 @@ const useStyles = makeStyles(() => ({
     fontFamily: "'Roboto Condensed', sans-serif"
   },
   menuButton: {
+    
     marginRight: 30,
   },
   menuButtonMobile: {

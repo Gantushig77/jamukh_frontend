@@ -48,8 +48,8 @@ const mnText = {
     password: 'Нууц үг',
     passwordVerify: 'Нууц үг батлах',
     otpButton: 'Баталгаажуулах',
-    remember: 'Намайг санах',
-    forgot: 'Нууц үг мартсан?',
+    remember: 'Remeber',
+    forgot: 'Forgot password',
   },
   forgot: {
     title: `Нууц үг сэргээх`,

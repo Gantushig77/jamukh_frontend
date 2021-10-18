@@ -38,7 +38,7 @@ export default function Profile() {
   };
 
   return (
-    <div style={{backgroundColor:"#252525"}}>
+    <div style={{backgroundColor:"#252525",paddingBottom:"20px"}}>
           <Appbar phone={phoneSize} tablet={tabletSize} />
           {/* Snackbar */}
           <Snackbar

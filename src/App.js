@@ -17,12 +17,13 @@ import SMicon from "./assets/icons/SM.svg";
 import Home from "./pages/general/home";
 import NotFound from "./pages/general/notFound";
 import SignUp from "./pages/general/signUp";
-import Login from "./pages/general/login";
+import Login from "./pages/general/jamukhLogin";
 import Service from "./pages/user/service";
 import AvailGoods from "./pages/general/availGoods";
 import GoodsDetail from "./pages/general/goodsDetail";
 import TermsAndConditions from "./pages/general/termsAndConditions";
 // Member
+import Members from "./pages/members/members";
 // import Profile from "./pages/user/profileEdit";
 import Profile from "./pages/profile/profile"
 import UserQrCode from "./pages/user/userQrCode";
@@ -111,12 +112,14 @@ export default function App() {
         <Router forceRefresh={true}>
           <Switch>
             {/* General routes */}
-
             <Route exact path={"/"}>
               <Home />
             </Route>
             <Route path={"/login"}>
               <Login />
+            </Route>
+            <Route path={"/members"}>
+              <Members />
             </Route>
             <Route path={"/profile"}>
               <Profile />
