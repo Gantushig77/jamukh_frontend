@@ -15,6 +15,7 @@ import MessengerCustomerChat from "react-messenger-customer-chat";
 import SMicon from "./assets/icons/SM.svg";
 // General
 import Home from "./pages/general/home";
+import Detailnews from "./pages/Detailnews/Detailnews";
 import NotFound from "./pages/general/notFound";
 import SignUp from "./pages/general/signUp";
 import Login from "./pages/general/jamukhLogin";
@@ -26,6 +27,7 @@ import TermsAndConditions from "./pages/general/termsAndConditions";
 import Members from "./pages/members/members";
 // import Profile from "./pages/user/profileEdit";
 import Profile from "./pages/profile/profile"
+import Property from "./pages/property/property"
 import UserQrCode from "./pages/user/userQrCode";
 import PaymentService from "./pages/user/paymentService";
 import PaymentOrder from "./pages/user/paymentOrder";
@@ -118,9 +120,16 @@ export default function App() {
             <Route path={"/login"}>
               <Login />
             </Route>
+            <Route path={"/property"}>
+              <Property/>
+            </Route>
             <Route path={"/members"}>
               <Members />
             </Route>
+            <Route path={"/detailnews/:id"}>
+              <Detailnews />
+            </Route>
+            
             <Route path={"/profile"}>
               <Profile />
             </Route>
