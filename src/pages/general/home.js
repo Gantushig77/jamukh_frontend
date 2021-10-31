@@ -32,7 +32,9 @@ export default function Home() {
     if (reason === 'clickaway') {
       return;
     }
+    
     setSnackbarState({ ...snackbarState, open: false });
+    
   };
 
   const handleGoodsDetail = (id) => {
@@ -49,19 +51,20 @@ export default function Home() {
         autoHideDuration={5000}
         onClose={handleSnackClose}
       >
+
         <Alert
           onClose={handleSnackClose}
           severity={snackbarState.severity}
           sx={{ width: '100%' }}
         >
-          {snackbarState.message}
+            {snackbarState.message}
         </Alert>
+
       </Snackbar>
       <Section1 phone={phoneSize} tablet={tabletSize} />
       <Section2 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
       <Section3 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
-     
-      <Footer phone={phoneSize} tablet={tabletSize} />
+      <Footer phone={phoneSize} tablet={tabletSize}  style={{flexShrink:"0"}}/>
     </div>
   );
 }

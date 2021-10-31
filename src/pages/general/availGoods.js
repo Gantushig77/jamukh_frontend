@@ -139,6 +139,8 @@ export default function AvailableGoods() {
   return (
     <>
       <Appbar phone={phoneSize} tablet={tabletSize} />
+
+      
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -214,6 +216,8 @@ export default function AvailableGoods() {
               )}
             </div>
           )}
+
+
           {/* Child category list */}
           <div className={classes.childrenGoodsContainer}>
             <Container maxWidth={false} className={classes.cardContainer}>

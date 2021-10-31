@@ -9,7 +9,8 @@ import { Snackbar } from '@mui/material';
 import Section1 from './section1/Section1';
 import Section2 from './section2/Section2';
 
-export default function Detailnews() {
+
+export default function Estate() {
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -38,7 +39,7 @@ export default function Detailnews() {
   };
 
   return (
-    <div style={{paddingBottom:"20px"}}>
+    <div style={{backgroundColor:"#252525",height:"100%",margin:"0px",padding:"0px"}}>
           <Appbar phone={phoneSize} tablet={tabletSize} />
           {/* Snackbar */}
           <Snackbar
@@ -57,6 +58,7 @@ export default function Detailnews() {
           </Snackbar>
         <Section1/>
         <Section2/>
+        <Footer/>
     </div>
   );
 }

@@ -5,7 +5,7 @@ const SOCKET_ORIGIN = DEV
   : 'wss://khureemarket.mn:8443/subscriptions';
 
 const url = {
-  general: ['/', '/user/services', '/available-goods', '/available-goods', '/available-goods', '/available-goods', '/available-goods'],
+  general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],
   superadmin: ['/admin-list'],
   admin: [
     '/admin/operator-list',

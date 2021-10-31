@@ -25,6 +25,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import SMicon from '../../assets/icons/SM.svg';
+import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../helpers/logout';
@@ -51,6 +52,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import khuree_market_icon from '../../assets/icons/khuree_market_icon.png';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const icons = [
   home_icon,
@@ -91,23 +93,23 @@ export default function Appbar(props) {
     disableHysteresis: true,
   });
   const classes = useStyles({trigger});
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [showQR, setShowQR] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const currentRoute = location.pathname;
   const open = Boolean(anchorEl);
-
   const ContextHook = useContext(TheContext);
   const contextText = ContextHook.contextValue.contextText;
   const account = ContextHook?.account;
   const role = ContextHook?.account?.role;
   const authenticated = localStorage.getItem('authenticated') === 'true' ? true : false;
 
-
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const logoutFromAppbar = () => {
@@ -120,11 +122,8 @@ export default function Appbar(props) {
       });
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  console.log(trigger,"trigger")
-  console.log(window.screen.availHeight)
+ 
+
   return (
     <AppBar position='sticky' className={classes.root}>
       <Toolbar className={classes.toolbar}>
@@ -140,6 +139,7 @@ export default function Appbar(props) {
               closeAfterTransition
               BackdropProps={{ timeout: 500 }}
             >
+
               <Fade in={showQR}>
                 <Container className={classes.qrGenContainer}>
                   <Typography className={classes.qrGenTitle}>
@@ -175,16 +175,15 @@ export default function Appbar(props) {
                   />
                 </Container>
               </Fade>
+              
             </Modal>
             <div className={classes.menu}>
               <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
+                onClick={handleClick}
                 PaperProps={paperProps}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 {authenticated ? (
                   role !== 'member' ? (
@@ -219,7 +218,7 @@ export default function Appbar(props) {
                           {/* Profile Avatar */}
                           <Avatar alt='Profile Avatar' className={classes.inlineAvatar}>
                             {account?.avatar?.path ? (
-                              <img
+                              <img alt="jamukh"
                                 alt={'profile'}
                                 className={classes.inlineAvatar}
                                 src={account?.avatar?.path}
@@ -283,18 +282,18 @@ export default function Appbar(props) {
                     </div>
                   )
                 ) : (
-                  <div>
-                    <MenuItem>
-                      <Link to={'/sign-up'} className={classes.authLink}>
-                        {contextText.appbar.signUp}
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                       <Link to={'/login'} className={classes.authLink}>
-                          {contextText.appbar.login}
-                      </Link>
-                    </MenuItem>
-                  </div>
+                    <div>
+                      <MenuItem>
+                        <Link to={'/sign-up'} className={classes.authLink}>
+                          {contextText.appbar.signUp}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link to={'/login'} className={classes.authLink}>
+                            {contextText.appbar.login}
+                        </Link>
+                      </MenuItem>
+                    </div>
                 )}
               </Menu>
             </div>
@@ -318,7 +317,8 @@ export default function Appbar(props) {
                 )
               }
             >
-              <img src={SMicon} alt={'SM icon'} />
+              <img alt="jamukh" src={SMicon} alt={'SM icon'} style={{height:"50px"}}/>
+              <img alt="jamukh" src={Jamuh} alt={'SM icon'} style={{height:"20px",marginLeft:"12px"}}/>
             </IconButton>
             <Grid
               container
@@ -418,10 +418,14 @@ export default function Appbar(props) {
                   {account?.role === 'member' && (
                     <Grid item onClick={() => history.push('/user/basket')}>
                       <IconButton style={{ marginRight: 10 }}>
-                        <img src={shopping_basket} alt={'shopping basket'} />
+                        <img alt="jamukh" src={shopping_basket} alt={'shopping basket'} />
                       </IconButton>
                     </Grid>
                   )}
+                    <IconButton size="large" aria-label="search" color="inherit">
+                      <FilterAltIcon />
+                    </IconButton>
+                   
                   <IconButton size="large" aria-label="search" color="inherit">
                       <NotificationsIcon  />
                     </IconButton>
@@ -434,7 +438,7 @@ export default function Appbar(props) {
                     <Avatar alt='Profile Avatar' className={classes.avatar} onClick={handleClick}>
                       {authenticated ? (
                         account?.avatar?.path ? (
-                          <img
+                          <img alt="jamukh"
                             alt={'profile'}
                             className={classes.avatar}
                             src={account?.avatar?.path}
@@ -464,7 +468,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='Khuree market'
             >
-              <img src={SMicon} alt={'SM icon'} />
+              <img alt="jamukh" src={SMicon} alt={'SM icon'} />
             </IconButton>
             <IconButton
               onClick={() => setDrawerOpen(true)}
@@ -472,7 +476,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='menu'
             >
-              <img
+              <img alt="jamukh"
                 src={BurgerMenuIcon}
                 className={classes.burgerMenuIcon}
                 alt={'burger menu'}
@@ -494,7 +498,7 @@ export default function Appbar(props) {
               <Avatar alt='Profile Avatar' className={classes.avatarMobile}>
                 {authenticated ? (
                   account?.avatar?.path ? (
-                    <img
+                    <img alt="jamukh"
                       alt={'profile'}
                       className={classes.avatarMobile}
                       src={account?.avatar?.path}
@@ -598,7 +602,7 @@ export default function Appbar(props) {
                         : classes.appbarLinkButton
                     }
                     startIcon={
-                      <img
+                      <img alt="jamukh"
                         src={
                           currentRoute === item.link ? icons_active[index] : icons[index]
                         }
@@ -637,7 +641,7 @@ export default function Appbar(props) {
                           htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
                         />
                       ) : (
-                        <img
+                        <img alt="jamukh"
                           src={
                             currentRoute === item.link
                               ? general_active_icons[index]
@@ -668,7 +672,7 @@ export default function Appbar(props) {
                   className={classes.appbarLinkButton}
                   onClick={() => logoutFromAppbar()}
                   startIcon={
-                    role === 'member' && <img src={logout_icon} alt={'logout'} />
+                    role === 'member' && <img alt="jamukh" src={logout_icon} alt={'logout'} />
                   }
                 >
                   <Typography className={classes.link}>Гарах</Typography>
@@ -746,10 +750,9 @@ const useStyles = makeStyles(() => ({
     color: 'inherit',
   },
   toolbar: {
-    width: '90%',
+    width: '1300px',
     margin: 'auto',
     maxWidth: 1280,
-    
   },
   menuPadding:{
     paddingRight: 30,

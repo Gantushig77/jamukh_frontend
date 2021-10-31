@@ -1,28 +1,25 @@
 import React from 'react';
-import { Container, Typography, CircularProgress ,
+import {
+  Container,
+  Typography,
   Card,
   CardActionArea,
   CardMedia,
   CardContent,
-  Divider,} from '@mui/material';
+  Divider,
+  CircularProgress,
+  colors,
+} from '@mui/material';
+import colorss from "../../../constants/colors";
 import { makeStyles } from '@mui/styles';
-import colors from '../../../constants/colors';
-import { useQuery } from '@apollo/client';
-import { AVAILABLE_GOODS_WITHOUT_CHILDREN } from '../../../graphql/gql/category/category';
-import { useHistory } from 'react-router';
-import { stringEllipser } from '../../../helpers/helperFunctions';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
+import { useQuery } from '@apollo/client';
+import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
 
-const CategoryItem = (props) => {
-  const classes = useStyles(props);
-  return (
-    <Container onClick={props?.onClick} className={classes.categoryContainer}>
-      <Typography className={classes.categoryText}>{props.text}</Typography>
-    </Container>
-  );
-};
+
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -80,48 +77,93 @@ function SamplePrevArrow(props) {
     </div>
   );
 }
+
 const plc =
   'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
 
 export default function Section3(props) {
   const classes = useStyles(props);
-  const history = useHistory();
+
+  const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
+    variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
+    onCompleted(data) {
+      console.log(data);
+    },
+    onError(e) {
+      console.log(e);
+    },
+  });
+
   const settings = {
     infinite: true,
     arrows: props.phone ? false : true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: props.phone
+      ? 2
+      : props.tablet || availableGoods?.childCategories?.categories?.length <= 8
+      ? 3
+      : 4,
     slidesToScroll: 1,
     dots: false,
     autoPlay: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
-  const { data: availableGoods, loading: availLoading } = useQuery(
-    AVAILABLE_GOODS_WITHOUT_CHILDREN,
-    {
-      onCompleted(data) {
-        console.log(data);
-      },
-      onError(e) {
-        console.log(e);
-      },
-    }
-  );
 
   return (
-    <Container maxWidth={false} disableGutters className={classes.root}>
-      <Typography className={classes.title}>NEWS</Typography>
-      <Typography className={classes.description}>
-       
-      </Typography>
-      <Container disableGutters className={classes.categoryOuterContainer}>
+    <Container className={classes.root}>
+      {props?.parentId ? (
+        <>
+          <Typography className={classes.titleWithParentId}>
+            Ижил төстэй бараанууд
+          </Typography>
+          <Typography className={classes.descriptionWithParentId}>
+            Эх орны хөрсөнд ургасан үржил шимт тэжээлээр тэжээгдэн, малчны хотхоноос
+            бэлтгэн нийлүүлж буй гарал үүслийн гэрчилгээтэй, чанар стандартын дагуу
+            лабораторийн шинжилгээнд хамрагдсан үйлдвэрийн аргаар бэлтгэн боловсруулсан
+            шинэ мах махан бүтээгдэхүүнийг ТАНАЙ ГЭРТ.
+          </Typography>
+        </>
+      ) : (
+        <>
+          <div className={classes.title}>CATEGORY</div>
+          <Typography className={classes.description}>
+      
+          </Typography>
+        </>
+      )}
+      <Container className={classes.sliderContainer}>
         {availLoading ? (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <CircularProgress />
           </div>
+        ) : availableGoods?.childCategories?.categories?.length <= 2 ? (
+          <div style={{ display: 'flex' }}>
+            {availableGoods?.childCategories?.categories?.map((item, index) => (
+              <div key={index} style={{ margin: 20, marginLeft: 0 }}>
+                <CardItem
+                  id={item?._id}
+                  parentId={item?.parentId}
+                  phone={props?.phone}
+                  tablet={props?.tablet}
+                  title={item?.name}
+                  onSelect={props?.onCardSelect}
+                  description={item?.description}
+                  img={item?.categoryImg?.path}
+                  price={item?.price}
+                  isUnit={item?.isUnit}
+                  soldBy={''}
+                />
+              </div>
+            ))}
+          </div>
         ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Slider {...settings}>
             {availableGoods?.childCategories?.categories?.map((item, index) => (
               <CardItem
@@ -140,12 +182,12 @@ export default function Section3(props) {
               />
             ))}
           </Slider>
-          </div>
         )}
       </Container>
     </Container>
   );
 }
+
 const CardItem = (props) => {
   const classes = useStyles(props);
 
@@ -166,74 +208,122 @@ const CardItem = (props) => {
           </Typography>
         </CardContent>
         <Divider variant='middle' />
-          <CardContent>
-            <div className={classes.cardPriceContainer}>
-              <Typography className={classes.cardPrice}>{props?.price + '₮'}</Typography>
-              <Typography className={classes.cardUnit}>
-                {props?.isUnit ? ' /1 ш' : ' /1 кг'}
-              </Typography>
-            </div>
-          </CardContent>
+        <CardContent>
+          <div className={classes.cardPriceContainer}>
+            <Typography className={classes.cardPrice}>{props?.price + '₮'}</Typography>
+            <Typography className={classes.cardUnit}>
+              {props?.isUnit ? ' /1 ш' : ' /1 кг'}
+            </Typography>
+          </div>
+        </CardContent>
       </CardActionArea>
     </Card>
   );
 };
+
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    paddingTop: 50,
-    paddingBottom: 30,
-    maxWidth:"1200px"
+    width: '1300px!important',
+    overflow: 'hidden',
+    backgroundColor:'#252525',
+    marginTop: (props) => (props.phone ? -90 : 40),
+    fontFamily: "'Roboto Condensed', sans-serif",
   },
-  categoryOuterContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    maxWidth: 1000,
-    marginTop: 20,
+  cardRoot: {
+    maxWidth: 230,
+    height: 360,
     marginBottom: 20,
-    cursor: 'pointer',
+    textAlign: 'left',
+    borderRadius: 17,
+    border: '1px solid lightgray',
+    marginLeft: 10,
   },
-  categoryContainer: {
-    margin: 10,
-    width: (props) => (props.phone ? 140 : 215),
-    height: (props) => (props.phone ? 90 : 120),
-    borderRadius: 14,
-    backgroundImage: (props) =>
-      `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${props.img})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    justifyContent: 'center',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  categoryText: {
-    fontSize: (props) => (props.phone ? 16 : 21),
-    fontFamily: 'SF Pro Display',
+  cardTitle: {
+    fontSize: 17,
     fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
+    fontFamily: 'SF Pro Display',
+  },
+  cardDesc: {
+    height: 100,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
+    paddingRight: 32,
+  },
+  cardSold: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
+  },
+  cardPriceContainer: {
+    display: 'flex',
+    alignItems: 'baseline',
+    marginBottom: 10,
+  },
+  cardPrice: {
+    fontSize: 17,
+    fontWeight: '500',
+    fontFamily: 'SF Pro Display',
+    color: '#6A67D3',
+    paddingRight: 5,
+  },
+  cardUnit: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
+  },
+  media: {
+    height: 140,
+  },
+  sliderContainer: {
+    maxWidth: 1000,
+    paddingTop: 50,
+    paddingBottom: 50,
+    overflow: (props) => (props.phone ? 'hidden' : 'visible'),
+    minWidth: (props) => (props.phone ? 500 : 0),
+    paddingRight: (props) => (props.phone ? 0 : 24),
+    paddingLeft: (props) => (props.phone ? 0 : 24),
   },
   title: {
     marginBottom: 30,
     textAlign: 'left',
     fontSize: 22,
-    paddingLeft:"30px",
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: 'bold',
-    color: colors.brandTextColor,
+    color: colorss.brandTextColor,
+ 
+  },
+  titleWithParentId: {
+    marginBottom: 10,
+    textAlign: 'left',
+    fontSize: 26,
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'bold',
+    color: 'black',
+    marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
   },
   description: {
-    maxWidth: 650,
-    paddingRight: 24,
-    paddingLeft: 24,
+    margin: 'auto',
+    textAlign: 'center',
     fontFamily: 'SF Pro Display',
     fontWeight: 'normal',
     fontSize: '14px',
-    textAlign: 'center',
-    color: colors.gray,
-    margin: 'auto',
+    color: 'black',
+    maxWidth: 650,
+    marginLeft: (props) => (props.phone ? -8 : 'auto'),
+    width: '99%',
+  },
+  descriptionWithParentId: {
+    textAlign: 'left',
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    color: 'black',
+    maxWidth: 550,
+    marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
+    width: '90%',
   },
 });

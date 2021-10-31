@@ -28,6 +28,9 @@ import Members from "./pages/members/members";
 // import Profile from "./pages/user/profileEdit";
 import Profile from "./pages/profile/profile"
 import Property from "./pages/property/property"
+import Antiquest from "./pages/antiquest/antiquest"
+import Cars from "./pages/cars/cars"
+import Estate from "./pages/estate/estate"
 import UserQrCode from "./pages/user/userQrCode";
 import PaymentService from "./pages/user/paymentService";
 import PaymentOrder from "./pages/user/paymentOrder";
@@ -123,8 +126,17 @@ export default function App() {
             <Route path={"/property"}>
               <Property/>
             </Route>
+            <Route path={"/antiquest"}>
+              <Antiquest/>
+            </Route>
+            <Route path={"/cars"}>
+              <Cars/>
+            </Route>
             <Route path={"/members"}>
               <Members />
+            </Route>
+            <Route path={"/estate"}>
+              <Estate />
             </Route>
             <Route path={"/detailnews/:id"}>
               <Detailnews />

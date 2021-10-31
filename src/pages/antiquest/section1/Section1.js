@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react";
 import { Container, Typography, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import colors from "../../../constants/colors";
-import screen1 from "../../../assets/images/screen1.png";
+import screen1 from "../../../assets/images/antiquest.png";
 import screen2 from "../../../assets/images/screen2.png";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
@@ -28,7 +28,7 @@ export default function Section1(props) {
           admin={"Grand Marshal"}
           time={"12min"}
           area={"MKV 4,500,000$"}
-          title={"GRAND MARSHAL LUXURY VILLAS"}
+          title={"Zanabazar gold buddha"}
           description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
           buttonText={account ? "Үйлчилгээ харах" : "SEE ALL >"}
           backgroundImg={screen1}
@@ -58,12 +58,30 @@ const SliderItem = (props) => {
   let sliderRef = props.sliderRef;
   const classes = useStyles(props);
 
-  return (
+return (
     <Container disableGutters maxWidth={false}>
       <div className={classes.sliderItemBackImg} />
       <div className={classes.sliderItemContainer}>
         <Container className={classes.textContainer}>
-    
+          <div className={classes.avatar}>
+            <FaceIcon />
+            <div className={classes.avatarColumn}>
+              {props?.admin}
+              <div className={classes.avatarColumnTime}>{props?.time}</div>
+            </div>
+          </div>
+          <Typography className={classes.title}>{props?.title}</Typography>
+          <Typography className={classes.description}>
+            {props?.description}
+          </Typography>
+          <div className={classes.column}>
+            <div className={classes.area}>{props?.area}</div>
+            <Button className={classes.button}>
+              <Link to={props?.link} className={classes.link}>
+                {props?.buttonText}
+              </Link>
+            </Button>
+          </div>
         </Container>
               <div className={classes.dots_container}>
                 <div
@@ -76,11 +94,8 @@ const SliderItem = (props) => {
                   className={props?.dots === 2 ? classes.dot_active : classes.dot}
                 />
               </div>
-
-              <Container>
-                 <div className={classes.slideBottomBackground}/>
-             </Container>
-             
+              <div className={classes.slideBottomBackground}>
+            </div>  
       </div>
     </Container>
   );
@@ -98,37 +113,31 @@ const sliderConfig = {
   autoplay: true,
   autoplaySpeed: 3000,
 };
-
 const useStyles = makeStyles({
   root: {
-    minHeight: (props) => (props.phone ? 400 : 400),
     width: "100%",
-    zIndex:"-1"
   },
   slider: {
-    minHeight: "320px",
-    maxHeight: 340,
+    minHeight: "520px",
+    maxHeight: 540,
     width: "100%",
   },
   slideBottomBackground:{
     position: "absolute",
-    bottom: 60,
-    width:"1200px",
-    height:"51px",
-    backgroundColor:"white",
-    zIndex:"-10"
+    bottom: 0,
+    width:"100%",
+    height:"20px",
   },
   sliderItemBackImg: {
     background: colors.lightGray,
     backgroundImage: (props) =>
-      `url(${props.backgroundImg})`,
+      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
     backgroundPosition: "center",
     filter: "blur(0px)",
     "-webkit9-filter": "blur(0px)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    height: (props) => (props?.phone ? "500px" : "400px"),
-    marginBottom:"60px",
+    height: (props) => (props?.phone ? "600px" : "500px"),
     width: "100%",
     justifyContent: "center",
   },
@@ -136,20 +145,18 @@ const useStyles = makeStyles({
     position: "relative",
     zIndex: 99,
     transform: "translate(0px, -100%)",
-    height: (props) => (props?.phone ? "600px" : "500px"),
     marginBottom: 40,
     width: "100%",
     justifyContent: "center",
   },
   textContainer: {
-    width: "100%",
+    width: "1300px",
     flexDirection: "column",
     display: "flex",
     justifyContent: "flex-start",
     minHeight: "250px",
     paddingTop: "20px",
-    marginBottom: "150px",
-    paddingLeft: (props) => (props?.phone ? "10%" : "10%"),
+    marginBottom: "70px",
   },
   avatar: {
     display: "flex",
@@ -282,7 +289,7 @@ const useStyles = makeStyles({
   dot: {
     height: 15,
     width: 15,
-    backgroundColor: "#00000073",
+    backgroundColor: "white",
     opacity: "30%",
     borderRadius: 7,
     margin: 5,
@@ -291,7 +298,7 @@ const useStyles = makeStyles({
   },
   dot_active: {
     height: 15,
-    width: 35,
+    width: 30,
     backgroundColor: colors.brandTextColor,
     opacity: "100%",
     borderRadius: 7,

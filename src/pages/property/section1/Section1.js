@@ -58,7 +58,7 @@ const SliderItem = (props) => {
   let sliderRef = props.sliderRef;
   const classes = useStyles(props);
 
-  return (
+return (
     <Container disableGutters maxWidth={false}>
       <div className={classes.sliderItemBackImg} />
       <div className={classes.sliderItemContainer}>
@@ -82,20 +82,7 @@ const SliderItem = (props) => {
               </Link>
             </Button>
           </div>
-          
-         
         </Container>
-        {/* {!props?.phone && (
-          <div
-            className={
-              props?.dots === 1 ? classes.thirtyPercentSquare : classes.thirtyPercentRound
-            }
-          >
-            <Typography className={classes.saleText}>15%</Typography>
-            <div className={classes.saleLine} />
-            {props?.dots === 2 ? <div className={classes.saleLineLong} /> : null}
-          </div>
-        )} */}
               <div className={classes.dots_container}>
                 <div
                   onClick={() => sliderRef.current.slickPrev()}
@@ -126,10 +113,8 @@ const sliderConfig = {
   autoplay: true,
   autoplaySpeed: 3000,
 };
-
 const useStyles = makeStyles({
   root: {
-    minHeight: (props) => (props.phone ? 780 : 560),
     width: "100%",
   },
   slider: {
@@ -153,7 +138,6 @@ const useStyles = makeStyles({
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     height: (props) => (props?.phone ? "600px" : "500px"),
-    marginBottom: 60,
     width: "100%",
     justifyContent: "center",
   },
@@ -161,20 +145,18 @@ const useStyles = makeStyles({
     position: "relative",
     zIndex: 99,
     transform: "translate(0px, -100%)",
-    height: (props) => (props?.phone ? "600px" : "500px"),
     marginBottom: 40,
     width: "100%",
     justifyContent: "center",
   },
   textContainer: {
-    width: "100%",
+    width: "1300px",
     flexDirection: "column",
     display: "flex",
     justifyContent: "flex-start",
     minHeight: "250px",
     paddingTop: "20px",
     marginBottom: "70px",
-    paddingLeft: (props) => (props?.phone ? "10%" : "10%"),
   },
   avatar: {
     display: "flex",

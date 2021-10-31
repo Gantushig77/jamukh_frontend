@@ -1,12 +1,14 @@
 import React, { useRef, useContext } from "react";
-import { Container, Typography, Button } from "@mui/material";
+import { Container, Typography, Button, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import colors from "../../../constants/colors";
-import { Link } from "react-router-dom";
 import TheContext from "../../../context/context";
-import FaceIcon from "@mui/icons-material/Face";
-import Demo from "../../../assets/images/test.png"
-
+import Rec from "../../../assets/images/reclamDemo.png";
+import Test from "../../../assets/images/1.png"
+import GoogleMapReact from 'google-map-react';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import "./section.css"
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 export default function Section2(props) {
   const classes = useStyles(props);
   let slider = useRef(null);
@@ -16,125 +18,319 @@ export default function Section2(props) {
 
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
-        <img src={Demo} style={{padding:"10px" , height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>     
+      <div className={classes.titleNews}>GRAND MARSHAL LUXURY VILLAS</div>
+      <div className={classes.calendar}>2021 оны 09 сарын 02 ны өдөр 11:23:45 цагт</div>
+      <Container disableGutters maxWidth={false} className={classes.container}>
+        <div className={classes.containerNews}>
+          <div className={classes.subTitle}>INFORMATION</div>
+          <div className={classes.newsText}>
+            Ideally, architects of houses design rooms to meet the needs of the
+            people who will live in the house. Feng shui, originally a Chinese method
+            of moving houses according to such factors as rain and micro-climates,
+            has recently expanded its scope to address the design of interior spaces,
+            with a view to promoting harmonious effects on the people living inside
+            the house, although no actual effect has ever been demonstrated. Feng
+            shui can also mean the “aura” in or around a dwelling, making it
+            comparable to the real estate sales concept of “indoor-outdoor flow”.
+            Ideally, architects of houses design rooms to meet the needs of the
+            people who will live in the house. Feng shui, originally a Chinese method
+            of moving houses according to such factors as rain and micro-climates, 
+            </div>
+          <div className={classes.newsGallery}>
+              <div className={classes.tabs}>
+                <div className={classes.activeTab}>PHOTOS</div>
+                <div className={classes.tab}>VIDEOS</div>
+                <div className={classes.tab}>360 VR</div>
+              </div>
+              <div className={classes.tabContainer}>
+              <img src={Test}/>  
+              <img src={Test}/>
+              <img src={Test}/>
+              <img src={Test}/>
+              <img src={Test}/>
+              <img src={Test}/>
+              </div>
+          </div>    
+        </div>
+        <div style={{ width: "20%" }} className={classes.containerRec}>
+          <div className={classes.rec}>
+              <img src={Rec} className={classes.recImg}/>
+              <div className={classes.recName}>
+                 Grand Marshal
+              </div>  
+              <div className={classes.recCompany}>
+                 Construction Company
+              </div>  
+              <div className={classes.recSale}>
+                 Sale
+              </div>  
+              <div className={classes.recMkv}>
+                 MKV 7,500,000₮
+              </div>  
+              <div className={classes.recPhone}>
+                  Phone 
+              </div>  
+              <div className={classes.recPhoneButton}>
+                 7777-3333
+              </div> 
+              <div className={classes.recPhoneButton}>
+              7000-3333
+              </div> 
+          </div>  
+        
+          <div className={classes.block} style={{ height: '400px', width: '100%', marginTop: "10px" }}>
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: "AIzaSyDWQs_bQeiRWTon2HDAgvd1_FEXxMqeU-E" }}
+              defaultCenter={{
+                lat: 59.95,
+                lng: 30.33
+              }}
+              defaultZoom={11}
+            >
+              <AnyReactComponent
+                lat={59.955413}
+                lng={30.337844}
+                text="My Marker"
+              />
+            </GoogleMapReact>
+          </div>
+          <div style={{  marginTop: "20px" ,border:"1px solid #D3D3D3",padding:"5px"}}>
+            <div className={classes.infoTitle}>
+              UPPER GROUND LEVEL
+            </div>
+            <table className={classes.table}>
+              <tr className={classes.tr}>
+                <th>№</th>
+                <th>NAME</th>
+                <th>M2</th>
+              </tr>
+              <div/>
+              <tr className={classes.trNormal}>
+                <td >1</td>
+                <td>Entrance, Circulation Spaces, Store & Service</td>
+                <td>110.4</td>
+              </tr>
+              <tr className={classes.trNormal}>
+                <td>1</td>
+                <td>Entrance, Circulation Spaces, Store & Service</td>
+                <td>110.4</td>
+              </tr>
+              <tr className={classes.trBottom}>
+                <td></td>
+                <td>Total Net Surface Upper Ground Level</td>
+                <td>645.9</td>
+              </tr>
+            </table>
+            <div className={classes.btnContainer}>
+              <div className={classes.btn}>
+                SEE ALL <ArrowForwardIosIcon style={{fontSize:"16px"}}/>
+              </div>  
+            </div>
+          </div>
+        </div>
+    
+      </Container>
+      <Container disableGutters maxWidth={false} className={classes.container}>
+      <div className={classes.like}>
+        <div className={classes.likeTitle}>
+           YOU MAY ALSO LIKE
+        </div>
+        <div className={classes.row}>
+          <div className={classes.img}><img src={Test}/></div>
+          <div className={classes.img}><img src={Test}/></div>
+          <div className={classes.img}><img src={Test}/></div>
+          <div className={classes.img}><img src={Test}/></div>
+        </div>  
+      </div>
+      </Container>
     </Container>
   );
 }
 
-const SliderItem = (props) => {
-  let sliderRef = props.sliderRef;
-  const classes = useStyles(props);
 
-  return (
-    <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg} />
-      <div className={classes.sliderItemContainer}>
-        <Container className={classes.textContainer}>
-          <div className={classes.avatar}>
-            <FaceIcon />
-            <div className={classes.avatarColumn}>
-              {props?.admin}
-              <div className={classes.avatarColumnTime}>{props?.time}</div>
-            </div>
-          </div>
-          <Typography className={classes.title}>{props?.title}</Typography>
-          <Typography className={classes.description}>
-            {props?.description}
-          </Typography>
-          <div className={classes.column}>
-            <div className={classes.area}>{props?.area}</div>
-            <Button className={classes.button}>
-              <Link to={props?.link} className={classes.link}>
-                {props?.buttonText}
-              </Link>
-            </Button>
-          </div>
-          
-         
-        </Container>
-        {/* {!props?.phone && (
-          <div
-            className={
-              props?.dots === 1 ? classes.thirtyPercentSquare : classes.thirtyPercentRound
-            }
-          >
-            <Typography className={classes.saleText}>15%</Typography>
-            <div className={classes.saleLine} />
-            {props?.dots === 2 ? <div className={classes.saleLineLong} /> : null}
-          </div>
-        )} */}
-              <div className={classes.dots_container}>
-                <div
-                  onClick={() => sliderRef.current.slickPrev()}
-                  className={props?.dots === 1 ? classes.dot_active : classes.dot}
-                />
-            
-                <div
-                  onClick={() => sliderRef.current.slickNext()}
-                  className={props?.dots === 2 ? classes.dot_active : classes.dot}
-                />
-              </div>
-              <div className={classes.slideBottomBackground}>
-            </div>  
-      </div>
-    </Container>
-  );
-};
 
-const sliderConfig = {
-  speed: 500,
-  infinite: true,
-  fade: true,
-  slidesToScroll: 1,
-  arrows: false,
-  draggable: false,
-  swipe: true,
-  adaptiveHeight: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
-};
+
 
 const useStyles = makeStyles({
   root: {
     minHeight: (props) => (props.phone ? 780 : 560),
     width: "100%",
+    zIndex: "1",
+    fontFamily: "Roboto Condensed"
   },
-  slider: {
-    minHeight: "520px",
-    maxHeight: 540,
-    width: "100%",
+  rec:{
+    display:"flex",
+    alignItems:"center",
+    backgroundColor:"#252525",
+    flexDirection:"column",
+    padding:"20px",
+    textAlign:"center"
   },
-  slideBottomBackground:{
-    position: "absolute",
-    bottom: 0,
+  recPhoneButton:{
+    marginTop:"5px",
+    color:"white",
     width:"100%",
-    height:"20px",
+    padding:"8px 5px",
+    background:"linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)"
   },
-  sliderItemBackImg: {
-    background: colors.lightGray,
-    backgroundImage: (props) =>
-      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
-    backgroundPosition: "center",
-    filter: "blur(0px)",
-    "-webkit9-filter": "blur(0px)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: (props) => (props?.phone ? "600px" : "500px"),
-    marginBottom: 60,
-    width: "100%",
-    justifyContent: "center",
+  recPhone:{
+    color:"white",
+    fontSize:"15px",
+    marginTop:"25px"
   },
-  sliderItemContainer: {
-    position: "relative",
-    zIndex: 99,
-    transform: "translate(0px, -100%)",
-    height: (props) => (props?.phone ? "600px" : "500px"),
-    marginBottom: 40,
-    width: "100%",
-    justifyContent: "center",
+  recMkv:{
+    color:"white",
+    fontSize:"22px",
+    fontWeight:"700",
+    marginTop:"5px",
+  },
+  recSale:{
+    color:"white",
+    fontSize:"15px",
+    marginTop:"25px",
+  },
+  recCompany:{
+    color:"white",
+    fontSize:"15px",
+    marginTop:"5px",
+  },
+  recImg:{
+    height:"150px",
+    width:"150px"
+  },
+  recName:{
+    color:"#D38F63",
+    fontWeight:"bold",
+    fontSize:"25px",
+    marginTop:"10px"
+  },
+  like:{
+    display:"flex",
+    flexDirection:"column",
+    justifyContent:"flex-start",
+    marginTop:"20px",
+    width:"100%"
+  },
+  likeTitle:{
+    fontSize:"30px",
+    fontWeight:"bold",
+    marginTop:"30px",
+    color:"#D38F63"
+  },
+  newsGallery:{
+    display:"flex",
+    justifyContent:"flex-start",
+    flexDirection:"column",
+  },
+  tabContainer:{
+    display: "grid",
+    height: "200px",
+    gridTemplate: "repeat(4, 1fr) / repeat(4, 1fr)",
+    gap:"20px 5px"
+  },
+  btnContainer: {
+    marginTop:"10px",
+    display:"flex",
+    alignItems:"flex-end",
+    justifyContent:"flex-end"
+  },
+  tab:{
+    width:"auto",
+    padding:"10px 30px",
+  },
+  activeTab:{
+    display:"flex",
+    alignItems:"center",
+    backgroundColor:"#D38F63",
+    color:"white",
+    padding:"10px 30px",  
+  
+  },
+  tabs:{
+    display:"flex",
+    alignItems:"center",
+    marginTop:"50px",
+    justifyContent:"flex-start",
+    marginBottom:"10px"
+  },
+  btn:{
+    display:"flex",
+    alignItems:"center",
+    color:"white",
+    fontSize:"16px",
+    background: "linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)",
+    padding:"5px 10px"
+  },
+
+  trBottom:{
+    textAlign:"left"
+  },
+  trNormal:{
+    textAlign:"left",
+    fontWeight:"300!important",
+    borderBottom:"1px solid #F0F0F0",
+ 
+  },
+  tr:{
+    color:"#D38F63",
+    textAlign:"left",
+  },
+  newsText: {
+    textAlign: "justify",
+    fontWeight: "300",
+    lineHeight: "25px"
+  },
+  containerRec: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  infoTitle: {
+    color: "#D38F63",
+    fontSize: "20px",
+    fontWeight: "bold",
+    borderRadius: "2px",
+    marginBottom:"10px",
+    padding:"5px"
+  },
+  containerNews: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "80%",
+    height: "100px",
+    paddingRight: "30px"
+  },
+  container: {
+    display: "flex",
+    width: "1100px",
+    justifyContent: "flex-start"
+  },
+  titleNews: {
+    fontFamily: "normal",
+    fontWeight: "bold",
+    fontSize: "35px",
+    lineHeight: "70px",
+    color: "#D38F63",
+    textAlign:"center"
+  },
+  row:{
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"space-between",
+    width:"100%",
+    marginTop:"20px"
+  },
+  calendar: {
+    fontWeight: "400",
+    fontSize: "12px",
+    textAlign:"center"
+  },
+  subTitle: {
+    fontFamily: "normal",
+    fontWeight: "bold",
+    fontSize: "25px",
+    lineHeight: "70px",
+    color: "#D38F63"
   },
   textContainer: {
     width: "100%",
@@ -193,7 +389,7 @@ const useStyles = makeStyles({
     textAlign: "left",
     color: "white",
     maxWidth: "300px",
-    minHeight: 30,
+    minHeight: 30
   },
   description: {
     display: "flex",

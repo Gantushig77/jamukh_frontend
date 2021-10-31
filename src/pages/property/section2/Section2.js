@@ -1,317 +1,317 @@
-import React, { useRef, useContext } from "react";
-import { Container, Typography, Button } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import colors from "../../../constants/colors";
-import { Link } from "react-router-dom";
-import TheContext from "../../../context/context";
-import FaceIcon from "@mui/icons-material/Face";
-import Demo from "../../../assets/images/test.png"
+import React from 'react';
+import {
+  Container,
+  Typography,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Divider,
+  CircularProgress,
+  colors,
+} from '@mui/material';
+import colorss from "../../../constants/colors";
+import { makeStyles } from '@mui/styles';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { stringEllipser } from '../../../helpers/helperFunctions';
+import Slider from 'react-slick';
+import { useQuery } from '@apollo/client';
+import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
+import Test from '../../../assets/images/test.png';
+
+
+function SampleNextArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      style={{
+        backgroundColor: '#6A67D3',
+        position: 'absolute',
+        right: -30,
+        zIndex: 888,
+        top: '45%',
+        cursor: 'pointer',
+        height: 50,
+        width: 50,
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+      }}
+      onClick={onClick}
+    >
+      <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
+    </div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      style={{
+        backgroundColor: '#6A67D3',
+        position: 'absolute',
+        zIndex: 888,
+        left: -70,
+        top: '45%',
+        cursor: 'pointer',
+        height: 50,
+        width: 50,
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+      }}
+      onClick={onClick}
+    >
+      <ArrowBackIosIcon
+        htmlColor={'white'}
+        style={{
+          marginLeft: 10,
+        }}
+      />
+    </div>
+  );
+}
+
+const plc =
+  'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  let slider = useRef(null);
 
-  const ContextHook = useContext(TheContext);
-  const account = ContextHook.account;
+  const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
+    variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
+    onCompleted(data) {
+      console.log(data);
+    },
+    onError(e) {
+      console.log(e);
+    },
+  });
+
+  const settings = {
+    infinite: true,
+    arrows: props.phone ? false : true,
+    speed: 500,
+    slidesToShow: props.phone
+      ? 2
+      : props.tablet || availableGoods?.childCategories?.categories?.length <= 8
+      ? 3
+      : 4,
+    slidesToScroll: 1,
+    dots: false,
+    autoPlay: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
 
   return (
-    <Container disableGutters maxWidth={false} className={classes.root}>
-        <img src={Demo} style={{padding:"10px" , height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>
-        <img src={Demo} style={{padding:"10px", height:"400px"}}/>     
+    <Container className={classes.root}>
+      {props?.parentId ? (
+        <>
+      
+        </>
+      ) : (
+        <>
+          <Container className={classes.cardContent}>
+                <CardItem />
+                <CardItem/>
+                <CardItem />
+                <CardItem/>
+                <CardItem />
+                <CardItem/>
+                <CardItem/>
+                <CardItem />
+                <CardItem/>
+                <CardItem/>
+                <CardItem />
+                <CardItem/>
+          </Container>
+        </>
+      )}
+      <Container className={classes.sliderContainer}>
+        {availLoading ? (
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress />
+          </div>
+        ) : availableGoods?.childCategories?.categories?.length <= 2 ? (
+          <div style={{ display: 'flex' }}>
+            {availableGoods?.childCategories?.categories?.map((item, index) => (
+              <div key={index} style={{ margin: 20, marginLeft: 0 }}>
+                <CardItem
+                  id={item?._id}
+                  parentId={item?.parentId}
+                  phone={props?.phone}
+                  tablet={props?.tablet}
+                  title={item?.name}
+                  onSelect={props?.onCardSelect}
+                  description={item?.description}
+                  img={item?.categoryImg?.path}
+                  price={item?.price}
+                  isUnit={item?.isUnit}
+                  soldBy={''}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Slider {...settings}>
+            {availableGoods?.childCategories?.categories?.map((item, index) => (
+              <CardItem
+                id={item?._id}
+                parentId={item?.parentId}
+                key={index}
+                phone={props?.phone}
+                tablet={props?.tablet}
+                title={item?.name}
+                onSelect={props?.onCardSelect}
+                description={item?.description}
+                img={item?.categoryImg?.path}
+                price={item?.price}
+                isUnit={item?.isUnit}
+                soldBy={''}
+              />
+            ))}
+          </Slider>
+        )}
+      </Container>
     </Container>
   );
 }
 
-const SliderItem = (props) => {
-  let sliderRef = props.sliderRef;
+const CardItem = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg} />
-      <div className={classes.sliderItemContainer}>
-        <Container className={classes.textContainer}>
-          <div className={classes.avatar}>
-            <FaceIcon />
-            <div className={classes.avatarColumn}>
-              {props?.admin}
-              <div className={classes.avatarColumnTime}>{props?.time}</div>
-            </div>
-          </div>
-          <Typography className={classes.title}>{props?.title}</Typography>
-          <Typography className={classes.description}>
-            {props?.description}
-          </Typography>
-          <div className={classes.column}>
-            <div className={classes.area}>{props?.area}</div>
-            <Button className={classes.button}>
-              <Link to={props?.link} className={classes.link}>
-                {props?.buttonText}
-              </Link>
-            </Button>
-          </div>
-          
-         
-        </Container>
-        {/* {!props?.phone && (
-          <div
-            className={
-              props?.dots === 1 ? classes.thirtyPercentSquare : classes.thirtyPercentRound
-            }
-          >
-            <Typography className={classes.saleText}>15%</Typography>
-            <div className={classes.saleLine} />
-            {props?.dots === 2 ? <div className={classes.saleLineLong} /> : null}
-          </div>
-        )} */}
-              <div className={classes.dots_container}>
-                <div
-                  onClick={() => sliderRef.current.slickPrev()}
-                  className={props?.dots === 1 ? classes.dot_active : classes.dot}
-                />
-            
-                <div
-                  onClick={() => sliderRef.current.slickNext()}
-                  className={props?.dots === 2 ? classes.dot_active : classes.dot}
-                />
-              </div>
-              <div className={classes.slideBottomBackground}>
-            </div>  
-      </div>
-    </Container>
+    <Card className={classes.cardRoot}>
+           <img src={Test} />
+    </Card>
   );
-};
-
-const sliderConfig = {
-  speed: 500,
-  infinite: true,
-  fade: true,
-  slidesToScroll: 1,
-  arrows: false,
-  draggable: false,
-  swipe: true,
-  adaptiveHeight: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
 };
 
 const useStyles = makeStyles({
   root: {
-    minHeight: (props) => (props.phone ? 780 : 560),
-    width: "100%",
+    width: '1300px!important',
+    overflow: 'hidden',
+    backgroundColor:'#252525',
+    marginTop: (props) => (props.phone ? -90 : 40),
+    fontFamily: "'Roboto Condensed', sans-serif",
   },
-  slider: {
-    minHeight: "520px",
-    maxHeight: 540,
-    width: "100%",
-  },
-  slideBottomBackground:{
-    position: "absolute",
-    bottom: 0,
+  cardContent:{
+    display:"flex",
+    maxWidth:"1300px",
+    justifyContent:"center",
     width:"100%",
-    height:"20px",
+    flexWrap: "wrap"
   },
-  sliderItemBackImg: {
-    background: colors.lightGray,
-    backgroundImage: (props) =>
-      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
-    backgroundPosition: "center",
-    filter: "blur(0px)",
-    "-webkit9-filter": "blur(0px)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: (props) => (props?.phone ? "600px" : "500px"),
-    marginBottom: 60,
-    width: "100%",
-    justifyContent: "center",
+  card:{
+    width:"100px"
   },
-  sliderItemContainer: {
-    position: "relative",
-    zIndex: 99,
-    transform: "translate(0px, -100%)",
-    height: (props) => (props?.phone ? "600px" : "500px"),
-    marginBottom: 40,
-    width: "100%",
-    justifyContent: "center",
+  cardRoot: {
+    maxWidth: 260,
+    width:330,
+    height: 360,
+    marginBottom: 20,
+    textAlign: 'left',
+    margin:5
   },
-  textContainer: {
-    width: "100%",
-    flexDirection: "column",
-    display: "flex",
-    justifyContent: "flex-start",
-    minHeight: "250px",
-    paddingTop: "20px",
-    marginBottom: "70px",
-    paddingLeft: (props) => (props?.phone ? "10%" : "10%"),
+  cardTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    fontFamily: 'SF Pro Display',
   },
-  avatar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    color: "#AA7654",
-    fontFamily: "'Roboto Condensed', sans-serif",
-    marginTop: (props) => (props?.phone ? "10px" : "80px  "),
+  cardDesc: {
+    height: 100,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
+    paddingRight: 32,
   },
-  avatarColumn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    fontWeight: "700",
-    fontSize: (props) => (props?.phone ? 8 : 18),
-    marginLeft: 8,
+  cardSold: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
   },
-  column: {
-    display: "flex",
-    alignItems: "center",
+  cardPriceContainer: {
+    display: 'flex',
+    alignItems: 'baseline',
+    marginBottom: 10,
   },
-  area: {
-    display: "flex",
-    alignItems: "center",
-    color: colors.brandTextColor,
-    fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight: "700",
-    marginRight: "10px",
-    fontSize: (props) => (props?.phone ? 8 : 18),
+  cardPrice: {
+    fontSize: 17,
+    fontWeight: '500',
+    fontFamily: 'SF Pro Display',
+    color: '#6A67D3',
+    paddingRight: 5,
   },
-  avatarColumnTime: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    fontWeight: "300",
-    fontFamily: "'Roboto Condensed', sans-serif",
-    color: "white",
-    fontSize: (props) => (props?.phone ? 4 : 12),
+  cardUnit: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontFamily: 'SF Pro Display',
+    color: 'gray',
+  },
+  media: {
+    height: 140,
+  },
+  sliderContainer: {
+    maxWidth: 1000,
+    paddingTop: 50,
+    paddingBottom: 50,
+    overflow: (props) => (props.phone ? 'hidden' : 'visible'),
+    minWidth: (props) => (props.phone ? 500 : 0),
+    paddingRight: (props) => (props.phone ? 0 : 24),
+    paddingLeft: (props) => (props.phone ? 0 : 24),
   },
   title: {
-    display: "flex",
-    alignItems: "flex-end",
-    fontSize: (props) => (props?.phone ? 20 : 30),
+    marginBottom: 30,
+    textAlign: 'left',
+    fontSize: 22,
     fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight: "700",
-    textAlign: "left",
-    color: "white",
-    maxWidth: "300px",
-    minHeight: 30,
+    fontWeight: 'bold',
+    color: colorss.brandTextColor,
+ 
+  },
+  titleWithParentId: {
+    marginBottom: 10,
+    textAlign: 'left',
+    fontSize: 26,
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'bold',
+    color: 'black',
+    marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
   },
   description: {
-    display: "flex",
-    alignItems: "center",
-    fontSize: 15,
-    fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight: "300",
-    textAlign: "left",
-    maxWidth: "350px",
-    color: "white",
-    minHeight: 64,
+    margin: 'auto',
+    textAlign: 'center',
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    color: 'black',
+    maxWidth: 650,
+    marginLeft: (props) => (props.phone ? -8 : 'auto'),
+    width: '99%',
   },
-  button: {
-    fontFamily: "'Roboto Condensed', sans-serif",
-    backgroundColor: colors.brandTextColor,
-    width: 100,
-    "&:hover": {
-      backgroundColor: colors.brandTextColor,
-      color: "white",
-    },
-  },
-  link: {
-    textDecoration: "none",
-    color: "white",
-    "&:hover": {
-      color: "white",
-    },
-  },
-  thirtyPercentSquare: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 140,
-    height: 140,
-    position: "absolute",
-    bottom: "-1%",
-    right: "25%",
-    borderRadius: 27,
-    zIndex: 999,
-    backgroundColor: colors.orange,
-  },
-  thirtyPercentRound: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 140,
-    height: 140,
-    position: "absolute",
-    bottom: "-1%",
-    right: "25%",
-    borderRadius: 70,
-    zIndex: 10,
-    backgroundColor: colors.orange,
-  },
-  saleText: {
-    color: "white",
-    fontSize: 36,
-    textAlign: "center",
-    fontFamily: "SF Pro Display",
-    fontWeight: "bold",
-  },
-  saleLine: {
-    backgroundColor: "white",
-    height: 3,
-    width: 45,
-  },
-  saleLineLong: {
-    marginTop: 8,
-    backgroundColor: "white",
-    height: 3,
-    width: 60,
-  },
-  dots_container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-  },
-  dot: {
-    height: 15,
-    width: 15,
-    backgroundColor: "white",
-    opacity: "30%",
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: "pointer",
-  },
-  dot_active: {
-    height: 15,
-    width: 30,
-    backgroundColor: colors.brandTextColor,
-    opacity: "100%",
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: "pointer",
-  },
-  dots_seperator: {
-    height: 3,
-    width: 50,
-    backgroundColor: "white",
-    opacity: "30%",
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: "pointer",
-  },
-  dots_seperator_active: {
-    height: 3,
-    width: 50,
-    backgroundColor: "white",
-    opacity: "100%",
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: "pointer",
+  descriptionWithParentId: {
+    textAlign: 'left',
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    color: 'black',
+    maxWidth: 550,
+    marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
+    width: '90%',
   },
 });
