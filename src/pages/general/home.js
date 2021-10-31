@@ -6,7 +6,6 @@ import Footer from '../../components/footer/footer';
 import Section1 from '../../components/home/section1/Section1';
 import Section2 from '../../components/home/section2/Section2';
 import Section3 from '../../components/home/section3/Section3';
-import Section4 from '../../components/home/section4/Section4';
 import { useHistory } from 'react-router';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
@@ -32,9 +31,8 @@ export default function Home() {
     if (reason === 'clickaway') {
       return;
     }
-    
+
     setSnackbarState({ ...snackbarState, open: false });
-    
   };
 
   const handleGoodsDetail = (id) => {
@@ -42,7 +40,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{backgroundColor:"#252525"}}>
+    <div style={{ backgroundColor: '#252525' }}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -51,20 +49,18 @@ export default function Home() {
         autoHideDuration={5000}
         onClose={handleSnackClose}
       >
-
         <Alert
           onClose={handleSnackClose}
           severity={snackbarState.severity}
           sx={{ width: '100%' }}
         >
-            {snackbarState.message}
+          {snackbarState.message}
         </Alert>
-
       </Snackbar>
       <Section1 phone={phoneSize} tablet={tabletSize} />
       <Section2 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
       <Section3 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
-      <Footer phone={phoneSize} tablet={tabletSize}  style={{flexShrink:"0"}}/>
+      <Footer phone={phoneSize} tablet={tabletSize} style={{ flexShrink: '0' }} />
     </div>
   );
 }

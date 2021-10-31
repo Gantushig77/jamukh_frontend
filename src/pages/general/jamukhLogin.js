@@ -11,8 +11,8 @@ import {
   IconButton,
   Checkbox,
 } from '@mui/material';
-import SM from "../../assets/icons/SM.svg"
-import Jamuh from "../../assets/icons/Jamuh.svg"
+import SM from '../../assets/icons/SM.svg';
+import Jamuh from '../../assets/icons/Jamuh.svg';
 import { makeStyles } from '@mui/styles';
 import json2mq from 'json2mq';
 import grayBlob from '../../assets/background/grayBlob.svg';
@@ -21,7 +21,7 @@ import TheContext from '../../context/context';
 import { useMutation } from '@apollo/client';
 import {
   LOGIN,
-  LOGIN_WITH_FB,
+  // LOGIN_WITH_FB,
   RESET_PASSWORD,
   REQUEST_PASSWORD_CHANGE,
   CONFIRM_PASSWORD_CHANGE_REQUEST,
@@ -31,8 +31,6 @@ import { useHistory } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import OtpInput from 'react-otp-input';
-import FacebookLogin from 'react-facebook-login';
-import facebookIcon from '../../assets/icons/facebook.svg';
 
 export default function SignUp() {
   const history = useHistory();
@@ -129,27 +127,27 @@ export default function SignUp() {
     },
   });
 
-  const [loginWithFb] = useMutation(LOGIN_WITH_FB, {
-    onCompleted(data) {
-      window.localStorage.setItem('token', data.loginWithFb);
-      handleSnackOpen({
-        state: true,
-        msg: 'Амжилттай нэвтэрлээ.',
-        type: 'success',
-      });
-      setTimeout(() => {
-        history.push('/');
-      }, 1000);
-    },
-    onError(e) {
-      handleSnackOpen({
-        state: true,
-        msg: 'Нэр эсвэл нууц үг буруу байна',
-        type: 'error',
-      });
-      console.log(e);
-    },
-  });
+  // const [loginWithFb] = useMutation(LOGIN_WITH_FB, {
+  //   onCompleted(data) {
+  //     window.localStorage.setItem('token', data.loginWithFb);
+  //     handleSnackOpen({
+  //       state: true,
+  //       msg: 'Амжилттай нэвтэрлээ.',
+  //       type: 'success',
+  //     });
+  //     setTimeout(() => {
+  //       history.push('/');
+  //     }, 1000);
+  //   },
+  //   onError(e) {
+  //     handleSnackOpen({
+  //       state: true,
+  //       msg: 'Нэр эсвэл нууц үг буруу байна',
+  //       type: 'error',
+  //     });
+  //     console.log(e);
+  //   },
+  // });
 
   const sendLogin = () => {
     if (!usernameState || !passwordState) {
@@ -330,38 +328,38 @@ export default function SignUp() {
     setNewPasswordRepeat(num);
   };
 
-  const responseFacebook = (response) => {
-    if (response.error) {
-      handleSnackOpen({
-        state: true,
-        msg: 'Холбогдоход алдаа гарлаа.',
-        type: 'waning',
-      });
-      console.log(response.error);
-    } else {
-      loginWithFb({
-        variables: {
-          fbId: response?.id,
-          password: response?.id,
-          email: response?.email,
-          firstName: response?.first_name,
-          lastName: response?.last_name,
-          birthDate: response?.birthday,
-          gender: response?.gender,
-          ...(response?.picture
-            ? {
-                picture: {
-                  height: response?.picture.data.height,
-                  width: response?.picture.data.width,
-                  url: response?.picture.data.url,
-                },
-              }
-            : null),
-        },
-      });
-    }
-    console.log(response);
-  };
+  // const responseFacebook = (response) => {
+  //   if (response.error) {
+  //     handleSnackOpen({
+  //       state: true,
+  //       msg: 'Холбогдоход алдаа гарлаа.',
+  //       type: 'waning',
+  //     });
+  //     console.log(response.error);
+  //   } else {
+  //     loginWithFb({
+  //       variables: {
+  //         fbId: response?.id,
+  //         password: response?.id,
+  //         email: response?.email,
+  //         firstName: response?.first_name,
+  //         lastName: response?.last_name,
+  //         birthDate: response?.birthday,
+  //         gender: response?.gender,
+  //         ...(response?.picture
+  //           ? {
+  //               picture: {
+  //                 height: response?.picture.data.height,
+  //                 width: response?.picture.data.width,
+  //                 url: response?.picture.data.url,
+  //               },
+  //             }
+  //           : null),
+  //       },
+  //     });
+  //   }
+  //   console.log(response);
+  // };
 
   useEffect(() => {
     setRenderLoading(false);
@@ -393,11 +391,10 @@ export default function SignUp() {
           ) : (
             <Fade in={checked === 1} mountOnEnter unmountOnExit>
               <div className={classes.inputItem1}>
-                 {/* Logo */}
-                <div className={classes.logo}> 
-                    <img src={SM} />
-          
-                    <img src={Jamuh} className={classes.jamuhLogo}/>
+                {/* Logo */}
+                <div className={classes.logo}>
+                  <img src={SM} alt={''} />
+                  <img src={Jamuh} className={classes.jamuhLogo} alt={''} />
                 </div>
                 {/* Input */}
                 <InputBase
@@ -413,7 +410,7 @@ export default function SignUp() {
                   }}
                 />
                 {/* Password */}
-            
+
                 {/* Input password */}
                 <InputBase
                   type={passType.pass}
@@ -467,7 +464,6 @@ export default function SignUp() {
                   {contextText.login.title}
                 </Button>
                 <div className={classes.fbFlexDiv}>
-                  
                   <Button
                     onClick={() => history.push('/sign-up')}
                     className={classes.transparentButton}
@@ -676,28 +672,28 @@ const otpInputStyle = {
 };
 
 const useStyles = makeStyles({
-  jamuhLogo:{
-    marginTop:"10px",
-    height:"20px"
+  jamuhLogo: {
+    marginTop: '10px',
+    height: '20px',
   },
   root: {
     height: '100%',
-    padding:'100px',
+    padding: '100px',
     backgroundColor: '#252525',
   },
   container: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '100vh',
-    backgroundColor:'#252525',  
+    backgroundColor: '#252525',
   },
-  logo:{
-    display:"flex",
-    alignItems:"center",
-    flexDirection:"column",
-    marginBottom:"60px",
+  logo: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: '60px',
   },
   icon: {
     position: 'absolute',
@@ -797,22 +793,23 @@ const useStyles = makeStyles({
     padding: 10,
     borderRadius: 10,
     marginTop: 20,
-    color:'#FFFFFF80',
-    fontWeight:"700"
+    color: '#FFFFFF80',
+    fontWeight: '700',
   },
   textfieldSlide3: {
     backgroundColor: '#ffffff30',
-    color:'#FFFFFF80',
+    color: '#FFFFFF80',
     outlineColor: 'transparent !important',
     width: '100%',
     padding: 10,
     borderRadius: 10,
     marginTop: 20,
     height: 52,
-    fontWeight:"700"
+    fontWeight: '700',
   },
   button: {
-    background: "linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)",
+    background:
+      'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
     color: 'white',
     paddingLeft: 30,
     paddingRight: 30,
@@ -821,7 +818,8 @@ const useStyles = makeStyles({
     borderRadius: 10,
     marginTop: 30,
     '&:hover': {
-      background: "linear-gradient(198.42deg, #F8D4A0 -50.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)",
+      background:
+        'linear-gradient(198.42deg, #F8D4A0 -50.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
     },
   },
   transparentButton: {

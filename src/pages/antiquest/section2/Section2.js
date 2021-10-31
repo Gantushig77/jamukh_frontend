@@ -1,25 +1,13 @@
 import React from 'react';
-import {
-  Container,
-  Typography,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Divider,
-  CircularProgress,
-  colors,
-} from '@mui/material';
-import colorss from "../../../constants/colors";
+import { Container, Card, CircularProgress } from '@mui/material';
+import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
 import { useQuery } from '@apollo/client';
 import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
 import Test from '../../../assets/images/test1.png';
-
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -78,9 +66,6 @@ function SamplePrevArrow(props) {
   );
 }
 
-const plc =
-  'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
-
 export default function Section2(props) {
   const classes = useStyles(props);
 
@@ -113,24 +98,22 @@ export default function Section2(props) {
   return (
     <Container className={classes.root}>
       {props?.parentId ? (
-        <>
-      
-        </>
+        <></>
       ) : (
         <>
           <Container className={classes.cardContent}>
-                <CardItem />
-                <CardItem/>
-                <CardItem />
-                <CardItem/>
-                <CardItem />
-                <CardItem/>
-                <CardItem/>
-                <CardItem />
-                <CardItem/>
-                <CardItem/>
-                <CardItem />
-                <CardItem/>
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
           </Container>
         </>
       )}
@@ -195,7 +178,7 @@ const CardItem = (props) => {
 
   return (
     <Card className={classes.cardRoot}>
-           <img src={Test} />
+      <img src={Test} alt={''} />
     </Card>
   );
 };
@@ -204,30 +187,30 @@ const useStyles = makeStyles({
   root: {
     width: '1300px!important',
     overflow: 'hidden',
-    backgroundColor:'#252525',
+    backgroundColor: '#252525',
     marginTop: (props) => (props.phone ? -90 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
-  cardContent:{
-    display:"flex",
-    maxWidth:"1300px",
-    justifyContent:"center",
-    width:"100%",
-    flexWrap: "wrap"
+  cardContent: {
+    display: 'flex',
+    maxWidth: '1300px',
+    justifyContent: 'center',
+    width: '100%',
+    flexWrap: 'wrap',
   },
-  card:{
-    width:"100px"
+  card: {
+    width: '100px',
   },
   cardRoot: {
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     maxWidth: 260,
-    width:330,
+    width: 330,
     height: 360,
     marginBottom: 20,
     textAlign: 'left',
-    margin:5
+    margin: 5,
   },
   cardTitle: {
     fontSize: 17,
@@ -285,7 +268,6 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: 'bold',
     color: colorss.brandTextColor,
- 
   },
   titleWithParentId: {
     marginBottom: 10,

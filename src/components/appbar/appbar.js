@@ -21,7 +21,6 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import ListIcon from '@mui/icons-material/List';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import SMicon from '../../assets/icons/SM.svg';
@@ -85,14 +84,13 @@ const general_active_icons = [
 ];
 
 export default function Appbar(props) {
-
   const history = useHistory();
   const location = useLocation();
   const trigger = useScrollTrigger({
     threshold: 0,
     disableHysteresis: true,
   });
-  const classes = useStyles({trigger});
+  const classes = useStyles({ trigger });
   const [anchorEl, setAnchorEl] = useState(null);
   const [showQR, setShowQR] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -122,8 +120,6 @@ export default function Appbar(props) {
       });
   };
 
- 
-
   return (
     <AppBar position='sticky' className={classes.root}>
       <Toolbar className={classes.toolbar}>
@@ -139,7 +135,6 @@ export default function Appbar(props) {
               closeAfterTransition
               BackdropProps={{ timeout: 500 }}
             >
-
               <Fade in={showQR}>
                 <Container className={classes.qrGenContainer}>
                   <Typography className={classes.qrGenTitle}>
@@ -175,7 +170,6 @@ export default function Appbar(props) {
                   />
                 </Container>
               </Fade>
-              
             </Modal>
             <div className={classes.menu}>
               <Menu
@@ -218,7 +212,7 @@ export default function Appbar(props) {
                           {/* Profile Avatar */}
                           <Avatar alt='Profile Avatar' className={classes.inlineAvatar}>
                             {account?.avatar?.path ? (
-                              <img alt="jamukh"
+                              <img
                                 alt={'profile'}
                                 className={classes.inlineAvatar}
                                 src={account?.avatar?.path}
@@ -282,22 +276,22 @@ export default function Appbar(props) {
                     </div>
                   )
                 ) : (
-                    <div>
-                      <MenuItem>
-                        <Link to={'/sign-up'} className={classes.authLink}>
-                          {contextText.appbar.signUp}
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>
-                        <Link to={'/login'} className={classes.authLink}>
-                            {contextText.appbar.login}
-                        </Link>
-                      </MenuItem>
-                    </div>
+                  <div>
+                    <MenuItem>
+                      <Link to={'/sign-up'} className={classes.authLink}>
+                        {contextText.appbar.signUp}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link to={'/login'} className={classes.authLink}>
+                        {contextText.appbar.login}
+                      </Link>
+                    </MenuItem>
+                  </div>
                 )}
               </Menu>
             </div>
-         
+
             <IconButton
               edge='start'
               className={classes.menuButton}
@@ -317,8 +311,12 @@ export default function Appbar(props) {
                 )
               }
             >
-              <img alt="jamukh" src={SMicon} alt={'SM icon'} style={{height:"50px"}}/>
-              <img alt="jamukh" src={Jamuh} alt={'SM icon'} style={{height:"20px",marginLeft:"12px"}}/>
+              <img src={SMicon} alt={'JM icon'} style={{ height: '50px' }} />
+              <img
+                src={Jamuh}
+                alt={'JM icon'}
+                style={{ height: '20px', marginLeft: '12px' }}
+              />
             </IconButton>
             <Grid
               container
@@ -418,27 +416,31 @@ export default function Appbar(props) {
                   {account?.role === 'member' && (
                     <Grid item onClick={() => history.push('/user/basket')}>
                       <IconButton style={{ marginRight: 10 }}>
-                        <img alt="jamukh" src={shopping_basket} alt={'shopping basket'} />
+                        <img src={shopping_basket} alt={'shopping basket'} />
                       </IconButton>
                     </Grid>
                   )}
-                    <IconButton size="large" aria-label="search" color="inherit">
-                      <FilterAltIcon />
-                    </IconButton>
-                   
-                  <IconButton size="large" aria-label="search" color="inherit">
-                      <NotificationsIcon  />
-                    </IconButton>
-                     <IconButton size="large" aria-label="search" color="inherit">
-                      <SearchIcon />
-                    </IconButton>
+                  <IconButton size='large' aria-label='search' color='inherit'>
+                    <FilterAltIcon />
+                  </IconButton>
+
+                  <IconButton size='large' aria-label='search' color='inherit'>
+                    <NotificationsIcon />
+                  </IconButton>
+                  <IconButton size='large' aria-label='search' color='inherit'>
+                    <SearchIcon />
+                  </IconButton>
                   <Grid item>
                     {/* Profile Avatar */}
-                    
-                    <Avatar alt='Profile Avatar' className={classes.avatar} onClick={handleClick}>
+
+                    <Avatar
+                      alt='Profile Avatar'
+                      className={classes.avatar}
+                      onClick={handleClick}
+                    >
                       {authenticated ? (
                         account?.avatar?.path ? (
-                          <img alt="jamukh"
+                          <img
                             alt={'profile'}
                             className={classes.avatar}
                             src={account?.avatar?.path}
@@ -453,9 +455,7 @@ export default function Appbar(props) {
                       )}
                     </Avatar>
                   </Grid>
-                  <Grid item>
-                    
-                  </Grid>
+                  <Grid item></Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -468,7 +468,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='Khuree market'
             >
-              <img alt="jamukh" src={SMicon} alt={'SM icon'} />
+              <img src={SMicon} alt={'SM icon'} />
             </IconButton>
             <IconButton
               onClick={() => setDrawerOpen(true)}
@@ -476,7 +476,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='menu'
             >
-              <img alt="jamukh"
+              <img
                 src={BurgerMenuIcon}
                 className={classes.burgerMenuIcon}
                 alt={'burger menu'}
@@ -498,7 +498,7 @@ export default function Appbar(props) {
               <Avatar alt='Profile Avatar' className={classes.avatarMobile}>
                 {authenticated ? (
                   account?.avatar?.path ? (
-                    <img alt="jamukh"
+                    <img
                       alt={'profile'}
                       className={classes.avatarMobile}
                       src={account?.avatar?.path}
@@ -602,7 +602,7 @@ export default function Appbar(props) {
                         : classes.appbarLinkButton
                     }
                     startIcon={
-                      <img alt="jamukh"
+                      <img
                         src={
                           currentRoute === item.link ? icons_active[index] : icons[index]
                         }
@@ -641,7 +641,7 @@ export default function Appbar(props) {
                           htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
                         />
                       ) : (
-                        <img alt="jamukh"
+                        <img
                           src={
                             currentRoute === item.link
                               ? general_active_icons[index]
@@ -672,7 +672,7 @@ export default function Appbar(props) {
                   className={classes.appbarLinkButton}
                   onClick={() => logoutFromAppbar()}
                   startIcon={
-                    role === 'member' && <img alt="jamukh" src={logout_icon} alt={'logout'} />
+                    role === 'member' && <img src={logout_icon} alt={'logout'} />
                   }
                 >
                   <Typography className={classes.link}>Гарах</Typography>
@@ -688,8 +688,8 @@ export default function Appbar(props) {
 
 const useStyles = makeStyles(() => ({
   root: {
-    position:"fixed",
-    backgroundColor: (props) => props?.trigger ? "#252525" : colors.gray0,
+    position: 'fixed',
+    backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
     boxShadow: 'none',
   },
   mobileAvatarContainer: {
@@ -754,15 +754,14 @@ const useStyles = makeStyles(() => ({
     margin: 'auto',
     maxWidth: 1280,
   },
-  menuPadding:{
+  menuPadding: {
     paddingRight: 30,
   },
   menu: {
     zIndex: 1200,
-    fontFamily: "'Roboto Condensed', sans-serif"
+    fontFamily: "'Roboto Condensed', sans-serif",
   },
   menuButton: {
-    
     marginRight: 30,
   },
   menuButtonMobile: {
@@ -858,7 +857,7 @@ const useStyles = makeStyles(() => ({
     fontSize: '14px',
     fontFamily: "'Roboto Condensed', sans-serif",
     cursor: 'pointer',
-    fontWeight:'400',
+    fontWeight: '400',
     paddingLeft: 15,
     paddingRight: 15,
     '&:hover': {
@@ -869,13 +868,13 @@ const useStyles = makeStyles(() => ({
     textDecoration: 'none',
     color: colors.brandTextColor,
     fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight:'400',
+    fontWeight: '400',
     fontSize: '14px',
     paddingLeft: 15,
-    paddingRight: 15,    
+    paddingRight: 15,
     cursor: 'pointer',
     paddingBottom: 15,
-    borderBottom:`2px solid ${colors.brandTextColor}`
+    borderBottom: `2px solid ${colors.brandTextColor}`,
   },
   authLink: {
     textDecoration: 'none',

@@ -8,9 +8,8 @@ import {
   CardContent,
   Divider,
   CircularProgress,
-  colors,
 } from '@mui/material';
-import colorss from "../../../constants/colors";
+import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -18,8 +17,6 @@ import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
 import { useQuery } from '@apollo/client';
 import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
-
-
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -127,9 +124,7 @@ export default function Section2(props) {
       ) : (
         <>
           <div className={classes.title}>CATEGORY</div>
-          <Typography className={classes.description}>
-      
-          </Typography>
+          <Typography className={classes.description}></Typography>
         </>
       )}
       <Container className={classes.sliderContainer}>
@@ -225,7 +220,7 @@ const useStyles = makeStyles({
   root: {
     width: '1300px!important',
     overflow: 'hidden',
-    backgroundColor:'#252525',
+    backgroundColor: '#252525',
     marginTop: (props) => (props.phone ? -90 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
@@ -294,7 +289,6 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: 'bold',
     color: colorss.brandTextColor,
- 
   },
   titleWithParentId: {
     marginBottom: 10,
