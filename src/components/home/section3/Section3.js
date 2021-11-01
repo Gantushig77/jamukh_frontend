@@ -1,86 +1,83 @@
-import React from 'react';
+import React ,{useRef} from 'react';
 import {
   Container,
   Typography,
   Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Divider,
-  CircularProgress,
 } from '@mui/material';
-import colorss from '../../../constants/colors';
+import colors from "../../../constants/colors";
 import { makeStyles } from '@mui/styles';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { stringEllipser } from '../../../helpers/helperFunctions';
+// import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
 import { useQuery } from '@apollo/client';
 import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
+import Test from '../../../assets/images/1.png';
+import "./section.css"
 
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        right: -30,
-        zIndex: 888,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
-    </div>
-  );
-}
+// function SampleNextArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <div
+//       style={{
+//         backgroundColor: '#6A67D3',
+//         position: 'absolute',
+//         right: -30,
+//         zIndex: 888,
+//         top: '45%',
+//         cursor: 'pointer',
+//         height: 50,
+//         width: 50,
+//         borderRadius: '50%',
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignContent: 'center',
+//         alignItems: 'center',
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
+//     </div>
+//   );
+// }
 
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        zIndex: 888,
-        left: -70,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowBackIosIcon
-        htmlColor={'white'}
-        style={{
-          marginLeft: 10,
-        }}
-      />
-    </div>
-  );
-}
+// function SamplePrevArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <div
+//       style={{
+//         backgroundColor: '#6A67D3',
+//         position: 'absolute',
+//         zIndex: 888,
+//         left: -70,
+//         top: '45%',
+//         cursor: 'pointer',
+//         height: 50,
+//         width: 50,
+//         borderRadius: '50%',
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignContent: 'center',
+//         alignItems: 'center',
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowBackIosIcon
+//         htmlColor={'white'}
+//         style={{
+//           marginLeft: 10,
+//         }}
+//       />
+//     </div>
+//   );
+// }
 
-const plc =
-  'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
+// const plc =
+//   'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
 
 export default function Section3(props) {
   const classes = useStyles(props);
-
+  let slider = useRef(null);
   const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
     variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
     onCompleted(data) {
@@ -92,19 +89,20 @@ export default function Section3(props) {
   });
 
   const settings = {
+    centerPadding: "180px",
+    centerMode:true,
+    className: classes.center,
     infinite: true,
-    arrows: props.phone ? false : true,
+    arrows: false,
     speed: 500,
     slidesToShow: props.phone
       ? 2
       : props.tablet || availableGoods?.childCategories?.categories?.length <= 8
-      ? 3
-      : 4,
+      ? 1
+      : 1,
     slidesToScroll: 1,
-    dots: false,
+    dots: true,
     autoPlay: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
   };
 
   return (
@@ -123,21 +121,38 @@ export default function Section3(props) {
         </>
       ) : (
         <>
-          <div className={classes.title}>CATEGORY</div>
+          <div className={classes.title}>NEWS</div>
           <Typography className={classes.description}></Typography>
         </>
       )}
       <Container className={classes.sliderContainer}>
+          <Slider  ref={slider} {...settings} className={classes.slider}>
+                <CardItem   dots={1}  sliderRef={slider}/>
+                <CardItem   dots={2}  sliderRef={slider}/>
+                <CardItem   dots={3}  sliderRef={slider}/>
+                <CardItem   dots={4}  sliderRef={slider}/>
+                <CardItem   dots={5}  sliderRef={slider}/>
+                <CardItem   dots={6}  sliderRef={slider}/>
+          </Slider>
         {availLoading ? (
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <CircularProgress />
-          </div>
+         <Slider {...settings}>
+            {availableGoods?.childCategories?.categories?.map((item, index) => (
+              <CardItem
+                id={item?._id}
+                parentId={item?.parentId}
+                key={index}
+                phone={props?.phone}
+                tablet={props?.tablet}
+                title={item?.name}
+                onSelect={props?.onCardSelect}
+                description={item?.description}
+                img={item?.categoryImg?.path}
+                price={item?.price}
+                isUnit={item?.isUnit}
+                soldBy={''}
+              />
+            ))}
+          </Slider>
         ) : availableGoods?.childCategories?.categories?.length <= 2 ? (
           <div style={{ display: 'flex' }}>
             {availableGoods?.childCategories?.categories?.map((item, index) => (
@@ -185,66 +200,141 @@ export default function Section3(props) {
 
 const CardItem = (props) => {
   const classes = useStyles(props);
-
+  // let sliderRef = props.sliderRef;
   return (
-    <Card className={classes.cardRoot}>
-      <CardActionArea onClick={() => props?.onSelect(props?.id, props?.parentId)}>
-        <CardMedia
-          className={classes.media}
-          image={props?.img ? props.img : plc}
-          title={'Many types of meat'}
-        />
-        <CardContent style={{ height: 120 }}>
-          <Typography gutterBottom className={classes.cardTitle}>
-            {stringEllipser(props?.title, 14)}
-          </Typography>
-          <Typography className={classes.cardDesc}>
-            {stringEllipser(props?.description, props?.phone ? 70 : 90)}
-          </Typography>
-        </CardContent>
-        <Divider variant='middle' />
-        <CardContent>
-          <div className={classes.cardPriceContainer}>
-            <Typography className={classes.cardPrice}>{props?.price + '₮'}</Typography>
-            <Typography className={classes.cardUnit}>
-              {props?.isUnit ? ' /1 ш' : ' /1 кг'}
-            </Typography>
+    <>
+      <Card className={classes.cardRoot}>
+        <img alt={'test img'} src={Test} className={classes.cardImage} />
+          <div className={classes.cardColumn}>
+            <div className={classes.cardTitle}> 
+                  MONGOLIAN TOP 
+                  ARCHITECTURE 
+                  DESIGN
+            </div>
+            <div className={classes.cardDate}> 
+              1min
+            </div>
+            <div className={classes.cardDesc}> 
+              “Гранд Маршал” дөрвөн улирлын цогцолбор 
+              хотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1 м.кв-ын 
+              үнийг …
+            </div>
+         
+            <div className={classes.cardButtonContent}>
+          <div className={classes.cardButton}>
+            SEE ALL
+            <ArrowForwardIosIcon style={{ height: '16px' }} />
           </div>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        </div>
+          </div>  
+      </Card>
+        
+     </>   
+
   );
 };
+
 
 const useStyles = makeStyles({
   root: {
     width: '1300px!important',
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? -90 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
+  dots_container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  dot: {
+    height: 15,
+    width: 15,
+    backgroundColor: "white",
+    opacity: "30%",
+    borderRadius: 7,
+    margin: 5,
+    marginBottom: 10,
+    cursor: "pointer",
+  },
+  dot_active: {
+    height: 15,
+    width: 30,
+    backgroundColor: colors.brandTextColor,
+    opacity: "100%",
+    borderRadius: 7,
+    margin: 5,
+    marginBottom: 10,
+    cursor: "pointer",
+  },
+  dots_seperator: {
+    height: 3,
+    width: 50,
+    backgroundColor: "white",
+    opacity: "30%",
+    borderRadius: 7,
+    margin: 5,
+    marginBottom: 10,
+    cursor: "pointer",
+  },
+  dots_seperator_active: {
+    height: 3,
+    width: 50,
+    backgroundColor: "white",
+    opacity: "100%",
+    borderRadius: 7,
+    margin: 5,
+    marginBottom: 10,
+    cursor: "pointer",
+  },
   cardRoot: {
-    maxWidth: 230,
-    height: 360,
+    display:"flex",
+    width:"90%",
     marginBottom: 20,
-    textAlign: 'left',
-    borderRadius: 17,
-    border: '1px solid lightgray',
-    marginLeft: 10,
+    margin:"20px",
+    backgroundColor:"#171717",
+    padding:"15px"
+  },
+  cardColumn:{
+    fontSize:"10px"
+  },
+  cardImage:{
+    height:"200px",
+    marginRight:"10px"
   },
   cardTitle: {
-    fontSize: 17,
+    fontSize: 30,
     fontWeight: 'bold',
-    fontFamily: 'SF Pro Display',
+    color:"white"
   },
-  cardDesc: {
-    height: 100,
+  cardDate: {
+    padding:"10px 0px",
     fontSize: 14,
+    color:"lightgray"
+  },
+
+  cardDesc: {
+    fontSize: 16,
     fontWeight: 'normal',
     fontFamily: 'SF Pro Display',
     color: 'gray',
     paddingRight: 32,
+  },
+  cardButton: {
+    display: 'flex',
+    alignItems: 'center',
+    background:
+      'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
+    color: 'white',
+    fontSize: '15px',
+    padding: 6,
+  },
+  cardButtonContent: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingTop: 8,
   },
   cardSold: {
     fontSize: 14,
@@ -274,13 +364,13 @@ const useStyles = makeStyles({
     height: 140,
   },
   sliderContainer: {
-    maxWidth: 1000,
-    paddingTop: 50,
-    paddingBottom: 50,
+    maxWidth: "1300px",
     overflow: (props) => (props.phone ? 'hidden' : 'visible'),
-    minWidth: (props) => (props.phone ? 500 : 0),
     paddingRight: (props) => (props.phone ? 0 : 24),
     paddingLeft: (props) => (props.phone ? 0 : 24),
+    width:"100%",
+  },
+  slider: {
   },
   title: {
     marginBottom: 30,
@@ -288,7 +378,7 @@ const useStyles = makeStyles({
     fontSize: 22,
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: 'bold',
-    color: colorss.brandTextColor,
+    color: colors.brandTextColor,
   },
   titleWithParentId: {
     marginBottom: 10,
@@ -320,4 +410,8 @@ const useStyles = makeStyles({
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
   },
+  center:{
+    width:"200px",
+    height:"200px"
+  }
 });

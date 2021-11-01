@@ -1,13 +1,22 @@
 import React from 'react';
-import { Container, Card, CircularProgress } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Divider,
+  CircularProgress,
+} from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
 import { useQuery } from '@apollo/client';
 import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
-import Test from '../../../assets/images/test.png';
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -66,6 +75,9 @@ function SamplePrevArrow(props) {
   );
 }
 
+const plc =
+  'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
+
 export default function Section2(props) {
   const classes = useStyles(props);
 
@@ -98,18 +110,21 @@ export default function Section2(props) {
   return (
     <Container className={classes.root}>
       {props?.parentId ? (
-        <></>
+        <>
+          <Typography className={classes.titleWithParentId}>
+            Ижил төстэй бараанууд
+          </Typography>
+          <Typography className={classes.descriptionWithParentId}>
+            Эх орны хөрсөнд ургасан үржил шимт тэжээлээр тэжээгдэн, малчны хотхоноос
+            бэлтгэн нийлүүлж буй гарал үүслийн гэрчилгээтэй, чанар стандартын дагуу
+            лабораторийн шинжилгээнд хамрагдсан үйлдвэрийн аргаар бэлтгэн боловсруулсан
+            шинэ мах махан бүтээгдэхүүнийг ТАНАЙ ГЭРТ.
+          </Typography>
+        </>
       ) : (
         <>
-            <>
-              <div className={classes.title}>CATEGORY</div>
-            </>
-          <div className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-          </div>
+          <div className={classes.title}>CATEGORY</div>
+          <Typography className={classes.description}></Typography>
         </>
       )}
       <Container className={classes.sliderContainer}>
@@ -173,7 +188,30 @@ const CardItem = (props) => {
 
   return (
     <Card className={classes.cardRoot}>
-      <img alt={'test img'} src={Test} />
+      <CardActionArea onClick={() => props?.onSelect(props?.id, props?.parentId)}>
+        <CardMedia
+          className={classes.media}
+          image={props?.img ? props.img : plc}
+          title={'Many types of meat'}
+        />
+        <CardContent style={{ height: 120 }}>
+          <Typography gutterBottom className={classes.cardTitle}>
+            {stringEllipser(props?.title, 14)}
+          </Typography>
+          <Typography className={classes.cardDesc}>
+            {stringEllipser(props?.description, props?.phone ? 70 : 90)}
+          </Typography>
+        </CardContent>
+        <Divider variant='middle' />
+        <CardContent>
+          <div className={classes.cardPriceContainer}>
+            <Typography className={classes.cardPrice}>{props?.price + '₮'}</Typography>
+            <Typography className={classes.cardUnit}>
+              {props?.isUnit ? ' /1 ш' : ' /1 кг'}
+            </Typography>
+          </div>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };
@@ -186,22 +224,14 @@ const useStyles = makeStyles({
     marginTop: (props) => (props.phone ? -90 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
-  cardContent: {
-    display: 'flex',
-    maxWidth: '1300px',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  card: {
-    width: '100px',
-  },
   cardRoot: {
-    maxWidth: 260,
-    width: 330,
+    maxWidth: 230,
     height: 360,
     marginBottom: 20,
     textAlign: 'left',
-    margin: 5,
+    borderRadius: 17,
+    border: '1px solid lightgray',
+    marginLeft: 10,
   },
   cardTitle: {
     fontSize: 17,
