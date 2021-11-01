@@ -178,7 +178,11 @@ const CardItem = (props) => {
 
   return (
     <Card className={classes.cardRoot}>
-      <img src={Test} alt={''} />
+        <div style={{backgroundSize:"cover",width:"100%",backgroundRepeat:"no-repeat",backgroundPosition:"center",height:"100%",backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,position:"relative"}}>
+          <div className={classes.cardProperty}>
+              PROPERTY  
+          </div>
+        </div>
     </Card>
   );
 };
@@ -197,6 +201,14 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     width: '100%',
     flexWrap: 'wrap',
+  },
+  cardProperty:{
+    color:"white",
+    fontWeight:"bold",
+    fontSize:"22px",
+    position:"absolute",
+    bottom:"15px",
+    left:"15px"
   },
   card: {
     width: '100px',

@@ -17,7 +17,7 @@ import SMicon from "./assets/icons/SM.svg";
 import Home from "./pages/general/home";
 import Detailnews from "./pages/Detailnews/Detailnews";
 import NotFound from "./pages/general/notFound";
-import SignUp from "./pages/general/signUp";
+// import SignUp from "./pages/general/signUp";
 import Login from "./pages/general/jamukhLogin";
 import Service from "./pages/user/service";
 import AvailGoods from "./pages/general/availGoods";
@@ -150,7 +150,7 @@ export default function App() {
               <Profile />
             </Route>
             <Route path={"/sign-up"}>
-              <SignUp />
+            <Login />
             </Route>
             <Route path={"/category/:id"}>
               <CategoryList />

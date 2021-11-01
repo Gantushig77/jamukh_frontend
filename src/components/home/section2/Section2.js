@@ -173,7 +173,11 @@ const CardItem = (props) => {
 
   return (
     <Card className={classes.cardRoot}>
-      <img alt={'test img'} src={Test} />
+      <div style={{backgroundSize:"cover",width:"100%",backgroundRepeat:"no-repeat",backgroundPosition:"center",height:"100%",backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,position:"relative"}}>
+        <div className={classes.cardProperty}>
+            PROPERTY  
+        </div>
+      </div>
     </Card>
   );
 };
@@ -185,6 +189,14 @@ const useStyles = makeStyles({
     backgroundColor: '#252525',
     marginTop: (props) => (props.phone ? -90 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
+  },
+  cardProperty:{
+    color:"white",
+    fontWeight:"bold",
+    fontSize:"22px",
+    position:"absolute",
+    bottom:"15px",
+    left:"15px"
   },
   cardContent: {
     display: 'flex',
