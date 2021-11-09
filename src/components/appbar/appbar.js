@@ -5,41 +5,34 @@ import {
   Grid,
   Toolbar,
   AppBar,
-  Container,
+  // Container,
   Typography,
   Divider,
   IconButton,
   SwipeableDrawer,
+  Tooltip,
   Menu,
   MenuItem,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import ListIcon from '@mui/icons-material/List';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SMicon from '../../assets/icons/SM.svg';
-import Jamuh from '../../assets/icons/Jamuh.svg';
+// import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../helpers/logout';
 import { url, bmLinks } from '../../constants/url';
 import BurgerMenuIcon from '../../assets/icons/burger-menu.svg';
-import { stringEllipser } from '../../helpers/helperFunctions';
+// import { stringEllipser } from '../../helpers/helperFunctions';
 import shopping_basket from '../../assets/icons/shopping_bag.svg';
 import shopping_basket_active from '../../assets/icons/shopping_bag_active.svg';
 import home_icon from '../../assets/icons/home.svg';
 import home_active_icon from '../../assets/icons/home_active.svg';
 import service_icon from '../../assets/icons/service.svg';
 import service_active_icon from '../../assets/icons/service_active.svg';
-import location_icon from '../../assets/icons/location.svg';
-import location_active_icon from '../../assets/icons/location2.svg';
-import help_icon from '../../assets/icons/help.svg';
-import help_active_icon from '../../assets/icons/help_active.svg';
-import terms_icon from '../../assets/icons/terms_icon.svg';
-import terms_icon_active from '../../assets/icons/terms_icon_active.svg';
 import logout_icon from '../../assets/icons/logout.svg';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -47,25 +40,10 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-const icons = [
-  home_icon,
-  service_icon,
-  location_icon,
-  help_icon,
-  shopping_basket,
-  terms_icon,
-  logout_icon,
-];
-
-const icons_active = [
-  home_active_icon,
-  service_active_icon,
-  location_active_icon,
-  help_active_icon,
-  shopping_basket_active,
-  terms_icon_active,
-  logout_icon,
-];
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 const general_icons = ['', '', home_icon, service_icon, shopping_basket];
 
@@ -116,99 +94,46 @@ export default function Appbar(props) {
   return (
     <AppBar position='sticky' className={classes.root}>
       <Toolbar className={classes.toolbar}>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          PaperProps={paperProps}
+        >
+          <MenuItem>
+            <Avatar /> Profile
+          </MenuItem>
+          <Divider />
+          <MenuItem>
+            <ListItemIcon>
+              <Settings fontSize='small' />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              {authenticated ? (
+                <Logout fontSize='small' />
+              ) : (
+                <LoginIcon fontSize='small' />
+              )}
+            </ListItemIcon>
+            {authenticated ? (
+              <>
+                <Typography variant='body2'>Logout</Typography>
+              </>
+            ) : (
+              <>
+                <Typography variant='body2'>Login</Typography>
+              </>
+            )}
+          </MenuItem>
+        </Menu>
         {!props.phone ? (
           <>
-            <div className={classes.menu}>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                onClick={handleClick}
-                PaperProps={paperProps}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ padding: 20 }}>
-                    <Container disableGutters className={classes.avatarContainer}>
-                      {/* Profile Avatar */}
-                      <Avatar alt='Profile Avatar' className={classes.inlineAvatar}>
-                        {account?.avatar?.path ? (
-                          <img
-                            alt={'profile'}
-                            className={classes.inlineAvatar}
-                            src={account?.avatar?.path}
-                          />
-                        ) : (
-                          <p style={{ fontWeight: 'bold' }}>{'Test'}</p>
-                        )}
-                      </Avatar>
-                      <Typography className={classes.username}>
-                        {stringEllipser(
-                          account?.username ? account?.username : account?.phone,
-                          15
-                        )}
-                      </Typography>
-                    </Container>
-                    <Divider className={classes.profileDivider} />
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <Button
-                        startIcon={<CreateOutlinedIcon />}
-                        className={classes.popperButton}
-                      >
-                        <Link to={'/user/profile'} className={classes.authLink}>
-                          {contextText.appbar.profileChange}
-                        </Link>
-                      </Button>
-                      <Button startIcon={<ListIcon />} className={classes.popperButton}>
-                        <Link to={'/user/order-list'} className={classes.authLink}>
-                          {contextText.appbar.orderHistory}
-                        </Link>
-                      </Button>
-                    </div>
-                    <Divider className={classes.profileDivider} />
-                    <Typography
-                      onClick={() => history.push('/terms-and-conditions')}
-                      className={classes.popperLink}
-                    >
-                      {contextText.appbar.termsAndConditions}
-                    </Typography>
-                    <Typography
-                      onClick={() => logoutFromAppbar()}
-                      className={classes.popperLink}
-                    >
-                      {contextText.appbar.logout}
-                    </Typography>
-                  </div>
-                </div>
-
-                <div>
-                  <MenuItem>
-                    <Link to={'/sign-up'} className={classes.authLink}>
-                      {contextText.appbar.signUp}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to={'/login'} className={classes.authLink}>
-                      {contextText.appbar.login}
-                    </Link>
-                  </MenuItem>
-                </div>
-              </Menu>
-            </div>
-
-            <IconButton
-              edge='start'
-              className={classes.menuButton}
-              color='inherit'
-              aria-label='menu'
-              onClick={() => {}}
-            >
-              <img src={SMicon} alt={'JM icon'} style={{ height: '50px' }} />
-              <img
-                src={Jamuh}
-                alt={'JM icon'}
-                style={{ height: '20px', marginLeft: '12px' }}
-              />
-            </IconButton>
             <Grid
               container
               direction={'row'}
@@ -243,9 +168,13 @@ export default function Appbar(props) {
                     <SearchIcon />
                   </IconButton>
                   <Grid item>
-                    {/* Profile Avatar */}
+                    <Tooltip title='Account settings'>
+                      <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
+                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      </IconButton>
+                    </Tooltip>
 
-                    <Avatar
+                    {/* <Avatar
                       alt='Profile Avatar'
                       className={classes.avatar}
                       onClick={handleClick}
@@ -265,7 +194,7 @@ export default function Appbar(props) {
                       ) : (
                         <AccountCircleIcon htmlColor={'#0C0C0D'} />
                       )}
-                    </Avatar>
+                    </Avatar> */}
                   </Grid>
                 </Grid>
               </Grid>
@@ -342,139 +271,47 @@ export default function Appbar(props) {
                 <div style={{ height: 40, width: 1 }} />
               )}
             </div>
-            {role === 'operator' ? (
-              <>
-                {bmLinks.operator.map((item, index) => (
-                  <Button key={item?.name + index} className={classes.appbarLinkButton}>
-                    <Link
-                      to={item?.link}
-                      className={
-                        currentRoute === item ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item?.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : role === 'marketeer' ? (
-              <>
-                {bmLinks.marketeer.map((item, index) => (
-                  <Button key={item?.name + index} className={classes.appbarLinkButton}>
-                    <Link
-                      to={item?.link}
-                      className={
-                        currentRoute === item ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : role === 'admin' ? (
-              <>
-                {bmLinks.admin.map((item, index) => (
-                  <Button key={item.name + index} className={classes.appbarLinkButton}>
-                    <Link
-                      to={item.link}
-                      className={
-                        currentRoute === item ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : role === 'superadmin' ? (
-              <>
-                {bmLinks.superadmin.map((item, index) => (
-                  <Button key={item.name + index} className={classes.appbarLinkButton}>
-                    <Link
-                      to={item.link}
-                      className={
-                        currentRoute === item ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : role === 'member' ? (
-              <>
-                {bmLinks.member.map((item, index) => (
-                  <Button
-                    key={item.name + index}
-                    className={
-                      currentRoute === item.link
-                        ? classes.appbarLinkButtonActive
-                        : classes.appbarLinkButton
-                    }
-                    startIcon={
+            <>
+              {bmLinks.general.map((item, index) => (
+                <Button
+                  key={item.name + index}
+                  className={
+                    currentRoute === item.link
+                      ? classes.appbarLinkButtonActive
+                      : classes.appbarLinkButton
+                  }
+                  startIcon={
+                    index === 0 ? (
+                      <LockOutlinedIcon
+                        htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
+                      />
+                    ) : index === 1 ? (
+                      <AccountCircleOutlinedIcon
+                        htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
+                      />
+                    ) : (
                       <img
                         src={
-                          currentRoute === item.link ? icons_active[index] : icons[index]
+                          currentRoute === item.link
+                            ? general_active_icons[index]
+                            : general_icons[index]
                         }
                         alt={'mobile routes'}
                       />
-                    }
-                  >
-                    <Link
-                      to={item.link}
-                      className={
-                        currentRoute === item.link ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : (
-              <>
-                {bmLinks.general.map((item, index) => (
-                  <Button
-                    key={item.name + index}
+                    )
+                  }
+                >
+                  <Link
+                    to={item.link}
                     className={
-                      currentRoute === item.link
-                        ? classes.appbarLinkButtonActive
-                        : classes.appbarLinkButton
-                    }
-                    startIcon={
-                      index === 0 ? (
-                        <LockOutlinedIcon
-                          htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
-                        />
-                      ) : index === 1 ? (
-                        <AccountCircleOutlinedIcon
-                          htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
-                        />
-                      ) : (
-                        <img
-                          src={
-                            currentRoute === item.link
-                              ? general_active_icons[index]
-                              : general_icons[index]
-                          }
-                          alt={'mobile routes'}
-                        />
-                      )
+                      currentRoute === item.link ? classes.activeLink : classes.link
                     }
                   >
-                    <Link
-                      to={item.link}
-                      className={
-                        currentRoute === item.link ? classes.activeLink : classes.link
-                      }
-                    >
-                      {item.name}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            )}
+                    {item.name}
+                  </Link>
+                </Button>
+              ))}
+            </>
             {authenticated === true ? (
               <div className={classes.menuItemContainer}>
                 <Divider style={{ marginBottom: 20 }} />
@@ -561,15 +398,14 @@ const useStyles = makeStyles(() => ({
     color: 'inherit',
   },
   toolbar: {
-    width: '1300px',
-    margin: 'auto',
     maxWidth: 1280,
+    width: '100%',
+    margin: 'auto',
   },
   menuPadding: {
     paddingRight: 30,
   },
   menu: {
-    zIndex: 1200,
     fontFamily: "'Roboto Condensed', sans-serif",
   },
   menuButton: {
