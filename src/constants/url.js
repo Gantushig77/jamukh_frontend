@@ -1,8 +1,8 @@
 const DEV = process.env.NODE_ENV !== 'production';
-const API_ORIGIN = DEV ? 'http://localhost:8443' : 'https://khureemarket.mn:8443';
+const API_ORIGIN = DEV ? 'http://localhost:5000' : 'http://43.231.114.19:5000';
 const SOCKET_ORIGIN = DEV
-  ? 'ws://localhost:8443/subscriptions'
-  : 'wss://khureemarket.mn:8443/subscriptions';
+  ? 'ws://localhost:5000/subscriptions'
+  : 'http://43.231.114.19:5000/subscriptions';
 
 const url = {
   general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],

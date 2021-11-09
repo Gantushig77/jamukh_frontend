@@ -5,12 +5,10 @@ import {
   Grid,
   Toolbar,
   AppBar,
-  Fade,
   Container,
   Typography,
   Divider,
   IconButton,
-  Modal,
   SwipeableDrawer,
   Menu,
   MenuItem,
@@ -22,15 +20,12 @@ import ListIcon from '@mui/icons-material/List';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CropFreeIcon from '@mui/icons-material/CropFree';
 import SMicon from '../../assets/icons/SM.svg';
 import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../helpers/logout';
 import { url, bmLinks } from '../../constants/url';
-import QRCode from 'qrcode.react';
-import Barcode from 'react-barcode';
 import BurgerMenuIcon from '../../assets/icons/burger-menu.svg';
 import { stringEllipser } from '../../helpers/helperFunctions';
 import shopping_basket from '../../assets/icons/shopping_bag.svg';
@@ -48,7 +43,6 @@ import terms_icon_active from '../../assets/icons/terms_icon_active.svg';
 import logout_icon from '../../assets/icons/logout.svg';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import khuree_market_icon from '../../assets/icons/khuree_market_icon.png';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -92,7 +86,6 @@ export default function Appbar(props) {
   });
   const classes = useStyles({ trigger });
   const [anchorEl, setAnchorEl] = useState(null);
-  const [showQR, setShowQR] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const currentRoute = location.pathname;
   const open = Boolean(anchorEl);
@@ -125,52 +118,6 @@ export default function Appbar(props) {
       <Toolbar className={classes.toolbar}>
         {!props.phone ? (
           <>
-            {/* User QR Generator */}
-            <Modal
-              aria-labelledby='transition-modal-title'
-              aria-describedby='transition-modal-description'
-              className={classes.modal}
-              open={showQR}
-              onClose={() => setShowQR(false)}
-              closeAfterTransition
-              BackdropProps={{ timeout: 500 }}
-            >
-              <Fade in={showQR}>
-                <Container className={classes.qrGenContainer}>
-                  <Typography className={classes.qrGenTitle}>
-                    Таны Хөнгөлөлтийн QR
-                  </Typography>
-                  <Typography className={classes.qrGenDescription}>
-                    Та qr код юмуу бар код руу камераа чиглүүлнэ үү!
-                  </Typography>
-                  {/* QR generator */}
-                  <QRCode
-                    className={classes.qrGenerator}
-                    value={account?._id}
-                    size={200}
-                    bgColor={'#ffffff'}
-                    fgColor={'#000000'}
-                    level={'L'}
-                    renderAs={'svg'}
-                    onError={(e) => console.log(e)}
-                    imageSettings={{
-                      src: khuree_market_icon,
-                      x: null,
-                      y: null,
-                      height: 30,
-                      width: 30,
-                      excavate: true,
-                    }}
-                  />
-                  {/* Barcode generator */}
-                  <Barcode
-                    height={50}
-                    width={1}
-                    value={account ? account?._id : 'test'}
-                  />
-                </Container>
-              </Fade>
-            </Modal>
             <div className={classes.menu}>
               <Menu
                 anchorEl={anchorEl}
@@ -179,116 +126,72 @@ export default function Appbar(props) {
                 onClick={handleClick}
                 PaperProps={paperProps}
               >
-                {authenticated ? (
-                  role !== 'member' ? (
-                    <div style={{ padding: 20 }}>
-                      <Typography
-                        onClick={() =>
-                          history.push(
-                            role === 'superadmin'
-                              ? '/admin-profile'
-                              : role === 'admin'
-                              ? '/admin/profile-edit'
-                              : role === 'operator'
-                              ? '/operator/profile-edit'
-                              : '/marketeer/profile-edit'
-                          )
-                        }
-                        className={classes.popperLink}
-                      >
-                        {contextText.appbar.profileChange}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ padding: 20 }}>
+                    <Container disableGutters className={classes.avatarContainer}>
+                      {/* Profile Avatar */}
+                      <Avatar alt='Profile Avatar' className={classes.inlineAvatar}>
+                        {account?.avatar?.path ? (
+                          <img
+                            alt={'profile'}
+                            className={classes.inlineAvatar}
+                            src={account?.avatar?.path}
+                          />
+                        ) : (
+                          <p style={{ fontWeight: 'bold' }}>{'Test'}</p>
+                        )}
+                      </Avatar>
+                      <Typography className={classes.username}>
+                        {stringEllipser(
+                          account?.username ? account?.username : account?.phone,
+                          15
+                        )}
                       </Typography>
-                      <Typography
-                        onClick={() => logoutFromAppbar()}
-                        className={classes.popperLink}
-                      >
-                        {contextText.appbar.logout}
-                      </Typography>
-                    </div>
-                  ) : (
+                    </Container>
+                    <Divider className={classes.profileDivider} />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ padding: 20 }}>
-                        <Container disableGutters className={classes.avatarContainer}>
-                          {/* Profile Avatar */}
-                          <Avatar alt='Profile Avatar' className={classes.inlineAvatar}>
-                            {account?.avatar?.path ? (
-                              <img
-                                alt={'profile'}
-                                className={classes.inlineAvatar}
-                                src={account?.avatar?.path}
-                              />
-                            ) : (
-                              <p style={{ fontWeight: 'bold' }}>
-                                {account.username[0].toUpperCase()}
-                              </p>
-                            )}
-                          </Avatar>
-                          <Typography className={classes.username}>
-                            {stringEllipser(
-                              account?.username ? account?.username : account?.phone,
-                              15
-                            )}
-                          </Typography>
-                        </Container>
-                        <Divider className={classes.profileDivider} />
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <Button
-                            startIcon={<CreateOutlinedIcon />}
-                            className={classes.popperButton}
-                          >
-                            <Link to={'/user/profile'} className={classes.authLink}>
-                              {contextText.appbar.profileChange}
-                            </Link>
-                          </Button>
-                          <Button
-                            startIcon={<ListIcon />}
-                            className={classes.popperButton}
-                          >
-                            <Link to={'/user/order-list'} className={classes.authLink}>
-                              {contextText.appbar.orderHistory}
-                            </Link>
-                          </Button>
-                          {/* QR Code Modal */}
-                          <Button
-                            onClick={() => setShowQR(true)}
-                            startIcon={<CropFreeIcon />}
-                            className={classes.popperButton}
-                          >
-                            <Typography className={classes.authLink}>
-                              {contextText.appbar.qrCode}
-                            </Typography>
-                          </Button>
-                        </div>
-                        <Divider className={classes.profileDivider} />
-                        <Typography
-                          onClick={() => history.push('/terms-and-conditions')}
-                          className={classes.popperLink}
-                        >
-                          {contextText.appbar.termsAndConditions}
-                        </Typography>
-                        <Typography
-                          onClick={() => logoutFromAppbar()}
-                          className={classes.popperLink}
-                        >
-                          {contextText.appbar.logout}
-                        </Typography>
-                      </div>
+                      <Button
+                        startIcon={<CreateOutlinedIcon />}
+                        className={classes.popperButton}
+                      >
+                        <Link to={'/user/profile'} className={classes.authLink}>
+                          {contextText.appbar.profileChange}
+                        </Link>
+                      </Button>
+                      <Button startIcon={<ListIcon />} className={classes.popperButton}>
+                        <Link to={'/user/order-list'} className={classes.authLink}>
+                          {contextText.appbar.orderHistory}
+                        </Link>
+                      </Button>
                     </div>
-                  )
-                ) : (
-                  <div>
-                    <MenuItem>
-                      <Link to={'/sign-up'} className={classes.authLink}>
-                        {contextText.appbar.signUp}
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link to={'/login'} className={classes.authLink}>
-                        {contextText.appbar.login}
-                      </Link>
-                    </MenuItem>
+                    <Divider className={classes.profileDivider} />
+                    <Typography
+                      onClick={() => history.push('/terms-and-conditions')}
+                      className={classes.popperLink}
+                    >
+                      {contextText.appbar.termsAndConditions}
+                    </Typography>
+                    <Typography
+                      onClick={() => logoutFromAppbar()}
+                      className={classes.popperLink}
+                    >
+                      {contextText.appbar.logout}
+                    </Typography>
                   </div>
-                )}
+                </div>
+
+                <div>
+                  <MenuItem>
+                    <Link to={'/sign-up'} className={classes.authLink}>
+                      {contextText.appbar.signUp}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to={'/login'} className={classes.authLink}>
+                      {contextText.appbar.login}
+                    </Link>
+                  </MenuItem>
+                </div>
               </Menu>
             </div>
 
@@ -297,19 +200,7 @@ export default function Appbar(props) {
               className={classes.menuButton}
               color='inherit'
               aria-label='menu'
-              onClick={() =>
-                history.push(
-                  role === 'superadmin'
-                    ? url.superadmin[0]
-                    : role === 'admin'
-                    ? url.admin[0]
-                    : role === 'operator'
-                    ? url.operator[0]
-                    : role === 'marketeer'
-                    ? url.marketeer[0]
-                    : '/'
-                )
-              }
+              onClick={() => {}}
             >
               <img src={SMicon} alt={'JM icon'} style={{ height: '50px' }} />
               <img
@@ -325,101 +216,22 @@ export default function Appbar(props) {
               alignItems={'center'}
             >
               <Grid item className={classes.menuPadding}>
-                {role === 'superadmin' ? (
-                  <>
-                    {url.superadmin.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.superadmin[index]}
-                      </Link>
-                    ))}
-                  </>
-                ) : role === 'admin' ? (
-                  <>
-                    {url.admin.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.admin[index]}
-                      </Link>
-                    ))}
-                  </>
-                ) : role === 'operator' ? (
-                  <>
-                    {url.operator.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.operator[index]}
-                      </Link>
-                    ))}
-                  </>
-                ) : role === 'marketeer' ? (
-                  <>
-                    {url.marketeer.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.marketeer[index]}
-                      </Link>
-                    ))}
-                  </>
-                ) : role === 'member' ? (
-                  <>
-                    {url.member.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.member[index]}
-                      </Link>
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {url.general.map((item, index) => (
-                      <Link
-                        key={item}
-                        to={item}
-                        className={
-                          currentRoute === item ? classes.activeLink : classes.link
-                        }
-                      >
-                        {contextText.appbar.links.general[index]}
-                      </Link>
-                    ))}
-                  </>
-                )}
+                <>
+                  {url.general.map((item, index) => (
+                    <Link
+                      key={item}
+                      to={item}
+                      className={
+                        currentRoute === item ? classes.activeLink : classes.link
+                      }
+                    >
+                      {contextText.appbar.links.general[index]}
+                    </Link>
+                  ))}
+                </>
               </Grid>
               <Grid item>
                 <Grid container direction={'row'} alignItems={'center'}>
-                  {account?.role === 'member' && (
-                    <Grid item onClick={() => history.push('/user/basket')}>
-                      <IconButton style={{ marginRight: 10 }}>
-                        <img src={shopping_basket} alt={'shopping basket'} />
-                      </IconButton>
-                    </Grid>
-                  )}
                   <IconButton size='large' aria-label='search' color='inherit'>
                     <FilterAltIcon />
                   </IconButton>
@@ -455,7 +267,6 @@ export default function Appbar(props) {
                       )}
                     </Avatar>
                   </Grid>
-                  <Grid item></Grid>
                 </Grid>
               </Grid>
             </Grid>
