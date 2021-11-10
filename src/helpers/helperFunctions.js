@@ -1,13 +1,13 @@
 const stringEllipser = (str, limit) => {
   if (str?.length > limit) {
-    return str.slice(0, limit) + "...";
+    return str.slice(0, limit) + '...';
   } else {
     return str;
   }
 };
 
 const isAuthenticated = () => {
-  const auth = localStorage.getItem("authenticated") === "true";
+  const auth = localStorage.getItem('jamukh_auth') === 'true';
   if (auth) return true;
   else return false;
 };

@@ -18,7 +18,6 @@ import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
-import SMicon from '../../assets/icons/SM.svg';
 // import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -69,7 +68,6 @@ export default function Appbar(props) {
   const ContextHook = useContext(TheContext);
   const contextText = ContextHook.contextValue.contextText;
   const account = ContextHook?.account;
-  const role = ContextHook?.account?.role;
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
   const handleClick = (event) => {
@@ -197,14 +195,14 @@ export default function Appbar(props) {
           </>
         ) : (
           <div className={classes.iconButtonContainer}>
-            <IconButton
+            {/* <IconButton
               edge='start'
               className={classes.menuButtonMobile}
               color='inherit'
               aria-label='Khuree market'
             >
               <img src={SMicon} alt={'SM icon'} />
-            </IconButton>
+            </IconButton> */}
             <IconButton
               onClick={() => setDrawerOpen(true)}
               edge='start'
@@ -314,9 +312,7 @@ export default function Appbar(props) {
                   style={{ marginLeft: -20 }}
                   className={classes.appbarLinkButton}
                   onClick={() => logoutFromAppbar()}
-                  startIcon={
-                    role === 'member' && <img src={logout_icon} alt={'logout'} />
-                  }
+                  startIcon={<img src={logout_icon} alt={'logout'} />}
                 >
                   <Typography className={classes.link}>Гарах</Typography>
                 </Button>

@@ -1,39 +1,48 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const ACCOUNT = gql`
   query {
-    me {
+    getAccount {
       _id
       username
       email
-      role
-      firstName
-      lastName
-      phone
-      bio
-      status
-      serviceType
-      service {
-        meatAmount
-        serviceOption {
-          title
-          monthlyLimit
-          price
-          discount
-          duration
-          time
-        }
-      }
-      address
-      city
-      district
-      unit
+      firstname
+      lastname
       avatar {
         _id
         path
         width
         height
       }
+      member_type {
+        _id
+        type_name
+        position
+        monthly_pay
+      }
+      subs_info {
+        _id
+        paid_amount
+        paid_date
+        valid_through
+        mem_type {
+          _id
+        }
+        payment_info {
+          _id
+          amount
+          user_id
+          payment_date
+          payment_desc
+          paid_with
+        }
+      }
+      role
+      phone
+      bio
+      status
+      address
+      payment_status
     }
   }
 `;
@@ -85,12 +94,6 @@ export const USERS = gql`
   }
 `;
 
-export const SEND_PHONE_OTP = gql`
-  mutation SendPhoneOtp {
-    sendPhoneOtp
-  }
-`;
-
 export const REGISTER_ACCOUNT = gql`
   mutation RegisterMe(
     $username: String!
@@ -126,198 +129,8 @@ export const REGISTER_ACCOUNT = gql`
   }
 `;
 
-export const REGISTER_WITH_PHONE = gql`
-  mutation RegisterWithPhone($phone: String!) {
-    registerWithPhone(phone: $phone)
-  }
-`;
-
-export const REQUEST_PASSWORD_CHANGE = gql`
-  mutation RequestPasswordChange($phone: String!) {
-    requestPasswordChange(phone: $phone)
-  }
-`;
-
-export const CONFIRM_PASSWORD_CHANGE_REQUEST = gql`
-  mutation ConfirmPasswordChangeRequest($phone: String!, $otp: String!) {
-    confirmPasswordChangeRequest(phone: $phone, otp: $otp)
-  }
-`;
-
-export const RESET_PASSWORD = gql`
-  mutation ResetPassword($password: String!) {
-    resetPassword(password: $password)
-  }
-`;
-
-export const CONFIRM_PHONE = gql`
-  mutation ConfirmPhone($otp: String!) {
-    confirmPhone(otp: $otp)
-  }
-`;
-
 export const LOGIN = gql`
-  mutation Login($loginUser: String!, $password: String!) {
-    login(loginUser: $loginUser, password: $password)
-  }
-`;
-
-export const UPDATE_ME = gql`
-  mutation UpdateMe(
-    $firstName: String
-    $lastName: String
-    $avatar: String
-    $bio: String
-    $address: String
-    $city: String
-    $district: String
-    $unit: String
-    # need password
-    $phone: String
-    $email: String
-    $password: String
-    $newPassword: String
-    $username: String
-  ) {
-    updateMe(
-      firstName: $firstName
-      lastName: $lastName
-      avatar: $avatar
-      bio: $bio
-      address: $address
-      city: $city
-      district: $district
-      unit: $unit
-      #need password
-      newPassword: $newPassword
-      username: $username
-      email: $email
-      phone: $phone
-      password: $password
-    ) {
-      # _id
-      username
-      email
-      role
-      firstName
-      lastName
-      phone
-      bio
-      address
-
-      city
-      district
-      unit
-      avatar {
-        _id
-        path
-        width
-        height
-      }
-      OTP_Sent
-    }
-  }
-`;
-
-export const UPDATE_PASSWORD = gql`
-  mutation UpdatePassword($oldPassword: String!, $newPassword: String!) {
-    updatePassword(oldPassword: $oldPassword, newPassword: $newPassword)
-  }
-`;
-
-export const CHANGE_PASSWORD = gql`
-  mutation changePassword($password: String!, $newPassword: String!) {
-    changePassword(password: $password, newPassword: $newPassword)
-  }
-`;
-
-export const CHANGE_PHONE = gql`
-  mutation changePhone($phone: String!) {
-    changePhone(phone: $phone)
-  }
-`;
-
-export const CHANGE_PHONE_CONFIRM = gql`
-  mutation changePhoneConfirm($otp: String!) {
-    changePhoneConfirm(otp: $otp) {
-      _id
-      username
-      email
-      role
-      firstName
-      lastName
-      phone
-      bio
-      address
-      city
-      district
-      unit
-      avatar {
-        _id
-        path
-        width
-        height
-      }
-    }
-  }
-`;
-
-export const UPDATE_PAY_STATUS = gql`
-  mutation updatePayStatus($_id: ID!, $status: String!) {
-    updatePayStatus(_id: $_id, status: $status) {
-      _id
-      status
-    }
-  }
-`;
-
-export const CHANGE_AVATAR = gql`
-  mutation changeAvatar($image: Upload) {
-    changeAvatar(image: $image) {
-      _id
-      username
-      email
-      role
-      firstName
-      lastName
-      phone
-      bio
-      status
-      serviceType
-      avatar {
-        _id
-        path
-        width
-        height
-      }
-    }
-  }
-`;
-
-export const CHANGE_USER_SERVICE = gql`
-  mutation changeUserSeviceType($serviceType: String!, $_id: ID!) {
-    changeUserSeviceType(serviceType: $serviceType, _id: $_id) {
-      _id
-      username
-      serviceType
-      email
-      role
-      firstName
-      lastName
-      avatar {
-        _id
-        path
-        width
-        height
-      }
-      phone
-      bio
-      blogCover
-      address
-      city
-      district
-      unit
-      status
-    }
+  mutation Login($username: String!, $password: String!) {
+    login(password: $password, username: $username)
   }
 `;

@@ -11,39 +11,27 @@ import {
   IconButton,
   Checkbox,
 } from '@mui/material';
-import SM from '../../assets/icons/SM.svg';
-import Jamuh from '../../assets/icons/Jamuh.svg';
+import jamuh_logo from '../../assets/icons/Jamuh_logo.png';
+import jamuh_text from '../../assets/icons/Jamuh_text.png';
 import { makeStyles } from '@mui/styles';
 import json2mq from 'json2mq';
 import grayBlob from '../../assets/background/grayBlob.svg';
 import colors from '../../constants/colors';
 import TheContext from '../../context/context';
 import { useMutation } from '@apollo/client';
-import {
-  LOGIN,
-  // LOGIN_WITH_FB,
-  RESET_PASSWORD,
-  REQUEST_PASSWORD_CHANGE,
-  CONFIRM_PASSWORD_CHANGE_REQUEST,
-} from '../../graphql/gql/user/user';
+import { LOGIN } from '../../graphql/gql/user/user';
 import { Alert } from '@mui/lab';
 import { useHistory } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import OtpInput from 'react-otp-input';
 
 export default function SignUp() {
   const history = useHistory();
   const [renderLoading, setRenderLoading] = useState(true);
   const [checked, setChecked] = useState(1);
-  const [otpState, setOtpState] = useState();
   const [usernameState, setUsenameState] = useState('');
   const [passwordState, setPasswordState] = useState('');
-  const [phoneState, setPhoneState] = useState('');
-  const [newPasswordState, setNewPasswordState] = useState('');
-  const [newPasswordRepeat, setNewPasswordRepeat] = useState('');
   const [checkboxState, setCheckboxState] = useState(false);
-
   const [passType, setPassType] = useState({
     pass: 'password',
     verify: 'password',
@@ -73,10 +61,6 @@ export default function SignUp() {
     severity: 'success',
   });
 
-  const handleOtp = (txt) => {
-    setOtpState(txt);
-  };
-
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
       open: state,
@@ -103,7 +87,7 @@ export default function SignUp() {
   const [login, { loading: loginLoading }] = useMutation(LOGIN, {
     onCompleted(data) {
       console.log(data.login);
-      localStorage.setItem('token', data?.login);
+      localStorage.setItem('jamukh_token', data?.login);
       handleSnackOpen({
         state: true,
         msg: 'Амжилттай нэвтэрлээ.',
@@ -129,7 +113,7 @@ export default function SignUp() {
 
   // const [loginWithFb] = useMutation(LOGIN_WITH_FB, {
   //   onCompleted(data) {
-  //     window.localStorage.setItem('token', data.loginWithFb);
+  //     window.localStorage.setItem('jamukh_token', data.loginWithFb);
   //     handleSnackOpen({
   //       state: true,
   //       msg: 'Амжилттай нэвтэрлээ.',
@@ -163,7 +147,7 @@ export default function SignUp() {
         type: 'warning',
       });
     } else {
-      login({ variables: { loginUser: usernameState, password: passwordState } });
+      login({ variables: { username: usernameState, password: passwordState } });
     }
   };
 
@@ -186,146 +170,6 @@ export default function SignUp() {
 
   const handleCheck = (num) => {
     setChecked(num);
-  };
-
-  const [requestPasswordChange, { loading: loadPasswordRequest }] = useMutation(
-    REQUEST_PASSWORD_CHANGE,
-    {
-      onCompleted(data) {
-        console.log(data);
-      },
-      onError(e) {
-        console.log(e);
-        handleSnackOpen({
-          state: true,
-          msg: 'Дугаар бүртгэлгүй',
-          type: 'error',
-        });
-      },
-    }
-  );
-
-  const handlePhoneStateChange = (phone) => {
-    setPhoneState(phone);
-  };
-
-  const handlePhoneSubmit = () => {
-    if (phoneState.length < 8) {
-      return handleSnackOpen({
-        state: true,
-        msg: 'Утасны дугаарын орон дутуу байна',
-        type: 'warning',
-      });
-    }
-    requestPasswordChange({
-      variables: {
-        phone: phoneState.toString(),
-      },
-    })
-      .then(() => {
-        handleCheck(3);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const [confirmPasswordChangeRequest, { loading: otpLoading }] = useMutation(
-    CONFIRM_PASSWORD_CHANGE_REQUEST,
-    {
-      onCompleted(data) {
-        console.log(data);
-        localStorage.setItem('token', data.confirmPasswordChangeRequest);
-      },
-      onError(e) {
-        console.log(e);
-      },
-    }
-  );
-
-  const otpConfirm = () => {
-    if (otpState.length === 6)
-      confirmPasswordChangeRequest({
-        variables: {
-          phone: phoneState,
-          otp: otpState,
-        },
-      })
-        .then(() => {
-          handleCheck(4);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    else
-      handleSnackOpen({
-        state: true,
-        msg: 'OTP буруу байна.',
-        type: 'error',
-      });
-  };
-
-  const [resetPassword, { loading: resetPassLoading }] = useMutation(RESET_PASSWORD, {
-    onCompleted(data) {
-      console.log(data);
-      setTimeout(() => {
-        history.push('/');
-      }, 1000);
-    },
-    onError(err) {
-      console.log(err);
-      handleSnackOpen({
-        state: true,
-        msg: 'Алдаа гарлаа',
-        type: 'error',
-      });
-    },
-  });
-
-  const submitRestPassword = () => {
-    if (newPasswordState.length > 7 && newPasswordRepeat === newPasswordState) {
-      resetPassword({
-        variables: {
-          password: newPasswordState,
-        },
-      })
-        .then(() => {
-          handleSnackOpen({
-            state: true,
-            msg: 'Амжилттай',
-            type: 'success',
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else if (!newPasswordState || !newPasswordRepeat) {
-      handleSnackOpen({
-        state: true,
-        msg: 'Аль нэг талбарын утга хоосон байна',
-        type: 'warning',
-      });
-    } else if (newPasswordState !== newPasswordRepeat) {
-      handleSnackOpen({
-        state: true,
-        msg: 'Нууц үг зөрж байна',
-        type: 'warning',
-      });
-    } else if (newPasswordState.length < 8) {
-      handleSnackOpen({
-        state: true,
-        msg: 'Нууц үг доод тал нь 8 урттай байх хэрэгтэй',
-        type: 'warning',
-      });
-    }
-  };
-
-  const handleNewPassword = (num) => {
-    setNewPasswordState(num);
-  };
-
-  const handleNewPasswordRepeat = (num) => {
-    setNewPasswordRepeat(num);
   };
 
   // const responseFacebook = (response) => {
@@ -393,8 +237,12 @@ export default function SignUp() {
               <div className={classes.inputItem1}>
                 {/* Logo */}
                 <div className={classes.logo}>
-                  <img src={SM} alt={''} />
-                  <img src={Jamuh} className={classes.jamuhLogo} alt={''} />
+                  <img src={jamuh_logo} alt={'jamukh_png'} />
+                  <img
+                    src={jamuh_text}
+                    className={classes.jamuhLogo}
+                    alt={'jamukh_text'}
+                  />
                 </div>
                 {/* Input */}
                 <InputBase
@@ -402,15 +250,13 @@ export default function SignUp() {
                   type={'text'}
                   value={usernameState}
                   onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'NAME'}
+                  placeholder={'PHONE & EMAIL'}
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       sendLogin();
                     }
                   }}
                 />
-                {/* Password */}
-
                 {/* Input password */}
                 <InputBase
                   type={passType.pass}
@@ -471,173 +317,6 @@ export default function SignUp() {
                     {contextText.signUp.title}
                   </Button>
                 </div>
-              </div>
-            </Fade>
-          )}
-        </>
-        {/* Phone verify */}
-        <>
-          {loadPasswordRequest ? (
-            // Loading icon
-            <CircularIndeterminate />
-          ) : (
-            <Fade in={checked === 2} mountOnEnter unmountOnExit>
-              <div
-                className={classes.inputItem2}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handlePhoneSubmit();
-                  }
-                }}
-              >
-                {/* Title */}
-                <Typography className={classes.title}>
-                  {contextText.forgot.title}
-                </Typography>
-                {/* Description */}
-                <Typography className={classes.description}>
-                  {contextText.forgot.description}
-                </Typography>
-                {/* Phone */}
-                <Typography className={classes.label}>
-                  {contextText.signUp.phone}
-                </Typography>
-                {/* Input */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'number'}
-                  value={phoneState}
-                  onChange={(e) => handlePhoneStateChange(e.target.value)}
-                  placeholder={'9981...'}
-                />
-                {/* Submit to next page */}
-                <Button onClick={() => handlePhoneSubmit()} className={classes.button}>
-                  {contextText.forgot.send}
-                </Button>
-              </div>
-            </Fade>
-          )}
-        </>
-        {/* Phone verify page */}
-        <>
-          {otpLoading ? (
-            // Loading icon
-            <CircularIndeterminate />
-          ) : (
-            <Fade in={checked === 3} mountOnEnter unmountOnExit>
-              <div
-                className={classes.inputItem3}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    otpConfirm();
-                  }
-                }}
-              >
-                {/* Title */}
-                <Typography className={classes.title}>
-                  {contextText.forgot.title}
-                </Typography>
-                {/* Description */}
-                <Typography className={classes.description}>
-                  {contextText.forgot.description}
-                </Typography>
-                {/* Otp Input */}
-                <OtpInput
-                  isInputNum
-                  value={otpState}
-                  onChange={handleOtp}
-                  numInputs={6}
-                  containerStyle={classes.otpContainerStyle}
-                  inputStyle={phoneSize ? classes.otpInputPhone : classes.otpInputStyle}
-                  focusStyle={phoneSize ? classes.otpFocusPhone : classes.otpFocusStyle}
-                />
-                {/* Submit */}
-                <Button onClick={() => otpConfirm()} className={classes.button}>
-                  {contextText.signUp.otpButton}
-                </Button>
-              </div>
-            </Fade>
-          )}
-        </>
-        {/* New password submit page */}
-        <>
-          {resetPassLoading ? (
-            // Loading icon
-            <CircularIndeterminate />
-          ) : (
-            <Fade in={checked === 4} mountOnEnter unmountOnExit>
-              <div
-                className={classes.inputItem4}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    submitRestPassword();
-                  }
-                }}
-              >
-                {/* Title */}
-                <Typography className={classes.title}>
-                  {contextText.forgot.title}
-                </Typography>
-                {/* Description */}
-                <Typography className={classes.description}>
-                  {contextText.forgot.passDesc}
-                </Typography>
-                {/* Password */}
-                <Typography className={classes.labelSlide3}>
-                  {contextText.signUp.password}
-                </Typography>
-                {/* Input password */}
-                <InputBase
-                  type={passType.pass}
-                  value={newPasswordState}
-                  className={classes.textfieldSlide3}
-                  onChange={(e) => handleNewPassword(e.target.value)}
-                  endAdornment={
-                    <IconButton
-                      color='primary'
-                      className={classes.endAdornmentIcon}
-                      onClick={() => handlePassType(1)}
-                      aria-label='see password'
-                    >
-                      {passType.pass === 'password' ? (
-                        <VisibilityIcon htmlColor={'gray'} />
-                      ) : (
-                        <VisibilityOffIcon htmlColor={'gray'} />
-                      )}
-                    </IconButton>
-                  }
-                  placeholder={'********'}
-                />
-                {/* Password Verify */}
-                <Typography className={classes.labelSlide3}>
-                  {contextText.signUp.passwordVerify}
-                </Typography>
-                {/* Input password verify */}
-                <InputBase
-                  type={passType.verify}
-                  value={newPasswordRepeat}
-                  className={classes.textfieldSlide3}
-                  onChange={(e) => handleNewPasswordRepeat(e.target.value)}
-                  placeholder={'********'}
-                  endAdornment={
-                    <IconButton
-                      color='primary'
-                      className={classes.endAdornmentIcon}
-                      onClick={() => handlePassType(2)}
-                      aria-label='see password'
-                    >
-                      {passType.verify === 'password' ? (
-                        <VisibilityIcon htmlColor={'gray'} />
-                      ) : (
-                        <VisibilityOffIcon htmlColor={'gray'} />
-                      )}
-                    </IconButton>
-                  }
-                />
-                {/* Submit */}
-                <Button onClick={() => submitRestPassword()} className={classes.button}>
-                  {contextText.login.otpButton}
-                </Button>
               </div>
             </Fade>
           )}

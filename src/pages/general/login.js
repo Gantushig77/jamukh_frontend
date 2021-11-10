@@ -31,8 +31,6 @@ import { Alert } from '@mui/lab';
 import { useHistory } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import SMwhite from '../../assets/icons/khuree_market_white.svg';
-import SMPurple from '../../assets/icons/SM.svg';
 import OtpInput from 'react-otp-input';
 import FacebookLogin from 'react-facebook-login';
 import facebookIcon from '../../assets/icons/facebook.svg';
@@ -108,7 +106,7 @@ export default function SignUp() {
   const [login, { loading: loginLoading }] = useMutation(LOGIN, {
     onCompleted(data) {
       console.log(data.login);
-      localStorage.setItem('token', data?.login);
+      localStorage.setItem('jamukh_token', data?.login);
       handleSnackOpen({
         state: true,
         msg: 'Амжилттай нэвтэрлээ.',
@@ -134,7 +132,7 @@ export default function SignUp() {
 
   const [loginWithFb] = useMutation(LOGIN_WITH_FB, {
     onCompleted(data) {
-      window.localStorage.setItem('token', data.loginWithFb);
+      window.localStorage.setItem('jamukh_token', data.loginWithFb);
       handleSnackOpen({
         state: true,
         msg: 'Амжилттай нэвтэрлээ.',
@@ -240,7 +238,7 @@ export default function SignUp() {
     {
       onCompleted(data) {
         console.log(data);
-        localStorage.setItem('token', data.confirmPasswordChangeRequest);
+        localStorage.setItem('jamukh_token', data.confirmPasswordChangeRequest);
       },
       onError(e) {
         console.log(e);
@@ -396,11 +394,11 @@ export default function SignUp() {
             left: phoneSize ? 20 : 25,
           }}
         >
-          <img
+          {/* <img
             src={phoneSize ? SMPurple : SMwhite}
             onClick={() => history.push('/')}
             alt={'brand'}
-          />
+          /> */}
         </div>
       </>
       {/* Snackbar */}

@@ -78,7 +78,7 @@ export default function SignUp() {
 
   const [registerPhone, { loading: rpLoading }] = useMutation(REGISTER_WITH_PHONE, {
     onCompleted(data) {
-      localStorage.setItem('token', data.registerWithPhone);
+      localStorage.setItem('jamukh_token', data.registerWithPhone);
       console.log('submit phone register done.');
       console.log(data);
       sendPhoneOtp();
@@ -195,7 +195,7 @@ export default function SignUp() {
 
   const [registerAccount, { loading: raLoading }] = useMutation(REGISTER_ACCOUNT, {
     onCompleted(data) {
-      localStorage.setItem('token', data.registerMe.token);
+      localStorage.setItem('jamukh_token', data.registerMe.token);
       handleSnackOpen({
         state: true,
         msg: 'Амжилттай бүртггүүллээ.',

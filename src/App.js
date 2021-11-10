@@ -1,4 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css';
 import './styles/css/App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -11,16 +10,15 @@ import { CircularProgress } from '@mui/material';
 import { isAuthenticated } from './helpers/helperFunctions';
 import PrivateRoute from './components/privateRoute/privateRoute';
 import useAppStyles from './styles/js/classes';
-import MessengerCustomerChat from 'react-messenger-customer-chat';
-import SMicon from './assets/icons/SM.svg';
-// General
+import { logout } from './helpers/logout';
+// import MessengerCustomerChat from 'react-messenger-customer-chat';
+// Routes
 import Home from './pages/general/home';
 import Detailnews from './pages/Detailnews/Detailnews';
 import NotFound from './pages/general/notFound';
 // import SignUp from "./pages/general/signUp";
 import Login from './pages/general/jamukhLogin';
 import TermsAndConditions from './pages/general/termsAndConditions';
-// Member
 import Members from './pages/members/members';
 import Profile from './pages/profile/profile';
 import Property from './pages/property/property';
@@ -28,6 +26,7 @@ import Antiquest from './pages/antiquest/antiquest';
 import Cars from './pages/cars/cars';
 import Estate from './pages/estate/estate';
 import News from './pages/news/news';
+import jamuh_logo from './assets/icons/Jamuh_logo.png';
 
 export default function App() {
   const classes = useAppStyles();
@@ -36,18 +35,17 @@ export default function App() {
     fetchPolicy: 'cache-and-network',
     onCompleted(data) {
       console.log(data);
-      if (data?.me) {
-        if (data?.me?.role !== 'guest') {
-          localStorage.setItem('authenticated', 'true');
-        } else {
-          localStorage.setItem('authenticated', 'false');
-        }
+      if (data?.getAccount) {
+        localStorage.setItem('jamukh_auth', 'true');
       } else {
-        localStorage.setItem('authenticated', 'false');
+        localStorage.setItem('jamukh_auth', 'false');
       }
     },
     onError(e) {
       console.log(e);
+      if (e.message.includes('Token expired')) {
+        logout();
+      }
     },
   });
 
@@ -76,8 +74,12 @@ export default function App() {
   if (loading)
     return (
       <div className={classes.loading}>
-        <img src={SMicon} alt={'SM icon'} style={{ paddingBottom: 20 }} />
-        <CircularProgress />
+        <img
+          src={jamuh_logo}
+          alt={'jamukh logo'}
+          style={{ paddingBottom: 20, width: 50 }}
+        />
+        <CircularProgress sx={{ color: 'orange' }} size={40} thickness={4} />
       </div>
     );
 
@@ -86,47 +88,42 @@ export default function App() {
       <TheContext.Provider value={{ contextValue, langChange, account: accountData?.me }}>
         <Router forceRefresh={true}>
           <Switch>
-            {/* General routes */}
             <Route exact path={'/'}>
               <Home />
-            </Route>
-            <Route path={'/login'}>
-              <Login />
-            </Route>
-            <Route path={'/property'}>
-              <Property />
-            </Route>
-            <Route path={'/antiquest'}>
-              <Antiquest />
-            </Route>
-            <Route path={'/cars'}>
-              <Cars />
-            </Route>
-            <Route path={'/members'}>
-              <Members />
-            </Route>
-
-            <Route path={'/news'}>
-              <News />
-            </Route>
-            <Route path={'/estate'}>
-              <Estate />
-            </Route>
-            <Route path={'/detailnews/:id'}>
-              <Detailnews />
-            </Route>
-
-            <Route path={'/profile'}>
-              <Profile />
             </Route>
             <Route path={'/sign-up'}>
               <Login />
             </Route>
+            <Route path={'/login'}>
+              <Login />
+            </Route>
+            <Route path={'/news'}>
+              <News />
+            </Route>
+            <Route path={'/detailnews/:id'}>
+              <Detailnews />
+            </Route>
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
             </Route>
-
-            {/* Private page. Works only if the user is authenticated and the role is MEMBER */}
+            <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
+              <Property />
+            </PrivateRoute>
+            <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
+              <Antiquest />
+            </PrivateRoute>
+            <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
+              <Cars />
+            </PrivateRoute>
+            <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
+              <Members />
+            </PrivateRoute>
+            <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
+              <Estate />
+            </PrivateRoute>
+            <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
+              <Profile />
+            </PrivateRoute>
             <PrivateRoute path={'/user/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
@@ -135,9 +132,9 @@ export default function App() {
               <NotFound />
             </Route>
           </Switch>
-          <div className={classes.chatContainer}>
-            <MessengerCustomerChat pageId='172124671568987' appId='517106409387369' />
-          </div>
+          {/* <div className={classes.chatContainer}>
+            <MessengerCustomerChat pageId='' appId='' />
+          </div> */}
         </Router>
       </TheContext.Provider>
     </div>

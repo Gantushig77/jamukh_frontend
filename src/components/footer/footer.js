@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
-import SM from '../../assets/icons/SM.svg';
 import JAMUH from '../../assets/icons/Jamuh.svg';
 import Facebook from '../../assets/social/facebook-logo.png';
 import Google from '../../assets/social/google-browser.png';
@@ -21,7 +20,7 @@ export default function Footer(props) {
           color='secondary'
           className={classes.button}
           disableElevation
-          startIcon={<img src={SM} style={{ height: '30px' }} alt={''} />}
+          // startIcon={<img src={SM} style={{ height: '30px' }} alt={''} />}
         >
           <img src={JAMUH} style={{ height: '20px' }} alt={''} />
         </Button>

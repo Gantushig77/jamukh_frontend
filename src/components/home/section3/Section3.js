@@ -1,105 +1,24 @@
-import React ,{useRef} from 'react';
-import {
-  Container,
-  Typography,
-  Card,
-} from '@mui/material';
-import colors from "../../../constants/colors";
+import React, { useRef } from 'react';
+import { Container, Typography, Card } from '@mui/material';
+import colors from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-// import { stringEllipser } from '../../../helpers/helperFunctions';
 import Slider from 'react-slick';
-import { useQuery } from '@apollo/client';
-import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
 import Test from '../../../assets/images/1.png';
-import "./section.css"
-
-// function SampleNextArrow(props) {
-//   const { onClick } = props;
-//   return (
-//     <div
-//       style={{
-//         backgroundColor: '#6A67D3',
-//         position: 'absolute',
-//         right: -30,
-//         zIndex: 888,
-//         top: '45%',
-//         cursor: 'pointer',
-//         height: 50,
-//         width: 50,
-//         borderRadius: '50%',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignContent: 'center',
-//         alignItems: 'center',
-//       }}
-//       onClick={onClick}
-//     >
-//       <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
-//     </div>
-//   );
-// }
-
-// function SamplePrevArrow(props) {
-//   const { onClick } = props;
-//   return (
-//     <div
-//       style={{
-//         backgroundColor: '#6A67D3',
-//         position: 'absolute',
-//         zIndex: 888,
-//         left: -70,
-//         top: '45%',
-//         cursor: 'pointer',
-//         height: 50,
-//         width: 50,
-//         borderRadius: '50%',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignContent: 'center',
-//         alignItems: 'center',
-//       }}
-//       onClick={onClick}
-//     >
-//       <ArrowBackIosIcon
-//         htmlColor={'white'}
-//         style={{
-//           marginLeft: 10,
-//         }}
-//       />
-//     </div>
-//   );
-// }
-
-// const plc =
-//   'https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive';
+import './section.css';
 
 export default function Section3(props) {
   const classes = useStyles(props);
   let slider = useRef(null);
-  const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
-    variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
-    onCompleted(data) {
-      console.log(data);
-    },
-    onError(e) {
-      console.log(e);
-    },
-  });
 
   const settings = {
-    centerPadding: "180px",
-    centerMode:true,
+    centerPadding: '180px',
+    centerMode: true,
     className: classes.center,
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: props.phone
-      ? 2
-      : props.tablet || availableGoods?.childCategories?.categories?.length <= 8
-      ? 1
-      : 1,
+    slidesToShow: props.phone ? 2 : props.tablet ? 1 : 1,
     slidesToScroll: 1,
     dots: true,
     autoPlay: true,
@@ -126,73 +45,14 @@ export default function Section3(props) {
         </>
       )}
       <Container className={classes.sliderContainer}>
-          <Slider  ref={slider} {...settings} className={classes.slider}>
-                <CardItem   dots={1}  sliderRef={slider}/>
-                <CardItem   dots={2}  sliderRef={slider}/>
-                <CardItem   dots={3}  sliderRef={slider}/>
-                <CardItem   dots={4}  sliderRef={slider}/>
-                <CardItem   dots={5}  sliderRef={slider}/>
-                <CardItem   dots={6}  sliderRef={slider}/>
-          </Slider>
-        {availLoading ? (
-         <Slider {...settings}>
-            {availableGoods?.childCategories?.categories?.map((item, index) => (
-              <CardItem
-                id={item?._id}
-                parentId={item?.parentId}
-                key={index}
-                phone={props?.phone}
-                tablet={props?.tablet}
-                title={item?.name}
-                onSelect={props?.onCardSelect}
-                description={item?.description}
-                img={item?.categoryImg?.path}
-                price={item?.price}
-                isUnit={item?.isUnit}
-                soldBy={''}
-              />
-            ))}
-          </Slider>
-        ) : availableGoods?.childCategories?.categories?.length <= 2 ? (
-          <div style={{ display: 'flex' }}>
-            {availableGoods?.childCategories?.categories?.map((item, index) => (
-              <div key={index} style={{ margin: 20, marginLeft: 0 }}>
-                <CardItem
-                  id={item?._id}
-                  parentId={item?.parentId}
-                  phone={props?.phone}
-                  tablet={props?.tablet}
-                  title={item?.name}
-                  onSelect={props?.onCardSelect}
-                  description={item?.description}
-                  img={item?.categoryImg?.path}
-                  price={item?.price}
-                  isUnit={item?.isUnit}
-                  soldBy={''}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <Slider {...settings}>
-            {availableGoods?.childCategories?.categories?.map((item, index) => (
-              <CardItem
-                id={item?._id}
-                parentId={item?.parentId}
-                key={index}
-                phone={props?.phone}
-                tablet={props?.tablet}
-                title={item?.name}
-                onSelect={props?.onCardSelect}
-                description={item?.description}
-                img={item?.categoryImg?.path}
-                price={item?.price}
-                isUnit={item?.isUnit}
-                soldBy={''}
-              />
-            ))}
-          </Slider>
-        )}
+        <Slider ref={slider} {...settings} className={classes.slider}>
+          <CardItem dots={1} sliderRef={slider} />
+          <CardItem dots={2} sliderRef={slider} />
+          <CardItem dots={3} sliderRef={slider} />
+          <CardItem dots={4} sliderRef={slider} />
+          <CardItem dots={5} sliderRef={slider} />
+          <CardItem dots={6} sliderRef={slider} />
+        </Slider>
       </Container>
     </Container>
   );
@@ -200,40 +60,30 @@ export default function Section3(props) {
 
 const CardItem = (props) => {
   const classes = useStyles(props);
-  // let sliderRef = props.sliderRef;
+
   return (
     <>
       <Card className={classes.cardRoot}>
         <img alt={'test img'} src={Test} className={classes.cardImage} />
-          <div className={classes.cardColumn}>
-            <div className={classes.cardTitle}> 
-                  MONGOLIAN TOP 
-                  ARCHITECTURE 
-                  DESIGN
+        <div className={classes.cardColumn}>
+          <div className={classes.cardTitle}>MONGOLIAN TOP ARCHITECTURE DESIGN</div>
+          <div className={classes.cardDate}>1min</div>
+          <div className={classes.cardDesc}>
+            “Гранд Маршал” дөрвөн улирлын цогцолбор хотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1
+            м.кв-ын үнийг …
+          </div>
+
+          <div className={classes.cardButtonContent}>
+            <div className={classes.cardButton}>
+              SEE ALL
+              <ArrowForwardIosIcon style={{ height: '16px' }} />
             </div>
-            <div className={classes.cardDate}> 
-              1min
-            </div>
-            <div className={classes.cardDesc}> 
-              “Гранд Маршал” дөрвөн улирлын цогцолбор 
-              хотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1 м.кв-ын 
-              үнийг …
-            </div>
-         
-            <div className={classes.cardButtonContent}>
-          <div className={classes.cardButton}>
-            SEE ALL
-            <ArrowForwardIosIcon style={{ height: '16px' }} />
           </div>
         </div>
-          </div>  
       </Card>
-        
-     </>   
-
+    </>
   );
 };
-
 
 const useStyles = makeStyles({
   root: {
@@ -243,75 +93,75 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
   },
   dots_container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
   dot: {
     height: 15,
     width: 15,
-    backgroundColor: "white",
-    opacity: "30%",
+    backgroundColor: 'white',
+    opacity: '30%',
     borderRadius: 7,
     margin: 5,
     marginBottom: 10,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
   dot_active: {
     height: 15,
     width: 30,
     backgroundColor: colors.brandTextColor,
-    opacity: "100%",
+    opacity: '100%',
     borderRadius: 7,
     margin: 5,
     marginBottom: 10,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
   dots_seperator: {
     height: 3,
     width: 50,
-    backgroundColor: "white",
-    opacity: "30%",
+    backgroundColor: 'white',
+    opacity: '30%',
     borderRadius: 7,
     margin: 5,
     marginBottom: 10,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
   dots_seperator_active: {
     height: 3,
     width: 50,
-    backgroundColor: "white",
-    opacity: "100%",
+    backgroundColor: 'white',
+    opacity: '100%',
     borderRadius: 7,
     margin: 5,
     marginBottom: 10,
-    cursor: "pointer",
+    cursor: 'pointer',
   },
   cardRoot: {
-    display:"flex",
-    width:"90%",
+    display: 'flex',
+    width: '90%',
     marginBottom: 20,
-    margin:"20px",
-    backgroundColor:"#171717",
-    padding:"15px"
+    margin: '20px',
+    backgroundColor: '#171717',
+    padding: '15px',
   },
-  cardColumn:{
-    fontSize:"10px"
+  cardColumn: {
+    fontSize: '10px',
   },
-  cardImage:{
-    height:"200px",
-    marginRight:"10px"
+  cardImage: {
+    height: '200px',
+    marginRight: '10px',
   },
   cardTitle: {
     fontSize: 30,
     fontWeight: 'bold',
-    color:"white"
+    color: 'white',
   },
   cardDate: {
-    padding:"10px 0px",
+    padding: '10px 0px',
     fontSize: 14,
-    color:"lightgray"
+    color: 'lightgray',
   },
 
   cardDesc: {
@@ -364,14 +214,13 @@ const useStyles = makeStyles({
     height: 140,
   },
   sliderContainer: {
-    maxWidth: "1300px",
+    maxWidth: '1300px',
     overflow: (props) => (props.phone ? 'hidden' : 'visible'),
     paddingRight: (props) => (props.phone ? 0 : 24),
     paddingLeft: (props) => (props.phone ? 0 : 24),
-    width:"100%",
+    width: '100%',
   },
-  slider: {
-  },
+  slider: {},
   title: {
     marginBottom: 30,
     textAlign: 'left',
@@ -410,8 +259,8 @@ const useStyles = makeStyles({
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
   },
-  center:{
-    width:"200px",
-    height:"200px"
-  }
+  center: {
+    width: '200px',
+    height: '200px',
+  },
 });
