@@ -9,16 +9,17 @@ import './section.css';
 
 export default function Section3(props) {
   const classes = useStyles(props);
+  console.log(props, 'props');
   let slider = useRef(null);
 
   const settings = {
-    centerPadding: '180px',
+    // centerPadding: "80px",
     centerMode: true,
     className: classes.center,
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: props.phone ? 2 : props.tablet ? 1 : 1,
+    slidesToShow: props.phone ? 1 : 2,
     slidesToScroll: 1,
     dots: true,
     autoPlay: true,
@@ -87,7 +88,6 @@ const CardItem = (props) => {
 
 const useStyles = makeStyles({
   root: {
-    width: '1300px!important',
     overflow: 'hidden',
     backgroundColor: '#252525',
     fontFamily: "'Roboto Condensed', sans-serif",
@@ -140,21 +140,23 @@ const useStyles = makeStyles({
   },
   cardRoot: {
     display: 'flex',
-    width: '90%',
+    width: (props) => (props.phone ? '90%' : '85%'),
     marginBottom: 20,
     margin: '20px',
     backgroundColor: '#171717',
     padding: '15px',
+    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
   cardColumn: {
     fontSize: '10px',
   },
   cardImage: {
-    height: '200px',
+    height: (props) => (props.phone ? '200px' : '100%'),
     marginRight: '10px',
   },
   cardTitle: {
-    fontSize: 30,
+    fontSize: (props) => (props.phone ? 30 : 20),
+    marginTop: (props) => (props.phone ? 0 : 20),
     fontWeight: 'bold',
     color: 'white',
   },
