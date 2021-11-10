@@ -18,7 +18,6 @@ import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SMicon from '../../assets/icons/SM.svg';
 // import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
@@ -39,8 +38,8 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -71,7 +70,7 @@ export default function Appbar(props) {
   const contextText = ContextHook.contextValue.contextText;
   const account = ContextHook?.account;
   const role = ContextHook?.account?.role;
-  const authenticated = localStorage.getItem('authenticated') === 'true' ? true : false;
+  const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -107,13 +106,7 @@ export default function Appbar(props) {
             <Avatar /> Profile
           </MenuItem>
           <Divider />
-          <MenuItem>
-            <ListItemIcon>
-              <Settings fontSize='small' />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => history.push(authenticated ? '/logout' : '/login')}>
             <ListItemIcon>
               {authenticated ? (
                 <Logout fontSize='small' />
@@ -170,7 +163,9 @@ export default function Appbar(props) {
                   <Grid item>
                     <Tooltip title='Account settings'>
                       <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}>
+                          <AccountCircleIcon />
+                        </Avatar>
                       </IconButton>
                     </Tooltip>
 
