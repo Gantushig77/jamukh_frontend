@@ -24,8 +24,9 @@ import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../helpers/logout';
 import { url, bmLinks } from '../../constants/url';
-import BurgerMenuIcon from '../../assets/icons/burger-menu.svg';
+import MenuIcon from '@mui/icons-material/Menu';
 // import { stringEllipser } from '../../helpers/helperFunctions';
+
 import shopping_basket from '../../assets/icons/shopping_bag.svg';
 import shopping_basket_active from '../../assets/icons/shopping_bag_active.svg';
 import home_icon from '../../assets/icons/home.svg';
@@ -211,11 +212,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='menu'
             >
-              <img
-                src={BurgerMenuIcon}
-                className={classes.burgerMenuIcon}
-                alt={'burger menu'}
-              />
+              <MenuIcon style={{height:"40px",width:"40px"}}/>
             </IconButton>
           </div>
         )}
@@ -394,8 +391,9 @@ const useStyles = makeStyles(() => ({
   },
   toolbar: {
     maxWidth: 1280,
-    width: '100%',
+    width: '90%',
     margin: 'auto',
+    color:"white"
   },
   menuPadding: {
     paddingRight: 30,

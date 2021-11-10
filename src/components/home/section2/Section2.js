@@ -105,10 +105,10 @@ export default function Section2(props) {
               <div className={classes.title}>CATEGORY</div>
             </>
           <div className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+            <CardItem className={classes.CardItem}/>
+            <CardItem className={classes.CardItem}/>
+            <CardItem className={classes.CardItem}/>
+            <CardItem className={classes.CardItem}/>
           </div>
         </>
       )}
@@ -184,11 +184,12 @@ const CardItem = (props) => {
 
 const useStyles = makeStyles({
   root: {
-    width: '1300px!important',
+    width: '90%',
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? -90 : 40),
+    marginTop: (props) => (props.phone ? 80 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
+    maxWidth:"1300px"
   },
   cardProperty:{
     color:"white",
@@ -201,19 +202,21 @@ const useStyles = makeStyles({
   cardContent: {
     display: 'flex',
     maxWidth: '1300px',
-    justifyContent: 'space-between',
+    flexWrap: "wrap",
+    justifyContent:(props) => (props.phone ? "center":'space-between'),
+    alignItems:"center",
     width: '100%',
   },
   card: {
     width: '100px',
   },
   cardRoot: {
-    maxWidth: 260,
-    width: 330,
+    maxWidth:  260, 
+    width:"100%",
     height: 360,
     marginBottom: 20,
     textAlign: 'left',
-    margin: 5,
+    margin: 6
   },
   cardTitle: {
     fontSize: 17,
@@ -302,4 +305,5 @@ const useStyles = makeStyles({
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
   },
+
 });
