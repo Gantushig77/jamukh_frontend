@@ -101,7 +101,7 @@ export default function Appbar(props) {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           PaperProps={paperProps}
         >
-          <MenuItem>
+          <MenuItem onClick={() => history.push('/profile')}>
             <Avatar /> Profile
           </MenuItem>
           <Divider />
@@ -210,7 +210,7 @@ export default function Appbar(props) {
               color='inherit'
               aria-label='menu'
             >
-              <MenuIcon style={{height:"40px",width:"40px"}}/>
+              <MenuIcon style={{ height: '40px', width: '40px' }} />
             </IconButton>
           </div>
         )}
@@ -389,7 +389,7 @@ const useStyles = makeStyles(() => ({
     maxWidth: 1280,
     width: '90%',
     margin: 'auto',
-    color:"white"
+    color: 'white',
   },
   menuPadding: {
     paddingRight: 30,

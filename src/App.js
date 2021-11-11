@@ -85,7 +85,9 @@ export default function App() {
 
   return (
     <div className='App'>
-      <TheContext.Provider value={{ contextValue, langChange, account: accountData?.me }}>
+      <TheContext.Provider
+        value={{ contextValue, langChange, account: accountData?.getAccount }}
+      >
         <Router forceRefresh={true}>
           <Switch>
             <Route exact path={'/'}>

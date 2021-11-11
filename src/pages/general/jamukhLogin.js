@@ -111,28 +111,6 @@ export default function SignUp() {
     },
   });
 
-  // const [loginWithFb] = useMutation(LOGIN_WITH_FB, {
-  //   onCompleted(data) {
-  //     window.localStorage.setItem('jamukh_token', data.loginWithFb);
-  //     handleSnackOpen({
-  //       state: true,
-  //       msg: 'Амжилттай нэвтэрлээ.',
-  //       type: 'success',
-  //     });
-  //     setTimeout(() => {
-  //       history.push('/');
-  //     }, 1000);
-  //   },
-  //   onError(e) {
-  //     handleSnackOpen({
-  //       state: true,
-  //       msg: 'Нэр эсвэл нууц үг буруу байна',
-  //       type: 'error',
-  //     });
-  //     console.log(e);
-  //   },
-  // });
-
   const sendLogin = () => {
     if (!usernameState || !passwordState) {
       handleSnackOpen({
@@ -171,39 +149,6 @@ export default function SignUp() {
   const handleCheck = (num) => {
     setChecked(num);
   };
-
-  // const responseFacebook = (response) => {
-  //   if (response.error) {
-  //     handleSnackOpen({
-  //       state: true,
-  //       msg: 'Холбогдоход алдаа гарлаа.',
-  //       type: 'waning',
-  //     });
-  //     console.log(response.error);
-  //   } else {
-  //     loginWithFb({
-  //       variables: {
-  //         fbId: response?.id,
-  //         password: response?.id,
-  //         email: response?.email,
-  //         firstName: response?.first_name,
-  //         lastName: response?.last_name,
-  //         birthDate: response?.birthday,
-  //         gender: response?.gender,
-  //         ...(response?.picture
-  //           ? {
-  //               picture: {
-  //                 height: response?.picture.data.height,
-  //                 width: response?.picture.data.width,
-  //                 url: response?.picture.data.url,
-  //               },
-  //             }
-  //           : null),
-  //       },
-  //     });
-  //   }
-  //   console.log(response);
-  // };
 
   useEffect(() => {
     setRenderLoading(false);
@@ -512,8 +457,8 @@ const useStyles = makeStyles({
     borderRadius: 10,
     marginTop: 20,
     '&:hover': {
-      backgroundColor: 'blue',
-      color: 'white',
+      backgroundColor: 'lightgray',
+      color: 'black',
     },
   },
   overlay1: {

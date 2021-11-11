@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
-import Footer from '../../components/footer/footer';
+// import Footer from '../../components/footer/footer';
 import Section1 from '../../components/home/section1/Section1';
 import Section2 from '../../components/home/section2/Section2';
 import Section3 from '../../components/home/section3/Section3';
