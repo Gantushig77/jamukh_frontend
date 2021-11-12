@@ -9,6 +9,7 @@ import {
   Modal,
   Fade,
   TextField,
+  MenuItem,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -56,6 +57,7 @@ export default function Profile() {
     address: account?.address || '',
     email: account?.email || '',
     bio: account?.bio || '',
+    country: account?.country || '',
     error: {
       firstname: false,
       lastname: false,
@@ -72,29 +74,13 @@ export default function Profile() {
     setSnackbarState({ ...snackbarState, open: false });
   };
 
-  useEffect(() => {
-    console.log(account);
-  }, [account]);
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
 
   const handleFieldChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     handleValidation(name, value);
+    setFieldState({ ...fieldState, [name]: value });
   };
 
   const handleValidation = (name, value) => {
@@ -120,6 +106,10 @@ export default function Profile() {
     }
     setFieldState({ ...fieldState, error });
   };
+
+  useEffect(() => {
+    console.log(account);
+  }, [account]);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -152,23 +142,105 @@ export default function Profile() {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box className={classes.modalBox}>
             <Typography id='transition-modal-title' variant='h6' component='h2'>
-              Text in a modal
+              Update profile info
             </Typography>
-            <Typography id='transition-modal-description' sx={{ mt: 2 }}>
+            <Typography variant={'p'} sx={{ mt: 2 }}>
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
-            <div>
-              <TextField
-                value={fieldState.firstname}
-                error={fieldState.error.firstname}
-                name={'firstname'}
-                id='firstname-textfield'
-                label='Firstname'
-                helperText='Incorrect entry.'
-                onChange={(e) => handleFieldChange(e)}
-              />
+            <div className={classes.updateModalDiv}>
+              <div className={classes.modalRow}>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.firstname}
+                    error={fieldState.error.firstname}
+                    name={'firstname'}
+                    id='firstname-textfield'
+                    label='Firstname'
+                    helperText={fieldState.error.firstname && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.lastname}
+                    error={fieldState.error.lastname}
+                    name={'lastname'}
+                    id='lastname-textfield'
+                    label='Lastname'
+                    helperText={fieldState.error.lastname && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.lastname}
+                    error={fieldState.error.lastname}
+                    name={'lastname'}
+                    id='lastname-textfield'
+                    label='Lastname'
+                    helperText={fieldState.error.lastname && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+              </div>
+              <div className={classes.modalRow}>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.address}
+                    error={fieldState.error.address}
+                    name={'address'}
+                    id='address-textfield'
+                    label='Address'
+                    helperText={fieldState.error.address && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.email}
+                    error={fieldState.error.email}
+                    name={'email'}
+                    id='email-textfield'
+                    label='Email'
+                    helperText={fieldState.error.email && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    value={fieldState.email}
+                    error={fieldState.error.email}
+                    name={'email'}
+                    id='email-textfield'
+                    label='Email'
+                    helperText={fieldState.error.email && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+              </div>
+              <div className={classes.fieldDiv}>
+                <TextField
+                  fullWidth
+                  value={fieldState.bio}
+                  error={fieldState.error.bio}
+                  name={'bio'}
+                  id='bio-textfield'
+                  label='Bio'
+                  multiline={true}
+                  rows={4}
+                  helperText={fieldState.error.bio && 'Incorrect entry.'}
+                  onChange={(e) => handleFieldChange(e)}
+                  className={classes.textFieldSquare}
+                />
+              </div>
             </div>
           </Box>
         </Fade>
@@ -394,6 +466,34 @@ export default function Profile() {
 }
 
 const useStyles = makeStyles({
+  textFieldSquare: {
+    marginRight: 5,
+    marginLeft: 5,
+  },
+  fieldDiv: {
+    minHeight: 78,
+  },
+  modalBox: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: 800,
+    backgroundColor: 'white',
+    boxShadow: 24,
+    padding: 30,
+  },
+  modalRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
+  updateModalDiv: {
+    marginTop: 30,
+    outline: 'none',
+  },
   updateButton: {
     marginTop: 20,
     borderRadius: 0,
