@@ -58,6 +58,8 @@ export default function Profile() {
     email: account?.email || '',
     bio: account?.bio || '',
     country: account?.country || '',
+    city: account?.city || '',
+    district: account?.district || '',
     error: {
       firstname: false,
       lastname: false,
@@ -153,6 +155,7 @@ export default function Profile() {
               <div className={classes.modalRow}>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    select
                     value={fieldState.firstname}
                     error={fieldState.error.firstname}
                     name={'firstname'}
