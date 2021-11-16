@@ -29,6 +29,7 @@ import StarIcon from '@mui/icons-material/Star';
 import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
 import platinum_badge from '../../assets/icons/platinum_badge.svg';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { countries, provinces, discricts } from '../../constants/countryInfo';
 
 export default function Profile() {
   const ContextHook = useContext(TheContext);
@@ -45,27 +46,50 @@ export default function Profile() {
     tablet: tabletSize,
   });
 
+  const [open, setOpen] = useState(false);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: 'Амжилттай илгээлээ',
     severity: 'success',
   });
-  const [open, setOpen] = useState(false);
   const [fieldState, setFieldState] = useState({
+    familyname: account?.familyname || '',
     firstname: account?.firstname || '',
     lastname: account?.lastname || '',
     address: account?.address || '',
     email: account?.email || '',
     bio: account?.bio || '',
-    country: account?.country || '',
-    city: account?.city || '',
-    district: account?.district || '',
+    country: account?.country || countries[0].value,
+    countryIndex: 0,
+    city: account?.city || provinces[0].value,
+    cityIndex: 0,
+    district: account?.district || discricts[0][0],
+    birthdate: account?.birthdate || '',
+    phone: account?.phone || '',
+    highSchool: account?.highSchool || '',
+    university: account?.university || '',
+    vocation: account?.vocation || '',
+    currentJob: account?.currentJob || '',
+    jobTitle: account?.jobTitle || '',
+    annualIncome: account?.annualIncome || '',
     error: {
+      familyname: false,
       firstname: false,
       lastname: false,
       address: false,
       email: false,
       bio: false,
+      country: false,
+      city: false,
+      district: false,
+      birthdate: false,
+      phone: false,
+      highSchool: false,
+      university: false,
+      vocation: false,
+      currentJob: false,
+      jobTitle: false,
+      annualIncome: false,
     },
   });
 
@@ -111,8 +135,8 @@ export default function Profile() {
 
   useEffect(() => {
     console.log(account);
+    console.log(discricts[0][0]);
   }, [account]);
-
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
@@ -152,10 +176,70 @@ export default function Profile() {
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
             <div className={classes.updateModalDiv}>
+              {/* Country, city, district */}
               <div className={classes.modalRow}>
                 <div className={classes.fieldDiv}>
                   <TextField
                     select
+                    value={fieldState.country}
+                    error={fieldState.error.country}
+                    name={'country'}
+                    id='country-textfield'
+                    label='Country'
+                    helperText={fieldState.error.country && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  >
+                    {countries.map((option) => (
+                      <MenuItem key={option.label} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    select
+                    value={fieldState.city}
+                    error={fieldState.error.city}
+                    name={'city'}
+                    id='city-textfield'
+                    label='City'
+                    helperText={fieldState.error.city && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  >
+                    {provinces.map((option) => (
+                      <MenuItem key={option.label} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    select
+                    value={fieldState.discricts}
+                    error={fieldState.error.discricts}
+                    name={'discricts'}
+                    id='discricts-textfield'
+                    label='Discricts'
+                    helperText={fieldState.error.discricts && 'Incorrect entry.'}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  >
+                    {discricts[fieldState.cityIndex || 0].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+              </div>
+              {/* Names */}
+              <div className={classes.modalRow}>
+                <div className={classes.fieldDiv}>
+                  <TextField
                     value={fieldState.firstname}
                     error={fieldState.error.firstname}
                     name={'firstname'}
@@ -180,38 +264,39 @@ export default function Profile() {
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
-                    value={fieldState.lastname}
-                    error={fieldState.error.lastname}
-                    name={'lastname'}
-                    id='lastname-textfield'
-                    label='Lastname'
-                    helperText={fieldState.error.lastname && 'Incorrect entry.'}
+                    value={fieldState.familyname}
+                    error={fieldState.error.familyname}
+                    name={'familyname'}
+                    id='familyname-textfield'
+                    label='Familyname'
+                    helperText={fieldState.error.familyname && 'Incorrect entry.'}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
               </div>
+              {/* Birthdate, email, phone */}
               <div className={classes.modalRow}>
                 <div className={classes.fieldDiv}>
                   <TextField
-                    value={fieldState.address}
-                    error={fieldState.error.address}
-                    name={'address'}
-                    id='address-textfield'
-                    label='Address'
-                    helperText={fieldState.error.address && 'Incorrect entry.'}
+                    value={fieldState.birthdate}
+                    error={fieldState.error.birthdate}
+                    name={'birthdate'}
+                    id='birthdate-textfield'
+                    label='Birthdate'
+                    helperText={fieldState.error.birthdate && 'Incorrect entry.'}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
-                    value={fieldState.email}
-                    error={fieldState.error.email}
-                    name={'email'}
-                    id='email-textfield'
-                    label='Email'
-                    helperText={fieldState.error.email && 'Incorrect entry.'}
+                    value={fieldState.phone}
+                    error={fieldState.error.phone}
+                    name={'phone'}
+                    id='phone-textfield'
+                    label='Phone'
+                    helperText={fieldState.error.phone && 'Incorrect entry.'}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
