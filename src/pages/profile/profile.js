@@ -10,6 +10,8 @@ import {
   Fade,
   TextField,
   MenuItem,
+  Checkbox,
+  Divider,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -30,8 +32,15 @@ import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
 import platinum_badge from '../../assets/icons/platinum_badge.svg';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { countries, provinces, discricts } from '../../constants/countryInfo';
+import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 export default function Profile() {
+  // Constants
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
   const phoneSize = useMediaQuery('(max-width: 767px)');
@@ -46,6 +55,7 @@ export default function Profile() {
     tablet: tabletSize,
   });
 
+  // States
   const [open, setOpen] = useState(false);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -92,7 +102,11 @@ export default function Profile() {
       annualIncome: false,
     },
   });
+  const [value, setValue] = React.useState(new Date('2018-01-01T00:00:00.000Z'));
+  const [goodsImg, setGoodsImg] = useState([]);
+  const [goodsImgReplacer, setGoodsImgReplacer] = useState([]);
 
+  // Functions
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -100,13 +114,32 @@ export default function Profile() {
     setSnackbarState({ ...snackbarState, open: false });
   };
 
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
 
-  const handleFieldChange = (e) => {
+  const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
     handleValidation(name, value);
-    setFieldState({ ...fieldState, [name]: value });
+    if (index !== undefined) {
+      if (name === 'city') {
+        setFieldState({
+          ...fieldState,
+          [name]: value,
+          cityIndex: index,
+          district: discricts[index][0],
+        });
+      }
+    } else {
+      setFieldState({ ...fieldState, [name]: value });
+    }
   };
 
   const handleValidation = (name, value) => {
@@ -133,9 +166,46 @@ export default function Profile() {
     setFieldState({ ...fieldState, error });
   };
 
+  const onGoodsImgAdd = ({ target: { validity, files } }) => {
+    if (validity.valid) {
+      console.log(files[0].size);
+      if (files[0].size < 5000000) {
+        let _URL = window.URL ? window.URL : window.webkitURL;
+        let urlAddress = _URL.createObjectURL(files[0]);
+        setGoodsImgReplacer(
+          goodsImgReplacer.concat({ file: files[0], path: urlAddress })
+        );
+
+        let imgs = [...goodsImg];
+        setGoodsImg(imgs.concat(files[0]));
+        setFieldState({
+          ...fieldState,
+          imgUpdated: true,
+          error: { ...fieldState.error, goodsImg: false },
+        });
+      } else {
+        handleSnackOpen({
+          state: true,
+          msg: 'Файлын багтаамж 5mb ээс ихгүй байна.',
+          type: 'warning',
+        });
+      }
+    } else {
+      handleSnackOpen({
+        state: true,
+        msg: 'Файлын төрөл буруу байна.',
+        type: 'warning',
+      });
+    }
+  };
+
   useEffect(() => {
     console.log(account);
   }, [account]);
+
+  useEffect(() => {
+    console.log(fieldState);
+  }, [fieldState]);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -172,9 +242,25 @@ export default function Profile() {
             <Typography id='transition-modal-title' variant='h6' component='h2'>
               Update profile info
             </Typography>
-            <Typography variant={'p'} sx={{ mt: 2 }}>
+            {goodsImgReplacer.length > 0 ? (
+              <Avatar src={goodsImgReplacer[0].path} className={classes.profileImg} />
+            ) : (
+              <label htmlFor='icon-button-file'>
+                <input
+                  onChange={onGoodsImgAdd}
+                  style={{ display: 'none' }}
+                  accept='image/*'
+                  id='icon-button-file'
+                  type='file'
+                />
+                <IconButton color='primary' aria-label='upload picture' component='span'>
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            )}
+            {/* <Typography variant={'p'} sx={{ mt: 2 }}>
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            </Typography> */}
             <div className={classes.updateModalDiv}>
               {/* Country, city, district */}
               <div className={classes.modalRow}>
@@ -187,12 +273,20 @@ export default function Profile() {
                     name={'country'}
                     id='country-textfield'
                     label='Country'
-                    helperText={fieldState.error.country && 'Incorrect entry.'}
-                    onChange={(e) => handleFieldChange(e)}
+                    helperText={fieldState.error.country ? 'Incorrect entry.' : ' '}
                     className={classes.textFieldSquare}
                   >
-                    {countries.map((option) => (
-                      <MenuItem key={option.label} value={option.value}>
+                    {countries.map((option, index) => (
+                      <MenuItem
+                        onClick={() =>
+                          handleFieldChange(
+                            { target: { name: 'country', value: option.value } },
+                            index
+                          )
+                        }
+                        key={option.label}
+                        value={option.value}
+                      >
                         {option.label}
                       </MenuItem>
                     ))}
@@ -207,12 +301,20 @@ export default function Profile() {
                     name={'city'}
                     id='city-textfield'
                     label='City'
-                    helperText={fieldState.error.city && 'Incorrect entry.'}
-                    onChange={(e) => handleFieldChange(e)}
+                    helperText={fieldState.error.city ? 'Incorrect entry.' : ' '}
                     className={classes.textFieldSquare}
                   >
-                    {provinces.map((option) => (
-                      <MenuItem key={option.label} value={option.value}>
+                    {provinces.map((option, index) => (
+                      <MenuItem
+                        onClick={() =>
+                          handleFieldChange(
+                            { target: { name: 'city', value: option.value } },
+                            index
+                          )
+                        }
+                        key={option.label}
+                        value={option.value}
+                      >
                         {option.label}
                       </MenuItem>
                     ))}
@@ -227,11 +329,11 @@ export default function Profile() {
                     name={'district'}
                     id='district-textfield'
                     label='District'
-                    helperText={fieldState.error.district && 'Incorrect entry.'}
+                    helperText={fieldState.error.district ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   >
-                    {discricts[fieldState.cityIndex || 0].map((option) => (
+                    {discricts[fieldState.cityIndex].map((option) => (
                       <MenuItem key={option} value={option}>
                         {option}
                       </MenuItem>
@@ -243,36 +345,39 @@ export default function Profile() {
               <div className={classes.modalRow}>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    fullWidth
                     value={fieldState.firstname}
                     error={fieldState.error.firstname}
                     name={'firstname'}
                     id='firstname-textfield'
                     label='Firstname'
-                    helperText={fieldState.error.firstname && 'Incorrect entry.'}
+                    helperText={fieldState.error.firstname ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    fullWidth
                     value={fieldState.lastname}
                     error={fieldState.error.lastname}
                     name={'lastname'}
                     id='lastname-textfield'
                     label='Lastname'
-                    helperText={fieldState.error.lastname && 'Incorrect entry.'}
+                    helperText={fieldState.error.lastname ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    fullWidth
                     value={fieldState.familyname}
                     error={fieldState.error.familyname}
                     name={'familyname'}
                     id='familyname-textfield'
                     label='Familyname'
-                    helperText={fieldState.error.familyname && 'Incorrect entry.'}
+                    helperText={fieldState.error.familyname ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -281,42 +386,178 @@ export default function Profile() {
               {/* Birthdate, email, phone */}
               <div className={classes.modalRow}>
                 <div className={classes.fieldDiv}>
-                  <TextField
-                    value={fieldState.birthdate}
-                    error={fieldState.error.birthdate}
-                    name={'birthdate'}
-                    id='birthdate-textfield'
-                    label='Birthdate'
-                    helperText={fieldState.error.birthdate && 'Incorrect entry.'}
-                    onChange={(e) => handleFieldChange(e)}
-                    className={classes.textFieldSquare}
-                  />
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    {phoneSize ? (
+                      <MobileDateTimePicker
+                        sx={{ width: '100%' }}
+                        value={value}
+                        onChange={(newValue) => {
+                          setValue(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    ) : (
+                      <DateTimePicker
+                        sx={{ width: '100%' }}
+                        renderInput={(params) => <TextField {...params} />}
+                        value={value}
+                        onChange={(newValue) => {
+                          setValue(newValue);
+                        }}
+                      />
+                    )}
+                  </LocalizationProvider>
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    fullWidth
                     value={fieldState.phone}
                     error={fieldState.error.phone}
                     name={'phone'}
                     id='phone-textfield'
                     label='Phone'
-                    helperText={fieldState.error.phone && 'Incorrect entry.'}
+                    helperText={fieldState.error.phone ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
                 <div className={classes.fieldDiv}>
                   <TextField
+                    fullWidth
                     value={fieldState.email}
                     error={fieldState.error.email}
                     name={'email'}
                     id='email-textfield'
                     label='Email'
-                    helperText={fieldState.error.email && 'Incorrect entry.'}
+                    helperText={fieldState.error.email ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
                 </div>
               </div>
+              {/* Gender */}
+              <div className={classes.checkboxRow}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Checkbox
+                    sx={{
+                      color: 'orange',
+                      '&.Mui-checked': {
+                        color: 'orange',
+                      },
+                    }}
+                    defaultChecked
+                  />
+                  <Typography>Эрэгтэй</Typography>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Checkbox
+                    sx={{
+                      color: 'orange',
+                      '&.Mui-checked': {
+                        color: 'orange',
+                      },
+                    }}
+                  />
+                  <Typography>Эмэгтэй</Typography>
+                </div>
+              </div>
+              {/* High school, university, profession */}
+              <div className={classes.modalRow}>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.highschool}
+                    error={fieldState.error.highschool}
+                    name={'highschool'}
+                    id='highschool-textfield'
+                    label='Highschool'
+                    helperText={fieldState.error.highschool ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.university}
+                    error={fieldState.error.university}
+                    name={'university'}
+                    id='university-textfield'
+                    label='University'
+                    helperText={fieldState.error.university ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.vocation}
+                    error={fieldState.error.vocation}
+                    name={'vocation'}
+                    id='vocation-textfield'
+                    label='Profession'
+                    helperText={fieldState.error.vocation ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+              </div>
+              {/* Working job, job title, annual income */}
+              <div className={classes.modalRow}>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.currentJob}
+                    error={fieldState.error.currentJob}
+                    name={'currentJob'}
+                    id='currentJob-textfield'
+                    label='Current job'
+                    helperText={fieldState.error.currentJob ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.jobTitle}
+                    error={fieldState.error.jobTitle}
+                    name={'jobTitle'}
+                    id='jobTitle-textfield'
+                    label='Job title'
+                    helperText={fieldState.error.jobTitle ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+                <div className={classes.fieldDiv}>
+                  <TextField
+                    fullWidth
+                    value={fieldState.annualIncome}
+                    error={fieldState.error.annualIncome}
+                    name={'annualIncome'}
+                    id='annualIncome-textfield'
+                    label='Annual income'
+                    helperText={fieldState.error.annualIncome ? 'Incorrect entry.' : ' '}
+                    onChange={(e) => handleFieldChange(e)}
+                    className={classes.textFieldSquare}
+                  />
+                </div>
+              </div>
+              {/* Bio */}
               <div className={classes.fieldDiv}>
                 <TextField
                   fullWidth
@@ -326,12 +567,33 @@ export default function Profile() {
                   id='bio-textfield'
                   label='Bio'
                   multiline={true}
-                  rows={4}
-                  helperText={fieldState.error.bio && 'Incorrect entry.'}
+                  rows={3}
+                  helperText={fieldState.error.bio ? 'Incorrect entry.' : ' '}
                   onChange={(e) => handleFieldChange(e)}
                   className={classes.textFieldSquare}
                 />
               </div>
+            </div>
+            <Divider />
+            {/* Submit */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                paddingTop: 20,
+              }}
+            >
+              <Button
+                style={{
+                  marginRight: '1rem',
+                  backgroundColor: 'orange',
+                  color: 'white',
+                }}
+              >
+                Шинэчлэх
+              </Button>
+              <Button onClick={handleModalClose}>Цуцлах</Button>
             </div>
           </Box>
         </Fade>
@@ -557,6 +819,30 @@ export default function Profile() {
 }
 
 const useStyles = makeStyles({
+  profileImg: {
+    // objectFit: 'contain',
+    // width: '28%',
+    // height: '150px',
+    // padding: 10,
+    // border: '1px solid lightgray',
+    // borderRadius: 10,
+    // marginRight: 10,
+    '&:hover': {
+      filter: 'blur(1px)',
+      cursor: 'pointer',
+    },
+  },
+  checkboxDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkboxRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
   textFieldSquare: {
     marginRight: 5,
     marginLeft: 5,
@@ -572,7 +858,8 @@ const useStyles = makeStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxWidth: 800,
+    maxWidth: 1000,
+    width: '100%',
     backgroundColor: 'white',
     boxShadow: 24,
     padding: 30,
@@ -582,7 +869,7 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   updateModalDiv: {
     marginTop: 30,
