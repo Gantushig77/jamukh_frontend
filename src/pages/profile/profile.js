@@ -82,6 +82,7 @@ export default function Profile() {
     currentJob: account?.currentJob || '',
     jobTitle: account?.jobTitle || '',
     annualIncome: account?.annualIncome || '',
+    imgUpdated: false,
     error: {
       familyname: false,
       firstname: false,
@@ -100,6 +101,7 @@ export default function Profile() {
       currentJob: false,
       jobTitle: false,
       annualIncome: false,
+      goodsImg: false,
     },
   });
   const [value, setValue] = React.useState(new Date('2018-01-01T00:00:00.000Z'));
@@ -199,6 +201,16 @@ export default function Profile() {
     }
   };
 
+  const onImgDelete = () => {
+    setGoodsImg([]);
+    setGoodsImgReplacer([]);
+    setFieldState({
+      ...fieldState,
+      imgUpdated: false,
+      error: { ...fieldState.error, goodsImg: false },
+    });
+  };
+
   useEffect(() => {
     console.log(account);
   }, [account]);
@@ -239,28 +251,42 @@ export default function Profile() {
       >
         <Fade in={open}>
           <Box className={classes.modalBox}>
-            <Typography id='transition-modal-title' variant='h6' component='h2'>
-              Update profile info
-            </Typography>
-            {goodsImgReplacer.length > 0 ? (
-              <Avatar src={goodsImgReplacer[0].path} className={classes.profileImg} />
-            ) : (
-              <label htmlFor='icon-button-file'>
-                <input
-                  onChange={onGoodsImgAdd}
-                  style={{ display: 'none' }}
-                  accept='image/*'
-                  id='icon-button-file'
-                  type='file'
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {goodsImgReplacer.length > 0 ? (
+                <Avatar
+                  sx={{ height: 100, width: 100 }}
+                  onClick={() => onImgDelete()}
+                  src={goodsImgReplacer[0].path}
+                  className={classes.profileImg}
                 />
-                <IconButton color='primary' aria-label='upload picture' component='span'>
-                  <PhotoCamera />
-                </IconButton>
-              </label>
-            )}
-            {/* <Typography variant={'p'} sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography> */}
+              ) : (
+                <label htmlFor='icon-button-file'>
+                  <input
+                    onChange={onGoodsImgAdd}
+                    style={{ display: 'none' }}
+                    accept='image/*'
+                    id='icon-button-file'
+                    type='file'
+                  />
+                  <IconButton
+                    sx={{ height: 100, width: 100, backgroundColor: 'lightgray' }}
+                    color='primary'
+                    aria-label='upload picture'
+                    component='span'
+                  >
+                    <PhotoCamera sx={{ fontSize: 50, color: 'black' }} />
+                  </IconButton>
+                </label>
+              )}
+              <Typography
+                id='transition-modal-title'
+                fontSize={25}
+                fontWeight='bold'
+                sx={{ marginLeft: 3 }}
+              >
+                Update profile info
+              </Typography>
+            </div>
             <div className={classes.updateModalDiv}>
               {/* Country, city, district */}
               <div className={classes.modalRow}>
@@ -820,13 +846,6 @@ export default function Profile() {
 
 const useStyles = makeStyles({
   profileImg: {
-    // objectFit: 'contain',
-    // width: '28%',
-    // height: '150px',
-    // padding: 10,
-    // border: '1px solid lightgray',
-    // borderRadius: 10,
-    // marginRight: 10,
     '&:hover': {
       filter: 'blur(1px)',
       cursor: 'pointer',
@@ -863,6 +882,8 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     boxShadow: 24,
     padding: 30,
+    overflow: 'auto',
+    maxHeight: '90%',
   },
   modalRow: {
     display: 'flex',
