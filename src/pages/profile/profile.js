@@ -135,8 +135,8 @@ export default function Profile() {
 
   useEffect(() => {
     console.log(account);
-    console.log(discricts[0][0]);
   }, [account]);
+
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
@@ -181,6 +181,7 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     select
+                    fullWidth
                     value={fieldState.country}
                     error={fieldState.error.country}
                     name={'country'}
@@ -200,6 +201,7 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     select
+                    fullWidth
                     value={fieldState.city}
                     error={fieldState.error.city}
                     name={'city'}
@@ -219,12 +221,13 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     select
-                    value={fieldState.discricts}
-                    error={fieldState.error.discricts}
-                    name={'discricts'}
-                    id='discricts-textfield'
-                    label='Discricts'
-                    helperText={fieldState.error.discricts && 'Incorrect entry.'}
+                    fullWidth
+                    value={fieldState.district}
+                    error={fieldState.error.district}
+                    name={'district'}
+                    id='district-textfield'
+                    label='District'
+                    helperText={fieldState.error.district && 'Incorrect entry.'}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   >
@@ -560,6 +563,9 @@ const useStyles = makeStyles({
   },
   fieldDiv: {
     minHeight: 78,
+    width: '100%',
+    marginRight: 5,
+    marginLeft: 5,
   },
   modalBox: {
     position: 'absolute',
