@@ -13,6 +13,8 @@ import {
   Checkbox,
   Divider,
   CircularProgress,
+  Alert,
+  Snackbar,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -20,8 +22,6 @@ import colors from '../../constants/colors';
 import TheContext from '../../context/context';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
-import { Alert } from '@mui/lab';
-import { Snackbar } from '@mui/material';
 import Sale from '../../assets/icons/sale.png';
 import Members from '../../assets/icons/member.png';
 import Rate from '../../assets/icons/rate.png';
@@ -85,7 +85,7 @@ export default function Profile() {
     vocation: account?.vocation || '',
     currentJob: account?.currentJob || '',
     jobTitle: account?.jobTitle || '',
-    annualIncome: account?.annualIncome || '',
+    annualIncome: account?.annualIncome || 1000000,
     imgUpdated: false,
     error: {
       familyname: false,
@@ -550,6 +550,7 @@ export default function Profile() {
                     name={'phone'}
                     id='phone-textfield'
                     label='Phone'
+                    type='number'
                     helperText={fieldState.error.phone ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
@@ -563,6 +564,7 @@ export default function Profile() {
                     name={'email'}
                     id='email-textfield'
                     label='Email'
+                    type='email'
                     helperText={fieldState.error.email ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
@@ -687,6 +689,7 @@ export default function Profile() {
                     error={fieldState.error.annualIncome}
                     name={'annualIncome'}
                     id='annualIncome-textfield'
+                    type={'number'}
                     label='Annual income'
                     helperText={fieldState.error.annualIncome ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}

@@ -140,8 +140,8 @@ export const UPDATE_PROFILE = gql`
     $_id: ID!
     $role: String
     $familyname: String
-    $firstName: String
-    $lastName: String
+    $firstname: String
+    $lastname: String
     $bio: String
     $email: String
     $gender: String
@@ -161,9 +161,8 @@ export const UPDATE_PROFILE = gql`
       _id: $_id
       role: $role
       familyname: $familyname
-      firstName: $lastName
-      lastName: $lastName
-      avatar: $avatar
+      firstname: $firstname
+      lastname: $lastname
       bio: $bio
       email: $email
       gender: $gender
@@ -182,9 +181,14 @@ export const UPDATE_PROFILE = gql`
       _id
       role
       familyname
-      firstName
-      lastName
-      avatar
+      firstname
+      lastname
+      avatar {
+        _id
+        path
+        width
+        height
+      }
       bio
       email
       gender
