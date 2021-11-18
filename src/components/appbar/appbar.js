@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
   Avatar,
-  Button,
   Grid,
   Toolbar,
   AppBar,
@@ -21,20 +20,12 @@ import { Link } from 'react-router-dom';
 // import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
-import { logout } from '../../helpers/logout';
-import { url, bmLinks } from '../../constants/url';
+
+import { url } from '../../constants/url';
 import MenuIcon from '@mui/icons-material/Menu';
 // import { stringEllipser } from '../../helpers/helperFunctions';
 
-import shopping_basket from '../../assets/icons/shopping_bag.svg';
-import shopping_basket_active from '../../assets/icons/shopping_bag_active.svg';
-import home_icon from '../../assets/icons/home.svg';
-import home_active_icon from '../../assets/icons/home_active.svg';
-import service_icon from '../../assets/icons/service.svg';
-import service_active_icon from '../../assets/icons/service_active.svg';
-import logout_icon from '../../assets/icons/logout.svg';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -44,15 +35,10 @@ import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
-const general_icons = ['', '', home_icon, service_icon, shopping_basket];
+//logo
+import Jamukh from '../../assets/icons/Jamuh_logo.png'
 
-const general_active_icons = [
-  '',
-  '',
-  home_active_icon,
-  service_active_icon,
-  shopping_basket_active,
-];
+
 
 export default function Appbar(props) {
   const history = useHistory();
@@ -68,7 +54,7 @@ export default function Appbar(props) {
   const open = Boolean(anchorEl);
   const ContextHook = useContext(TheContext);
   const contextText = ContextHook.contextValue.contextText;
-  const account = ContextHook?.account;
+
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
   const handleClick = (event) => {
@@ -79,15 +65,7 @@ export default function Appbar(props) {
     setAnchorEl(null);
   };
 
-  const logoutFromAppbar = () => {
-    logout()
-      .then(() => {
-        history.push('/');
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+
 
   return (
     <AppBar position='sticky' className={classes.root}>
@@ -212,8 +190,29 @@ export default function Appbar(props) {
             >
               <MenuIcon style={{ height: '40px', width: '40px' }} />
             </IconButton>
+            <div>
+                 <IconButton size='large' aria-label='search' color='inherit'>
+                    <FilterAltIcon />
+                  </IconButton>
+
+                  <IconButton size='large' aria-label='search' color='inherit'>
+                    <NotificationsIcon />
+                  </IconButton>
+                  <IconButton size='large' aria-label='search' color='inherit'>
+                    <SearchIcon />
+                  </IconButton>
+                
+                    <Tooltip title='Account settings'>
+                      <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
+                        <Avatar sx={{ width: 32, height: 32 }}>
+                          <AccountCircleIcon />
+                        </Avatar>
+                      </IconButton>
+                    </Tooltip>
+            </div>        
           </div>
         )}
+
         {/* The burger menu */}
         {props.phone && (
           <SwipeableDrawer
@@ -224,97 +223,19 @@ export default function Appbar(props) {
             onClose={() => setDrawerOpen(false)}
             onOpen={() => setDrawerOpen(true)}
           >
-            <div className={classes.mobileAvatarContainer}>
-              <Avatar alt='Profile Avatar' className={classes.avatarMobile}>
-                {authenticated ? (
-                  account?.avatar?.path ? (
-                    <img
-                      alt={'profile'}
-                      className={classes.avatarMobile}
-                      src={account?.avatar?.path}
-                    />
-                  ) : (
-                    <p style={{ fontWeight: 'bold', fontSize: 40 }}>
-                      {account?.username[0]?.toUpperCase()}
-                    </p>
-                  )
-                ) : (
-                  <AccountCircleIcon sx={{ fontSize: 75 }} htmlColor={'#0C0C0D'} />
-                )}
-              </Avatar>
-              {authenticated ? (
-                <div className={classes.mobileUsernameContainer}>
-                  <Typography className={classes.userNameTypo}>
-                    {account?.username}
-                  </Typography>
-                  <Link
-                    to={'/user/profile'}
-                    style={{ paddingLeft: 0, fontWeight: '500' }}
-                    className={
-                      currentRoute === '/user/profile' ? classes.activeLink : classes.link
-                    }
-                  >
-                    Мэдээлэл засах
-                  </Link>
-                </div>
-              ) : (
-                <div style={{ height: 40, width: 1 }} />
-              )}
-            </div>
-            <>
-              {bmLinks.general.map((item, index) => (
-                <Button
-                  key={item.name + index}
-                  className={
-                    currentRoute === item.link
-                      ? classes.appbarLinkButtonActive
-                      : classes.appbarLinkButton
-                  }
-                  startIcon={
-                    index === 0 ? (
-                      <LockOutlinedIcon
-                        htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
-                      />
-                    ) : index === 1 ? (
-                      <AccountCircleOutlinedIcon
-                        htmlColor={currentRoute === item.link ? '#6a67d3' : '#0a0a0b'}
-                      />
-                    ) : (
-                      <img
-                        src={
-                          currentRoute === item.link
-                            ? general_active_icons[index]
-                            : general_icons[index]
-                        }
-                        alt={'mobile routes'}
-                      />
-                    )
-                  }
-                >
-                  <Link
-                    to={item.link}
-                    className={
-                      currentRoute === item.link ? classes.activeLink : classes.link
-                    }
-                  >
-                    {item.name}
-                  </Link>
-                </Button>
-              ))}
-            </>
-            {authenticated === true ? (
-              <div className={classes.menuItemContainer}>
-                <Divider style={{ marginBottom: 20 }} />
-                <Button
-                  style={{ marginLeft: -20 }}
-                  className={classes.appbarLinkButton}
-                  onClick={() => logoutFromAppbar()}
-                  startIcon={<img src={logout_icon} alt={'logout'} />}
-                >
-                  <Typography className={classes.link}>Гарах</Typography>
-                </Button>
-              </div>
-            ) : null}
+          <div className={classes.burgerPadding}>
+            <div className={classes.burgerLogo}>
+              <img src={Jamukh} style={{width:"35px"}} alt="jamukhLogo"/>
+            </div>  
+            <div className={classes.menuList}>
+                <Link className={classes.menuListItem} to="/">Home</Link>
+                <Link className={classes.menuListItem} to="/news">News</Link>
+                <Link className={classes.menuListItem} to="/property">Property</Link>
+                <Link className={classes.menuListItem} to="/antiquest">Antiquest</Link>
+                <Link className={classes.menuListItem} to="/cars">Cars</Link>
+                <Link className={classes.menuListItem} to="/estate">Estate</Link>
+            </div>  
+          </div>  
           </SwipeableDrawer>
         )}
       </Toolbar>
@@ -327,6 +248,23 @@ const useStyles = makeStyles(() => ({
     position: 'fixed',
     backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
     boxShadow: 'none',
+  },
+  menuList:{
+    display:"flex",
+    flexDirection:"column",
+    marginTop:"15px"
+  },
+  menuListItem:{
+    textDecoration: "none",
+    color:"black",
+    padding:"20px",
+    fontSize:"20px",
+    fontFamily: "'Roboto Condensed', sans-serif",
+    textAlign:"flex-start"
+  },
+  burgerLogo:{
+    display:"flex",
+    justifyContent:"center",
   },
   mobileAvatarContainer: {
     marginLeft: 36,
@@ -523,6 +461,9 @@ const useStyles = makeStyles(() => ({
     '&:hover': {
       color: colors.lightPurple,
     },
+  },
+  burgerPadding:{
+    padding:"10px"
   },
   authLinkActive: {
     textDecoration: 'none',

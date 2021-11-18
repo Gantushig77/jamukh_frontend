@@ -2,7 +2,8 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
-import JAMUH from '../../assets/icons/Jamuh.svg';
+import JAMUH from '../../assets/icons/Jamuh_text.png';
+import SM from '../../assets/icons/Jamuh_logo.png';
 import Facebook from '../../assets/social/facebook-logo.png';
 import Google from '../../assets/social/google-browser.png';
 import Twitter from '../../assets/social/twitter.png';
@@ -11,7 +12,7 @@ import Youtube from '../../assets/social/youtube.png';
 
 export default function Footer(props) {
   const classes = useStyles(props);
-
+    
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
@@ -20,7 +21,7 @@ export default function Footer(props) {
           color='secondary'
           className={classes.button}
           disableElevation
-          // startIcon={<img src={SM} style={{ height: '30px' }} alt={''} />}
+          startIcon={<img src={SM} style={{ height: '30px' }} alt={''} />}
         >
           <img src={JAMUH} style={{ height: '20px' }} alt={''} />
         </Button>
@@ -86,7 +87,8 @@ const useStyles = makeStyles({
   },
   flexContainer: {
     display: 'flex',
-    width: '1300px',
+    width:  (props) => (props.phone ? '100%' : '1300px'),
+    flexDirection:(props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'space-between',
     alignItems: 'center',
   },

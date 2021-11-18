@@ -108,6 +108,9 @@ export default function App() {
             <Route path={'/news'}>
               <News />
             </Route>
+            <Route path={'/estate'}>
+              <Estate />
+            </Route>
             <Route path={'/detailnews/:id'}>
               <Detailnews />
             </Route>
@@ -126,9 +129,9 @@ export default function App() {
             <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
               <Members />
             </PrivateRoute>
-            <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
+            {/* <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
               <Estate />
-            </PrivateRoute>
+            </PrivateRoute> */}
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>

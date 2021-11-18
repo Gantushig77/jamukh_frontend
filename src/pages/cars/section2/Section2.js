@@ -189,10 +189,10 @@ const CardItem = (props) => {
 
 const useStyles = makeStyles({
   root: {
-    width: '1300px!important',
+    width: (props) => (props?.phone ? '100%' : '1300px!important') ,
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? -90 : 40),
+    marginTop: (props) => (props.phone ? 100 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
   cardProperty:{

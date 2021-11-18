@@ -68,6 +68,7 @@ function SamplePrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
+  console.log(props,"propsers")
 
   const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
     variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
@@ -102,18 +103,18 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
+            <CardItem phone={props}/>
           </Container>
         </>
       )}
@@ -174,6 +175,7 @@ export default function Section2(props) {
 }
 
 const CardItem = (props) => {
+  console.log(props,"props")
   const classes = useStyles(props);
 
   return (
@@ -198,18 +200,20 @@ const CardItem = (props) => {
 
 const useStyles = makeStyles({
   root: {
-    width: '1300px!important',
+    width: (props) => (props.phone ? '100%' : '1300px!important'),
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? -90 : 40),
+    marginTop: (props) => (props.phone ? 100 : 40 ),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
   cardContent: {
     display: 'flex',
-    maxWidth: '1300px',
+    maxWidth:  (props) => (props.phone ? '100%' : '1300px'),
+    flexDirection:(props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'center',
+    alignItems:'center',
     width: '100%',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap', 
   },
   cardButton: {
     display: 'flex',
@@ -233,8 +237,8 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    maxWidth: 260,
-    width: 330,
+    maxWidth: (props) => (props.phone ? "100%" : 260),
+    width:  (props) => (props.phone ?"100%": 330),
     marginBottom: 20,
     textAlign: 'left',
     margin: 5,

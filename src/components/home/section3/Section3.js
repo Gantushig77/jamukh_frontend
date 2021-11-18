@@ -9,53 +9,51 @@ import './section.css';
 
 export default function Section3(props) {
   const classes = useStyles(props);
-  console.log(props, 'props');
   let slider = useRef(null);
-
   const settings = {
-    // centerPadding: "80px",
-    centerMode: true,
+    centerPadding:"180px",
+    centerMode: props.phone ? false : true,
     className: classes.center,
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: props.phone ? 1 : 2,
+    slidesToShow: props.phone ? 1 : 1,
     slidesToScroll: 1,
     dots: true,
     autoPlay: true,
   };
 
   return (
-    <Container className={classes.root}>
-      {props?.parentId ? (
-        <>
-          <Typography className={classes.titleWithParentId}>
-            Ижил төстэй бараанууд
-          </Typography>
-          <Typography className={classes.descriptionWithParentId}>
-            Эх орны хөрсөнд ургасан үржил шимт тэжээлээр тэжээгдэн, малчны хотхоноос
-            бэлтгэн нийлүүлж буй гарал үүслийн гэрчилгээтэй, чанар стандартын дагуу
-            лабораторийн шинжилгээнд хамрагдсан үйлдвэрийн аргаар бэлтгэн боловсруулсан
-            шинэ мах махан бүтээгдэхүүнийг ТАНАЙ ГЭРТ.
-          </Typography>
-        </>
-      ) : (
-        <>
-          <div className={classes.title}>NEWS</div>
-          <Typography className={classes.description}></Typography>
-        </>
-      )}
-      <Container className={classes.sliderContainer}>
-        <Slider ref={slider} {...settings} className={classes.slider}>
-          <CardItem dots={1} sliderRef={slider} />
-          <CardItem dots={2} sliderRef={slider} />
-          <CardItem dots={3} sliderRef={slider} />
-          <CardItem dots={4} sliderRef={slider} />
-          <CardItem dots={5} sliderRef={slider} />
-          <CardItem dots={6} sliderRef={slider} />
-        </Slider>
-      </Container>
-    </Container>
+      <Container className={classes.root}>
+        {props?.parentId ? (
+          <>
+            <Typography className={classes.titleWithParentId}>
+              Ижил төстэй бараанууд
+            </Typography>
+            <Typography className={classes.descriptionWithParentId}>
+              Эх орны хөрсөнд ургасан үржил шимт тэжээлээр тэжээгдэн, малчны хотхоноос
+              бэлтгэн нийлүүлж буй гарал үүслийн гэрчилгээтэй, чанар стандартын дагуу
+              лабораторийн шинжилгээнд хамрагдсан үйлдвэрийн аргаар бэлтгэн боловсруулсан
+              шинэ мах махан бүтээгдэхүүнийг ТАНАЙ ГЭРТ.
+            </Typography>
+          </>
+        ) : (
+          <>
+            <div className={classes.title}>NEWS</div>
+            <Typography className={classes.description}></Typography>
+          </>
+        )}
+        <Container className={classes.sliderContainer}>
+          <Slider ref={slider} {...settings} className={classes.slider}>
+            <CardItem dots={1} sliderRef={slider} phone={props.phone}/>
+            <CardItem dots={2} sliderRef={slider} phone={props.phone}/>
+            <CardItem dots={3} sliderRef={slider} phone={props.phone}/>
+            <CardItem dots={4} sliderRef={slider} phone={props.phone}/>
+            <CardItem dots={5} sliderRef={slider} phone={props.phone}/>
+            <CardItem dots={6} sliderRef={slider} phone={props.phone}/>
+          </Slider>
+        </Container>
+      </Container> 
   );
 }
 
@@ -67,13 +65,12 @@ const CardItem = (props) => {
       <Card className={classes.cardRoot}>
         <img alt={'test img'} src={Test} className={classes.cardImage} />
         <div className={classes.cardColumn}>
-          <div className={classes.cardTitle}>MONGOLIAN TOP ARCHITECTURE DESIGN</div>
-          <div className={classes.cardDate}>1min</div>
-          <div className={classes.cardDesc}>
-            “Гранд Маршал” дөрвөн улирлын цогцолбор хотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1
-            м.кв-ын үнийг …
-          </div>
-
+              <div className={classes.cardTitle}>MONGOLIAN TOP ARCHITECTURE DESIGN</div>
+              <div className={classes.cardDate}>1min</div>
+              <div className={classes.cardDesc}>
+                “Гранд Маршал” дөрвөн улирлын цогцолбор хотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1
+                м.кв-ын үнийг …
+              </div>
           <div className={classes.cardButtonContent}>
             <div className={classes.cardButton}>
               SEE ALL
@@ -87,16 +84,26 @@ const CardItem = (props) => {
 };
 
 const useStyles = makeStyles({
+  container:{
+    display:"flex",
+    justifyContent:"center",
+   
+  } ,
   root: {
     overflow: 'hidden',
     backgroundColor: '#252525',
     fontFamily: "'Roboto Condensed', sans-serif",
+    maxWidth:"1300px",
+    marginTop:"50px",
+    paddingBottom:"50px",
+    marginBottom:"30px"
   },
   dots_container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    alignContent: 'center',
+    alignContent: 'center', 
+    height:"100px"
   },
   dot: {
     height: 15,
@@ -140,7 +147,7 @@ const useStyles = makeStyles({
   },
   cardRoot: {
     display: 'flex',
-    width: (props) => (props.phone ? '90%' : '85%'),
+    width: (props) => (props.phone ? '80%' : 'auto'),
     marginBottom: 20,
     margin: '20px',
     backgroundColor: '#171717',
@@ -221,6 +228,7 @@ const useStyles = makeStyles({
     paddingRight: (props) => (props.phone ? 0 : 24),
     paddingLeft: (props) => (props.phone ? 0 : 24),
     width: '100%',
+    paddingBottom:"20px"
   },
   slider: {},
   title: {

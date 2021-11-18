@@ -55,9 +55,9 @@ export default function Property() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 />
-      <Section2 />
-      <Footer />
+      <Section1 phone={phoneSize} tablet={tabletSize}/>
+      <Section2 phone={phoneSize} tablet={tabletSize}/>
+      <Footer phone={phoneSize} tablet={tabletSize}/>
     </div>
   );
 }

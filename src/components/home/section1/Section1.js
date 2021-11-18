@@ -130,8 +130,7 @@ const useStyles = makeStyles({
   },
   sliderItemBackImg: {
     background: colors.lightGray,
-    backgroundImage: (props) =>
-      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
+    backgroundImage: (props) =>`linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
     backgroundPosition: "center",
     filter: "blur(0px)",
     "-webkit9-filter": "blur(0px)",
@@ -148,6 +147,7 @@ const useStyles = makeStyles({
     marginBottom: 40,
     width: "100%",
     justifyContent: "center",
+    alignItems:"center"
   },
   textContainer: {
     width: "1300px",
@@ -171,7 +171,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "flex-start",
     fontWeight: "700",
-    fontSize: (props) => (props?.phone ? 8 : 18),
+    fontSize: 18,
     marginLeft: 8,
   },
   column: {
@@ -185,7 +185,7 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: "700",
     marginRight: "10px",
-    fontSize: (props) => (props?.phone ? 8 : 18),
+    fontSize: (props) => (props?.phone ? 18 : 18),
   },
   avatarColumnTime: {
     display: "flex",
@@ -194,7 +194,7 @@ const useStyles = makeStyles({
     fontWeight: "300",
     fontFamily: "'Roboto Condensed', sans-serif",
     color: "white",
-    fontSize: (props) => (props?.phone ? 4 : 12),
+    fontSize: (props) => (props?.phone ? 12 : 12),
   },
   title: {
     display: "flex",
