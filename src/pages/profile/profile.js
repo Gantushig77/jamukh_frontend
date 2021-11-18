@@ -12,6 +12,7 @@ import {
   MenuItem,
   Checkbox,
   Divider,
+  CircularProgress,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -38,6 +39,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { emailValidator } from '../../helpers/helperFunctions';
+import { useMutation } from '@apollo/client';
+import { UPDATE_PROFILE } from '../../graphql/gql/user/user';
 
 export default function Profile() {
   // Constants
@@ -69,12 +73,12 @@ export default function Profile() {
     address: account?.address || '',
     email: account?.email || '',
     bio: account?.bio || '',
+    gender: account?.gender || 'male',
     country: account?.country || countries[0].value,
     countryIndex: 0,
     city: account?.city || provinces[0].value,
     cityIndex: 0,
     district: account?.district || discricts[0][0],
-    birthdate: account?.birthdate || '',
     phone: account?.phone || '',
     highSchool: account?.highSchool || '',
     university: account?.university || '',
@@ -101,12 +105,32 @@ export default function Profile() {
       currentJob: false,
       jobTitle: false,
       annualIncome: false,
-      goodsImg: false,
+      profileImg: false,
     },
   });
-  const [value, setValue] = React.useState(new Date('2018-01-01T00:00:00.000Z'));
-  const [goodsImg, setGoodsImg] = useState([]);
-  const [goodsImgReplacer, setGoodsImgReplacer] = useState([]);
+  const [birthdate, setDate] = useState(new Date('2018-01-01T00:00:00.000Z'));
+  const [profileImg, setImg] = useState([account?.avatar?.path] || []);
+  const [imgReplacer, setImgReplacer] = useState([]);
+
+  // Queries and Mutations
+  const [updateAccount, { loading: updateLoading }] = useMutation(UPDATE_PROFILE, {
+    onCompleted: (data) => {
+      console.log(data);
+      handleSnackOpen({
+        state: true,
+        msg: 'Амжилттай шинэчлэгдлээ.',
+        type: 'success',
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      handleSnackOpen({
+        state: true,
+        msg: 'Алдаа гарлаа.',
+        type: 'error',
+      });
+    },
+  });
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -125,7 +149,54 @@ export default function Profile() {
   };
 
   const handleModalOpen = () => setOpen(true);
-  const handleModalClose = () => setOpen(false);
+
+  const handleModalClose = () => {
+    setOpen(false);
+    setFieldState({
+      familyname: account?.familyname || '',
+      firstname: account?.firstname || '',
+      lastname: account?.lastname || '',
+      address: account?.address || '',
+      email: account?.email || '',
+      bio: account?.bio || '',
+      gender: account?.gender || 'male',
+      country: account?.country || countries[0].value,
+      countryIndex: 0,
+      city: account?.city || provinces[0].value,
+      cityIndex: 0,
+      district: account?.district || discricts[0][0],
+      phone: account?.phone || '',
+      highSchool: account?.highSchool || '',
+      university: account?.university || '',
+      vocation: account?.vocation || '',
+      currentJob: account?.currentJob || '',
+      jobTitle: account?.jobTitle || '',
+      annualIncome: account?.annualIncome || '',
+      imgUpdated: false,
+      error: {
+        familyname: false,
+        firstname: false,
+        lastname: false,
+        address: false,
+        email: false,
+        bio: false,
+        country: false,
+        city: false,
+        district: false,
+        birthdate: false,
+        phone: false,
+        highSchool: false,
+        university: false,
+        vocation: false,
+        currentJob: false,
+        jobTitle: false,
+        annualIncome: false,
+        profileImg: false,
+      },
+    });
+    setImg([account?.avatar?.path] || []);
+    setImgReplacer([]);
+  };
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
@@ -148,15 +219,13 @@ export default function Profile() {
     let error = fieldState.error;
     switch (name) {
       case 'firstname':
-        error.firstname = value.length < 3 ? true : false;
+        error.firstname = value.length < 1 ? true : false;
         break;
       case 'lastname':
-        error.lastname = value.length < 3 ? true : false;
-        break;
-      case 'address':
-        error.address = value.length < 3 ? true : false;
+        error.lastname = value.length < 1 ? true : false;
         break;
       case 'email':
+        error.email = emailValidator(value) ? false : true;
         error.email = value.length < 3 ? true : false;
         break;
       case 'bio':
@@ -168,22 +237,20 @@ export default function Profile() {
     setFieldState({ ...fieldState, error });
   };
 
-  const onGoodsImgAdd = ({ target: { validity, files } }) => {
+  const onImgAdd = ({ target: { validity, files } }) => {
     if (validity.valid) {
       console.log(files[0].size);
       if (files[0].size < 5000000) {
         let _URL = window.URL ? window.URL : window.webkitURL;
         let urlAddress = _URL.createObjectURL(files[0]);
-        setGoodsImgReplacer(
-          goodsImgReplacer.concat({ file: files[0], path: urlAddress })
-        );
+        setImgReplacer(imgReplacer.concat({ file: files[0], path: urlAddress }));
 
-        let imgs = [...goodsImg];
-        setGoodsImg(imgs.concat(files[0]));
+        let imgs = [...profileImg];
+        setImg(imgs.concat(files[0]));
         setFieldState({
           ...fieldState,
           imgUpdated: true,
-          error: { ...fieldState.error, goodsImg: false },
+          error: { ...fieldState.error, profileImg: false },
         });
       } else {
         handleSnackOpen({
@@ -202,12 +269,49 @@ export default function Profile() {
   };
 
   const onImgDelete = () => {
-    setGoodsImg([]);
-    setGoodsImgReplacer([]);
+    setImg([]);
+    setImgReplacer([]);
     setFieldState({
       ...fieldState,
       imgUpdated: false,
-      error: { ...fieldState.error, goodsImg: false },
+      error: { ...fieldState.error, profileImg: false },
+    });
+  };
+
+  const handleSubmit = () => {
+    for (const prop in fieldState.error) {
+      console.log(`obj.${prop} = ${fieldState.error[prop]}`);
+      if (fieldState.error[prop]) {
+        return handleSnackOpen({
+          state: true,
+          msg: 'Талбаруудыг бүрэн бөглөнө үү.',
+          type: 'warning',
+        });
+      }
+    }
+
+    updateAccount({
+      variables: {
+        _id: account._id,
+        familyname: fieldState.familyname,
+        firstname: fieldState.firstname,
+        lastname: fieldState.lastname,
+        address: fieldState.address,
+        email: fieldState.email,
+        bio: fieldState.bio,
+        gender: fieldState.gender,
+        highSchool: fieldState.highSchool,
+        university: fieldState.university,
+        vocation: fieldState.vocation,
+        currentJob: fieldState.currentJob,
+        jobTitle: fieldState.jobTitle,
+        annualIncome: fieldState.annualIncome,
+        country: fieldState.country,
+        city: fieldState.city,
+        district: fieldState.district,
+        phone: fieldState.phone,
+        ...(fieldState.imgUpdated && { profileImg: profileImg }),
+      },
     });
   };
 
@@ -237,6 +341,10 @@ export default function Profile() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
+      {/* Backdrop */}
+      <Backdrop sx={{ color: '#fff' }} open={updateLoading}>
+        <CircularProgress color='inherit' />
+      </Backdrop>
       {/* Modal */}
       <Modal
         aria-labelledby='transition-modal-title'
@@ -252,17 +360,17 @@ export default function Profile() {
         <Fade in={open}>
           <Box className={classes.modalBox}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {goodsImgReplacer.length > 0 ? (
+              {imgReplacer.length > 0 ? (
                 <Avatar
                   sx={{ height: 100, width: 100 }}
                   onClick={() => onImgDelete()}
-                  src={goodsImgReplacer[0].path}
+                  src={imgReplacer[0].path}
                   className={classes.profileImg}
                 />
               ) : (
                 <label htmlFor='icon-button-file'>
                   <input
-                    onChange={onGoodsImgAdd}
+                    onChange={onImgAdd}
                     style={{ display: 'none' }}
                     accept='image/*'
                     id='icon-button-file'
@@ -416,9 +524,9 @@ export default function Profile() {
                     {phoneSize ? (
                       <MobileDateTimePicker
                         sx={{ width: '100%' }}
-                        value={value}
+                        value={birthdate}
                         onChange={(newValue) => {
-                          setValue(newValue);
+                          setDate(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}
                       />
@@ -426,9 +534,9 @@ export default function Profile() {
                       <DateTimePicker
                         sx={{ width: '100%' }}
                         renderInput={(params) => <TextField {...params} />}
-                        value={value}
+                        value={birthdate}
                         onChange={(newValue) => {
-                          setValue(newValue);
+                          setDate(newValue);
                         }}
                       />
                     )}
@@ -477,7 +585,8 @@ export default function Profile() {
                         color: 'orange',
                       },
                     }}
-                    defaultChecked
+                    checked={fieldState.gender === 'male' ? true : false}
+                    onClick={() => setFieldState({ ...fieldState, gender: 'male' })}
                   />
                   <Typography>Эрэгтэй</Typography>
                 </div>
@@ -489,6 +598,8 @@ export default function Profile() {
                   }}
                 >
                   <Checkbox
+                    checked={fieldState.gender === 'female' ? true : false}
+                    onClick={() => setFieldState({ ...fieldState, gender: 'female' })}
                     sx={{
                       color: 'orange',
                       '&.Mui-checked': {
@@ -611,6 +722,7 @@ export default function Profile() {
               }}
             >
               <Button
+                onClick={() => handleSubmit()}
                 style={{
                   marginRight: '1rem',
                   backgroundColor: 'orange',
