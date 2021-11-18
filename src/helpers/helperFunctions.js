@@ -16,4 +16,9 @@ const roleChecker = (roles, check) => {
   return roles.includes(check);
 };
 
-export { stringEllipser, isAuthenticated, roleChecker };
+function emailValidator(input) {
+  let regex = /@*.$1/i;
+  return regex.test(input);
+}
+
+export { stringEllipser, isAuthenticated, roleChecker, emailValidator };

@@ -134,3 +134,70 @@ export const LOGIN = gql`
     login(password: $password, username: $username)
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation updateAccount(
+    $_id: ID!
+    $role: String
+    $familyname: String
+    $firstName: String
+    $lastName: String
+    $bio: String
+    $email: String
+    $gender: String
+    $highSchool: String
+    $university: String
+    $vocation: String
+    $currentJob: String
+    $jobTitle: String
+    $annualIncome: Float
+    $phone: Int
+    $city: String
+    $district: String
+    $unit: String
+    $profileImg: Upload
+  ) {
+    updateAccount(
+      _id: $_id
+      role: $role
+      familyname: $familyname
+      firstName: $lastName
+      lastName: $lastName
+      avatar: $avatar
+      bio: $bio
+      email: $email
+      gender: $gender
+      highSchool: $highSchool
+      university: $university
+      vocation: $vocation
+      currentJob: $currentJob
+      jobTitle: $jobTitle
+      annualIncome: $annualIncome
+      phone: $phone
+      city: $city
+      district: $district
+      unit: $unit
+      profileImg: $profileImg
+    ) {
+      _id
+      role
+      familyname
+      firstName
+      lastName
+      avatar
+      bio
+      email
+      gender
+      highSchool
+      university
+      vocation
+      currentJob
+      jobTitle
+      annualIncome
+      phone
+      city
+      district
+      unit
+    }
+  }
+`;
