@@ -20,25 +20,19 @@ import { Link } from 'react-router-dom';
 // import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
-
 import { url } from '../../constants/url';
 import MenuIcon from '@mui/icons-material/Menu';
 // import { stringEllipser } from '../../helpers/helperFunctions';
-
-
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
-
+import { API_ORIGIN } from '../../constants/url';
 //logo
-import Jamukh from '../../assets/icons/Jamuh_logo.png'
-
-
+import Jamukh from '../../assets/icons/Jamuh_logo.png';
 
 export default function Appbar(props) {
   const history = useHistory();
@@ -54,6 +48,7 @@ export default function Appbar(props) {
   const open = Boolean(anchorEl);
   const ContextHook = useContext(TheContext);
   const contextText = ContextHook.contextValue.contextText;
+  const account = ContextHook.account;
 
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
@@ -65,11 +60,10 @@ export default function Appbar(props) {
     setAnchorEl(null);
   };
 
-
-
   return (
     <AppBar position='sticky' className={classes.root}>
       <Toolbar className={classes.toolbar}>
+        {/* Profile menu */}
         <Menu
           anchorEl={anchorEl}
           open={open}
@@ -80,7 +74,24 @@ export default function Appbar(props) {
           PaperProps={paperProps}
         >
           <MenuItem onClick={() => history.push('/profile')}>
-            <Avatar /> Profile
+            <Avatar alt='Profile Avatar 2'>
+              {authenticated ? (
+                account?.avatar?.path ? (
+                  <img
+                    alt={'_test'}
+                    className={classes.menuAvatar}
+                    src={API_ORIGIN + '/' + account?.avatar?.path}
+                  />
+                ) : (
+                  <p style={{ fontWeight: 'bold' }}>
+                    {account?.username[0]?.toUpperCase()}
+                  </p>
+                )
+              ) : (
+                <div />
+              )}
+            </Avatar>
+            Profile settings
           </MenuItem>
           <Divider />
           <MenuItem onClick={() => history.push(authenticated ? '/logout' : '/login')}>
@@ -110,6 +121,7 @@ export default function Appbar(props) {
               className={classes.roleGrid}
               alignItems={'center'}
             >
+              {/* Appbar links */}
               <Grid item className={classes.menuPadding}>
                 <>
                   {url.general.map((item, index) => (
@@ -125,12 +137,12 @@ export default function Appbar(props) {
                   ))}
                 </>
               </Grid>
+              {/* Menu filters and account settings */}
               <Grid item>
                 <Grid container direction={'row'} alignItems={'center'}>
                   <IconButton size='large' aria-label='search' color='inherit'>
                     <FilterAltIcon />
                   </IconButton>
-
                   <IconButton size='large' aria-label='search' color='inherit'>
                     <NotificationsIcon />
                   </IconButton>
@@ -139,34 +151,28 @@ export default function Appbar(props) {
                   </IconButton>
                   <Grid item>
                     <Tooltip title='Account settings'>
-                      <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
-                        <Avatar sx={{ width: 32, height: 32 }}>
-                          <AccountCircleIcon />
-                        </Avatar>
-                      </IconButton>
-                    </Tooltip>
-
-                    {/* <Avatar
-                      alt='Profile Avatar'
-                      className={classes.avatar}
-                      onClick={handleClick}
-                    >
-                      {authenticated ? (
-                        account?.avatar?.path ? (
-                          <img
-                            alt={'profile'}
-                            className={classes.avatar}
-                            src={account?.avatar?.path}
-                          />
+                      <Avatar
+                        alt='Profile Avatar'
+                        className={classes.avatar}
+                        onClick={handleClick}
+                      >
+                        {authenticated ? (
+                          account?.avatar?.path ? (
+                            <img
+                              alt={'profile'}
+                              className={classes.avatar}
+                              src={API_ORIGIN + '/' + account?.avatar?.path}
+                            />
+                          ) : (
+                            <p style={{ fontWeight: 'bold' }}>
+                              {account?.username[0]?.toUpperCase()}
+                            </p>
+                          )
                         ) : (
-                          <p style={{ fontWeight: 'bold' }}>
-                            {account?.username[0]?.toUpperCase()}
-                          </p>
-                        )
-                      ) : (
-                        <AccountCircleIcon htmlColor={'#0C0C0D'} />
-                      )}
-                    </Avatar> */}
+                          <AccountCircleIcon htmlColor={'#0C0C0D'} />
+                        )}
+                      </Avatar>
+                    </Tooltip>
                   </Grid>
                 </Grid>
               </Grid>
@@ -174,14 +180,6 @@ export default function Appbar(props) {
           </>
         ) : (
           <div className={classes.iconButtonContainer}>
-            {/* <IconButton
-              edge='start'
-              className={classes.menuButtonMobile}
-              color='inherit'
-              aria-label='Khuree market'
-            >
-              <img src={SMicon} alt={'SM icon'} />
-            </IconButton> */}
             <IconButton
               onClick={() => setDrawerOpen(true)}
               edge='start'
@@ -191,28 +189,25 @@ export default function Appbar(props) {
               <MenuIcon style={{ height: '40px', width: '40px' }} />
             </IconButton>
             <div>
-                 <IconButton size='large' aria-label='search' color='inherit'>
-                    <FilterAltIcon />
-                  </IconButton>
-
-                  <IconButton size='large' aria-label='search' color='inherit'>
-                    <NotificationsIcon />
-                  </IconButton>
-                  <IconButton size='large' aria-label='search' color='inherit'>
-                    <SearchIcon />
-                  </IconButton>
-                
-                    <Tooltip title='Account settings'>
-                      <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
-                        <Avatar sx={{ width: 32, height: 32 }}>
-                          <AccountCircleIcon />
-                        </Avatar>
-                      </IconButton>
-                    </Tooltip>
-            </div>        
+              <IconButton size='large' aria-label='search' color='inherit'>
+                <FilterAltIcon />
+              </IconButton>
+              <IconButton size='large' aria-label='search' color='inherit'>
+                <NotificationsIcon />
+              </IconButton>
+              <IconButton size='large' aria-label='search' color='inherit'>
+                <SearchIcon />
+              </IconButton>
+              <Tooltip title='Account settings'>
+                <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
+                  <Avatar sx={{ width: 32, height: 32 }}>
+                    <AccountCircleIcon />
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+            </div>
           </div>
         )}
-
         {/* The burger menu */}
         {props.phone && (
           <SwipeableDrawer
@@ -223,19 +218,31 @@ export default function Appbar(props) {
             onClose={() => setDrawerOpen(false)}
             onOpen={() => setDrawerOpen(true)}
           >
-          <div className={classes.burgerPadding}>
-            <div className={classes.burgerLogo}>
-              <img src={Jamukh} style={{width:"35px"}} alt="jamukhLogo"/>
-            </div>  
-            <div className={classes.menuList}>
-                <Link className={classes.menuListItem} to="/">Home</Link>
-                <Link className={classes.menuListItem} to="/news">News</Link>
-                <Link className={classes.menuListItem} to="/property">Property</Link>
-                <Link className={classes.menuListItem} to="/antiquest">Antiquest</Link>
-                <Link className={classes.menuListItem} to="/cars">Cars</Link>
-                <Link className={classes.menuListItem} to="/estate">Estate</Link>
-            </div>  
-          </div>  
+            <div className={classes.burgerPadding}>
+              <div className={classes.burgerLogo}>
+                <img src={Jamukh} style={{ width: '35px' }} alt='jamukhLogo' />
+              </div>
+              <div className={classes.menuList}>
+                <Link className={classes.menuListItem} to='/'>
+                  Home
+                </Link>
+                <Link className={classes.menuListItem} to='/news'>
+                  News
+                </Link>
+                <Link className={classes.menuListItem} to='/property'>
+                  Property
+                </Link>
+                <Link className={classes.menuListItem} to='/antiquest'>
+                  Antiquest
+                </Link>
+                <Link className={classes.menuListItem} to='/cars'>
+                  Cars
+                </Link>
+                <Link className={classes.menuListItem} to='/estate'>
+                  Estate
+                </Link>
+              </div>
+            </div>
           </SwipeableDrawer>
         )}
       </Toolbar>
@@ -249,22 +256,27 @@ const useStyles = makeStyles(() => ({
     backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
     boxShadow: 'none',
   },
-  menuList:{
-    display:"flex",
-    flexDirection:"column",
-    marginTop:"15px"
+  menuAvatar: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
   },
-  menuListItem:{
-    textDecoration: "none",
-    color:"black",
-    padding:"20px",
-    fontSize:"20px",
+  menuList: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '15px',
+  },
+  menuListItem: {
+    textDecoration: 'none',
+    color: 'black',
+    padding: '20px',
+    fontSize: '20px',
     fontFamily: "'Roboto Condensed', sans-serif",
-    textAlign:"flex-start"
+    textAlign: 'flex-start',
   },
-  burgerLogo:{
-    display:"flex",
-    justifyContent:"center",
+  burgerLogo: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   mobileAvatarContainer: {
     marginLeft: 36,
@@ -462,8 +474,8 @@ const useStyles = makeStyles(() => ({
       color: colors.lightPurple,
     },
   },
-  burgerPadding:{
-    padding:"10px"
+  burgerPadding: {
+    padding: '10px',
   },
   authLinkActive: {
     textDecoration: 'none',

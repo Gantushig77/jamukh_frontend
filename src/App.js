@@ -43,12 +43,7 @@ export default function App() {
     },
     onError(e) {
       console.log(e);
-      // console.log(e.errors);
-      // console.log(e.extraInfo);
       console.log(e.message);
-      // console.log(e.graphQLErrors);
-      // console.log(e.networkError);
-      // console.log(e.clientErrors);
       if (e.message.includes('Token Expired')) {
         logout();
       }

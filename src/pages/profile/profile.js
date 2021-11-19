@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Container,
   Typography,
@@ -42,6 +42,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PROFILE } from '../../graphql/gql/user/user';
+import { API_ORIGIN } from '../../constants/url';
 
 export default function Profile() {
   // Constants
@@ -109,7 +110,9 @@ export default function Profile() {
     },
   });
   const [birthdate, setDate] = useState(new Date('2018-01-01T00:00:00.000Z'));
-  const [profileImg, setImg] = useState([account?.avatar?.path] || []);
+  const [profileImg, setImg] = useState(
+    account?.avatar?.path ? [API_ORIGIN + '/' + account?.avatar?.path] : []
+  );
   const [imgReplacer, setImgReplacer] = useState([]);
 
   // Queries and Mutations
@@ -121,6 +124,8 @@ export default function Profile() {
         msg: 'Амжилттай шинэчлэгдлээ.',
         type: 'success',
       });
+
+      handleModalClose();
     },
     onError: (error) => {
       console.log(error);
@@ -243,10 +248,8 @@ export default function Profile() {
       if (files[0].size < 5000000) {
         let _URL = window.URL ? window.URL : window.webkitURL;
         let urlAddress = _URL.createObjectURL(files[0]);
-        setImgReplacer(imgReplacer.concat({ file: files[0], path: urlAddress }));
-
-        let imgs = [...profileImg];
-        setImg(imgs.concat(files[0]));
+        setImgReplacer([{ file: files[0], path: urlAddress }]);
+        setImg([files[0]]);
         setFieldState({
           ...fieldState,
           imgUpdated: true,
@@ -280,7 +283,6 @@ export default function Profile() {
 
   const handleSubmit = () => {
     for (const prop in fieldState.error) {
-      console.log(`obj.${prop} = ${fieldState.error[prop]}`);
       if (fieldState.error[prop]) {
         return handleSnackOpen({
           state: true,
@@ -305,23 +307,16 @@ export default function Profile() {
         vocation: fieldState.vocation,
         currentJob: fieldState.currentJob,
         jobTitle: fieldState.jobTitle,
-        annualIncome: fieldState.annualIncome,
+        annualIncome: parseInt(fieldState.annualIncome),
         country: fieldState.country,
         city: fieldState.city,
         district: fieldState.district,
-        phone: fieldState.phone,
-        ...(fieldState.imgUpdated && { profileImg: profileImg }),
+        phone: parseInt(fieldState.phone),
+        birthdate: birthdate,
+        ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
       },
     });
   };
-
-  useEffect(() => {
-    console.log(account);
-  }, [account]);
-
-  useEffect(() => {
-    console.log(fieldState);
-  }, [fieldState]);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -330,7 +325,7 @@ export default function Profile() {
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleSnackClose}
       >
         <Alert
@@ -552,7 +547,11 @@ export default function Profile() {
                     label='Phone'
                     type='number'
                     helperText={fieldState.error.phone ? 'Incorrect entry.' : ' '}
-                    onChange={(e) => handleFieldChange(e)}
+                    onChange={(e) => {
+                      if (e.target.value.length < 9) {
+                        handleFieldChange(e);
+                      }
+                    }}
                     className={classes.textFieldSquare}
                   />
                 </div>
@@ -617,12 +616,12 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.highschool}
-                    error={fieldState.error.highschool}
-                    name={'highschool'}
-                    id='highschool-textfield'
+                    value={fieldState.highSchool}
+                    error={fieldState.error.highSchool}
+                    name={'highSchool'}
+                    id='highSchool-textfield'
                     label='Highschool'
-                    helperText={fieldState.error.highschool ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.highSchool ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -758,7 +757,7 @@ export default function Profile() {
                   {account?.avatar ? (
                     <img
                       alt={'avatar 3'}
-                      src={account?.avatar?.path}
+                      src={API_ORIGIN + '/' + account?.avatar?.path}
                       className={classes.avatarImage}
                     />
                   ) : (
@@ -818,7 +817,7 @@ export default function Profile() {
                           {account?.avatar ? (
                             <img
                               alt={'avatar 3'}
-                              src={account?.avatar?.path}
+                              src={API_ORIGIN + '/' + account?.avatar?.path}
                               className={classes.avatarImage}
                             />
                           ) : (

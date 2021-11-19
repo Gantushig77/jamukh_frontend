@@ -21,4 +21,9 @@ function emailValidator(input) {
   return regex.test(input);
 }
 
-export { stringEllipser, isAuthenticated, roleChecker, emailValidator };
+function numberValidator(input) {
+  let regex = /^\d+$/;
+  return regex.test(input);
+}
+
+export { stringEllipser, isAuthenticated, roleChecker, emailValidator, numberValidator };

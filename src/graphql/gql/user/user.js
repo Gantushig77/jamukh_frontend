@@ -6,6 +6,7 @@ export const ACCOUNT = gql`
       _id
       username
       email
+      familyname
       firstname
       lastname
       avatar {
@@ -43,6 +44,16 @@ export const ACCOUNT = gql`
       status
       address
       payment_status
+      highSchool
+      university
+      vocation
+      currentJob
+      jobTitle
+      annualIncome
+      country
+      city
+      district
+      phone
     }
   }
 `;
@@ -156,6 +167,7 @@ export const UPDATE_PROFILE = gql`
     $district: String
     $unit: String
     $profileImg: Upload
+    $birthdate: Date
   ) {
     updateAccount(
       _id: $_id
@@ -177,12 +189,14 @@ export const UPDATE_PROFILE = gql`
       district: $district
       unit: $unit
       profileImg: $profileImg
+      birthdate: $birthdate
     ) {
       _id
       role
       familyname
       firstname
       lastname
+      birthdate
       avatar {
         _id
         path
