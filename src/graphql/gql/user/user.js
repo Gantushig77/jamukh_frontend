@@ -9,6 +9,7 @@ export const ACCOUNT = gql`
       familyname
       firstname
       lastname
+      rating
       avatar {
         _id
         path
@@ -38,6 +39,7 @@ export const ACCOUNT = gql`
           paid_with
         }
       }
+      gender
       role
       phone
       bio
@@ -82,24 +84,65 @@ export const LOGIN_WITH_FB = gql`
   }
 `;
 
-export const USERS = gql`
-  query users($status: String, $serviceType: String) {
-    users(status: $status, serviceType: $serviceType) {
-      _id
-      username
-      email
-      role
-      firstName
-      lastName
-      phone
-      serviceType
-      bio
-      status
-      avatar {
+export const GET_ALL_ACCOUNTS = gql`
+  query getAllAccounts(
+    $filter: UserInput
+    $pageCount: Int
+    $perPage: Int
+    $page: Int
+    $sort: Int
+  ) {
+    getAllAccounts(
+      filter: $filter
+      pageCount: $pageCount
+      perPage: $perPage
+      page: $page
+      sort: $sort
+    ) {
+      pageCount
+      perPage
+      page
+      sort
+      users {
         _id
-        path
-        width
-        height
+        username
+        email
+        phone
+        familyname
+        firstname
+        lastname
+        signedUpWithFb
+        birthdate
+        fb_id
+        rating
+        member_type {
+          _id
+          type_name
+          position
+          monthly_pay
+        }
+        subs_info {
+          _id
+          paid_amount
+          paid_date
+          valid_through
+          mem_type {
+            _id
+            type_name
+            position
+            monthly_pay
+          }
+        }
+        gender
+        avatar {
+          _id
+          path
+          width
+          height
+        }
+        payment_status
+        status
+        vocation
       }
     }
   }

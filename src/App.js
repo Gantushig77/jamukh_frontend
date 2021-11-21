@@ -1,4 +1,7 @@
 import './styles/css/App.css';
+import '@fontsource/roboto-condensed';
+import '@fontsource/roboto-condensed/700.css';
+import '@fontsource/roboto';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TheContext from './context/context';

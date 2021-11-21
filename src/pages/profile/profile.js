@@ -40,8 +40,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { useMutation } from '@apollo/client';
-import { UPDATE_PROFILE } from '../../graphql/gql/user/user';
+import { useMutation, useQuery } from '@apollo/client';
+import { UPDATE_PROFILE, GET_ALL_ACCOUNTS } from '../../graphql/gql/user/user';
 import { API_ORIGIN } from '../../constants/url';
 
 export default function Profile() {
@@ -58,10 +58,13 @@ export default function Profile() {
   const classes = useStyles({
     phone: phoneSize,
     tablet: tabletSize,
+    backgroundImg: API_ORIGIN + '/' + account?.avatar?.path,
   });
 
   // States
   const [open, setOpen] = useState(false);
+  const [memberModal, setMemberModal] = useState(false);
+  const [memberModalType, setMemberModalType] = useState(0);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: 'Амжилттай илгээлээ',
@@ -137,6 +140,16 @@ export default function Profile() {
     },
   });
 
+  const { data: allUsers, loading: allUsersLoading } = useQuery(GET_ALL_ACCOUNTS, {
+    variables: { sort: -1, perPage: 10 },
+    onCompleted(data) {
+      console.log(data);
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
   // Functions
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -201,6 +214,12 @@ export default function Profile() {
     });
     setImg([account?.avatar?.path] || []);
     setImgReplacer([]);
+  };
+
+  const handleMemberModalOpen = () => setMemberModal(true);
+
+  const handleMemberModalClose = () => {
+    setMemberModal(false);
   };
 
   const handleFieldChange = (e, index) => {
@@ -340,7 +359,7 @@ export default function Profile() {
       <Backdrop sx={{ color: '#fff' }} open={updateLoading}>
         <CircularProgress color='inherit' />
       </Backdrop>
-      {/* Modal */}
+      {/* Modal Update profile */}
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
@@ -738,6 +757,124 @@ export default function Profile() {
           </Box>
         </Fade>
       </Modal>
+      {/* Modal see all members */}
+      <Modal
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
+        open={memberModal}
+        onClose={handleMemberModalClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={memberModal}>
+          <Box className={classes.modalBox}>
+            <Typography
+              textAlign={'center'}
+              sx={{ mt: 2, mb: 2 }}
+              className={classes.memberTitle}
+            >
+              MEMBERS
+            </Typography>
+            <div className={classes.membersModalContainer}>
+              <div className={classes.mmButtonContainer}>
+                <Button
+                  onClick={() => setMemberModalType(0)}
+                  className={
+                    memberModalType === 0
+                      ? classes.updateButton
+                      : classes.inactiveUpdateButton
+                  }
+                >
+                  Platinum
+                </Button>
+                <Button
+                  onClick={() => setMemberModalType(1)}
+                  className={
+                    memberModalType === 1
+                      ? classes.updateButton
+                      : classes.inactiveUpdateButton
+                  }
+                >
+                  Member Requests
+                </Button>
+              </div>
+              {memberModalType === 0 ? (
+                <div className={classes.membersModalContainer}>
+                  {allUsersLoading ? (
+                    <div>
+                      <Typography>Loading...</Typography>
+                    </div>
+                  ) : (
+                    allUsers?.getAllAccounts?.users?.length > 0 &&
+                    allUsers?.getAllAccounts?.users?.map((item, index) => {
+                      return (
+                        <div key={index + 'member'} className={classes.memberModalItem}>
+                          <div className={classes.mmAvatar}>
+                            {item?.avatar?.path ? (
+                              <img
+                                alt={'avatar 3'}
+                                src={API_ORIGIN + '/' + item?.avatar?.path}
+                                className={classes.avatarImage}
+                              />
+                            ) : (
+                              <Avatar sx={{ width: 80, height: 80 }}>
+                                <Typography
+                                  fontSize={35}
+                                  color={'white'}
+                                  fontWeight={'bolder'}
+                                >
+                                  {item?.firstname
+                                    ? item?.firstname?.charAt(0).toUpperCase()
+                                    : item?.username?.charAt(0).toUpperCase()}
+                                </Typography>
+                              </Avatar>
+                            )}
+                          </div>
+                          <div className={classes.mmInfo}>
+                            <Typography
+                              noWrap
+                              textAlign={'center'}
+                              sx={{ pl: 1, pr: 1 }}
+                              className={classes.mmAccountName}
+                            >
+                              {item?.firstname && item?.lastname
+                                ? item?.firstname + ' ' + item?.lastname
+                                : item?.username
+                                ? item?.username
+                                : 'No name'}
+                            </Typography>
+                            <div className={classes.smallProfileRank}>
+                              <StarIcon
+                                sx={{ color: 'black' }}
+                                className={classes.starRank}
+                              />
+                              <Typography
+                                color={'black'}
+                                sx={{ paddingTop: '2px', paddingLeft: '2px' }}
+                                textAlign={'center'}
+                              >
+                                {item?.rating || 0}
+                              </Typography>
+                            </div>
+                            <Button className={classes.mmDeleteButton}>Delete</Button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              ) : (
+                <div className={classes.memberSmallProfiles}>
+                  <Typography>Member requests</Typography>
+                </div>
+              )}
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
       {/* Body */}
       <Container disableGutters maxWidth={false} className={classes.root}>
         <div className={classes.rootRow}>
@@ -768,7 +905,7 @@ export default function Profile() {
                     </Avatar>
                   )}
                 </div>
-                <Typography className={classes.title}>
+                <Typography className={classes.title} noWrap>
                   {(account?.firstname || '') + ' ' + (account?.lastname || '')}
                 </Typography>
                 <Typography align={'center'} className={classes.email}>
@@ -776,17 +913,24 @@ export default function Profile() {
                 </Typography>
                 <div className={classes.row}>
                   {[
-                    { name: 'My sales', icon: Sale },
-                    { name: 'Members', icon: Members },
-                    { name: 'My rate', icon: Rate },
-                    { name: 'Favorite', icon: Heart },
-                  ].map((item, index) => (
-                    <div className={classes.column} key={index + 'shitty'}>
-                      <img src={item?.icon} className={classes.icons} alt={'sale'} />
-                      <div className={classes.saleText}>{item?.name}</div>
-                      <div className={classes.saleCount}>{index}</div>
-                    </div>
-                  ))}
+                    { name: 'My sales', icon: Sale, value: account?.salesNumber || 0 },
+                    {
+                      name: 'Members',
+                      icon: Members,
+                      value: allUsers?.getAllAccounts?.users?.length || 0,
+                    },
+                    { name: 'My rate', icon: Rate, value: account?.rating || 0 },
+                    { name: 'Favorite', icon: Heart, value: account?.favoriteSales || 0 },
+                  ].map(
+                    (item, index) =>
+                      index < 6 && (
+                        <div className={classes.column} key={index + 'shitty'}>
+                          <img src={item?.icon} className={classes.icons} alt={'sale'} />
+                          <div className={classes.saleText}>{item?.name}</div>
+                          <div className={classes.saleCount}>{item?.value}</div>
+                        </div>
+                      )
+                  )}
                 </div>
                 {/* Update profile */}
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -803,6 +947,7 @@ export default function Profile() {
                 <div className={classes.memberTop}>
                   <div className={classes.memberTitle}>MEMBERS</div>
                   <Button
+                    onClick={() => handleMemberModalOpen()}
                     className={classes.memberTitleSEE}
                     endIcon={<ArrowForwardIosIcon />}
                   >
@@ -810,36 +955,53 @@ export default function Profile() {
                   </Button>
                 </div>
                 <div className={classes.memberSmallProfiles}>
-                  {[1, 2, 3].map((item, index) => {
-                    return (
-                      <div key={index + 'shit'} className={classes.smallProfile}>
-                        <div className={classes.smallProfileAvatar}>
-                          {account?.avatar ? (
-                            <img
-                              alt={'avatar 3'}
-                              src={API_ORIGIN + '/' + account?.avatar?.path}
-                              className={classes.avatarImage}
-                            />
-                          ) : (
-                            <Avatar sx={{ width: 100, height: 100 }}>
-                              <Typography
-                                fontSize={35}
-                                color={'white'}
-                                fontWeight={'bolder'}
-                              >
-                                {item.toString().charAt(0)}
+                  {allUsersLoading ? (
+                    <div>
+                      <Typography>Loading...</Typography>
+                    </div>
+                  ) : (
+                    allUsers?.getAllAccounts?.users?.length > 0 &&
+                    allUsers?.getAllAccounts?.users?.map((item, index) => {
+                      return (
+                        <div key={index + 'shit'} className={classes.smallProfile}>
+                          <div className={classes.smallProfileAvatar}>
+                            {item?.avatar?.path ? (
+                              <img
+                                alt={'avatar 3'}
+                                src={API_ORIGIN + '/' + item?.avatar?.path}
+                                className={classes.avatarImage}
+                              />
+                            ) : (
+                              <Avatar sx={{ width: 80, height: 80 }}>
+                                <Typography
+                                  fontSize={35}
+                                  color={'white'}
+                                  fontWeight={'bolder'}
+                                >
+                                  {item?.firstname
+                                    ? item?.firstname?.charAt(0).toUpperCase()
+                                    : item?.username?.charAt(0).toUpperCase()}
+                                </Typography>
+                              </Avatar>
+                            )}
+                            <Typography noWrap className={classes.smallProfileTitle}>
+                              {item?.firstname && item?.lastname
+                                ? item?.firstname + ' ' + item?.lastname
+                                : item?.username
+                                ? item?.username
+                                : 'No name'}
+                            </Typography>
+                            <div className={classes.smallProfileRank}>
+                              <StarIcon className={classes.starRank} />
+                              <Typography sx={{ pt: '4px', pl: '5px' }}>
+                                {item?.rating || 0}
                               </Typography>
-                            </Avatar>
-                          )}
-                          <div className={classes.smallProfileTitle}>Gantulga</div>
-                          <div className={classes.smallProfileRank}>
-                            <StarIcon className={classes.starRank} />
-                            {item}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             </div>
@@ -874,7 +1036,8 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          <div className={classes.mySales}>MY SALES</div>
+          {/* Favorite sales */}
+          <div className={classes.mySales}>FAVORITE SALES</div>
           <div className={classes.myDiv}>
             <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
             <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
@@ -959,6 +1122,61 @@ export default function Profile() {
 }
 
 const useStyles = makeStyles({
+  membersModalContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    padding: '5px',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  mmAccountName: {
+    fontFamily: 'Roboto Condensed',
+    marginTop: '15px',
+    color: colors.orange,
+    fontSize: '20px',
+    fontWeight: '700',
+  },
+  mmAvatar: {
+    position: 'absolute',
+    bottom: '75%',
+  },
+  mmInfo: {
+    width: '150px',
+    marginTop: 50,
+    marginBottom: 10,
+  },
+  mmDeleteButton: {
+    border: '1px solid #D3D3D3',
+    color: 'orange',
+    fontFamily: 'Roboto Condensed',
+    fontWeight: '700',
+    borderRadius: '0',
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginTop: 20,
+  },
+  memberModalItem: {
+    display: 'flex',
+    position: 'relative',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 80,
+    width: '150px',
+    border: '1px solid #D3D3D3',
+    textAlign: 'center',
+  },
+  mmButtonContainer: {
+    marginBottom: 50,
+  },
+  inactiveUpdateButton: {
+    marginTop: 20,
+    borderRadius: 0,
+    color: 'gray',
+    fontFamily: 'Roboto Condensed',
+    fontWeight: '700',
+  },
   profileImg: {
     '&:hover': {
       filter: 'blur(1px)',
@@ -1014,6 +1232,10 @@ const useStyles = makeStyles({
     marginTop: 20,
     borderRadius: 0,
     color: 'white',
+    fontFamily: 'Roboto Condensed',
+    fontWeight: '700',
+    paddingRight: 20,
+    paddingLeft: 20,
     background:
       'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
   },
@@ -1154,6 +1376,7 @@ const useStyles = makeStyles({
   },
   smallProfile: {
     marginRight: 20,
+    maxWidth: 130,
   },
   memberSmallProfiles: {
     display: 'flex',
@@ -1176,9 +1399,10 @@ const useStyles = makeStyles({
   },
   smallProfileTitle: {
     marginTop: '15px',
-    color: colors.brandTextColor,
+    color: colors.orange,
     fontSize: '16px',
     fontWeight: 'bold',
+    fontFamily: 'Roboto Condensed',
   },
   memberContainer: {
     display: 'flex',
@@ -1198,9 +1422,10 @@ const useStyles = makeStyles({
     padding: '10px',
   },
   memberTitle: {
-    color: colors.brandTextColor,
+    color: colors.orange,
     fontSize: '28px',
-    fontWeight: 'bold',
+    fontWeight: '700',
+    fontFamily: 'Roboto Condensed',
   },
   memberTitleSEE: {
     color: 'white',
