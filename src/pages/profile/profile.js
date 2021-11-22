@@ -957,7 +957,7 @@ export default function Profile() {
                 <div className={classes.memberSmallProfiles}>
                   {allUsersLoading ? (
                     <div>
-                      <Typography>Loading...</Typography>
+                      <Typography sx={{ color: 'white' }}>Loading...</Typography>
                     </div>
                   ) : (
                     allUsers?.getAllAccounts?.users?.length > 0 &&

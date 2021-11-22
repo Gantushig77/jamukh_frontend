@@ -61,7 +61,7 @@ export default function Appbar(props) {
   };
 
   return (
-    <AppBar position='sticky' className={classes.root}>
+    <AppBar position='fixed' className={classes.root}>
       <Toolbar className={classes.toolbar}>
         {/* Profile menu */}
         <Menu
@@ -252,7 +252,6 @@ export default function Appbar(props) {
 
 const useStyles = makeStyles(() => ({
   root: {
-    position: 'fixed',
     backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
     boxShadow: 'none',
   },

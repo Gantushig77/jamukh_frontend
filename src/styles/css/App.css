@@ -1,6 +1,5 @@
 .App {
- 
-  font-family: "SF Pro Display";
+  font-family: 'Roboto Condensed';
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -11,7 +10,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

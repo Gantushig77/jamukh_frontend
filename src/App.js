@@ -35,7 +35,6 @@ export default function App() {
   const classes = useAppStyles();
 
   const { data: accountData, loading } = useQuery(ACCOUNT, {
-    fetchPolicy: 'cache-and-network',
     onCompleted(data) {
       console.log(data);
       if (data?.getAccount) {
