@@ -40,8 +40,9 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { UPDATE_PROFILE, GET_ALL_ACCOUNTS } from '../../graphql/gql/user/user';
+import { GET_ALL_MEMBERSHIP_TYPES } from '../../graphql/gql/membershipTypes/membershipTypes';
 import { API_ORIGIN } from '../../constants/url';
 
 export default function Profile() {
@@ -64,6 +65,7 @@ export default function Profile() {
   // States
   const [open, setOpen] = useState(false);
   const [memberModal, setMemberModal] = useState(false);
+  const [membershipModal, setMembershipModal] = useState(false);
   const [memberModalType, setMemberModalType] = useState(0);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -139,6 +141,18 @@ export default function Profile() {
       });
     },
   });
+
+  const [getAllMemberTypes, { loading: memberLoading }] = useLazyQuery(
+    GET_ALL_MEMBERSHIP_TYPES,
+    {
+      onCompleted: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   const { data: allUsers, loading: allUsersLoading } = useQuery(GET_ALL_ACCOUNTS, {
     variables: { sort: -1, perPage: 10 },
@@ -220,6 +234,15 @@ export default function Profile() {
 
   const handleMemberModalClose = () => {
     setMemberModal(false);
+  };
+
+  const handleMembershipModalOpen = () => {
+    getAllMemberTypes();
+    setMembershipModal(true);
+  };
+
+  const handleMembershipModalClose = () => {
+    setMembershipModal(false);
   };
 
   const handleFieldChange = (e, index) => {
@@ -875,6 +898,37 @@ export default function Profile() {
           </Box>
         </Fade>
       </Modal>
+      {/* Membership types modal */}
+      <Modal
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
+        open={membershipModal}
+        onClose={handleMembershipModalClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={membershipModal}>
+          <Box className={classes.modalBox}>
+            <Typography
+              textAlign={'center'}
+              sx={{ mt: 2, mb: 2 }}
+              className={classes.memberTitle}
+            >
+              MEMBERSHIP TYPES
+            </Typography>
+            {memberLoading ? (
+              <div>
+                <Typography>Loading...</Typography>
+              </div>
+            ) : (
+              <div className={classes.membershipModalContainer}>Hi</div>
+            )}
+          </Box>
+        </Fade>
+      </Modal>
       {/* Body */}
       <Container disableGutters maxWidth={false} className={classes.root}>
         <div className={classes.rootRow}>
@@ -1015,6 +1069,7 @@ export default function Profile() {
               <img src={Test} style={{ height: '300px', width: '200px' }} alt='test5' />
             </div>
           </div>
+          {/* Membership types */}
           <div className={classes.membersAdvantage}>
             <div className={classes.membersAdvantageContaint}>
               <div>
@@ -1031,7 +1086,12 @@ export default function Profile() {
                   people living inside the house, although no actual effect has ever…
                 </div>
                 <div className={classes.membersButtonContainer}>
-                  <Button className={classes.membersButton}>SEE ALL</Button>
+                  <Button
+                    onClick={() => handleMembershipModalOpen()}
+                    className={classes.membersButton}
+                  >
+                    SEE ALL
+                  </Button>
                 </div>
               </div>
             </div>

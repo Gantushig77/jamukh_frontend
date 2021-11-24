@@ -1,12 +1,10 @@
 import React from 'react';
-import { Container, Card, CircularProgress } from '@mui/material';
+import { Container, Card } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Slider from 'react-slick';
-import { useQuery } from '@apollo/client';
-import { CHILD_CATEGOREIS } from '../../../graphql/gql/category/category';
 import Test from '../../../assets/images/object.png';
 
 function SampleNextArrow(props) {
@@ -68,27 +66,13 @@ function SamplePrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  console.log(props,"propsers")
-
-  const { data: availableGoods, loading: availLoading } = useQuery(CHILD_CATEGOREIS, {
-    variables: { active: true, ...(props?.parentId && { parentId: props?.parentId }) },
-    onCompleted(data) {
-      console.log(data);
-    },
-    onError(e) {
-      console.log(e);
-    },
-  });
+  console.log(props, 'propsers');
 
   const settings = {
     infinite: true,
     arrows: props.phone ? false : true,
     speed: 500,
-    slidesToShow: props.phone
-      ? 2
-      : props.tablet || availableGoods?.childCategories?.categories?.length <= 8
-      ? 3
-      : 4,
+    slidesToShow: props.phone ? 2 : 4,
     slidesToScroll: 1,
     dots: false,
     autoPlay: true,
@@ -103,79 +87,46 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
-            <CardItem phone={props}/>
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
+            <CardItem phone={props} />
           </Container>
         </>
       )}
       <Container className={classes.sliderContainer}>
-        {availLoading ? (
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <CircularProgress />
-          </div>
-        ) : availableGoods?.childCategories?.categories?.length <= 2 ? (
-          <div style={{ display: 'flex' }}>
-            {availableGoods?.childCategories?.categories?.map((item, index) => (
-              <div key={index} style={{ margin: 20, marginLeft: 0 }}>
-                <CardItem
-                  id={item?._id}
-                  parentId={item?.parentId}
-                  phone={props?.phone}
-                  tablet={props?.tablet}
-                  title={item?.name}
-                  onSelect={props?.onCardSelect}
-                  description={item?.description}
-                  img={item?.categoryImg?.path}
-                  price={item?.price}
-                  isUnit={item?.isUnit}
-                  soldBy={''}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <Slider {...settings}>
-            {availableGoods?.childCategories?.categories?.map((item, index) => (
-              <CardItem
-                id={item?._id}
-                parentId={item?.parentId}
-                key={index}
-                phone={props?.phone}
-                tablet={props?.tablet}
-                title={item?.name}
-                onSelect={props?.onCardSelect}
-                description={item?.description}
-                img={item?.categoryImg?.path}
-                price={item?.price}
-                isUnit={item?.isUnit}
-                soldBy={''}
-              />
-            ))}
-          </Slider>
-        )}
+        <Slider {...settings}>
+          {[1, 2, 3, 4].map((item, index) => (
+            <CardItem
+              id={''}
+              parentId={''}
+              phone={props?.phone}
+              tablet={props?.tablet}
+              title={''}
+              onSelect={''}
+              description={''}
+              img={''}
+              price={''}
+              isUnit={''}
+              soldBy={''}
+            />
+          ))}
+        </Slider>
       </Container>
     </Container>
   );
 }
 
 const CardItem = (props) => {
-  console.log(props,"props")
+  console.log(props, 'props');
   const classes = useStyles(props);
 
   return (
@@ -203,17 +154,17 @@ const useStyles = makeStyles({
     width: (props) => (props.phone ? '100%' : '1300px!important'),
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? 100 : 40 ),
+    marginTop: (props) => (props.phone ? 100 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
   cardContent: {
     display: 'flex',
-    maxWidth:  (props) => (props.phone ? '100%' : '1300px'),
-    flexDirection:(props) => (props.phone ? 'column' : 'row'),
+    maxWidth: (props) => (props.phone ? '100%' : '1300px'),
+    flexDirection: (props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     width: '100%',
-    flexWrap: 'wrap', 
+    flexWrap: 'wrap',
   },
   cardButton: {
     display: 'flex',
@@ -237,8 +188,8 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    maxWidth: (props) => (props.phone ? "100%" : 260),
-    width:  (props) => (props.phone ?"100%": 330),
+    maxWidth: (props) => (props.phone ? '100%' : 260),
+    width: (props) => (props.phone ? '100%' : 330),
     marginBottom: 20,
     textAlign: 'left',
     margin: 5,
