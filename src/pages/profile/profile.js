@@ -142,17 +142,15 @@ export default function Profile() {
     },
   });
 
-  const [getAllMemberTypes, { loading: memberLoading }] = useLazyQuery(
-    GET_ALL_MEMBERSHIP_TYPES,
-    {
+  const [getAllMemberTypes, { data: membershipTypes, loading: memberLoading }] =
+    useLazyQuery(GET_ALL_MEMBERSHIP_TYPES, {
       onCompleted: (data) => {
         console.log(data);
       },
       onError: (error) => {
         console.log(error);
       },
-    }
-  );
+    });
 
   const { data: allUsers, loading: allUsersLoading } = useQuery(GET_ALL_ACCOUNTS, {
     variables: { sort: -1, perPage: 10 },
@@ -924,7 +922,27 @@ export default function Profile() {
                 <Typography>Loading...</Typography>
               </div>
             ) : (
-              <div className={classes.membershipModalContainer}>Hi</div>
+              <div className={classes.membershipModalContainer}>
+                {membershipTypes?.getAllMembershipTypes?.length > 0 &&
+                  membershipTypes?.getAllMembershipTypes?.map((item, index) => (
+                    <Container
+                      className={classes.memberTypeContainer}
+                      key={index + item?.type_name}
+                    >
+                      <img
+                        src={API_ORIGIN + '/' + item.member_img.path}
+                        alt={'member types'}
+                        className={classes.memberTypeImg}
+                      />
+                      <Typography
+                        textAlign={'center'}
+                        className={classes.memberTypeTitle}
+                      >
+                        {item?.type_name}
+                      </Typography>
+                    </Container>
+                  ))}
+              </div>
             )}
           </Box>
         </Fade>
@@ -1182,6 +1200,27 @@ export default function Profile() {
 }
 
 const useStyles = makeStyles({
+  memberTypeContainer: {
+    borderRadius: 3,
+    border: '1px solid lightgray',
+    mx: 2,
+    width: '100%',
+    pt: 2,
+  },
+  memberTypeImg: {
+    maxWidth: 180,
+  },
+  memberTypeTitle: {
+    fontFamily: 'Roboto Condensed',
+    color: colors.orange,
+    fontSize: '1.5rem',
+  },
+  membershipModalContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   membersModalContainer: {
     display: 'flex',
     alignItems: 'flex-start',
