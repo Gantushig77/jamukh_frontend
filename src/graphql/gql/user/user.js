@@ -21,6 +21,9 @@ export const ACCOUNT = gql`
         type_name
         position
         monthly_pay
+        member_img {
+          path
+        }
       }
       subs_info {
         _id

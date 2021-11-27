@@ -912,14 +912,20 @@ export default function Profile() {
           <Box className={classes.modalBox}>
             <Typography
               textAlign={'center'}
-              sx={{ mt: 2, mb: 2 }}
+              sx={{ mt: 2, mb: 3 }}
               className={classes.memberTitle}
             >
               MEMBERSHIP TYPES
             </Typography>
+            <Typography
+              sx={{ mb: 2, fontFamily: 'Roboto Condensed' }}
+              textAlign={'center'}
+            >
+              Хэрэглэгч та өөрт тохирох зэрэглэлээ сонгож үйлчлүүлнэ үү.
+            </Typography>
             {memberLoading ? (
-              <div>
-                <Typography>Loading...</Typography>
+              <div className={classes.memberTypeLoading}>
+                <CircularProgress sx={{ color: 'orange' }} />
               </div>
             ) : (
               <div className={classes.membershipModalContainer}>
@@ -935,11 +941,41 @@ export default function Profile() {
                         className={classes.memberTypeImg}
                       />
                       <Typography
+                        sx={{ mt: 2, fontWeight: 'bold', fontFamily: 'Roboto Condensed' }}
                         textAlign={'center'}
                         className={classes.memberTypeTitle}
                       >
                         {item?.type_name}
                       </Typography>
+                      <Typography
+                        sx={{ my: 1, fontFamily: 'Roboto Condensed' }}
+                        textAlign={'center'}
+                        className={classes.memberTypeMonthlyPay}
+                      >
+                        {item?.monthly_pay + ' ₮ / 1 сар'}
+                      </Typography>
+                      <Divider sx={{ mb: 2, mt: 2 }} />
+                      <div style={{ minHeight: 85 }}>
+                        {item?.listFeatures?.length > 0 &&
+                          item?.listFeatures?.map((featureItem, featureIndex) => (
+                            <Typography
+                              sx={{ fontSize: 14, fontFamily: 'Roboto Condensed' }}
+                              textAlign={'center'}
+                              key={featureIndex}
+                            >
+                              {featureItem}
+                            </Typography>
+                          ))}
+                      </div>
+                      <div className={classes.memberTypItemButton}>
+                        <Button fullWidth className={classes.membersButton}>
+                          <Typography>
+                            {account?.member_type?._id === item?._id
+                              ? 'Сонгосон'
+                              : 'Сонгох'}
+                          </Typography>
+                        </Button>
+                      </div>
                     </Container>
                   ))}
               </div>
@@ -1200,12 +1236,34 @@ export default function Profile() {
 }
 
 const useStyles = makeStyles({
-  memberTypeContainer: {
-    borderRadius: 3,
-    border: '1px solid lightgray',
-    mx: 2,
+  memberTypItemButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 20,
     width: '100%',
-    pt: 2,
+  },
+  memberTypeMonthlyPay: {
+    fontFamily: 'Roboto',
+    color: 'darkgray',
+    fontSize: '21px',
+    fontWeight: 'bold',
+  },
+  memberTypeLoading: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    paddingTop: '20%',
+    paddingBottom: '20%',
+  },
+  memberTypeContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    border: '1px solid lightgray',
+    marginLeft: 10,
+    marginRight: 10,
+    width: '100%',
+    paddingTop: 15,
   },
   memberTypeImg: {
     maxWidth: 180,
@@ -1219,7 +1277,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   membersModalContainer: {
     display: 'flex',

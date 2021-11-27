@@ -11,6 +11,7 @@ export const GET_ALL_MEMBERSHIP_TYPES = gql`
       type_name
       position
       monthly_pay
+      listFeatures
       member_img {
         path
       }
