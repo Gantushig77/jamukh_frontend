@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -142,7 +142,7 @@ export default function Profile() {
     },
   });
 
-  const [getAllMemberTypes, { data: membershipTypes, loading: memberLoading }] =
+  const [getMemberTypes, { data: membershipTypes, loading: memberLoading }] =
     useLazyQuery(GET_ALL_MEMBERSHIP_TYPES, {
       onCompleted: (data) => {
         console.log(data);
@@ -235,7 +235,6 @@ export default function Profile() {
   };
 
   const handleMembershipModalOpen = () => {
-    getAllMemberTypes();
     setMembershipModal(true);
   };
 
@@ -357,6 +356,10 @@ export default function Profile() {
       },
     });
   };
+
+  useEffect(() => {
+    getMemberTypes();
+  }, []);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -1130,15 +1133,54 @@ export default function Profile() {
                 <img src={Plat} className={classes.membersLogo} alt={'plat'} />
               </div>
               <div className={classes.membersTextContainer}>
-                <div className={classes.membersTitle}>PLATINIUM MEMBERS ADVENTAGE</div>
-                <div className={classes.membersDescription}>
-                  Ideally, architects of houses design rooms to meet the needs of the
-                  people who will live in the house. Feng shui, originally a Chinese
-                  method of moving houses according to such factors as rain and micro-
-                  climates, has recently expanded its scope to address the design of
-                  interior spaces, with a view to promoting harmonious effects on the
-                  people living inside the house, although no actual effect has ever…
-                </div>
+                {memberLoading ? (
+                  <div>
+                    <Typography sx={{ color: 'black' }}>Loading...</Typography>
+                  </div>
+                ) : (
+                  membershipTypes?.getAllMembershipTypes?.map((item, index) =>
+                    account?.member_type?._id === item?._id ? (
+                      <div key={index + 'membership type'}>
+                        <div className={classes.membersTitle}>
+                          {(account?.member_type?._id === item?._id).toString()}
+                          <Typography>{JSON.stringify(item?.type_name)}</Typography>
+                        </div>
+
+                        {/* <div className={classes.membersDescription}>
+                           membership ADVaNTAGE
+                            {account?.member_type?._id === item?._id && (
+                              <div style={{ minHeight: 85 }}>
+                                {item?.listFeatures?.length > 0 ? (
+                                  item?.listFeatures?.map((featureItem, featureIndex) => (
+                                    <Typography
+                                      sx={{
+                                        fontSize: 14,
+                                        fontFamily: 'Roboto Condensed',
+                                      }}
+                                      key={featureIndex}
+                                    >
+                                      Эрхэм хэрэглэгч та {item?.type_name} зэрэглэлийн
+                                      гишүүнчлэлтэй бөгөөд
+                                      {featureItem}
+                                    </Typography>
+                                  ))
+                                ) : (
+                                  <Typography>
+                                    Өөрийн зэрэглэл болон түүнээс доош зэрэглэлийн
+                                    заруудыг харах боломжтой.
+                                  </Typography>
+                                )}
+                              </div>
+                            )}
+                          </div> */}
+                      </div>
+                    ) : (
+                      <Typography key={index + 'membership type'}>
+                        Bish ym bishu anda
+                      </Typography>
+                    )
+                  )
+                )}
                 <div className={classes.membersButtonContainer}>
                   <Button
                     onClick={() => handleMembershipModalOpen()}
@@ -1496,6 +1538,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
+    width: '100%',
   },
   membersAdvantageContaint: {
     margin: '40px',
@@ -1512,6 +1555,7 @@ const useStyles = makeStyles({
     color: colors.brandTextColor,
     fontSize: '34px',
     marginBottom: '10px',
+    textTransform: 'uppercase',
   },
   membersDescription: {
     color: 'black',
