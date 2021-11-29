@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Container,
   Typography,
@@ -28,7 +28,7 @@ import Rate from '../../assets/icons/rate.png';
 import Heart from '../../assets/icons/heart.png';
 import Test from '../../assets/images/test.png';
 import Plat from '../../assets/images/plat.png';
-import StarIcon from '@mui/icons-material/Star';
+// import StarIcon from '@mui/icons-material/Star';
 import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
 import platinum_badge from '../../assets/icons/platinum_badge.svg';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -40,9 +40,6 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import { UPDATE_PROFILE, GET_ALL_ACCOUNTS } from '../../graphql/gql/user/user';
-import { GET_ALL_MEMBERSHIP_TYPES } from '../../graphql/gql/membershipTypes/membershipTypes';
 import { API_ORIGIN } from '../../constants/url';
 
 export default function Profile() {
@@ -119,48 +116,6 @@ export default function Profile() {
     account?.avatar?.path ? [API_ORIGIN + '/' + account?.avatar?.path] : []
   );
   const [imgReplacer, setImgReplacer] = useState([]);
-
-  // Queries and Mutations
-  const [updateAccount, { loading: updateLoading }] = useMutation(UPDATE_PROFILE, {
-    onCompleted: (data) => {
-      console.log(data);
-      handleSnackOpen({
-        state: true,
-        msg: 'Амжилттай шинэчлэгдлээ.',
-        type: 'success',
-      });
-
-      handleModalClose();
-    },
-    onError: (error) => {
-      console.log(error);
-      handleSnackOpen({
-        state: true,
-        msg: 'Алдаа гарлаа.',
-        type: 'error',
-      });
-    },
-  });
-
-  const [getMemberTypes, { data: membershipTypes, loading: memberLoading }] =
-    useLazyQuery(GET_ALL_MEMBERSHIP_TYPES, {
-      onCompleted: (data) => {
-        console.log(data);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    });
-
-  const { data: allUsers, loading: allUsersLoading } = useQuery(GET_ALL_ACCOUNTS, {
-    variables: { sort: -1, perPage: 10 },
-    onCompleted(data) {
-      console.log(data);
-    },
-    onError(err) {
-      console.log(err);
-    },
-  });
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -330,36 +285,32 @@ export default function Profile() {
         });
       }
     }
-
-    updateAccount({
-      variables: {
-        _id: account._id,
-        familyname: fieldState.familyname,
-        firstname: fieldState.firstname,
-        lastname: fieldState.lastname,
-        address: fieldState.address,
-        email: fieldState.email,
-        bio: fieldState.bio,
-        gender: fieldState.gender,
-        highSchool: fieldState.highSchool,
-        university: fieldState.university,
-        vocation: fieldState.vocation,
-        currentJob: fieldState.currentJob,
-        jobTitle: fieldState.jobTitle,
-        annualIncome: parseInt(fieldState.annualIncome),
-        country: fieldState.country,
-        city: fieldState.city,
-        district: fieldState.district,
-        phone: parseInt(fieldState.phone),
-        birthdate: birthdate,
-        ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
-      },
-    });
+    console.log(profileImg);
+    // updateAccount({
+    //   variables: {
+    //     _id: account._id,
+    //     familyname: fieldState.familyname,
+    //     firstname: fieldState.firstname,
+    //     lastname: fieldState.lastname,
+    //     address: fieldState.address,
+    //     email: fieldState.email,
+    //     bio: fieldState.bio,
+    //     gender: fieldState.gender,
+    //     highSchool: fieldState.highSchool,
+    //     university: fieldState.university,
+    //     vocation: fieldState.vocation,
+    //     currentJob: fieldState.currentJob,
+    //     jobTitle: fieldState.jobTitle,
+    //     annualIncome: parseInt(fieldState.annualIncome),
+    //     country: fieldState.country,
+    //     city: fieldState.city,
+    //     district: fieldState.district,
+    //     phone: parseInt(fieldState.phone),
+    //     birthdate: birthdate,
+    //     ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
+    //   },
+    // });
   };
-
-  useEffect(() => {
-    getMemberTypes();
-  }, []);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -380,7 +331,7 @@ export default function Profile() {
         </Alert>
       </Snackbar>
       {/* Backdrop */}
-      <Backdrop sx={{ color: '#fff' }} open={updateLoading}>
+      <Backdrop sx={{ color: '#fff' }} open={false}>
         <CircularProgress color='inherit' />
       </Backdrop>
       {/* Modal Update profile */}
@@ -825,7 +776,7 @@ export default function Profile() {
                   Member Requests
                 </Button>
               </div>
-              {memberModalType === 0 ? (
+              {/* {memberModalType === 0 ? (
                 <div className={classes.membersModalContainer}>
                   {allUsersLoading ? (
                     <div>
@@ -894,7 +845,7 @@ export default function Profile() {
                 <div className={classes.memberSmallProfiles}>
                   <Typography>Member requests</Typography>
                 </div>
-              )}
+              )} */}
             </div>
           </Box>
         </Fade>
@@ -926,7 +877,7 @@ export default function Profile() {
             >
               Хэрэглэгч та өөрт тохирох зэрэглэлээ сонгож үйлчлүүлнэ үү.
             </Typography>
-            {memberLoading ? (
+            {/* {memberLoading ? (
               <div className={classes.memberTypeLoading}>
                 <CircularProgress sx={{ color: 'orange' }} />
               </div>
@@ -982,7 +933,7 @@ export default function Profile() {
                     </Container>
                   ))}
               </div>
-            )}
+            )} */}
           </Box>
         </Fade>
       </Modal>
@@ -1028,7 +979,7 @@ export default function Profile() {
                     {
                       name: 'Members',
                       icon: Members,
-                      value: allUsers?.getAllAccounts?.users?.length || 0,
+                      value: 0,
                     },
                     { name: 'My rate', icon: Rate, value: account?.rating || 0 },
                     { name: 'Favorite', icon: Heart, value: account?.favoriteSales || 0 },
@@ -1066,7 +1017,7 @@ export default function Profile() {
                   </Button>
                 </div>
                 <div className={classes.memberSmallProfiles}>
-                  {allUsersLoading ? (
+                  {/* {allUsersLoading ? (
                     <div>
                       <Typography sx={{ color: 'white' }}>Loading...</Typography>
                     </div>
@@ -1112,7 +1063,7 @@ export default function Profile() {
                         </div>
                       );
                     })
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
@@ -1133,7 +1084,7 @@ export default function Profile() {
                 <img src={Plat} className={classes.membersLogo} alt={'plat'} />
               </div>
               <div className={classes.membersTextContainer}>
-                {memberLoading ? (
+                {/* {memberLoading ? (
                   <div>
                     <Typography sx={{ color: 'black' }}>Loading...</Typography>
                   </div>
@@ -1146,7 +1097,7 @@ export default function Profile() {
                           <Typography>{JSON.stringify(item?.type_name)}</Typography>
                         </div>
 
-                        {/* <div className={classes.membersDescription}>
+                        <div className={classes.membersDescription}>
                            membership ADVaNTAGE
                             {account?.member_type?._id === item?._id && (
                               <div style={{ minHeight: 85 }}>
@@ -1172,7 +1123,7 @@ export default function Profile() {
                                 )}
                               </div>
                             )}
-                          </div> */}
+                          </div>
                       </div>
                     ) : (
                       <Typography key={index + 'membership type'}>
@@ -1180,7 +1131,7 @@ export default function Profile() {
                       </Typography>
                     )
                   )
-                )}
+                )} */}
                 <div className={classes.membersButtonContainer}>
                   <Button
                     onClick={() => handleMembershipModalOpen()}

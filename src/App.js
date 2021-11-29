@@ -7,13 +7,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TheContext from './context/context';
 import mnText from './constants/mnText';
 import enText from './constants/enText';
-import { useQuery } from '@apollo/client';
-import { ACCOUNT } from './graphql/gql/user/user';
 import { CircularProgress } from '@mui/material';
 import { isAuthenticated } from './helpers/helperFunctions';
 import PrivateRoute from './components/privateRoute/privateRoute';
 import useAppStyles from './styles/js/classes';
-import { logout } from './helpers/logout';
+// import { logout } from './helpers/logout';
 // import MessengerCustomerChat from 'react-messenger-customer-chat';
 // Routes
 import Home from './pages/general/home';
@@ -34,23 +32,19 @@ import jamuh_logo from './assets/icons/Jamuh_logo.png';
 export default function App() {
   const classes = useAppStyles();
 
-  const { data: accountData, loading } = useQuery(ACCOUNT, {
-    onCompleted(data) {
-      console.log(data);
-      if (data?.getAccount) {
-        localStorage.setItem('jamukh_auth', 'true');
-      } else {
-        localStorage.setItem('jamukh_auth', 'false');
-      }
-    },
-    onError(e) {
-      console.log(e);
-      console.log(e.message);
-      if (e.message.includes('Token Expired')) {
-        logout();
-      }
-    },
-  });
+  const accountData = null;
+  const loading = false;
+
+  // if (data?.getAccount) {
+  //   localStorage.setItem('jamukh_auth', 'true');
+  // } else {
+  //   localStorage.setItem('jamukh_auth', 'false');
+  // }
+
+  // console.log(e.message);
+  // if (e.message.includes('Token Expired')) {
+  //   logout();
+  // }
 
   const [contextValue, setContextValue] = useState({
     contextText:

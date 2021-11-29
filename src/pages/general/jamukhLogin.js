@@ -18,8 +18,6 @@ import json2mq from 'json2mq';
 import grayBlob from '../../assets/background/grayBlob.svg';
 import colors from '../../constants/colors';
 import TheContext from '../../context/context';
-import { useMutation } from '@apollo/client';
-import { LOGIN } from '../../graphql/gql/user/user';
 import { Alert } from '@mui/lab';
 import { useHistory } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -84,32 +82,24 @@ export default function SignUp() {
     setPasswordState(num);
   };
 
-  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
-    onCompleted(data) {
-      console.log(data.login);
-      localStorage.setItem('jamukh_token', data?.login);
-      handleSnackOpen({
-        state: true,
-        msg: 'Амжилттай нэвтэрлээ.',
-        type: 'success',
-      });
-      setTimeout(() => {
-        history.push('/');
-      }, 1000);
-    },
-    onError(e) {
-      console.log(e);
-      console.log(e.message);
-      handleSnackOpen({
-        state: true,
-        msg:
-          e?.message === 'user.not.found'
-            ? 'Хэрэглэгч олдсонгүй'
-            : 'Нэр үг эсвэл нууц үг буруу байна.',
-        type: 'error',
-      });
-    },
-  });
+  // localStorage.setItem('jamukh_token', data?.login);
+  // handleSnackOpen({
+  //   state: true,
+  //   msg: 'Амжилттай нэвтэрлээ.',
+  //   type: 'success',
+  // });
+  // setTimeout(() => {
+  //   history.push('/');
+  // }, 1000);
+
+  // handleSnackOpen({
+  //   state: true,
+  //   msg:
+  //     e?.message === 'user.not.found'
+  //       ? 'Хэрэглэгч олдсонгүй'
+  //       : 'Нэр үг эсвэл нууц үг буруу байна.',
+  //   type: 'error',
+  // });
 
   const sendLogin = () => {
     if (!usernameState || !passwordState) {
@@ -125,7 +115,7 @@ export default function SignUp() {
         type: 'warning',
       });
     } else {
-      login({ variables: { username: usernameState, password: passwordState } });
+      // login({ variables: { username: usernameState, password: passwordState } });
     }
   };
 
@@ -174,7 +164,7 @@ export default function SignUp() {
       <Container className={classes.inputContainer}>
         {/* Login */}
         <>
-          {loginLoading || renderLoading ? (
+          {renderLoading ? (
             // Loading icon
             <CircularIndeterminate />
           ) : (
