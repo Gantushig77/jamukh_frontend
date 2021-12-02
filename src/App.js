@@ -2,7 +2,7 @@ import './styles/css/App.css';
 import '@fontsource/roboto-condensed';
 import '@fontsource/roboto-condensed/700.css';
 import '@fontsource/roboto';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TheContext from './context/context';
 import mnText from './constants/mnText';
@@ -18,7 +18,8 @@ import Home from './pages/general/home';
 import Detailnews from './pages/Detailnews/Detailnews';
 import NotFound from './pages/general/notFound';
 // import SignUp from "./pages/general/signUp";
-import Login from './pages/general/jamukhLogin';
+import Login from './pages/general/login';
+import Logout from './pages/general/logout';
 import TermsAndConditions from './pages/general/termsAndConditions';
 import Members from './pages/members/members';
 import Profile from './pages/profile/profile';
@@ -31,9 +32,8 @@ import jamuh_logo from './assets/icons/Jamuh_logo.png';
 
 export default function App() {
   const classes = useAppStyles();
-
-  const accountData = null;
   const loading = false;
+  let token = localStorage.getItem('jamukh_token');
 
   // if (data?.getAccount) {
   //   localStorage.setItem('jamukh_auth', 'true');
@@ -68,6 +68,11 @@ export default function App() {
     localStorage.setItem('activeLang', lang);
   };
 
+  useEffect(() => {
+    if (token?.length > 0) {
+    }
+  }, []);
+
   if (loading)
     return (
       <div className={classes.loading}>
@@ -82,19 +87,20 @@ export default function App() {
 
   return (
     <div className='App'>
-      <TheContext.Provider
-        value={{ contextValue, langChange, account: accountData?.getAccount }}
-      >
-        <Router forceRefresh={true}>
+      <TheContext.Provider value={{ contextValue, langChange }}>
+        <Router>
           <Switch>
             <Route exact path={'/'}>
               <Home />
             </Route>
-            <Route path={'/sign-up'}>
+            {/* <Route path={'/sign-up'}>
               <Login />
-            </Route>
+            </Route> */}
             <Route path={'/login'}>
               <Login />
+            </Route>
+            <Route path={'/logout'}>
+              <Logout />
             </Route>
             <Route path={'/news'}>
               <News />
