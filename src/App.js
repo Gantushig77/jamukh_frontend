@@ -11,7 +11,7 @@ import { CircularProgress } from '@mui/material';
 import { isAuthenticated } from './helpers/helperFunctions';
 import PrivateRoute from './components/privateRoute/privateRoute';
 import useAppStyles from './styles/js/classes';
-// import { logout } from './helpers/logout';
+import { logout } from './helpers/logout';
 // import MessengerCustomerChat from 'react-messenger-customer-chat';
 // Routes
 import Home from './pages/general/home';
@@ -29,23 +29,15 @@ import Cars from './pages/cars/cars';
 import Estate from './pages/estate/estate';
 import News from './pages/news/news';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
+import { getProfile } from './api/account';
 
 export default function App() {
-  const classes = useAppStyles();
-  const loading = false;
   let token = localStorage.getItem('jamukh_token');
 
-  // if (data?.getAccount) {
-  //   localStorage.setItem('jamukh_auth', 'true');
-  // } else {
-  //   localStorage.setItem('jamukh_auth', 'false');
-  // }
+  const classes = useAppStyles();
+  const loading = false;
 
-  // console.log(e.message);
-  // if (e.message.includes('Token Expired')) {
-  //   logout();
-  // }
-
+  const [account, setAccount] = useState({});
   const [contextValue, setContextValue] = useState({
     contextText:
       localStorage.getItem('activeLang') !== null
@@ -70,8 +62,25 @@ export default function App() {
 
   useEffect(() => {
     if (token?.length > 0) {
+      getProfile()
+        .then((res) => {
+          console.log(res.data);
+          setAccount(res.data);
+
+          if (res.data) {
+            localStorage.setItem('jamukh_auth', 'true');
+          } else {
+            localStorage.setItem('jamukh_auth', 'false');
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          if (e.message.includes('Token Expired')) {
+            logout();
+          }
+        });
     }
-  }, []);
+  }, [token]);
 
   if (loading)
     return (
@@ -87,14 +96,14 @@ export default function App() {
 
   return (
     <div className='App'>
-      <TheContext.Provider value={{ contextValue, langChange }}>
+      <TheContext.Provider value={{ contextValue, langChange, account }}>
         <Router>
           <Switch>
             <Route exact path={'/'}>
               <Home />
             </Route>
             {/* <Route path={'/sign-up'}>
-              <Login />
+              <SignUp />
             </Route> */}
             <Route path={'/login'}>
               <Login />

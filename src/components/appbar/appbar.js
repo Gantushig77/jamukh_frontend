@@ -30,7 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { API_ORIGIN } from '../../constants/url';
+import { base_url } from '../../constants/url';
 //logo
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
 
@@ -80,11 +80,13 @@ export default function Appbar(props) {
                   <img
                     alt={'_test'}
                     className={classes.menuAvatar}
-                    src={API_ORIGIN + '/' + account?.avatar?.path}
+                    src={base_url + '/' + account?.avatar?.path}
                   />
                 ) : (
                   <p style={{ fontWeight: 'bold' }}>
-                    {account?.username[0]?.toUpperCase()}
+                    {account &&
+                      account?.firstname?.length > 1 &&
+                      account?.firstname[0]?.toUpperCase()}
                   </p>
                 )
               ) : (
@@ -161,11 +163,13 @@ export default function Appbar(props) {
                             <img
                               alt={'profile'}
                               className={classes.avatar}
-                              src={API_ORIGIN + '/' + account?.avatar?.path}
+                              src={base_url + '/' + account?.avatar?.path}
                             />
                           ) : (
                             <p style={{ fontWeight: 'bold' }}>
-                              {account?.username[0]?.toUpperCase()}
+                              {account &&
+                                account?.firstname?.length > 1 &&
+                                account?.firstname[0]?.toUpperCase()}
                             </p>
                           )
                         ) : (

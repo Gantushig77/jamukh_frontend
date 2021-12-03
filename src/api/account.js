@@ -9,7 +9,11 @@ const signUp = (data) => {
 };
 
 const getProfile = () => {
-  return ax_instance.get('/account/login');
+  return ax_instance.get('/account/profile');
 };
 
-export { login, signUp, getProfile };
+const updateProfile = (data) => {
+  return ax_instance.post('/account/profile', data);
+};
+
+export { login, signUp, getProfile, updateProfile };

@@ -40,7 +40,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { API_ORIGIN } from '../../constants/url';
+import { img_url } from '../../constants/url';
+import { updateProfile } from '../../api/account';
 
 export default function Profile() {
   // Constants
@@ -56,7 +57,7 @@ export default function Profile() {
   const classes = useStyles({
     phone: phoneSize,
     tablet: tabletSize,
-    backgroundImg: API_ORIGIN + '/' + account?.avatar?.path,
+    backgroundImg: img_url + account?.avatar?.url,
   });
 
   // States
@@ -113,7 +114,7 @@ export default function Profile() {
   });
   const [birthdate, setDate] = useState(new Date('2018-01-01T00:00:00.000Z'));
   const [profileImg, setImg] = useState(
-    account?.avatar?.path ? [API_ORIGIN + '/' + account?.avatar?.path] : []
+    account?.avatar?.url ? [img_url + account?.avatar?.url] : []
   );
   const [imgReplacer, setImgReplacer] = useState([]);
 
@@ -286,30 +287,28 @@ export default function Profile() {
       }
     }
     console.log(profileImg);
-    // updateAccount({
-    //   variables: {
-    //     _id: account._id,
-    //     familyname: fieldState.familyname,
-    //     firstname: fieldState.firstname,
-    //     lastname: fieldState.lastname,
-    //     address: fieldState.address,
-    //     email: fieldState.email,
-    //     bio: fieldState.bio,
-    //     gender: fieldState.gender,
-    //     highSchool: fieldState.highSchool,
-    //     university: fieldState.university,
-    //     vocation: fieldState.vocation,
-    //     currentJob: fieldState.currentJob,
-    //     jobTitle: fieldState.jobTitle,
-    //     annualIncome: parseInt(fieldState.annualIncome),
-    //     country: fieldState.country,
-    //     city: fieldState.city,
-    //     district: fieldState.district,
-    //     phone: parseInt(fieldState.phone),
-    //     birthdate: birthdate,
-    //     ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
-    //   },
-    // });
+    updateProfile({
+      _id: account._id,
+      familyname: fieldState.familyname,
+      firstname: fieldState.firstname,
+      lastname: fieldState.lastname,
+      address: fieldState.address,
+      email: fieldState.email,
+      bio: fieldState.bio,
+      gender: fieldState.gender,
+      highSchool: fieldState.highSchool,
+      university: fieldState.university,
+      vocation: fieldState.vocation,
+      currentJob: fieldState.currentJob,
+      jobTitle: fieldState.jobTitle,
+      annualIncome: parseInt(fieldState.annualIncome),
+      country: fieldState.country,
+      city: fieldState.city,
+      district: fieldState.district,
+      phone: parseInt(fieldState.phone),
+      birthdate: birthdate,
+      ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
+    });
   };
 
   return (
@@ -353,7 +352,7 @@ export default function Profile() {
                 <Avatar
                   sx={{ height: 100, width: 100 }}
                   onClick={() => onImgDelete()}
-                  src={imgReplacer[0].path}
+                  src={imgReplacer[0].url}
                   className={classes.profileImg}
                 />
               ) : (
@@ -791,7 +790,7 @@ export default function Profile() {
                             {item?.avatar?.path ? (
                               <img
                                 alt={'avatar 3'}
-                                src={API_ORIGIN + '/' + item?.avatar?.path}
+                                src={base_url + '/' + item?.avatar?.path}
                                 className={classes.avatarImage}
                               />
                             ) : (
@@ -890,7 +889,7 @@ export default function Profile() {
                       key={index + item?.type_name}
                     >
                       <img
-                        src={API_ORIGIN + '/' + item.member_img.path}
+                        src={base_url + '/' + item.member_img.path}
                         alt={'member types'}
                         className={classes.memberTypeImg}
                       />
@@ -956,7 +955,7 @@ export default function Profile() {
                   {account?.avatar ? (
                     <img
                       alt={'avatar 3'}
-                      src={API_ORIGIN + '/' + account?.avatar?.path}
+                      src={img_url + account?.avatar?.url}
                       className={classes.avatarImage}
                     />
                   ) : (
@@ -1030,7 +1029,7 @@ export default function Profile() {
                             {item?.avatar?.path ? (
                               <img
                                 alt={'avatar 3'}
-                                src={API_ORIGIN + '/' + item?.avatar?.path}
+                                src={base_url + '/' + item?.avatar?.path}
                                 className={classes.avatarImage}
                               />
                             ) : (
