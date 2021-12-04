@@ -4,7 +4,6 @@ import {
   Grid,
   Toolbar,
   AppBar,
-  // Container,
   Typography,
   Divider,
   IconButton,
@@ -17,12 +16,10 @@ import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
-// import Jamuh from '../../assets/icons/Jamuh.svg';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { url } from '../../constants/url';
 import MenuIcon from '@mui/icons-material/Menu';
-// import { stringEllipser } from '../../helpers/helperFunctions';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -31,11 +28,10 @@ import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { base_url } from '../../constants/url';
-//logo
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
 
 export default function Appbar(props) {
-  const history = useHistory();
+  let history = useHistory();
   const location = useLocation();
   const trigger = useScrollTrigger({
     threshold: 0,

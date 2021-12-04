@@ -75,7 +75,7 @@ export default function App() {
         })
         .catch((e) => {
           console.log(e);
-          if (e.message.includes('Token Expired')) {
+          if (e.message.includes('Request failed with status code 401')) {
             logout();
           }
         });
