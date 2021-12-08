@@ -28,6 +28,7 @@ import Antiquest from './pages/antiquest/antiquest';
 import Cars from './pages/cars/cars';
 import Estate from './pages/estate/estate';
 import News from './pages/news/news';
+import Edit from './pages/edit/edit';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 
 export default function App() {
@@ -107,6 +108,9 @@ export default function App() {
             </Route>
             <Route path={'/estate'}>
               <Estate />
+            </Route>
+            <Route path={'/edit'}>
+              <Edit />
             </Route>
             <Route path={'/detailnews/:id'}>
               <Detailnews />

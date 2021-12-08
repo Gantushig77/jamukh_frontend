@@ -4,7 +4,7 @@ import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import Test from '../../../assets/images/object.png';
 
 function SampleNextArrow(props) {
@@ -66,19 +66,18 @@ function SamplePrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  console.log(props, 'propsers');
 
-  const settings = {
-    infinite: true,
-    arrows: props.phone ? false : true,
-    speed: 500,
-    slidesToShow: props.phone ? 2 : 4,
-    slidesToScroll: 1,
-    dots: false,
-    autoPlay: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
+  // const settings = {
+  //   infinite: true,
+  //   arrows: props.phone ? false : true,
+  //   speed: 500,
+  //   slidesToShow: props.phone ? 2 : 4,
+  //   slidesToScroll: 1,
+  //   dots: false,
+  //   autoPlay: true,
+  //   nextArrow: <SampleNextArrow />,
+  //   prevArrow: <SamplePrevArrow />,
+  // };
 
   return (
     <Container className={classes.root}>
@@ -102,7 +101,7 @@ export default function Section2(props) {
           </Container>
         </>
       )}
-      <Container className={classes.sliderContainer}>
+      {/* <Container className={classes.sliderContainer}>
         <Slider {...settings}>
           {[1, 2, 3, 4].map((item, index) => (
             <CardItem
@@ -111,7 +110,7 @@ export default function Section2(props) {
               phone={props?.phone}
               tablet={props?.tablet}
               title={''}
-              onSelect={''}
+              onSelect={''} 
               description={''}
               img={''}
               price={''}
@@ -120,15 +119,14 @@ export default function Section2(props) {
             />
           ))}
         </Slider>
-      </Container>
+      </Container> */}
     </Container>
   );
 }
 
 const CardItem = (props) => {
-  console.log(props, 'props');
-  const classes = useStyles(props);
-
+  console.log(props,"props")
+  const classes = useStyles(props.phone);
   return (
     <Card className={classes.cardRoot}>
       <img src={Test} className={classes.imageCard} alt={''} />
@@ -190,6 +188,8 @@ const useStyles = makeStyles({
     alignItems: 'center',
     maxWidth: (props) => (props.phone ? '100%' : 260),
     width: (props) => (props.phone ? '100%' : 330),
+    // maxWidth:260,
+    // width:330,
     marginBottom: 20,
     textAlign: 'left',
     margin: 5,
