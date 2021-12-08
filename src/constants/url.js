@@ -8,6 +8,10 @@ const img_url = DEV
   ? `http://localhost:${backend_port}/image/`
   : `http://43.231.114.19:${backend_port}/image/`;
 
+const membership_img_url = DEV
+  ? `http://localhost:${backend_port}/member_img/`
+  : `http://43.231.114.19:${backend_port}/member_img/`;
+
 const url = {
   general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],
 };
@@ -49,4 +53,4 @@ const bmLinks = {
   ],
 };
 
-export { base_url, DEV, img_url, url, bmLinks };
+export { base_url, DEV, img_url, url, bmLinks, membership_img_url };

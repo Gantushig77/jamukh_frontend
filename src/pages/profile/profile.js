@@ -28,10 +28,8 @@ import Members from '../../assets/icons/member.png';
 import Rate from '../../assets/icons/rate.png';
 import Heart from '../../assets/icons/heart.png';
 import Test from '../../assets/images/test.png';
-import Plat from '../../assets/images/plat.png';
 import StarIcon from '@mui/icons-material/Star';
 import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
-import platinum_badge from '../../assets/icons/platinum_badge.svg';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { countries, provinces, discricts } from '../../constants/countryInfo';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
@@ -41,7 +39,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { img_url } from '../../constants/url';
+import { img_url, membership_img_url } from '../../constants/url';
 import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
 
 export default function Profile() {
@@ -823,26 +821,30 @@ export default function Profile() {
             </Typography>
             <div className={classes.membersModalContainer}>
               <div className={classes.mmButtonContainer}>
-                <Button
-                  onClick={() => setMemberModalType(0)}
-                  className={
-                    memberModalType === 0
-                      ? classes.updateButton
-                      : classes.inactiveUpdateButton
-                  }
-                >
-                  Platinum
-                </Button>
-                <Button
-                  onClick={() => setMemberModalType(1)}
-                  className={
-                    memberModalType === 1
-                      ? classes.updateButton
-                      : classes.inactiveUpdateButton
-                  }
-                >
-                  Member Requests
-                </Button>
+                {account?.member_type > 5 && (
+                  <>
+                    <Button
+                      onClick={() => setMemberModalType(0)}
+                      className={
+                        memberModalType === 0
+                          ? classes.updateButton
+                          : classes.inactiveUpdateButton
+                      }
+                    >
+                      {account?.member_type_str}
+                    </Button>
+                    <Button
+                      onClick={() => setMemberModalType(1)}
+                      className={
+                        memberModalType === 1
+                          ? classes.updateButton
+                          : classes.inactiveUpdateButton
+                      }
+                    >
+                      Member Requests
+                    </Button>
+                  </>
+                )}
               </div>
               {memberModalType === 0 ? (
                 <div className={classes.innerMembersModalContainer}>
@@ -1022,9 +1024,9 @@ export default function Profile() {
               <div className={classes.textContainer}>
                 <div className={classes.profile_badge}>
                   <img
-                    src={platinum_badge}
+                    src={membership_img_url + account?.membership_type?.member_img?.url}
                     alt={'platinum badge'}
-                    style={{ paddingBottom: 20, width: 60 }}
+                    style={{ paddingTop: 10, width: 60, height: 60 }}
                   />
                 </div>
                 <div className={classes.avatar}>
@@ -1162,7 +1164,11 @@ export default function Profile() {
           <div className={classes.membersAdvantage}>
             <div className={classes.membersAdvantageContaint}>
               <div>
-                <img src={Plat} className={classes.membersLogo} alt={'plat'} />
+                <img
+                  src={membership_img_url + account?.membership_type?.member_img?.url}
+                  alt={'badge'}
+                  className={classes.membersLogo}
+                />
               </div>
               <div className={classes.membersTextContainer}>
                 {/* {memberLoading ? (
@@ -1628,6 +1634,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'flex-start',
     padding: '5px',
+    overflow: 'hidden',
   },
   smallProfileAvatar: {
     display: 'flex',
