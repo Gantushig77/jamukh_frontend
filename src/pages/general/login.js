@@ -25,7 +25,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { login } from '../../api/account';
 
 export default function LoginPage() {
-  const history = useHistory();
+  let history = useHistory();
+
   const [renderLoading, setRenderLoading] = useState(true);
   const [checked, setChecked] = useState(1);
   const [usernameState, setUsenameState] = useState('');
@@ -102,13 +103,14 @@ export default function LoginPage() {
           console.log(res);
           if (res.status === 200) {
             localStorage.setItem('jamukh_token', res?.data?.token);
+            localStorage.setItem('jamukh_auth', 'true');
             handleSnackOpen({
               state: true,
               msg: 'Амжилттай нэвтэрлээ.',
               type: 'success',
             });
             setTimeout(() => {
-              history.push('/');
+              window.location.replace('/');
             }, 1000);
           } else {
             handleSnackOpen({

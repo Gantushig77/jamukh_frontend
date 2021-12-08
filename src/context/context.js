@@ -2,7 +2,10 @@ import React from 'react';
 import mnText from '../constants/mnText';
 
 const TheContext = React.createContext({
-  account: {},
+  account: {
+    username: '',
+    firstname: '',
+  },
   contextValue: {
     contextText: mnText,
   },

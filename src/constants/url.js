@@ -1,8 +1,12 @@
 const DEV = process.env.NODE_ENV !== 'production';
-const API_ORIGIN = DEV ? 'http://localhost:4000' : 'http://43.231.114.19:4000';
-const SOCKET_ORIGIN = DEV
-  ? 'ws://localhost:4000/subscriptions'
-  : 'http://43.231.114.19:4000/subscriptions';
+const backend_port = DEV ? '4000' : '4000';
+const base_url = DEV
+  ? `http://localhost:${backend_port}`
+  : `http://43.231.114.19:${backend_port}`;
+
+const img_url = DEV
+  ? `http://localhost:${backend_port}/image/`
+  : `http://43.231.114.19:${backend_port}/image/`;
 
 const url = {
   general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],
@@ -45,4 +49,4 @@ const bmLinks = {
   ],
 };
 
-export { API_ORIGIN, DEV, SOCKET_ORIGIN, url, bmLinks };
+export { base_url, DEV, img_url, url, bmLinks };
