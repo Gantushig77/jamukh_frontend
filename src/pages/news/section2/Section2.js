@@ -2,67 +2,67 @@ import React from 'react';
 import { Container, Card } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // import Slider from 'react-slick';
 import Test from '../../../assets/images/object.png';
 
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        right: -30,
-        zIndex: 888,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
-    </div>
-  );
-}
+// function SampleNextArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <div
+//       style={{
+//         backgroundColor: '#6A67D3',
+//         position: 'absolute',
+//         right: -30,
+//         zIndex: 888,
+//         top: '45%',
+//         cursor: 'pointer',
+//         height: 50,
+//         width: 50,
+//         borderRadius: '50%',
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignContent: 'center',
+//         alignItems: 'center',
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
+//     </div>
+//   );
+// }
 
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        zIndex: 888,
-        left: -70,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowBackIosIcon
-        htmlColor={'white'}
-        style={{
-          marginLeft: 10,
-        }}
-      />
-    </div>
-  );
-}
+// function SamplePrevArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <div
+//       style={{
+//         backgroundColor: '#6A67D3',
+//         position: 'absolute',
+//         zIndex: 888,
+//         left: -70,
+//         top: '45%',
+//         cursor: 'pointer',
+//         height: 50,
+//         width: 50,
+//         borderRadius: '50%',
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignContent: 'center',
+//         alignItems: 'center',
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowBackIosIcon
+//         htmlColor={'white'}
+//         style={{
+//           marginLeft: 10,
+//         }}
+//       />
+//     </div>
+//   );
+// }
 
 export default function Section2(props) {
   const classes = useStyles(props);
