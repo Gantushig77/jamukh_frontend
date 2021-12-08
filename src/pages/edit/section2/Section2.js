@@ -281,7 +281,6 @@ const useStyles = makeStyles({
     width: '100%',
     zIndex: '1',
     fontFamily: 'Roboto Condensed',
-
   },
   btnSend:{
     display:"flex",
@@ -445,7 +444,6 @@ const useStyles = makeStyles({
     padding:(props) => (props.phone ? '10px':'0px')
   },
   titleNews: {
-    fontFamily: 'normal',
     fontWeight: 'bold',
     fontSize: '40px',
     lineHeight: '70px',
@@ -453,7 +451,6 @@ const useStyles = makeStyles({
     textAlign: 'center',
   },
   editRowTitle: {
-    fontFamily: 'normal',
     fontWeight: '300',
     fontSize: '25px',
     lineHeight: '70px',
@@ -472,7 +469,6 @@ const useStyles = makeStyles({
     textAlign: 'center',
   },
   subTitle: {
-    fontFamily: 'normal',
     fontWeight: 'bold',
     fontSize: '25px',
     lineHeight: '70px',
@@ -493,7 +489,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'flex-start',
     color: '#AA7654',
-    fontFamily: "'Roboto Condensed', sans-serif",
     marginTop: (props) => (props?.phone ? '10px' : '80px  '),
   },
   avatarColumn: {
@@ -512,7 +507,6 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     color: colors.brandTextColor,
-    fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '700',
     marginRight: '10px',
     fontSize: (props) => (props?.phone ? 8 : 18),
@@ -522,7 +516,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'flex-start',
     fontWeight: '300',
-    fontFamily: "'Roboto Condensed', sans-serif",
     color: 'white',
     fontSize: (props) => (props?.phone ? 4 : 12),
   },
@@ -530,7 +523,6 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'flex-end',
     fontSize: (props) => (props?.phone ? 20 : 30),
-    fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '700',
     textAlign: 'left',
     color: 'white',
@@ -541,7 +533,6 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     fontSize: 15,
-    fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '300',
     textAlign: 'left',
     maxWidth: '350px',
@@ -549,7 +540,6 @@ const useStyles = makeStyles({
     minHeight: 64,
   },
   button: {
-    fontFamily: "'Roboto Condensed', sans-serif",
     backgroundColor: colors.brandTextColor,
     width: 100,
     '&:hover': {
@@ -596,7 +586,6 @@ const useStyles = makeStyles({
     color: 'white',
     fontSize: 36,
     textAlign: 'center',
-    fontFamily: 'SF Pro Display',
     fontWeight: 'bold',
   },
   saleLine: {
