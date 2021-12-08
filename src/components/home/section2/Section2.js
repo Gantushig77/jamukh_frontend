@@ -47,7 +47,7 @@ const CardItem = (props) => {
           height: '100%',
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
           position: 'relative',
-          ":hover":{
+          "&:hover":{
             color:"red",
             cursor:"pointer",
             backgroundImage: `linear-gradient(rgba(216,137,87, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
@@ -82,7 +82,7 @@ const useStyles = makeStyles({
     top:"10px",
     fontSize:30,
     cursor:"pointer",
-    "&:active": {
+    "&:hover": {
         color:colorss.brandTextColor
     }
   },
