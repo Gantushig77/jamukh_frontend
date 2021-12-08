@@ -27,7 +27,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { base_url } from '../../constants/url';
+import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
 
 export default function Appbar(props) {
@@ -72,11 +72,11 @@ export default function Appbar(props) {
           <MenuItem onClick={() => history.push('/profile')}>
             <Avatar alt='Profile Avatar 2'>
               {authenticated ? (
-                account?.avatar?.path ? (
+                account?.avatar?.url ? (
                   <img
                     alt={'_test'}
                     className={classes.menuAvatar}
-                    src={base_url + '/' + account?.avatar?.path}
+                    src={img_url + account?.avatar?.url}
                   />
                 ) : (
                   <p style={{ fontWeight: 'bold' }}>
@@ -89,7 +89,7 @@ export default function Appbar(props) {
                 <div />
               )}
             </Avatar>
-            Profile settings
+            Profile
           </MenuItem>
           <Divider />
           <MenuItem onClick={() => history.push(authenticated ? '/logout' : '/login')}>
@@ -155,11 +155,11 @@ export default function Appbar(props) {
                         onClick={handleClick}
                       >
                         {authenticated ? (
-                          account?.avatar?.path ? (
+                          account?.avatar?.url ? (
                             <img
                               alt={'profile'}
                               className={classes.avatar}
-                              src={base_url + '/' + account?.avatar?.path}
+                              src={img_url + account?.avatar?.url}
                             />
                           ) : (
                             <p style={{ fontWeight: 'bold' }}>

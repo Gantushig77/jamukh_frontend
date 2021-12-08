@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -15,6 +15,7 @@ import {
   CircularProgress,
   Alert,
   Snackbar,
+  Pagination,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -28,7 +29,7 @@ import Rate from '../../assets/icons/rate.png';
 import Heart from '../../assets/icons/heart.png';
 import Test from '../../assets/images/test.png';
 import Plat from '../../assets/images/plat.png';
-// import StarIcon from '@mui/icons-material/Star';
+import StarIcon from '@mui/icons-material/Star';
 import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
 import platinum_badge from '../../assets/icons/platinum_badge.svg';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -41,7 +42,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
 import { img_url } from '../../constants/url';
-import { updateProfile } from '../../api/account';
+import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
 
 export default function Profile() {
   // Constants
@@ -83,13 +84,13 @@ export default function Profile() {
     city: account?.city || provinces[0].value,
     cityIndex: 0,
     district: account?.district || discricts[0][0],
-    phone: account?.phone || '',
-    highSchool: account?.highSchool || '',
+    tel: account?.tel || '',
+    highschool: account?.highschool || '',
     university: account?.university || '',
     vocation: account?.vocation || '',
-    currentJob: account?.currentJob || '',
-    jobTitle: account?.jobTitle || '',
-    annualIncome: account?.annualIncome || 1000000,
+    currentjob: account?.currentjob || '',
+    jobtitle: account?.jobtitle || '',
+    annualincome: account?.annualincome || 1000000,
     imgUpdated: false,
     error: {
       familyname: false,
@@ -102,13 +103,13 @@ export default function Profile() {
       city: false,
       district: false,
       birthdate: false,
-      phone: false,
-      highSchool: false,
+      tel: false,
+      highschool: false,
       university: false,
       vocation: false,
-      currentJob: false,
-      jobTitle: false,
-      annualIncome: false,
+      currentjob: false,
+      jobtitle: false,
+      annualincome: false,
       profileImg: false,
     },
   });
@@ -117,6 +118,10 @@ export default function Profile() {
     account?.avatar?.url ? [img_url + account?.avatar?.url] : []
   );
   const [imgReplacer, setImgReplacer] = useState([]);
+  const [listOfAccounts, setListOfAccounts] = useState([]);
+  const [accListLoading, setAccListLoading] = useState(false);
+  const [accListPage, setAccListPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -151,13 +156,13 @@ export default function Profile() {
       city: account?.city || provinces[0].value,
       cityIndex: 0,
       district: account?.district || discricts[0][0],
-      phone: account?.phone || '',
-      highSchool: account?.highSchool || '',
+      tel: account?.tel || '',
+      highschool: account?.highschool || '',
       university: account?.university || '',
       vocation: account?.vocation || '',
-      currentJob: account?.currentJob || '',
-      jobTitle: account?.jobTitle || '',
-      annualIncome: account?.annualIncome || '',
+      currentjob: account?.currentjob || '',
+      jobtitle: account?.jobtitle || '',
+      annualincome: account?.annualincome || '',
       imgUpdated: false,
       error: {
         familyname: false,
@@ -170,13 +175,13 @@ export default function Profile() {
         city: false,
         district: false,
         birthdate: false,
-        phone: false,
-        highSchool: false,
+        tel: false,
+        highschool: false,
         university: false,
         vocation: false,
-        currentJob: false,
-        jobTitle: false,
-        annualIncome: false,
+        currentjob: false,
+        jobtitle: false,
+        annualincome: false,
         profileImg: false,
       },
     });
@@ -243,7 +248,7 @@ export default function Profile() {
       if (files[0].size < 5000000) {
         let _URL = window.URL ? window.URL : window.webkitURL;
         let urlAddress = _URL.createObjectURL(files[0]);
-        setImgReplacer([{ file: files[0], path: urlAddress }]);
+        setImgReplacer([{ file: files[0], url: urlAddress }]);
         setImg([files[0]]);
         setFieldState({
           ...fieldState,
@@ -287,8 +292,8 @@ export default function Profile() {
       }
     }
     console.log(profileImg);
-    updateProfile({
-      _id: account._id,
+    formDataUpdateProfile(profileImg[0], {
+      id: account.id,
       familyname: fieldState.familyname,
       firstname: fieldState.firstname,
       lastname: fieldState.lastname,
@@ -296,20 +301,84 @@ export default function Profile() {
       email: fieldState.email,
       bio: fieldState.bio,
       gender: fieldState.gender,
-      highSchool: fieldState.highSchool,
+      highschool: fieldState.highschool,
       university: fieldState.university,
       vocation: fieldState.vocation,
-      currentJob: fieldState.currentJob,
-      jobTitle: fieldState.jobTitle,
-      annualIncome: parseInt(fieldState.annualIncome),
+      currentjob: fieldState.currentjob,
+      jobtitle: fieldState.jobtitle,
+      annualincome: parseInt(fieldState.annualincome),
       country: fieldState.country,
       city: fieldState.city,
       district: fieldState.district,
-      phone: parseInt(fieldState.phone),
+      ...(fieldState.tel.length > 7 && { tel: parseInt(fieldState.tel) }),
       birthdate: birthdate,
-      ...(fieldState.imgUpdated && { profileImg: profileImg[0] }),
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        handleSnackOpen({
+          state: true,
+          msg: 'Амжилттай хадгаллаа.',
+          type: 'success',
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+        handleSnackOpen({
+          state: true,
+          msg: 'Алдаа гарлаа.',
+          type: 'error',
+        });
+      });
   };
+
+  const handlePagination = (event, value) => {
+    setAccListPage(value);
+  };
+
+  useEffect(() => {
+    if (account) {
+      setFieldState((state) => ({
+        ...state,
+        familyname: account?.familyname || '',
+        firstname: account?.firstname || '',
+        lastname: account?.lastname || '',
+        address: account?.address || '',
+        email: account?.email || '',
+        bio: account?.bio || '',
+        gender: account?.gender || 'male',
+        country: account?.country || countries[0].value,
+        countryIndex: 0,
+        city: account?.city || provinces[0].value,
+        cityIndex: 0,
+        district: account?.district || discricts[0][0],
+        tel: account?.tel || '',
+        highschool: account?.highschool || '',
+        university: account?.university || '',
+        vocation: account?.vocation || '',
+        currentjob: account?.currentjob || '',
+        jobtitle: account?.jobtitle || '',
+        annualincome: account?.annualincome || 1000000,
+        imgUpdated: false,
+      }));
+    }
+  }, [account]);
+
+  useEffect(() => {
+    setAccListLoading(true);
+    getListOfAccounts('DESC', accListPage, 10)
+      .then((res) => {
+        console.log(res);
+        setAccListLoading(false);
+        setListOfAccounts(res?.data?.accounts);
+        setPageCount(res?.data?.pageCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [accListPage]);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -533,13 +602,13 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.phone}
-                    error={fieldState.error.phone}
-                    name={'phone'}
-                    id='phone-textfield'
+                    value={fieldState.tel}
+                    error={fieldState.error.tel}
+                    name={'tel'}
+                    id='tel-textfield'
                     label='Phone'
                     type='number'
-                    helperText={fieldState.error.phone ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.tel ? 'Incorrect entry.' : ' '}
                     onChange={(e) => {
                       if (e.target.value.length < 9) {
                         handleFieldChange(e);
@@ -609,12 +678,12 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.highSchool}
-                    error={fieldState.error.highSchool}
-                    name={'highSchool'}
-                    id='highSchool-textfield'
+                    value={fieldState.highschool}
+                    error={fieldState.error.highschool}
+                    name={'highschool'}
+                    id='highschool-textfield'
                     label='Highschool'
-                    helperText={fieldState.error.highSchool ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.highschool ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -651,12 +720,12 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.currentJob}
-                    error={fieldState.error.currentJob}
-                    name={'currentJob'}
-                    id='currentJob-textfield'
+                    value={fieldState.currentjob}
+                    error={fieldState.error.currentjob}
+                    name={'currentjob'}
+                    id='currentjob-textfield'
                     label='Current job'
-                    helperText={fieldState.error.currentJob ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.currentjob ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -664,12 +733,12 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.jobTitle}
-                    error={fieldState.error.jobTitle}
-                    name={'jobTitle'}
-                    id='jobTitle-textfield'
+                    value={fieldState.jobtitle}
+                    error={fieldState.error.jobtitle}
+                    name={'jobtitle'}
+                    id='jobtitle-textfield'
                     label='Job title'
-                    helperText={fieldState.error.jobTitle ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.jobtitle ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -677,13 +746,13 @@ export default function Profile() {
                 <div className={classes.fieldDiv}>
                   <TextField
                     fullWidth
-                    value={fieldState.annualIncome}
-                    error={fieldState.error.annualIncome}
-                    name={'annualIncome'}
-                    id='annualIncome-textfield'
+                    value={fieldState.annualincome}
+                    error={fieldState.error.annualincome}
+                    name={'annualincome'}
+                    id='annualincome-textfield'
                     type={'number'}
                     label='Annual income'
-                    helperText={fieldState.error.annualIncome ? 'Incorrect entry.' : ' '}
+                    helperText={fieldState.error.annualincome ? 'Incorrect entry.' : ' '}
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   />
@@ -775,22 +844,22 @@ export default function Profile() {
                   Member Requests
                 </Button>
               </div>
-              {/* {memberModalType === 0 ? (
-                <div className={classes.membersModalContainer}>
-                  {allUsersLoading ? (
+              {memberModalType === 0 ? (
+                <div className={classes.innerMembersModalContainer}>
+                  {accListLoading ? (
                     <div>
                       <Typography>Loading...</Typography>
                     </div>
                   ) : (
-                    allUsers?.getAllAccounts?.users?.length > 0 &&
-                    allUsers?.getAllAccounts?.users?.map((item, index) => {
+                    listOfAccounts?.length > 0 &&
+                    listOfAccounts?.map((item, index) => {
                       return (
                         <div key={index + 'member'} className={classes.memberModalItem}>
                           <div className={classes.mmAvatar}>
-                            {item?.avatar?.path ? (
+                            {item?.avatar?.url ? (
                               <img
                                 alt={'avatar 3'}
-                                src={base_url + '/' + item?.avatar?.path}
+                                src={img_url + item?.avatar?.url}
                                 className={classes.avatarImage}
                               />
                             ) : (
@@ -844,7 +913,14 @@ export default function Profile() {
                 <div className={classes.memberSmallProfiles}>
                   <Typography>Member requests</Typography>
                 </div>
-              )} */}
+              )}
+              <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                  page={accListPage}
+                  count={pageCount}
+                  onChange={handlePagination}
+                />
+              </Container>
             </div>
           </Box>
         </Fade>
@@ -952,7 +1028,7 @@ export default function Profile() {
                   />
                 </div>
                 <div className={classes.avatar}>
-                  {account?.avatar ? (
+                  {account?.avatar?.url ? (
                     <img
                       alt={'avatar 3'}
                       src={img_url + account?.avatar?.url}
@@ -974,14 +1050,18 @@ export default function Profile() {
                 </Typography>
                 <div className={classes.row}>
                   {[
-                    { name: 'My sales', icon: Sale, value: account?.salesNumber || 0 },
+                    { name: 'My sales', icon: Sale, value: account?.sales_count || 0 },
                     {
                       name: 'Members',
                       icon: Members,
-                      value: 0,
+                      value: account?.member_count,
                     },
                     { name: 'My rate', icon: Rate, value: account?.rating || 0 },
-                    { name: 'Favorite', icon: Heart, value: account?.favoriteSales || 0 },
+                    {
+                      name: 'Favorite',
+                      icon: Heart,
+                      value: account?.user_liked_ads?.ads?.length || 0,
+                    },
                   ].map(
                     (item, index) =>
                       index < 6 && (
@@ -1016,20 +1096,20 @@ export default function Profile() {
                   </Button>
                 </div>
                 <div className={classes.memberSmallProfiles}>
-                  {/* {allUsersLoading ? (
+                  {accListLoading ? (
                     <div>
                       <Typography sx={{ color: 'white' }}>Loading...</Typography>
                     </div>
                   ) : (
-                    allUsers?.getAllAccounts?.users?.length > 0 &&
-                    allUsers?.getAllAccounts?.users?.map((item, index) => {
+                    listOfAccounts?.length > 0 &&
+                    listOfAccounts?.map((item, index) => {
                       return (
                         <div key={index + 'shit'} className={classes.smallProfile}>
                           <div className={classes.smallProfileAvatar}>
-                            {item?.avatar?.path ? (
+                            {item?.avatar?.url ? (
                               <img
                                 alt={'avatar 3'}
-                                src={base_url + '/' + item?.avatar?.path}
+                                src={img_url + item?.avatar?.url}
                                 className={classes.avatarImage}
                               />
                             ) : (
@@ -1045,13 +1125,15 @@ export default function Profile() {
                                 </Typography>
                               </Avatar>
                             )}
-                            <Typography noWrap className={classes.smallProfileTitle}>
-                              {item?.firstname && item?.lastname
-                                ? item?.firstname + ' ' + item?.lastname
-                                : item?.username
-                                ? item?.username
-                                : 'No name'}
-                            </Typography>
+                            <div style={{ maxWidth: 120 }}>
+                              <Typography noWrap className={classes.smallProfileTitle}>
+                                {item?.firstname && item?.lastname
+                                  ? item?.firstname + ' ' + item?.lastname
+                                  : item?.username
+                                  ? item?.username
+                                  : 'No name'}
+                              </Typography>
+                            </div>
                             <div className={classes.smallProfileRank}>
                               <StarIcon className={classes.starRank} />
                               <Typography sx={{ pt: '4px', pl: '5px' }}>
@@ -1062,7 +1144,7 @@ export default function Profile() {
                         </div>
                       );
                     })
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>
@@ -1276,7 +1358,15 @@ const useStyles = makeStyles({
     alignItems: 'flex-start',
     padding: '5px',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  innerMembersModalContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    padding: '5px',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     width: '100%',
   },
   mmAccountName: {
@@ -1312,12 +1402,17 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 80,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 50,
+    marginTop: 10,
     width: '150px',
     border: '1px solid #D3D3D3',
     textAlign: 'center',
   },
   mmButtonContainer: {
     marginBottom: 50,
+    marginLeft: 30,
   },
   inactiveUpdateButton: {
     marginTop: 20,
@@ -1564,6 +1659,7 @@ const useStyles = makeStyles({
     width: '80px',
     height: '80px',
     borderRadius: '100%',
+    objectFit: 'cover',
   },
   memberTop: {
     display: 'flex',
