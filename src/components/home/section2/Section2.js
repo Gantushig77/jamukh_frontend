@@ -3,6 +3,10 @@ import { Container, Card } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import Test from '../../../assets/images/test.png';
+import Antiques from '../../../assets/images/category/antiques.png';
+import Cars from '../../../assets/images/category/cars.png';
+import Estate from '../../../assets/images/category/estate.png';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function Section2(props) {
   const classes = useStyles(props);
@@ -17,10 +21,10 @@ export default function Section2(props) {
             <div className={classes.title}>CATEGORY</div>
           </>
           <div className={classes.cardContent}>
-            <CardItem className={classes.CardItem}/>
-            <CardItem className={classes.CardItem}/>
-            <CardItem className={classes.CardItem}/>
-            <CardItem className={classes.CardItem}/>
+            <CardItem className={classes.CardItem} image={Test} name="PROPERTY"/>
+            <CardItem className={classes.CardItem} image={Antiques} name="ANTIQUES"/>
+            <CardItem className={classes.CardItem} image={Cars} name="CARS"/>
+            <CardItem className={classes.CardItem} image={Estate} name="ESTATE"/>
           </div>
         </>
       )}
@@ -34,17 +38,26 @@ const CardItem = (props) => {
   return (
     <Card className={classes.cardRoot}>
       <div
+       className={classes.cardHoverStyle}
         style={{
           backgroundSize: 'cover',
           width: '100%',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           height: '100%',
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
           position: 'relative',
+          ":hover":{
+            color:"red",
+            cursor:"pointer",
+            backgroundImage: `linear-gradient(rgba(216,137,87, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
+          }
         }}
       >
-        <div className={classes.cardProperty}>PROPERTY</div>
+          <div >
+            <FavoriteBorderIcon className={classes.heartIcon}/>
+         </div>  
+        <div className={classes.cardProperty}>{props.name}</div>
       </div>
     </Card>
   );
@@ -59,6 +72,21 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
     maxWidth:"1300px"
   },
+  cardHoverStyle:{
+    
+  },
+  heartIcon:{
+    color: 'white',
+    position:'absolute',
+    right:"10px",
+    top:"10px",
+    fontSize:30,
+    cursor:"pointer",
+    "&:active": {
+        color:colorss.brandTextColor
+    }
+  },
+  
   cardProperty: {
     color: 'white',
     fontWeight: 'bold',
