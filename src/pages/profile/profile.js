@@ -41,6 +41,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
 import { img_url, membership_img_url } from '../../constants/url';
 import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
+import { getListOfMembershipTypes } from '../../api/membership';
 
 export default function Profile() {
   // Constants
@@ -120,6 +121,9 @@ export default function Profile() {
   const [accListLoading, setAccListLoading] = useState(false);
   const [accListPage, setAccListPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+
+  const [membershipList, setMembershipList] = useState([]);
+  const [membershipLoading, setMembershipLoading] = useState(false);
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -308,6 +312,7 @@ export default function Profile() {
       country: fieldState.country,
       city: fieldState.city,
       district: fieldState.district,
+      imgUpdated: fieldState.imgUpdated,
       ...(fieldState.tel.length > 7 && { tel: parseInt(fieldState.tel) }),
       birthdate: birthdate,
     })
@@ -377,6 +382,19 @@ export default function Profile() {
         console.log(err);
       });
   }, [accListPage]);
+
+  useEffect(() => {
+    setMembershipLoading(true);
+    getListOfMembershipTypes()
+      .then((res) => {
+        console.log(res);
+        setMembershipLoading(false);
+        setMembershipList(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
@@ -940,7 +958,7 @@ export default function Profile() {
         }}
       >
         <Fade in={membershipModal}>
-          <Box className={classes.modalBox}>
+          <Box className={classes.memberModalBox}>
             <Typography
               textAlign={'center'}
               sx={{ mt: 2, mb: 3 }}
@@ -954,20 +972,20 @@ export default function Profile() {
             >
               Хэрэглэгч та өөрт тохирох зэрэглэлээ сонгож үйлчлүүлнэ үү.
             </Typography>
-            {/* {memberLoading ? (
+            {membershipLoading ? (
               <div className={classes.memberTypeLoading}>
                 <CircularProgress sx={{ color: 'orange' }} />
               </div>
             ) : (
               <div className={classes.membershipModalContainer}>
-                {membershipTypes?.getAllMembershipTypes?.length > 0 &&
-                  membershipTypes?.getAllMembershipTypes?.map((item, index) => (
+                {membershipList?.length > 0 &&
+                  membershipList?.map((item, index) => (
                     <Container
                       className={classes.memberTypeContainer}
                       key={index + item?.type_name}
                     >
                       <img
-                        src={base_url + '/' + item.member_img.path}
+                        src={membership_img_url + item.member_img.url}
                         alt={'member types'}
                         className={classes.memberTypeImg}
                       />
@@ -987,8 +1005,8 @@ export default function Profile() {
                       </Typography>
                       <Divider sx={{ mb: 2, mt: 2 }} />
                       <div style={{ minHeight: 85 }}>
-                        {item?.listFeatures?.length > 0 &&
-                          item?.listFeatures?.map((featureItem, featureIndex) => (
+                        {item?.listfeatures?.length > 0 &&
+                          item?.listfeatures?.map((featureItem, featureIndex) => (
                             <Typography
                               sx={{ fontSize: 14, fontFamily: 'Roboto Condensed' }}
                               textAlign={'center'}
@@ -1001,7 +1019,7 @@ export default function Profile() {
                       <div className={classes.memberTypItemButton}>
                         <Button fullWidth className={classes.membersButton}>
                           <Typography>
-                            {account?.member_type?._id === item?._id
+                            {account?.membership_type?.id === item?.id
                               ? 'Сонгосон'
                               : 'Сонгох'}
                           </Typography>
@@ -1010,7 +1028,7 @@ export default function Profile() {
                     </Container>
                   ))}
               </div>
-            )} */}
+            )}
           </Box>
         </Fade>
       </Modal>
@@ -1034,7 +1052,7 @@ export default function Profile() {
                     <img
                       alt={'avatar 3'}
                       src={img_url + account?.avatar?.url}
-                      className={classes.avatarImage}
+                      className={classes.avatarImageBig}
                     />
                   ) : (
                     <Avatar sx={{ width: 100, height: 100 }}>
@@ -1150,7 +1168,7 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            {/* Fucking SALES */}
+            {/* SALES */}
             <div className={classes.mySales}>MY SALES</div>
             <div className={classes.myDiv}>
               <img src={Test} style={{ height: '300px', width: '200px' }} alt='test1' />
@@ -1171,25 +1189,25 @@ export default function Profile() {
                 />
               </div>
               <div className={classes.membersTextContainer}>
-                {/* {memberLoading ? (
+                {membershipLoading ? (
                   <div>
                     <Typography sx={{ color: 'black' }}>Loading...</Typography>
                   </div>
                 ) : (
-                  membershipTypes?.getAllMembershipTypes?.map((item, index) =>
-                    account?.member_type?._id === item?._id ? (
-                      <div key={index + 'membership type'}>
-                        <div className={classes.membersTitle}>
-                          {(account?.member_type?._id === item?._id).toString()}
-                          <Typography>{JSON.stringify(item?.type_name)}</Typography>
-                        </div>
+                  membershipList?.map(
+                    (item, index) =>
+                      account?.membership_type?._id === item?._id && (
+                        <div key={index + 'membership type'}>
+                          <div className={classes.membersDescription}>
+                            <div className={classes.membersTitle}>
+                              {account?.membership_type?.id === item?.id &&
+                                item?.type_name}
+                            </div>
 
-                        <div className={classes.membersDescription}>
-                           membership ADVaNTAGE
-                            {account?.member_type?._id === item?._id && (
+                            {account?.membership_type?.id === item?.id && (
                               <div style={{ minHeight: 85 }}>
-                                {item?.listFeatures?.length > 0 ? (
-                                  item?.listFeatures?.map((featureItem, featureIndex) => (
+                                {item?.listfeatures?.length > 0 ? (
+                                  item?.listfeatures?.map((featureItem, featureIndex) => (
                                     <Typography
                                       sx={{
                                         fontSize: 14,
@@ -1197,9 +1215,8 @@ export default function Profile() {
                                       }}
                                       key={featureIndex}
                                     >
-                                      Эрхэм хэрэглэгч та {item?.type_name} зэрэглэлийн
-                                      гишүүнчлэлтэй бөгөөд
-                                      {featureItem}
+                                      {`Эрхэм хэрэглэгч та ${item?.type_name} зэрэглэлийн
+                                      гишүүнчлэлтэй бөгөөд, ${featureItem}`}
                                     </Typography>
                                   ))
                                 ) : (
@@ -1211,14 +1228,10 @@ export default function Profile() {
                               </div>
                             )}
                           </div>
-                      </div>
-                    ) : (
-                      <Typography key={index + 'membership type'}>
-                        Bish ym bishu anda
-                      </Typography>
-                    )
+                        </div>
+                      )
                   )
-                )} */}
+                )}
                 <div className={classes.membersButtonContainer}>
                   <Button
                     onClick={() => handleMembershipModalOpen()}
@@ -1243,26 +1256,30 @@ export default function Profile() {
           <div className={classes.aboutContainers}>
             <div className={classes.aboutContainer}>
               <div className={classes.aboutGenerel}>
-                {/* <img src={Avatar} className={classes.aboutGenerelImg} alt={''} /> */}
+                <div className={classes.avatar}>
+                  {account?.avatar?.url ? (
+                    <img
+                      alt={'avatar 3'}
+                      src={img_url + account?.avatar?.url}
+                      className={classes.avatarImageBig}
+                    />
+                  ) : (
+                    <Avatar sx={{ width: 100, height: 100 }}>
+                      <Typography fontSize={35} color={'white'} fontWeight={'bolder'}>
+                        {account?.firstname?.charAt(0)}
+                      </Typography>
+                    </Avatar>
+                  )}
+                </div>
                 <Typography className={classes.title}>{'Gantumur Batmunkh'}</Typography>
                 <Typography className={classes.email1}>batmunkh@gmail.com</Typography>
               </div>
               <div className={classes.aboutMe}>
                 <div className={classes.aboutMeTitle}>ABOUT ME</div>
-                <div className={classes.aboutMeDescription}>
-                  Ideally, architects of houses design rooms to meet the needs of the
-                  people who will live in the house. Feng shui, originally a Chinese
-                  method of moving houses according to such factors as rain and
-                  micro-climates, has recently expanded its scope to address the design of
-                  interior spaces, with a view to promoting harmonious effects on the
-                  people living inside the house, although no actual effect has ever been
-                  demonstrated. Feng shui can also mean the “aura” in or around a
-                  dwelling, making it comparable to the real estate sales concept of
-                  “indoor-outdoor flow”.
-                </div>
+                <div className={classes.aboutMeDescription}>{account?.bio}</div>
               </div>
             </div>
-            {/* The fucking CV */}
+            {/* CV */}
             <div className={classes.aboutCv}>
               <table>
                 <thead>
@@ -1344,6 +1361,7 @@ const useStyles = makeStyles({
     marginRight: 10,
     width: '100%',
     paddingTop: 15,
+    maxWidth: 240,
   },
   memberTypeImg: {
     maxWidth: 180,
@@ -1460,6 +1478,19 @@ const useStyles = makeStyles({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     maxWidth: 1000,
+    width: '100%',
+    backgroundColor: 'white',
+    boxShadow: 24,
+    padding: 30,
+    overflow: 'auto',
+    maxHeight: '90%',
+  },
+  memberModalBox: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: 1200,
     width: '100%',
     backgroundColor: 'white',
     boxShadow: 24,
@@ -1665,6 +1696,12 @@ const useStyles = makeStyles({
   avatarImage: {
     width: '80px',
     height: '80px',
+    borderRadius: '100%',
+    objectFit: 'cover',
+  },
+  avatarImageBig: {
+    width: '120px',
+    height: '120px',
     borderRadius: '100%',
     objectFit: 'cover',
   },
