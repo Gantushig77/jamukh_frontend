@@ -5,7 +5,11 @@ import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Slider from 'react-slick';
-import Test from '../../../assets/images/test3.png';
+import Test from '../../../assets/images/test.png';
+import Dari from '../../../assets/images/cars/ferrari.png';
+import Emeel from '../../../assets/images/cars/Bugatti.png';
+import Tea from  '../../../assets/images/cars/LAMBORGINI.png'
+import Hutga from  '../../../assets/images/cars/MUSTANG.png'
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -86,40 +90,18 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+            <CardItem img={Dari} name="FERRARI F200"/>
+            <CardItem img={Emeel} name="FORD MUSTANG"/>
+            <CardItem img={Tea} name="MUSTANG GTR 200"/>
+            <CardItem img={Hutga} name="BUGATTI GT400"/>
+            <CardItem img={Emeel} name="FORD MUSTANG"/>
+            <CardItem img={Dari} name="FERRARI F200"/>
+            <CardItem img={Hutga} name="BUGATTI GT400"/>
+            <CardItem img={Tea} name="MUSTANG GTR 200"/>
           </Container>
         </>
       )}
-      <Container className={classes.sliderContainer}>
-        <Slider {...settings}>
-          {[1, 2, 3, 4].map((item, index) => (
-            <CardItem
-              id={''}
-              parentId={''}
-              phone={props?.phone}
-              tablet={props?.tablet}
-              title={''}
-              onSelect={''}
-              description={''}
-              img={''}
-              price={''}
-              isUnit={''}
-              soldBy={''}
-            />
-          ))}
-        </Slider>
-      </Container>
+    
     </Container>
   );
 }
@@ -136,11 +118,11 @@ const CardItem = (props) => {
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           height: '100%',
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.img}")`,
           position: 'relative',
         }}
       >
-        <div className={classes.cardProperty}>CARS</div>
+        <div className={classes.cardProperty}>{props.name}</div>
       </div>
     </Card>
   );
@@ -173,9 +155,6 @@ const useStyles = makeStyles({
     width: '100px',
   },
   cardRoot: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     maxWidth: 260,
     width: 330,
     height: 360,

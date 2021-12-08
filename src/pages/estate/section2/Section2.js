@@ -5,7 +5,12 @@ import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Slider from 'react-slick';
-import Test from '../../../assets/images/test4.png';
+import Test from '../../../assets/images/test.png';
+import Dari from '../../../assets/images/estate/tereljbumbiinam.png';
+import Emeel from '../../../assets/images/estate/khatdiin.png';
+import Tea from '../../../assets/images/estate/tereljUlaan.png'
+import Hutga from '../../../assets/images/estate/gunjiin.png'
+import Bogd from '../../../assets/images/estate/bogd.png'
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -86,40 +91,22 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
+            <CardItem img={Emeel} name="KHADATIIN AM"/>
+            <CardItem img={Tea} name="GUNJIIN AM"/>
+            <CardItem img={Hutga} name="BOGD UULULAAN KHAD"/>
+            <CardItem img={Bogd} name="TERELJ ULAAN KHAD"/>
+            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
+            <CardItem img={Tea} name="GUNJIIN AM"/>
+            <CardItem img={Emeel} name="KHADATIIN AM"/>
+            <CardItem img={Tea} name="GUNJIIN AM"/>
+            <CardItem img={Bogd} name="TERELJ ULAAN KHAD"/>
+            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
+            <CardItem img={Emeel} name="KHADATIIN AM"/>
           </Container>
         </>
       )}
-      <Container className={classes.sliderContainer}>
-        <Slider {...settings}>
-          {[1, 2, 3, 4].map((item, index) => (
-            <CardItem
-              id={''}
-              parentId={''}
-              phone={props?.phone}
-              tablet={props?.tablet}
-              title={''}
-              onSelect={''}
-              description={''}
-              img={''}
-              price={''}
-              isUnit={''}
-              soldBy={''}
-            />
-          ))}
-        </Slider>
-      </Container>
+
     </Container>
   );
 }
@@ -136,11 +123,11 @@ const CardItem = (props) => {
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           height: '100%',
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.img}")`,
           position: 'relative',
         }}
       >
-        <div className={classes.cardProperty}>PROPERTY</div>
+        <div className={classes.cardProperty}>{props.name}</div>
       </div>
     </Card>
   );
@@ -173,9 +160,6 @@ const useStyles = makeStyles({
     width: '100px',
   },
   cardRoot: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     maxWidth: 260,
     width: 330,
     height: 360,

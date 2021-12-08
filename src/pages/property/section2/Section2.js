@@ -101,25 +101,6 @@ export default function Section2(props) {
           </Container>
         </>
       )}
-      <Container className={classes.sliderContainer}>
-        <Slider {...settings}>
-          {[1, 2, 3, 4].map((item, index) => (
-            <CardItem
-              id={''}
-              parentId={''}
-              phone={props?.phone}
-              tablet={props?.tablet}
-              title={''}
-              onSelect={''}
-              description={''}
-              img={''}
-              price={''}
-              isUnit={''}
-              soldBy={''}
-            />
-          ))}
-        </Slider>
-      </Container>
     </Container>
   );
 }

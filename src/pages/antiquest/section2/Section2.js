@@ -5,7 +5,17 @@ import { makeStyles } from '@mui/styles';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Slider from 'react-slick';
-import Test from '../../../assets/images/test1.png';
+import Test from '../../../assets/images/test.png';
+import Dari from '../../../assets/images/antiquest/dari.png';
+import Emeel from '../../../assets/images/antiquest/emeel.png';
+import Tea from  '../../../assets/images/antiquest/tea.png'
+import Huurgu from  '../../../assets/images/antiquest/huurgu.png'
+import Zanbazar from  '../../../assets/images/antiquest/zanbazar.png'
+import Hutga from  '../../../assets/images/antiquest/hutga.png'
+import Jamsran from  '../../../assets/images/antiquest/jamsran.png'
+import Mana from  '../../../assets/images/antiquest/mana.png'
+import Mother from  '../../../assets/images/antiquest/mother.png'
+import Gang from  '../../../assets/images/antiquest/darigang.png'
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -66,6 +76,7 @@ function SamplePrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
+
   const settings = {
     infinite: true,
     arrows: props.phone ? false : true,
@@ -85,40 +96,22 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+            <CardItem img={Dari} name="TSAGAAN DARI EKH"/>
+            <CardItem img={Emeel} name="HUNNU EMEEL"/>
+            <CardItem img={Tea} name="HUNNU GOLD TEA"/>
+            <CardItem img={Hutga} name="DARI GANG KHUTGA"/>
+            <CardItem img={Huurgu} name="SHUREN KHUURGU"/>
+            <CardItem img={Zanbazar} name="ZANABAZAR ART"/>
+            <CardItem img={Jamsran} name="RED JAMSRAN"/>
+            <CardItem img={Mana} name="MANA KHUURGU"/>
+            <CardItem img={Mother} name="GOLD MOTHER GOD "/>
+            <CardItem img={Gang} name="DARI GANG GOLD"/>
+            <CardItem img={Dari} name="TSAGAAN DARI EKH"/>
+            <CardItem img={Emeel} name="HUNNU EMEEL"/>
           </Container>
         </>
       )}
-      <Container className={classes.sliderContainer}>
-        <Slider {...settings}>
-          {[1, 2, 3, 4].map((item, index) => (
-            <CardItem
-              id={''}
-              parentId={''}
-              phone={props?.phone}
-              tablet={props?.tablet}
-              title={''}
-              onSelect={''}
-              description={''}
-              img={''}
-              price={''}
-              isUnit={''}
-              soldBy={''}
-            />
-          ))}
-        </Slider>
-      </Container>
+    
     </Container>
   );
 }
@@ -135,11 +128,11 @@ const CardItem = (props) => {
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           height: '100%',
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${Test}")`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.img}")`,
           position: 'relative',
         }}
       >
-        <div className={classes.cardProperty}>PROPERTY</div>
+        <div className={classes.cardProperty}>{props.name}</div>
       </div>
     </Card>
   );
@@ -153,13 +146,6 @@ const useStyles = makeStyles({
     marginTop: (props) => (props.phone ? 100 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
   },
-  cardContent: {
-    display: 'flex',
-    maxWidth: '1300px',
-    justifyContent: 'center',
-    width: '100%',
-    flexWrap: 'wrap',
-  },
   cardProperty: {
     color: 'white',
     fontWeight: 'bold',
@@ -168,13 +154,17 @@ const useStyles = makeStyles({
     bottom: '15px',
     left: '15px',
   },
+  cardContent: {
+    display: 'flex',
+    maxWidth: '1300px',
+    justifyContent: 'center',
+    width: '100%',
+    flexWrap: 'wrap',
+  },
   card: {
     width: '100px',
   },
   cardRoot: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     maxWidth: 260,
     width: 330,
     height: 360,
