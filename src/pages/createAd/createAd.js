@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import Section1 from './section1/Section1';
+import Slider from '../../components/slider/slider';
 import Section2 from './section2/Section2';
 
-export default function Detailnews() {
+export default function CreateAd() {
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -22,6 +23,11 @@ export default function Detailnews() {
     severity: 'success',
   });
 
+  const classes = useStyles({
+    phone: phoneSize,
+    tablet: tabletSize,
+  });
+
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -30,7 +36,8 @@ export default function Detailnews() {
   };
 
   return (
-    <div style={{ paddingBottom: '20px' }}>
+    <div className={classes.root}>
+      {/* Appbar */}
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -47,8 +54,16 @@ export default function Detailnews() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 />
-      <Section2 />
+      {/* Slider */}
+      <Slider phone={phoneSize} tablet={tabletSize} />
+      {/* Body */}
+      <Section2 phone={phoneSize} tablet={tabletSize} />
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  root: {
+    paddingBottom: 20,
+  },
+});

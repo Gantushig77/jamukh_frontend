@@ -4,7 +4,7 @@ import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import Section1 from './section1/Section1';
+import Slider from '../../components/slider/slider';
 
 export default function Members() {
   const phoneSize = useMediaQuery('(max-width: 767px)');
@@ -46,7 +46,7 @@ export default function Members() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 />
+      <Slider />
     </div>
   );
 }

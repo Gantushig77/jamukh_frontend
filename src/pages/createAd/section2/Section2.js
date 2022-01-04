@@ -2,7 +2,6 @@ import React from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../../constants/colors';
-import './section.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -19,10 +18,10 @@ export default function Section2(props) {
   const classes = useStyles(props);
   const [open, setOpen] = React.useState(false);
   const [fileObjects, setFileObjects] = React.useState([]);
-  const [amount, setAmount] = React.useState('')
+  const [amount, setAmount] = React.useState('');
 
   const handleChange = (e) => {
-    setAmount(e)
+    setAmount(e);
   };
 
   const top100Films = [
@@ -156,86 +155,79 @@ export default function Section2(props) {
       <span>Upload file</span>
       <IconButton
         style={{ right: '12px', top: '8px', position: 'absolute' }}
-        onClick={() => setOpen(false)}>
+        onClick={() => setOpen(false)}
+      >
         <CloseIcon />
       </IconButton>
     </>
   );
   const send = () => {
-    console.log("user",open)
-  }
-  
+    console.log('user', open);
+  };
+
   return (
-    <Container disableGutters maxWidth={false} className={classes.root} >
+    <Container disableGutters maxWidth={false} className={classes.root}>
       <div className={classes.titleNews}>Зар нэмэх</div>
 
-      <Container disableGutters maxWidth={false} className={classes.container} >
+      <Container disableGutters maxWidth={false} className={classes.container}>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Зарын гарчиг*
-          </div>
-          <TextField id="outlined-basic" label="Гарчгийн нэр" variant="outlined" />
+          <div className={classes.editRowTitle}>Зарын гарчиг*</div>
+          <TextField id='outlined-basic' label='Гарчгийн нэр' variant='outlined' />
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Утасны дугаар*
-          </div>
-          <TextField id="outlined-basic" label="Утасны дугаар" variant="outlined" />
+          <div className={classes.editRowTitle}>Утасны дугаар*</div>
+          <TextField id='outlined-basic' label='Утасны дугаар' variant='outlined' />
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-          Е-Мэйл хаяг*
-          </div>
-          <TextField id="outlined-basic" label="Е-Мэйл хаяг" variant="outlined" />
+          <div className={classes.editRowTitle}>Е-Мэйл хаяг*</div>
+          <TextField id='outlined-basic' label='Е-Мэйл хаяг' variant='outlined' />
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Зарын төрөл*
-          </div>
+          <div className={classes.editRowTitle}>Зарын төрөл*</div>
           <Autocomplete
-
             disablePortal
-            id="combo-box-demo"
+            id='combo-box-demo'
             autoHighlight
             options={top100Films}
-            sx={{ width: "100%" }}
-            renderInput={(params) => <TextField {...params} label="Төрөл" />}
+            sx={{ width: '100%' }}
+            renderInput={(params) => <TextField {...params} label='Төрөл' />}
           />
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Таг*
-          </div>
+          <div className={classes.editRowTitle}>Таг*</div>
           <Autocomplete
             multiple
             disablePortal
-            id="combo-box-demo"
+            id='combo-box-demo'
             options={top100Films}
-            sx={{ width: "100%" }}
-            renderInput={(params) => <TextField {...params} label="Төрөл" />}
+            sx={{ width: '100%' }}
+            renderInput={(params) => <TextField {...params} label='Төрөл' />}
           />
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Зураг оруулах*
-          </div>
+          <div className={classes.editRowTitle}>Зураг оруулах*</div>
           <div>
-            <Button style={{backgroundColor:"#AA7654",height:"80px",width:"80px"}} variant="contained" color="primary" onClick={() => setOpen(true)}>
-                <AddIcon style={{height:"50px",width:"50px"}}/>
+            <Button
+              style={{ backgroundColor: '#AA7654', height: '80px', width: '80px' }}
+              variant='contained'
+              color='primary'
+              onClick={() => setOpen(true)}
+            >
+              <AddIcon style={{ height: '50px', width: '50px' }} />
             </Button>
             <DropzoneDialogBase
               dialogTitle={dialogTitle()}
               acceptedFiles={['image/*']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={5000000}
               open={open}
-              onAdd={newFileObjs => {
+              onAdd={(newFileObjs) => {
                 console.log('onAdd', newFileObjs);
                 setFileObjects([].concat(fileObjects, newFileObjs));
               }}
-              onDelete={deleteFileObj => {
+              onDelete={(deleteFileObj) => {
                 console.log('onDelete', deleteFileObj);
               }}
               onClose={() => setOpen(false)}
@@ -244,33 +236,36 @@ export default function Section2(props) {
                 setOpen(false);
               }}
               showPreviews={true}
-              showFileNamesInPreview={true}
             />
           </div>
         </div>
         <div className={classes.editRow}>
-          <div className={classes.editRowTitle}>
-            Үнэ*
-          </div>
+          <div className={classes.editRowTitle}>Үнэ*</div>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Төгрөг</InputLabel>
+            <InputLabel htmlFor='outlined-adornment-amount'>Төгрөг</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id='outlined-adornment-amount'
               value={amount}
               onChange={(e) => handleChange(e.target.value)}
-              endAdornment={<InputAdornment position="start">₮</InputAdornment>}
-              label="Төгрөг"
+              endAdornment={<InputAdornment position='start'>₮</InputAdornment>}
+              label='Төгрөг'
             />
           </FormControl>
         </div>
-    
-        <div className={classes.btnSend}>
-            <Button variant="contained" color="primary" className={classes.send} onClick={()=>{send()}}>
-              Илгээх
-            </Button>
-        </div>  
-      </Container>
 
+        <div className={classes.btnSend}>
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.send}
+            onClick={() => {
+              send();
+            }}
+          >
+            Илгээх
+          </Button>
+        </div>
+      </Container>
     </Container>
   );
 }
@@ -282,13 +277,13 @@ const useStyles = makeStyles({
     zIndex: '1',
     fontFamily: 'Roboto Condensed',
   },
-  btnSend:{
-    display:"flex",
-    justifyContent:"center"
+  btnSend: {
+    display: 'flex',
+    justifyContent: 'center',
   },
-  send:{
-    backgroundColor:"#AA7654",
-    marginTop:"40px"
+  send: {
+    backgroundColor: '#AA7654',
+    marginTop: '40px',
   },
   rec: {
     display: 'flex',
@@ -308,7 +303,7 @@ const useStyles = makeStyles({
   },
   editRow: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   recPhone: {
     color: 'white',
@@ -438,10 +433,10 @@ const useStyles = makeStyles({
   },
   container: {
     display: 'flex',
-    width: (props) => (props.phone ?'100%':'1100px'),
-    flexDirection: "column",
+    width: (props) => (props.phone ? '100%' : '1100px'),
+    flexDirection: 'column',
     justifyContent: 'flex-start',
-    padding:(props) => (props.phone ? '10px':'0px')
+    padding: (props) => (props.phone ? '10px' : '0px'),
   },
   titleNews: {
     fontWeight: 'bold',

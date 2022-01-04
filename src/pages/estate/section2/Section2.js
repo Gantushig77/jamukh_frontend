@@ -2,88 +2,14 @@ import React from 'react';
 import { Container, Card } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Slider from 'react-slick';
-import Test from '../../../assets/images/test.png';
 import Dari from '../../../assets/images/estate/tereljbumbiinam.png';
 import Emeel from '../../../assets/images/estate/khatdiin.png';
-import Tea from '../../../assets/images/estate/tereljUlaan.png'
-import Hutga from '../../../assets/images/estate/gunjiin.png'
-import Bogd from '../../../assets/images/estate/bogd.png'
-
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        right: -30,
-        zIndex: 888,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        zIndex: 888,
-        left: -70,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowBackIosIcon
-        htmlColor={'white'}
-        style={{
-          marginLeft: 10,
-        }}
-      />
-    </div>
-  );
-}
+import Tea from '../../../assets/images/estate/tereljUlaan.png';
+import Hutga from '../../../assets/images/estate/gunjiin.png';
+import Bogd from '../../../assets/images/estate/bogd.png';
 
 export default function Section2(props) {
   const classes = useStyles(props);
-
-  const settings = {
-    infinite: true,
-    arrows: props.phone ? false : true,
-    speed: 500,
-    slidesToShow: props.phone ? 2 : 4,
-    slidesToScroll: 1,
-    dots: false,
-    autoPlay: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
-
   return (
     <Container className={classes.root}>
       {props?.parentId ? (
@@ -91,22 +17,21 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
-            <CardItem img={Emeel} name="KHADATIIN AM"/>
-            <CardItem img={Tea} name="GUNJIIN AM"/>
-            <CardItem img={Hutga} name="BOGD UULULAAN KHAD"/>
-            <CardItem img={Bogd} name="TERELJ ULAAN KHAD"/>
-            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
-            <CardItem img={Tea} name="GUNJIIN AM"/>
-            <CardItem img={Emeel} name="KHADATIIN AM"/>
-            <CardItem img={Tea} name="GUNJIIN AM"/>
-            <CardItem img={Bogd} name="TERELJ ULAAN KHAD"/>
-            <CardItem img={Dari} name="TERELJ BUMBIIN AM"/>
-            <CardItem img={Emeel} name="KHADATIIN AM"/>
+            <CardItem img={Dari} name='TERELJ BUMBIIN AM' />
+            <CardItem img={Emeel} name='KHADATIIN AM' />
+            <CardItem img={Tea} name='GUNJIIN AM' />
+            <CardItem img={Hutga} name='BOGD UULULAAN KHAD' />
+            <CardItem img={Bogd} name='TERELJ ULAAN KHAD' />
+            <CardItem img={Dari} name='TERELJ BUMBIIN AM' />
+            <CardItem img={Tea} name='GUNJIIN AM' />
+            <CardItem img={Emeel} name='KHADATIIN AM' />
+            <CardItem img={Tea} name='GUNJIIN AM' />
+            <CardItem img={Bogd} name='TERELJ ULAAN KHAD' />
+            <CardItem img={Dari} name='TERELJ BUMBIIN AM' />
+            <CardItem img={Emeel} name='KHADATIIN AM' />
           </Container>
         </>
       )}
-
     </Container>
   );
 }

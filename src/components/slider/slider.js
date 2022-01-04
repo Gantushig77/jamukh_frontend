@@ -1,13 +1,13 @@
 import React, { useRef, useContext } from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import colors from '../../../constants/colors';
-import screen1 from '../../../assets/images/screen1.png';
-import screen2 from '../../../assets/images/screen2.png';
+import colors from '../../constants/colors';
+import screen1 from '../../assets/images/screen1.png';
+import screen2 from '../../assets/images/screen2.png';
 import Slider from 'react-slick';
-import TheContext from '../../../context/context';
+import TheContext from '../../context/context';
 
-export default function Section1(props) {
+export default function SliderCustom(props) {
   const classes = useStyles(props);
   let slider = useRef(null);
 
@@ -108,7 +108,7 @@ const useStyles = makeStyles({
   slideBottomBackground: {
     position: 'absolute',
     bottom: 60,
-    width:  (props) => (props.phone ? '0%':'1200px'),
+    width: (props) => (props.phone ? '0%' : '1200px'),
     height: '51px',
     backgroundColor: 'white',
     zIndex: '-10',

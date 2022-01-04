@@ -5,7 +5,7 @@ import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import Section1 from './section1/Section1';
+import Slider from '../../components/slider/slider';
 import Section2 from './section2/Section2';
 
 export default function Estate() {
@@ -55,9 +55,9 @@ export default function Estate() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 phone={phoneSize} tablet={tabletSize}/>
-      <Section2 phone={phoneSize} tablet={tabletSize}/>
-      <Footer phone={phoneSize} tablet={tabletSize}/>
+      <Slider phone={phoneSize} tablet={tabletSize} />
+      <Section2 phone={phoneSize} tablet={tabletSize} />
+      <Footer phone={phoneSize} tablet={tabletSize} />
     </div>
   );
 }

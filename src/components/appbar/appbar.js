@@ -20,6 +20,7 @@ import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { url } from '../../constants/url';
 import MenuIcon from '@mui/icons-material/Menu';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -69,7 +70,7 @@ export default function Appbar(props) {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           PaperProps={paperProps}
         >
-          <MenuItem onClick={() => history.push('/profile')}>
+          <MenuItem onClick={() => history.push('/create-ad')}>
             <Avatar alt='Profile Avatar 2'>
               {authenticated ? (
                 account?.avatar?.url ? (
@@ -91,6 +92,17 @@ export default function Appbar(props) {
             </Avatar>
             Profile
           </MenuItem>
+          {authenticated && (
+            <div>
+              <Divider />
+              <MenuItem onClick={() => history.push('/create-ad')}>
+                <ListItemIcon>
+                  <HistoryEduIcon fontSize='small' />
+                </ListItemIcon>
+                <Typography variant='body2'>Create an AD</Typography>
+              </MenuItem>
+            </div>
+          )}
           <Divider />
           <MenuItem onClick={() => history.push(authenticated ? '/logout' : '/login')}>
             <ListItemIcon>

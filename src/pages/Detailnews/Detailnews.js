@@ -4,7 +4,7 @@ import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import Section1 from './section1/Section1';
+import Slider from '../../components/slider/slider';
 import Section2 from './section2/Section2';
 
 export default function Detailnews() {
@@ -47,7 +47,7 @@ export default function Detailnews() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 />
+      <Slider />
       <Section2 />
     </div>
   );

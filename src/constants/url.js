@@ -1,16 +1,9 @@
 const DEV = process.env.NODE_ENV !== 'production';
-const backend_port = DEV ? '4000' : '4000';
-const base_url = DEV
-  ? `http://localhost:${backend_port}`
-  : `http://43.231.114.19:${backend_port}`;
+const backend_port = '4000';
+const base_url = `http://43.231.114.19:${backend_port}`;
 
-const img_url = DEV
-  ? `http://localhost:${backend_port}/image/`
-  : `http://43.231.114.19:${backend_port}/image/`;
-
-const membership_img_url = DEV
-  ? `http://localhost:${backend_port}/member_img/`
-  : `http://43.231.114.19:${backend_port}/member_img/`;
+const img_url = `http://43.231.114.19:${backend_port}/image/`;
+const membership_img_url = `http://43.231.114.19:${backend_port}/membership/`;
 
 const url = {
   general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],

@@ -1271,8 +1271,8 @@ export default function Profile() {
                     </Avatar>
                   )}
                 </div>
-                <Typography className={classes.title}>{'Gantumur Batmunkh'}</Typography>
-                <Typography className={classes.email1}>batmunkh@gmail.com</Typography>
+                <Typography className={classes.title}>{account?.firstname}</Typography>
+                <Typography className={classes.email1}>{account?.email}</Typography>
               </div>
               <div className={classes.aboutMe}>
                 <div className={classes.aboutMeTitle}>ABOUT ME</div>

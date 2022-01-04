@@ -2,92 +2,19 @@ import React from 'react';
 import { Container, Card } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Slider from 'react-slick';
-import Test from '../../../assets/images/test.png';
 import Dari from '../../../assets/images/antiquest/dari.png';
 import Emeel from '../../../assets/images/antiquest/emeel.png';
-import Tea from  '../../../assets/images/antiquest/tea.png'
-import Huurgu from  '../../../assets/images/antiquest/huurgu.png'
-import Zanbazar from  '../../../assets/images/antiquest/zanbazar.png'
-import Hutga from  '../../../assets/images/antiquest/hutga.png'
-import Jamsran from  '../../../assets/images/antiquest/jamsran.png'
-import Mana from  '../../../assets/images/antiquest/mana.png'
-import Mother from  '../../../assets/images/antiquest/mother.png'
-import Gang from  '../../../assets/images/antiquest/darigang.png'
-
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        right: -30,
-        zIndex: 888,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowForwardIosIcon htmlColor={'white'} style={{ marginLeft: 3 }} />
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        backgroundColor: '#6A67D3',
-        position: 'absolute',
-        zIndex: 888,
-        left: -70,
-        top: '45%',
-        cursor: 'pointer',
-        height: 50,
-        width: 50,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-      }}
-      onClick={onClick}
-    >
-      <ArrowBackIosIcon
-        htmlColor={'white'}
-        style={{
-          marginLeft: 10,
-        }}
-      />
-    </div>
-  );
-}
+import Tea from '../../../assets/images/antiquest/tea.png';
+import Huurgu from '../../../assets/images/antiquest/huurgu.png';
+import Zanbazar from '../../../assets/images/antiquest/zanbazar.png';
+import Hutga from '../../../assets/images/antiquest/hutga.png';
+import Jamsran from '../../../assets/images/antiquest/jamsran.png';
+import Mana from '../../../assets/images/antiquest/mana.png';
+import Mother from '../../../assets/images/antiquest/mother.png';
+import Gang from '../../../assets/images/antiquest/darigang.png';
 
 export default function Section2(props) {
   const classes = useStyles(props);
-
-  const settings = {
-    infinite: true,
-    arrows: props.phone ? false : true,
-    speed: 500,
-    slidesToShow: props.phone ? 2 : 4,
-    slidesToScroll: 1,
-    dots: false,
-    autoPlay: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
 
   return (
     <Container className={classes.root}>
@@ -96,22 +23,21 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem img={Dari} name="TSAGAAN DARI EKH"/>
-            <CardItem img={Emeel} name="HUNNU EMEEL"/>
-            <CardItem img={Tea} name="HUNNU GOLD TEA"/>
-            <CardItem img={Hutga} name="DARI GANG KHUTGA"/>
-            <CardItem img={Huurgu} name="SHUREN KHUURGU"/>
-            <CardItem img={Zanbazar} name="ZANABAZAR ART"/>
-            <CardItem img={Jamsran} name="RED JAMSRAN"/>
-            <CardItem img={Mana} name="MANA KHUURGU"/>
-            <CardItem img={Mother} name="GOLD MOTHER GOD "/>
-            <CardItem img={Gang} name="DARI GANG GOLD"/>
-            <CardItem img={Dari} name="TSAGAAN DARI EKH"/>
-            <CardItem img={Emeel} name="HUNNU EMEEL"/>
+            <CardItem img={Dari} name='TSAGAAN DARI EKH' />
+            <CardItem img={Emeel} name='HUNNU EMEEL' />
+            <CardItem img={Tea} name='HUNNU GOLD TEA' />
+            <CardItem img={Hutga} name='DARI GANG KHUTGA' />
+            <CardItem img={Huurgu} name='SHUREN KHUURGU' />
+            <CardItem img={Zanbazar} name='ZANABAZAR ART' />
+            <CardItem img={Jamsran} name='RED JAMSRAN' />
+            <CardItem img={Mana} name='MANA KHUURGU' />
+            <CardItem img={Mother} name='GOLD MOTHER GOD ' />
+            <CardItem img={Gang} name='DARI GANG GOLD' />
+            <CardItem img={Dari} name='TSAGAAN DARI EKH' />
+            <CardItem img={Emeel} name='HUNNU EMEEL' />
           </Container>
         </>
       )}
-    
     </Container>
   );
 }
