@@ -30,6 +30,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
+import Logo from '../../assets/images/logo.png'
+
 
 export default function Appbar(props) {
   let history = useHistory();
@@ -58,7 +60,7 @@ export default function Appbar(props) {
   };
 
   return (
-    <AppBar position='fixed' className={classes.root}>
+    <AppBar  className={classes.root}>
       <Toolbar className={classes.toolbar}>
         {/* Profile menu */}
         <Menu
@@ -128,11 +130,11 @@ export default function Appbar(props) {
             <Grid
               container
               direction={'row'}
-              className={classes.roleGrid}
               alignItems={'center'}
+              className={classes.menuContainer}
             >
               {/* Appbar links */}
-              <Grid item className={classes.menuPadding}>
+              <Grid item xs={4} className={classes.menuPadding}>
                 <>
                   {url.general.map((item, index) => (
                     <Link
@@ -147,27 +149,28 @@ export default function Appbar(props) {
                   ))}
                 </>
               </Grid>
+              <Grid item xs={4} className={classes.menuLogo}>
+             
+                  <img src={Logo} style={{width:"40%"}} alt=""/>
+              
+              </Grid>
               {/* Menu filters and account settings */}
-              <Grid item>
-                <Grid container direction={'row'} alignItems={'center'}>
-                  <IconButton size='large' aria-label='search' color='inherit'>
-                    <FilterAltIcon />
-                  </IconButton>
-                  <IconButton size='large' aria-label='search' color='inherit'>
-                    <NotificationsIcon />
-                  </IconButton>
-                  <IconButton size='large' aria-label='search' color='inherit'>
-                    <SearchIcon />
-                  </IconButton>
+              <Grid item xs={4}>
+                <Grid container direction={'row'} alignItems={'center'} className={classes.containerEnd}>
+                  <div className={classes.contact}>
+                    <div className={classes.contactText}>Холбоо барих</div> 
+                    <div className={classes.phoneNumber}>77779999</div>
+                  </div>  
                   <Grid item>
+                  {authenticated ? (
                     <Tooltip title='Account settings'>
+                  
                       <Avatar
                         alt='Profile Avatar'
                         className={classes.avatar}
                         onClick={handleClick}
-                      >
-                        {authenticated ? (
-                          account?.avatar?.url ? (
+                       >
+                          {account?.avatar?.url ? (
                             <img
                               alt={'profile'}
                               className={classes.avatar}
@@ -180,11 +183,13 @@ export default function Appbar(props) {
                                 account?.firstname[0]?.toUpperCase()}
                             </p>
                           )
-                        ) : (
-                          <AccountCircleIcon htmlColor={'#0C0C0D'} />
-                        )}
+                           }
+                        )
                       </Avatar>
                     </Tooltip>
+                    ):
+                    <Link className={classes.avatarLink} to='/login'>Нэвтрэх</Link>
+                  }
                   </Grid>
                 </Grid>
               </Grid>
@@ -266,11 +271,38 @@ const useStyles = makeStyles(() => ({
   root: {
     backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
     boxShadow: 'none',
+    fontWeight:'300',
+    fontFamily: "'Roboto', sans-serif",
+    fontSize:'18px',
+    color:'white',
+  },
+  menuContainer:{
+    display:'flex',
+    alignItems:'center',
+    margin:"0px 10px"
+  },
+  contact:{
+    fontWeight:'100',
+    fontFamily: "'Roboto', sans-serif",
+    display:'flex',
+    justifyContent:'space-between',
+
+  },
+  contactText:{
+    marginRight:"20px"
+  },
+  
+  phoneNumber:{
+     color:"#C19D65"  
   },
   menuAvatar: {
     objectFit: 'cover',
     width: '100%',
     height: '100%',
+  },
+  containerEnd:{
+    display:'flex',
+    justifyContent:'space-between',
   },
   menuList: {
     display: 'flex',
@@ -282,7 +314,6 @@ const useStyles = makeStyles(() => ({
     color: 'black',
     padding: '20px',
     fontSize: '20px',
-    fontFamily: "'Roboto Condensed', sans-serif",
     textAlign: 'flex-start',
   },
   burgerLogo: {
@@ -347,16 +378,20 @@ const useStyles = makeStyles(() => ({
     color: 'inherit',
   },
   toolbar: {
-    maxWidth: 1280,
-    width: '90%',
+    maxWidth: '100%',
+    width: '100%',
     margin: 'auto',
     color: 'white',
+    padding:'0px'
   },
-  menuPadding: {
-    paddingRight: 30,
+  menuLogo: {
+   display:"flex",
+   justifyContent:"center",
+   alignItems:"center"
   },
+  
   menu: {
-    fontFamily: "'Roboto Condensed', sans-serif",
+    fontFamily: "'Roboto', sans-serif",
   },
   menuButton: {
     marginRight: 30,
@@ -368,19 +403,15 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
   roleGrid: {
-    justifyContent: 'flex-end',
+    width:"1300px"
   },
   username: {
     fontSize: 17,
-    fontFamily: 'SF Pro Display',
-    fontWeight: '600',
     color: colors.black,
     paddingLeft: 15,
   },
   userNameTypo: {
     fontSize: 17,
-    fontFamily: 'SF Pro Display',
-    fontWeight: '600',
     color: colors.black,
   },
   profileDivider: {
@@ -418,8 +449,6 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     textDecoration: 'none',
-    fontWeight: 'normal',
-    fontFamily: 'SF Pro Display',
     fontSize: 14,
     color: colors.black70,
     paddingTop: 5,
@@ -427,8 +456,6 @@ const useStyles = makeStyles(() => ({
   },
   popperLink: {
     textAlign: 'left',
-    fontWeight: 'normal',
-    fontFamily: 'SF Pro Display',
     fontSize: 14,
     color: colors.lightWhite,
     paddingTop: 5,
@@ -436,6 +463,14 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     '&:hover': {
       color: colors.lightPurple,
+    },
+  },
+  avatarLink:{
+    textDecoration:'none',
+    color:'white',
+    fontWeight:'100',
+    '&:hover': {
+      color: colors.brandTextColor,
     },
   },
   badgeContainer: {
@@ -450,27 +485,23 @@ const useStyles = makeStyles(() => ({
   },
   link: {
     textDecoration: 'none',
-    color: colors.lightWhite,
-    fontSize: '14px',
-    fontFamily: "'Roboto Condensed', sans-serif",
+    color: 'white',
+    fontWeight:'100',
+    fontSize: '18px',
     cursor: 'pointer',
-    fontWeight: '400',
-    paddingLeft: 15,
-    paddingRight: 15,
     '&:hover': {
       color: colors.brandTextColor,
     },
   },
+  menuPadding:{
+    display:'flex',
+    justifyContent:'space-between',
+ 
+  },
   activeLink: {
     textDecoration: 'none',
     color: colors.brandTextColor,
-    fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight: '400',
-    fontSize: '14px',
-    paddingLeft: 15,
-    paddingRight: 15,
     cursor: 'pointer',
-    paddingBottom: 15,
     borderBottom: `2px solid ${colors.brandTextColor}`,
   },
   authLink: {
@@ -480,7 +511,6 @@ const useStyles = makeStyles(() => ({
     paddingBottom: 5,
     cursor: 'pointer',
     fontSize: 14,
-    fontFamily: 'SF Pro Display',
     '&:hover': {
       color: colors.lightPurple,
     },
@@ -510,16 +540,12 @@ const useStyles = makeStyles(() => ({
   },
   qrGenTitle: {
     fontSize: 21,
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'bold',
     color: 'black',
     marginBottom: 15,
   },
   qrGenDescription: {
     textAlign: 'center',
     fontSize: 14,
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
     color: colors.black70,
     marginBottom: 20,
   },

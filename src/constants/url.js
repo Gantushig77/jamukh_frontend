@@ -6,7 +6,7 @@ const img_url = `http://43.231.114.19:${backend_port}/image/`;
 const membership_img_url = `http://43.231.114.19:${backend_port}/membership/`;
 
 const url = {
-  general: ['/', '/news', '/property', '/antiquest', '/cars', '/estate'],
+  general: ['/antiquest', '/estate', '/cars', '/property','/painting'],
 };
 
 const bmLinks = {

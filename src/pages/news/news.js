@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
-import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import Slider from '../../components/slider/slider';
 import Section2 from './section2/Section2';
+
 
 export default function News() {
   const phoneSize = useMediaQuery('(max-width: 767px)');
@@ -33,14 +33,12 @@ export default function News() {
   return (
     <div
       style={{
-        backgroundColor: '#252525',
         height: '100%',
         margin: '0px',
         padding: '0px',
       }}
     >
       <Appbar phone={phoneSize} tablet={tabletSize} />
-      {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
@@ -57,7 +55,6 @@ export default function News() {
       </Snackbar>
       <Slider phone={phoneSize} tablet={tabletSize} />
       <Section2 phone={phoneSize} tablet={tabletSize} />
-      <Footer phone={phoneSize} tablet={tabletSize} />
     </div>
   );
 }

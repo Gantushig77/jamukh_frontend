@@ -11,27 +11,35 @@ import {
   IconButton,
   Checkbox,
 } from '@mui/material';
-import jamuh_logo from '../../assets/icons/Jamuh_logo.png';
-import jamuh_text from '../../assets/icons/Jamuh_text.png';
 import { makeStyles } from '@mui/styles';
 import json2mq from 'json2mq';
-import grayBlob from '../../assets/background/grayBlob.svg';
 import colors from '../../constants/colors';
 import TheContext from '../../context/context';
 import { Alert } from '@mui/lab';
-import { useHistory } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { login } from '../../api/account';
+import Login from '../../assets/background/login.png';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Appbar from '../../components/appbar/appbar';
+import Footer from '../../components/footer/footer';
+
 
 export default function LoginPage() {
-  let history = useHistory();
 
+
+
+  const [value, setValue] = useState('');
   const [renderLoading, setRenderLoading] = useState(true);
   const [checked, setChecked] = useState(1);
   const [usernameState, setUsenameState] = useState('');
+  const [firstnameState, setFirstnameState] = useState('');
+  const [lastnameState, setLastnameState] = useState('');
   const [passwordState, setPasswordState] = useState('');
   const [checkboxState, setCheckboxState] = useState(false);
+  const [tab, setTab] = useState(false);
   const [passType, setPassType] = useState({
     pass: 'password',
     verify: 'password',
@@ -61,6 +69,7 @@ export default function LoginPage() {
     severity: 'success',
   });
 
+
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
       open: state,
@@ -68,6 +77,14 @@ export default function LoginPage() {
       severity: type,
     });
   };
+
+
+  const handleChange = (event) => {
+
+    setValue(event.target.value);
+
+  };
+
 
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -83,6 +100,8 @@ export default function LoginPage() {
   const handlePasswordState = (num) => {
     setPasswordState(num);
   };
+
+ 
 
   const sendLogin = () => {
     if (!usernameState || !passwordState) {
@@ -161,6 +180,7 @@ export default function LoginPage() {
 
   return (
     <div className={classes.container}>
+      <Appbar phone={phoneSize} tablet={tabletSize} />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
@@ -175,24 +195,22 @@ export default function LoginPage() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
+
       {/* Input container */}
+      <div className={classes.containerEnd}>
       <Container className={classes.inputContainer}>
         {/* Login */}
-        <>
+        {tab === false ? 
+         <>
           {renderLoading ? (
-            // Loading icon
             <CircularIndeterminate />
           ) : (
             <Fade in={checked === 1} mountOnEnter unmountOnExit>
               <div className={classes.inputItem1}>
                 {/* Logo */}
-                <div className={classes.logo}>
-                  <img src={jamuh_logo} alt={'jamukh_png'} />
-                  <img
-                    src={jamuh_text}
-                    className={classes.jamuhLogo}
-                    alt={'jamukh_text'}
-                  />
+                <div className={classes.tabs}>
+                  <div className={tab === true?classes.tab:classes.activeTab} style={{borderRight:"1px solid #e6e6e61e"}} onClick={()=>{setTab(false)}}>Нэвтрэх</div> 
+                  <div className={tab === false?classes.tab:classes.activeTab} onClick={()=>{setTab(true)}}>Бүртгүүлэх</div> 
                 </div>
                 {/* Input */}
                 <InputBase
@@ -259,22 +277,182 @@ export default function LoginPage() {
                 <Button onClick={() => sendLogin()} className={classes.button}>
                   {contextText.login.title}
                 </Button>
-                <div className={classes.fbFlexDiv}>
-                  <Button
-                    onClick={() => history.push('/sign-up')}
-                    className={classes.transparentButton}
-                  >
-                    {contextText.signUp.title}
-                  </Button>
+              </div>
+            </Fade>
+          )}
+        </>:
+          <>
+          {renderLoading ? (
+            <CircularIndeterminate />
+          ) : (
+            <Fade in={checked === 1} mountOnEnter unmountOnExit>
+              <div className={classes.inputItem1}>
+                {/* Logo */}
+                <div className={classes.tabs}>
+                  <div className={tab === true?classes.tab:classes.activeTab} style={{borderRight:"1px solid #e6e6e61e"}} onClick={()=>{setTab(false)}}>Нэвтрэх</div> 
+                  <div className={tab === false?classes.tab:classes.activeTab} onClick={()=>{setTab(true)}}>Бүртгүүлэх</div> 
                 </div>
+                {/* InputFirst */}
+                <InputBase
+                  className={classes.textfield}
+                  type={'text'}
+                  value={firstnameState}
+                  onChange={(e) => handleUsernameState(e.target.value)}
+                  placeholder={'Овог'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+                {/* InputLast */}
+                <InputBase
+                  className={classes.textfield}
+                  type={'text'}
+                  value={lastnameState}
+                  onChange={(e) => handleUsernameState(e.target.value)}
+                  placeholder={'Нэр'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+                {/* Input phone */}
+                <InputBase
+                  className={classes.textfield}
+                  type={'text'}
+                  value={usernameState}
+                  onChange={(e) => handleUsernameState(e.target.value)}
+                  placeholder={'Дугаар'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+                {/* Input email */}
+                <InputBase
+                  className={classes.textfield}
+                  type={'text'}
+                  value={usernameState}
+                  onChange={(e) => handleUsernameState(e.target.value)}
+                  placeholder={'Email'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+             {/* Input level */}
+            <FormControl fullWidth  className={classes.level}>
+
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    variant="outlined"
+                    value={value || "test"}
+                    placeholder="test"
+                    renderValue={value !== '' ? undefined : () => <div className={classes.placeHolderLevel}>Зэрэг</div>}
+                    onChange={handleChange}
+                    MenuProps={{
+
+                      PaperProps: {
+                      style: {
+                        color:'#C19D65',
+                        fontWeight:'100'
+                      }}
+
+                    }}
+                    itemProp={
+                      {
+                        style: {
+                          color:'red'
+                        }
+                      }
+                    }
+                  >
+                      <MenuItem value={10}>Энгийн</MenuItem>
+                      <MenuItem value={20}>Bronze</MenuItem>
+                      <MenuItem value={30}>Silver</MenuItem>
+                      <MenuItem value={40}>Gold</MenuItem>
+                      <MenuItem value={50}>Platinium</MenuItem>
+                      <MenuItem value={60}>VIP</MenuItem>
+                  </Select>
+
+                  </FormControl>
+                     {/* Input password */}
+                     <InputBase
+                  type={passType.pass}
+                  value={passwordState}
+                  className={classes.textfieldSlide3}
+                  onChange={(e) => handlePasswordState(e.target.value)}
+                  endAdornment={
+                    <IconButton
+                      color='primary'
+                      className={classes.endAdornmentIcon}
+                      onClick={() => handlePassType(1)}
+                      aria-label='see password'
+                    >
+                      {passType.pass === 'password' ? (
+                        <VisibilityIcon htmlColor={'gray'} />
+                      ) : (
+                        <VisibilityOffIcon htmlColor={'gray'} />
+                      )}
+                    </IconButton>
+                  }
+                  placeholder={'Нууц үг'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+                     {/* Input password */}
+                     <InputBase
+                  type={passType.pass}
+                  value={passwordState}
+                  className={classes.textfieldSlide3}
+                  onChange={(e) => handlePasswordState(e.target.value)}
+                  endAdornment={
+                    <IconButton
+                      color='primary'
+                      className={classes.endAdornmentIcon}
+                      onClick={() => handlePassType(1)}
+                      aria-label='see password'
+                    >
+                      {passType.pass === 'password' ? (
+                        <VisibilityIcon htmlColor={'gray'} />
+                      ) : (
+                        <VisibilityOffIcon htmlColor={'gray'} />
+                      )}
+                    </IconButton>
+                  }
+                  placeholder={'Баталгаажуулах нууц үг'}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      sendLogin();
+                    }
+                  }}
+                />
+        
+                {/* Submit to next page */}
+                <Button onClick={() => sendLogin()} className={classes.button}>
+                  {contextText.login.title}
+                </Button>
               </div>
             </Fade>
           )}
         </>
+        }
+      
+
+      
       </Container>
-      <div className={classes.grayBlobContainer}>
-        <img src={grayBlob} alt={'mobile blob'} className={classes.grayBlob} />
       </div>
+      <div className={classes.footer}>
+        <Footer phone={phoneSize} tablet={tabletSize}  />
+      </div>  
     </div>
   );
 }
@@ -301,6 +479,18 @@ const otpInputStyle = {
 };
 
 const useStyles = makeStyles({
+  placeHolderLevel:{
+    display:'flex',
+    justifyContent:'center',
+    color:'#FFFFFF80',
+    fontWeight:'100'
+  },
+  footer:{
+    position:"sticky",
+    top: "calc( 100vh - 60px )",
+    width:"100%",
+    backgroundColor: (props) => (props.phone ? 'rgb(37,37,37,1)' : 'rgb(37,37,37,0.7)'),
+  },
   jamuhLogo: {
     marginTop: '10px',
     height: '20px',
@@ -308,15 +498,19 @@ const useStyles = makeStyles({
   root: {
     height: '100%',
     padding: '100px',
-    backgroundColor: '#252525',
+    fontFamily: 'Roboto, sans-serif',
+    fontWeight: '100',
+    backgroundColor:'black'
   },
   container: {
     display: 'flex',
-    flexDirection: 'row',
+    fontFamily: 'Roboto, sans-serif',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    width:'100%',
     height: '100vh',
-    backgroundColor: '#252525',
+    backgroundImage: `url(${Login})`,
   },
   logo: {
     display: 'flex',
@@ -335,9 +529,18 @@ const useStyles = makeStyles({
     height: '100%',
   },
   inputContainer: {
-    width: '100%',
+    padding:'60px 20px',
+    width: (props) => (props.phone ? '100%' : '50%'),
+    backgroundColor: (props) => (props.phone ? 'rgb(37,37,37,1)' : 'rgb(37,37,37,0.7)'),
+    borderRadius:'10px',
     boxShadow: (props) =>
       props.phone ? 'none' : props.trigger ? '0 0 20px #ccc' : 'none',
+  },
+  containerEnd:{
+    display:'flex',
+    justifyContent:'center',
+    width:(props) => (props.phone ? '100%' : '50%'),
+    marginTop:(props) => (props.phone ? '120px' : '0px')
   },
   otpContainerStyle: {
     marginTop: 20,
@@ -364,9 +567,6 @@ const useStyles = makeStyles({
     height: 36,
   },
   otpFocusPhone: {
-    ...otpInputStyle,
-    marginRight: 10,
-    height: 36,
     width: '13px !important',
     fontSize: 17,
     border: '2px solid #6A67D3',
@@ -386,31 +586,22 @@ const useStyles = makeStyles({
   description: {
     maxWidth: '100%',
     fontSize: '14px',
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
     textAlign: 'left',
     color: colors.gray,
     marginTop: 20,
   },
   title: {
     fontSize: '27px',
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'bold',
     textAlign: 'left',
     color: colors.black,
   },
   label: {
     fontSize: '14px',
-    fontFamily: 'SF Pro Display',
-    fontWeight: '600',
     textAlign: 'left',
     color: colors.black,
     marginTop: 50,
   },
   labelSlide3: {
-    fontSize: '14px',
-    fontFamily: 'SF Pro Display',
-    fontWeight: '600',
     textAlign: 'left',
     color: colors.black,
     marginTop: 5,
@@ -423,7 +614,7 @@ const useStyles = makeStyles({
     borderRadius: 10,
     marginTop: 20,
     color: '#FFFFFF80',
-    fontWeight: '700',
+    fontWeight: '100',
   },
   textfieldSlide3: {
     backgroundColor: '#ffffff30',
@@ -434,21 +625,21 @@ const useStyles = makeStyles({
     borderRadius: 10,
     marginTop: 20,
     height: 52,
-    fontWeight: '700',
+    fontWeight: '100',
   },
   button: {
-    background:
-      'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
-    color: 'white',
-    paddingLeft: 30,
-    paddingRight: 30,
+    border:'1px solid #e6e6e61e',
     width: '100%',
     height: 45,
-    borderRadius: 10,
-    marginTop: 30,
+    borderRadius: 5,
+    fontSize:'18px',
+    fontWeight:100,
+    color:'#D38F36',
+    marginTop:'20px',
     '&:hover': {
       background:
-        'linear-gradient(198.42deg, #F8D4A0 -50.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
+        '#A97045',
+        color:'white'
     },
   },
   transparentButton: {
@@ -530,6 +721,12 @@ const useStyles = makeStyles({
     marginTop: '30%',
     marginBottom: '30%',
   },
+  level:{
+    marginTop:"15px",
+    backgroundColor:"#454C4C",
+    borderRadius:"6px",
+    color:"#F6F8FA!important"
+  },
   rememberContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -551,21 +748,20 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop:'20px'
   },
   rememberText: {
-    fontSize: 14,
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
+    fontSize: 16,
     color: colors.gray,
+    fontWeight:'100'
   },
   forgotText: {
-    fontSize: 14,
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
+    fontSize: 16,
     color: colors.gray,
+    fontWeight:'100',
     textAlign: 'end',
     '&:hover': {
-      color: colors.lightPurple,
+      color: '#CD864F',
       cursor: 'pointer',
     },
   },
@@ -585,7 +781,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     cursor: 'pointer',
     color: 'gray',
-    fontWeight: '600',
     width: (props) => (props.trigger || props.phone ? '100%' : 'auto'),
   },
   fb_logo: {
@@ -596,4 +791,26 @@ const useStyles = makeStyles({
     flexDirection: (props) => (props.tablet || props.trigger ? 'column' : 'row'),
     justifyContent: 'space-between',
   },
+  tabs:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    fontSize:'28px',
+    color:'white',
+    fontWeight:'100',
+    marginBottom:'20px'
+  },
+  tab:{ 
+    textAlign:'center',
+    padding:"5px 20px",
+    '&:hover': {
+      color: '#cd864f6c',
+      cursor: 'pointer',
+    },
+  },
+  activeTab:{
+    padding:"5px 20px",
+    color: '#CD864F',
+    cursor: 'pointer',
+  }
 });

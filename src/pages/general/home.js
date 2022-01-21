@@ -3,14 +3,13 @@ import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
-import Section1 from '../../components/home/section1/Section1';
-import Section2 from '../../components/home/section2/Section2';
-import Section3 from '../../components/home/section3/Section3';
-import { useHistory } from 'react-router';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
+import { makeStyles } from "@mui/styles";
+import Background from '../../assets/images/home.png'
 
-export default function Home() {
+export default function Home(props) {
+  const classes = useStyles(props);
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -19,7 +18,6 @@ export default function Home() {
     })
   );
 
-  const history = useHistory();
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -35,12 +33,10 @@ export default function Home() {
     setSnackbarState({ ...snackbarState, open: false });
   };
 
-  const handleGoodsDetail = (id) => {
-    history.push(`/goods-detail?id=${id}`);
-  };
+
 
   return (
-    <div style={{ backgroundColor: '#252525' }}>
+    <div className={classes.background}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -57,10 +53,34 @@ export default function Home() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section1 phone={phoneSize} tablet={tabletSize} />
-      <Section2 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
-      <Section3 onCardSelect={handleGoodsDetail} phone={phoneSize} tablet={tabletSize} />
-      <Footer phone={phoneSize} tablet={tabletSize} style={{ flexShrink: '0' }} />
+    
+      <div className={classes.footer}>
+         <Footer phone={phoneSize} tablet={tabletSize}  />
+      </div>
     </div>
   );
+
+
 }
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+  },
+  background:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection:'column',
+    position:'relative',
+    backgroundImage:`url(${Background})`,
+    backgroundPosition:"center",
+    backgroundSize:'cover',
+    backgroundRepeat:'no-repeat',
+    height:"100vh"
+  },
+  footer:{
+    position:"sticky",
+    top: "calc( 100vh - 60px )",
+    width:"100%",
+  }
+})

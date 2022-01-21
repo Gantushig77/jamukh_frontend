@@ -1,14 +1,7 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
-import JAMUH from '../../assets/icons/Jamuh_text.png';
-import SM from '../../assets/icons/Jamuh_logo.png';
-import Facebook from '../../assets/social/facebook-logo.png';
-import Google from '../../assets/social/google-browser.png';
-import Twitter from '../../assets/social/twitter.png';
-import Instagram from '../../assets/social/instagram.png';
-import Youtube from '../../assets/social/youtube.png';
 
 export default function Footer(props) {
   const classes = useStyles(props);
@@ -16,61 +9,17 @@ export default function Footer(props) {
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
-        <Button
-          variant='contained'
-          color='secondary'
-          className={classes.button}
-          disableElevation
-          startIcon={<img src={SM} style={{ height: '30px' }} alt={''} />}
-        >
-          <img src={JAMUH} style={{ height: '20px' }} alt={''} />
-        </Button>
         <div className={classes.address}>
-          МОНГОЛ УЛС, Улаанбаатар хот, Сүхбаатар дүүрэг, 20-р хороо, Сэлбэ зуслан “Гранд
-          Маршал” Хотхон
+        Jamukha Proporties © 2022 All rights reserved
         </div>
 
         <div className={classes.social}>
-          <Button
-            variant='contained'
-            color='secondary'
-            disableElevation
-            className={classes.buttonLegal}
-          >
-            <img src={Facebook} className={classes.socialIcon} alt={''} />
-          </Button>
-          <Button
-            variant='contained'
-            color='secondary'
-            disableElevation
-            className={classes.buttonLegal}
-          >
-            <img src={Twitter} className={classes.socialIcon} alt={''} />
-          </Button>
-          <Button
-            variant='contained'
-            color='secondary'
-            disableElevation
-            className={classes.buttonLegal}
-          >
-            <img src={Google} className={classes.socialIcon} alt={''} />
-          </Button>
-          <Button
-            variant='contained'
-            color='secondary'
-            disableElevation
-            className={classes.buttonLegal}
-          >
-            <img src={Instagram} className={classes.socialIcon} alt={''} />
-          </Button>
-          <Button
-            variant='contained'
-            color='secondary'
-            disableElevation
-            className={classes.buttonLegal}
-          >
-            <img src={Youtube} className={classes.socialIcon} alt={''} />
-          </Button>
+          <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
+            Мэдээ
+          </Link>  
+          <Link className={classes.menuListItem} to='/estate'>
+            Бидний тухай
+          </Link>  
         </div>
       </div>
     </div>
@@ -79,15 +28,18 @@ export default function Footer(props) {
 
 const useStyles = makeStyles({
   root: {
-    borderTop: '1px solid gray',
     display: 'flex',
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
-    width: '100%',
     justifyContent: 'center',
+    color:'white',
+    fontWeight:'100',
+    fontFamily: "'Roboto', sans-serif",
+    fontSize:'16px',
+    padding:'0 10px'
   },
   flexContainer: {
     display: 'flex',
-    width:  (props) => (props.phone ? '100%' : '1300px'),
+    width:  (props) => '100%',
     flexDirection:(props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -95,6 +47,14 @@ const useStyles = makeStyles({
   social: {
     display: 'flex',
     alignItems: 'center',
+  },
+  menuListItem:{
+    textDecoration:'none',
+    color:'white',
+    cursor:'position',
+    '&:hover': {
+      color: '#AA6139',
+    },
   },
   socialIcon: {
     height: '15px',
@@ -112,8 +72,6 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     color: colors.gray,
     fontSize: (props) => (props.tablet ? '14px' : props.phone ? '12px' : '17px'),
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
     textDecoration: 'none',
     textTransform: 'none',
     '&:hover': {
@@ -125,12 +83,9 @@ const useStyles = makeStyles({
     marginBottom: 10,
     backgroundColor: 'transparent',
     color: 'white',
-    fontSize: (props) => (props.tablet ? '14px' : props.phone ? '12px' : '14px'),
-    fontFamily: 'Roboto Condensed',
-    fontWeight: 'normal',
+    fontSize: (props) => (props.tablet ? '22px' : props.phone ? '12px' : '20px'),
     textDecoration: 'none',
     textTransform: 'none',
-    width: '320px',
   },
   buttonLegal: {
     marginTop: (props) => (props.phone ? 0 : 30),
@@ -138,9 +93,7 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     color: colors.gray,
     fontSize: (props) => (props.tablet ? '14px' : props.phone ? '12px' : '17px'),
-    fontFamily: 'Roboto Condensed',
     textAlign: 'justify',
-    fontWeight: 'normal',
     textTransform: 'none',
     maxWidth: 340,
     width: '100%',

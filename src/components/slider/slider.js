@@ -1,23 +1,46 @@
 import React, { useRef, useContext } from 'react';
-import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
 import screen1 from '../../assets/images/screen1.png';
 import screen2 from '../../assets/images/screen2.png';
 import Slider from 'react-slick';
 import TheContext from '../../context/context';
+import ArrowL from '../../assets/arrow/arrowL.png'
+import ArrowR from '../../assets/arrow/arrowR.png'
+
+function NextArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" ,cursor:"pointer" ,position:"absolute",right:"0",top:'32%'}} onClick={onClick} >
+        <img src={ArrowR} className={classes.arrow} alt=""/>
+    </div>
+  );
+}
+
+function PrevArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" ,cursor:"pointer",position:"absolute",left:"0",zIndex:"100",top:'32%'}} onClick={onClick}>
+       <img className={classes.arrow} src={ArrowL} alt=""/>
+</div>
+  );
+}
 
 export default function SliderCustom(props) {
-  const classes = useStyles(props);
+
   let slider = useRef(null);
 
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
 
   return (
-    <Container disableGutters maxWidth={false} className={classes.root}>
-      <Slider ref={slider} {...sliderConfig} className={classes.slider}>
+   
+      <Slider ref={slider} {...sliderConfig}  >
+
         {/* Item 1 */}
+
         <SliderItem
           dots={1}
           sliderRef={slider}
@@ -32,7 +55,9 @@ export default function SliderCustom(props) {
           backgroundImg={screen1}
           link={account ? '/user/services' : '/sign-up'}
         />
+
         {/* Item 2 */}
+        
         <SliderItem
           dots={2}
           sliderRef={slider}
@@ -47,37 +72,22 @@ export default function SliderCustom(props) {
           link={account ? '/user/services' : '/sign-up'}
           backgroundImg={screen2}
         />
+
       </Slider>
-    </Container>
   );
 }
 
 const SliderItem = (props) => {
-  let sliderRef = props.sliderRef;
+
   const classes = useStyles(props);
 
   return (
-    <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg} />
-      <div className={classes.sliderItemContainer}>
-        <Container className={classes.textContainer}></Container>
-        <div className={classes.dots_container}>
-          <div
-            onClick={() => sliderRef.current.slickPrev()}
-            className={props?.dots === 1 ? classes.dot_active : classes.dot}
-          />
-
-          <div
-            onClick={() => sliderRef.current.slickNext()}
-            className={props?.dots === 2 ? classes.dot_active : classes.dot}
-          />
+      <div className={classes.sliderItemBackImg} >
+        <div className={classes.sliderItemContainer}>
+          <div className={classes.textContainer}>Алмазан бөгж</div>
+          <div className={classes.textSub}>Jamukh Jadraan</div>
         </div>
-
-        <Container>
-          <div className={classes.slideBottomBackground} />
-        </Container>
       </div>
-    </Container>
   );
 };
 
@@ -86,7 +96,9 @@ const sliderConfig = {
   infinite: true,
   fade: true,
   slidesToScroll: 1,
-  arrows: false,
+  arrows: true,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
   draggable: false,
   swipe: true,
   adaptiveHeight: true,
@@ -96,22 +108,13 @@ const sliderConfig = {
 
 const useStyles = makeStyles({
   root: {
-    minHeight: (props) => (props.phone ? 400 : 400),
     width: '100%',
     zIndex: '-1',
   },
   slider: {
-    minHeight: '320px',
-    maxHeight: 340,
+    display:'flex',
+    alignItems:'center',
     width: '100%',
-  },
-  slideBottomBackground: {
-    position: 'absolute',
-    bottom: 60,
-    width: (props) => (props.phone ? '0%' : '1200px'),
-    height: '51px',
-    backgroundColor: 'white',
-    zIndex: '-10',
   },
   sliderItemBackImg: {
     background: colors.lightGray,
@@ -121,37 +124,46 @@ const useStyles = makeStyles({
     '-webkit9-filter': 'blur(0px)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: (props) => (props?.phone ? '350px' : '400px'),
-    marginBottom: '60px',
-    width: '100%',
+    width: '100vw',
     justifyContent: 'center',
+    height:'600px'
   },
   sliderItemContainer: {
-    position: 'relative',
+    position: 'absolute',
+    bottom: (props) => (props?.phone ? '90px' : '-155px'),
     zIndex: 99,
     transform: 'translate(0px, -100%)',
-    height: (props) => (props?.phone ? '600px' : '500px'),
-    marginBottom: 40,
     width: '100%',
-    justifyContent: 'center',
+    background: 'rgb(21,21,22)',
+    background: 'linear-gradient(0deg, rgba(21,21,22,0.6615021008403361) 33%, rgba(21,21,22,0.15730042016806722) 45%)'
   },
   textContainer: {
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
     width: '100%',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    minHeight: '250px',
-    paddingTop: '20px',
-    marginBottom: '150px',
-    paddingLeft: (props) => (props?.phone ? '10%' : '10%'),
+    fontSize: (props) => (props?.phone ? '50px' : '100px'),
+    fontWeight:'100',
+    fontFamily: "'Roboto', sans-serif",
+    color:'white',
+  },
+  textSub:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    width: '100%',
+    fontSize:'32px',
+    fontWeight:'100',
+    fontFamily: "'Roboto', sans-serif",
+    color: '#C19D65',
   },
   avatar: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
     color: '#AA7654',
-    fontFamily: "'Roboto Condensed', sans-serif",
-    marginTop: (props) => (props?.phone ? '10px' : '80px  '),
+    fontFamily: "'Roboto', sans-serif",
+    marginTop: (props) => (props?.phone ? '10px' : '80px'),
   },
   avatarColumn: {
     display: 'flex',
@@ -186,7 +198,7 @@ const useStyles = makeStyles({
   title: {
     display: 'flex',
     alignItems: 'flex-end',
-    fontSize: (props) => (props?.phone ? 20 : 30),
+    fontSize: (props) => (props?.phone ? 30 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '700',
     textAlign: 'left',
@@ -311,4 +323,8 @@ const useStyles = makeStyles({
     marginBottom: 10,
     cursor: 'pointer',
   },
+  arrow:{
+    width:'60px'
+  }
+
 });

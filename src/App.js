@@ -12,32 +12,39 @@ import { isAuthenticated } from './helpers/helperFunctions';
 import PrivateRoute from './components/privateRoute/privateRoute';
 import useAppStyles from './styles/js/classes';
 import { logout } from './helpers/logout';
-// import MessengerCustomerChat from 'react-messenger-customer-chat';
-// Routes
 import Home from './pages/general/home';
-import Detailnews from './pages/Detailnews/Detailnews';
+import List from './pages/listNews/list';
 import NotFound from './pages/general/notFound';
-// import SignUp from "./pages/general/signUp";
 import Login from './pages/general/login';
-import Logout from './pages/general/logout';
+// import Logout from './pages/general/logout';
 import TermsAndConditions from './pages/general/termsAndConditions';
-import Members from './pages/members/members';
+import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
-import Property from './pages/property/property';
-import Antiquest from './pages/antiquest/antiquest';
-import Cars from './pages/cars/cars';
-import Estate from './pages/estate/estate';
+import Category from './pages/category/category';
 import News from './pages/news/news';
 import CreateAd from './pages/createAd/createAd';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
+import Atiquest from './assets/background/aquest.png'
+import Property from './assets/background/land.png'
+import Cars from './assets/background/cars.png'
+import Estate from './assets/background/estate.png'
+import Painting from './assets/background/Painting.png'
+import { useMediaQuery } from '@mui/material';
+import json2mq from 'json2mq';
 
 export default function App() {
   let token = localStorage.getItem('jamukh_token');
 
   const classes = useAppStyles();
   const loading = false;
-
+  const phoneSize = useMediaQuery('(max-width: 767px)');
+  const tabletSize = useMediaQuery(
+    json2mq({
+      minWidth: 768,
+      maxWidth: 1023,
+    })
+  );
   const [account, setAccount] = useState({});
   const [contextValue, setContextValue] = useState({
     contextText:
@@ -103,23 +110,38 @@ export default function App() {
             <Route exact path={'/'}>
               <Home />
             </Route>
-            {/* <Route path={'/sign-up'}>
-              <SignUp />
-            </Route> */}
+            <Route path={'/detailnews/:id'}>
+              <News  />
+            </Route>
             <Route path={'/login'}>
               <Login />
             </Route>
             <Route path={'/logout'}>
-              <Logout />
+              <Members />
             </Route>
             <Route path={'/news'}>
               <News />
             </Route>
-            <Route path={'/estate'}>
-              <Estate />
+            <Route path={'/list'}>
+              <List />
             </Route>
-            <Route path={'/detailnews/:id'}>
-              <Detailnews />
+            <Route path={'/profile'}>
+              <Profile/>
+            </Route>
+            <Route path={'/antiquest'}>
+              <Category  bg={Atiquest} title="Эртний эдлэл" phone={phoneSize} tablet={tabletSize}/>
+            </Route>
+            <Route path={'/property'}>
+              <Category  bg={Property} title="Газар" phone={phoneSize} tablet={tabletSize} />
+            </Route>
+            <Route path={'/cars'}>
+              <Category  bg={Cars} title="Машин" phone={phoneSize} tablet={tabletSize}/>
+            </Route>
+            <Route path={'/estate'}>
+              <Category  bg={Estate} title="Үл хөдлөх" phone={phoneSize} tablet={tabletSize}/>
+            </Route>
+            <Route path={'/painting'}>
+              <Category  bg={Painting} title="Уран зураг" phone={phoneSize} tablet={tabletSize}/>
             </Route>
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
@@ -127,15 +149,15 @@ export default function App() {
             <PrivateRoute path={'/create-ad'} authenticated={isAuthenticated()}>
               <CreateAd />
             </PrivateRoute>
-            <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
+            {/* <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
               <Property />
             </PrivateRoute>
             <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
-              <Antiquest />
+              <Category />
             </PrivateRoute>
             <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
               <Cars />
-            </PrivateRoute>
+            </PrivateRoute> */}
             <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
               <Members />
             </PrivateRoute>
@@ -153,9 +175,6 @@ export default function App() {
               <NotFound />
             </Route>
           </Switch>
-          {/* <div className={classes.chatContainer}>
-            <MessengerCustomerChat pageId='' appId='' />
-          </div> */}
         </Router>
       </TheContext.Provider>
     </div>

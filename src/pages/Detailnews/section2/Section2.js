@@ -2,132 +2,37 @@ import React from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../../constants/colors';
-import Rec from '../../../assets/images/reclamDemo.png';
-import Test from '../../../assets/images/1.png';
-import GoogleMapReact from 'google-map-react';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import './section.css';
+import Background from '../../../assets/background/background.png';
+import Title from '../../../components/title/title';
+import Car from '../../../assets/images/cars.png';
+import Car1 from '../../../assets/images/Rectangle 61.png'
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
 
 export default function Section2(props) {
   const classes = useStyles(props);
-
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
-      <div className={classes.titleNews}>GRAND MARSHAL LUXURY VILLAS</div>
-      <div className={classes.calendar}>2021 оны 09 сарын 02 ны өдөр 11:23:45 цагт</div>
+      <Title name="Lexus 600 нээлт монголд" phone={props.phone} tablet={props.tablet}/>
       <Container disableGutters maxWidth={false} className={classes.container}>
+        
+        <img src={Car} className={classes.coverImage}/>
         <div className={classes.containerNews}>
-          <div className={classes.subTitle}>INFORMATION</div>
           <div className={classes.newsText}>
-            Ideally, architects of houses design rooms to meet the needs of the people who
-            will live in the house. Feng shui, originally a Chinese method of moving
-            houses according to such factors as rain and micro-climates, has recently
-            expanded its scope to address the design of interior spaces, with a view to
-            promoting harmonious effects on the people living inside the house, although
-            no actual effect has ever been demonstrated. Feng shui can also mean the
-            “aura” in or around a dwelling, making it comparable to the real estate sales
-            concept of “indoor-outdoor flow”. Ideally, architects of houses design rooms
-            to meet the needs of the people who will live in the house. Feng shui,
-            originally a Chinese method of moving houses according to such factors as rain
-            and micro-climates,
+            Remember the all-new Toyota Land Cruiser 300 that launched earlier this year? Well, time to meet its posh step-sibling that was sent to private school – the new Lexus LX600. 
+            And would you look at that face. Here we were thinking BMW designers were about to snatch the award for largest automotive snout of the 21st century. Lexus says the LX “pursues a blend of athletic performance, accessible functionality and striking beauty” and that the grille is “a three-dimensional shape comprised of seven sets of floating bars that create a seamless and frame-free structure". Sure, why not.
+            Anyway, like the new Land Cruiser 300, the LX won’t be sold in the UK. Unlike its Toyota relation, though, it will land on US soil in early 2022. It’s based on the same new GA-F platform as the Land Cruiser too, which means it’s 20 per cent stiffer than the previous gen LX but 200kg lighter. It is still a body-on-frame build, mind. 
+            It also deploys the same 409bhp 3.5-litre twin-turbo V6 petrol engine and 10spd automatic gearbox as the Toyota, but it’s the interior (as well as that grille) where the differences are most striking. In the new and confidently titled Ultra Luxury trim, Lexus has gone for a four-seat layout with proper reclining armchairs in the back. Nice.
           </div>
-          <div className={classes.newsGallery}>
-            <div className={classes.tabs}>
-              <div className={classes.activeTab}>PHOTOS</div>
-              <div className={classes.tab}>VIDEOS</div>
-              <div className={classes.tab}>360 VR</div>
-            </div>
-            <div className={classes.tabContainer}>
-              <img src={Test} alt={''} />
-              <img src={Test} alt={''} />
-              <img src={Test} alt={''} />
-              <img src={Test} alt={''} />
-              <img src={Test} alt={''} />
-              <img src={Test} alt={''} />
-            </div>
+          <img src={Car1} className={classes.coverImage} alt=""/>
+          <div className={classes.newsText}>
+            You also get many, many screens including two separate touchscreens up front for the infotainment. The upper is a 12.3-inch unit while the one just below measures 7-inches. That’s a whole lot of screen.
+            Lexus is at pains to point out that there’ll be an F Sport version too. That gets revised suspension and a Torsen limited slip diff on the rear axle to help it through on-road corners. It also gets a vast black hole in place of any front bumper or head-on styling. Did someone leave the Large Hadron Collider lying around the Lexus factory again?
           </div>
         </div>
-        <div style={{ width: '20%' }} className={classes.containerRec}>
-          <div className={classes.rec}>
-            <img src={Rec} className={classes.recImg} alt={''} />
-            <div className={classes.recName}>Grand Marshal</div>
-            <div className={classes.recCompany}>Construction Company</div>
-            <div className={classes.recSale}>Sale</div>
-            <div className={classes.recMkv}>MKV 7,500,000₮</div>
-            <div className={classes.recPhone}>Phone</div>
-            <div className={classes.recPhoneButton}>7777-3333</div>
-            <div className={classes.recPhoneButton}>7000-3333</div>
-          </div>
+      </Container>
 
-          <div
-            className={classes.block}
-            style={{ height: '400px', width: '100%', marginTop: '10px' }}
-          >
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: 'AIzaSyDWQs_bQeiRWTon2HDAgvd1_FEXxMqeU-E' }}
-              defaultCenter={{
-                lat: 59.95,
-                lng: 30.33,
-              }}
-              defaultZoom={11}
-            >
-              <AnyReactComponent lat={59.955413} lng={30.337844} text='My Marker' />
-            </GoogleMapReact>
-          </div>
-          <div style={{ marginTop: '20px', border: '1px solid #D3D3D3', padding: '5px' }}>
-            <div className={classes.infoTitle}>UPPER GROUND LEVEL</div>
-            <table className={classes.table}>
-              <tr className={classes.tr}>
-                <th>№</th>
-                <th>NAME</th>
-                <th>M2</th>
-              </tr>
-              <div />
-              <tr className={classes.trNormal}>
-                <td>1</td>
-                <td>Entrance, Circulation Spaces, Store & Service</td>
-                <td>110.4</td>
-              </tr>
-              <tr className={classes.trNormal}>
-                <td>1</td>
-                <td>Entrance, Circulation Spaces, Store & Service</td>
-                <td>110.4</td>
-              </tr>
-              <tr className={classes.trBottom}>
-                <td></td>
-                <td>Total Net Surface Upper Ground Level</td>
-                <td>645.9</td>
-              </tr>
-            </table>
-            <div className={classes.btnContainer}>
-              <div className={classes.btn}>
-                SEE ALL <ArrowForwardIosIcon style={{ fontSize: '16px' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-      <Container disableGutters maxWidth={false} className={classes.container}>
-        <div className={classes.like}>
-          <div className={classes.likeTitle}>YOU MAY ALSO LIKE</div>
-          <div className={classes.row}>
-            <div className={classes.img}>
-              <img src={Test} alt={''} />
-            </div>
-            <div className={classes.img}>
-              <img src={Test} alt={''} />
-            </div>
-            <div className={classes.img}>
-              <img src={Test} alt={''} />
-            </div>
-            <div className={classes.img}>
-              <img src={Test} alt={''} />
-            </div>
-          </div>
-        </div>
-      </Container>
     </Container>
   );
 }
@@ -137,7 +42,20 @@ const useStyles = makeStyles({
     minHeight: (props) => (props.phone ? 780 : 560),
     width: '100%',
     zIndex: '1',
-    fontFamily: 'Roboto Condensed',
+    fontFamily: 'Roboto, sans-serif',
+    fontWeight:100,
+    marginTop:'120px',
+  },
+    textSlide:{
+    borderBottom:'2px solid #C6824D',
+    marginBottom:'10px',
+    paddingBottom:'5px'
+  },
+  titleSlider: {
+    display: 'flex',
+    flexDirection:'column',
+    alignItems: 'center',
+    fontSize: (props) => (props?.phone ? '42px' : '65px'),
   },
   rec: {
     display: 'flex',
@@ -260,6 +178,7 @@ const useStyles = makeStyles({
     textAlign: 'justify',
     fontWeight: '300',
     lineHeight: '25px',
+    margin:'10px 0'
   },
   containerRec: {
     display: 'flex',
@@ -277,14 +196,19 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: '80%',
-    height: '100px',
-    paddingRight: '30px',
+    width: '100%',
+    marginTop:'20px',
+    color:'#C19D65'
   },
   container: {
     display: 'flex',
-    width: '1100px',
+    flexDirection:'column',
+    padding:(props) => (props?.phone ? '10px' : '40px'),
     justifyContent: 'flex-start',
+    backgroundImage:(props) =>`url(${Background})`,
+    width: (props) => (props?.phone ? '100%' : '1300px'),
+    height:"100%",
+    marginTop:'20px'
   },
   titleNews: {
     fontFamily: 'normal',
@@ -382,6 +306,9 @@ const useStyles = makeStyles({
     maxWidth: '350px',
     color: 'white',
     minHeight: 64,
+  },
+  coverImage:{
+    width:'100%'
   },
   button: {
     fontFamily: "'Roboto Condensed', sans-serif",

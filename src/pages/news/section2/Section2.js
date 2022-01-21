@@ -1,78 +1,356 @@
-import React from 'react';
-import { Container, Card } from '@mui/material';
+import React, { useRef, useContext } from "react";
+import { Container } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Test from '../../../assets/images/object.png';
+import Background1 from '../../../assets/background/detailnews.png';
+import Background from '../../../assets/background/background.png'
+import Slider from "react-slick";
+import ArrowL from '../../../assets/arrow/arrowL.png'
+import ArrowR from '../../../assets/arrow/arrowR.png'
+import screen2 from "../../../assets/images/background.png";
+import TheContext from "../../../context/context";
+import DemoImage from '../../../assets/images/demoImage.png';
+import Footer from '../../../components/footer/footer';
+
+function NextArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" }} onClick={onClick} >
+        <img src={ArrowR} className={classes.arrow} alt=""/>
+    </div>
+  );
+}
+
+function PrevArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" ,cursor:"pointer"}} onClick={onClick}>
+    <img className={classes.arrow} src={ArrowL} alt=""/>
+</div>
+  );
+}
+
 
 export default function Section2(props) {
   const classes = useStyles(props);
+  let slider = useRef(null);
+
+  const ContextHook = useContext(TheContext);
+  const account = ContextHook.account;
 
   return (
-    <Container className={classes.root}>
+    <div className={classes.root}>
       {props?.parentId ? (
         <></>
       ) : (
         <>
           <Container className={classes.cardContent}>
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
-            <CardItem phone={props} />
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Үнэ 
+              </div>  
+              <div className={classes.value}>
+                 $ 30000 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+             <div className={classes.label}>
+              Дотор өнгө
+              </div> 
+              <div className={classes.value}>
+                 Цагаан 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+             <div className={classes.label}>
+               Үйлдвэр 
+              </div>  
+              <div className={classes.value}>
+                Lexus
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+           <div className={classes.rowHalf}>
+              <div className={classes.label}>
+                Мотор багтаамж 
+              </div>  
+              <div className={classes.value}>
+                 4.6 л 
+              </div>  
+           </div>  
+            
+           <Slider  {...sliderConfig} className={classes.slider} >
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+              <SliderItem
+                dots={1}
+                sliderRef={slider}
+                phone={props?.phone}
+                backgroundImg={screen2}
+                link={account ? "/user/services" : "/sign-up"}
+              />
+      </Slider>
+       <div className={classes.content}>
+          <div className={classes.title}>
+              Тайлбар
+          </div>  
+          <div className={classes.description}>
+            il porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellino
+          </div>  
+        </div>
           </Container>
         </>
       )}
-    </Container>
+      <Footer phone={props.phone} tablet={props.tablet} />
+    </div>
   );
 }
+const SliderItem = (props) => {
+  const classes = useStyles(props);
 
-const CardItem = (props) => {
-  console.log(props, 'props');
-  const classes = useStyles(props.phone);
   return (
-    <Card className={classes.cardRoot}>
-      <img src={Test} className={classes.imageCard} alt={''} />
-      <div className={classes.cardPadding}>
-        <div className={classes.cardTitle}>MONGOLIAN TOP ARCHITECTURE DESIGN</div>
-        <div className={classes.cardDate}>1min</div>
-        <div className={classes.cardDesc}>
-          “Гранд Маршал” дөрвөн улирлын цогцолбор хотхон 2-3 өрөө …
-        </div>
-        <div className={classes.cardButtonContent}>
-          <div className={classes.cardButton}>
-            MORE
-            <ArrowForwardIosIcon style={{ height: '16px' }} />
-          </div>
-        </div>
-      </div>
-    </Card>
+    <div className={classes.box}>
+      <img src={DemoImage} className={classes.boxImage} alt=""/>
+    </div>
   );
 };
 
+const sliderConfig = {
+  // dots: true,
+  infinite: true,
+  speed: 500,
+  arrows: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  responsive: [
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 1,
+        arrows: true,
+      }
+    }
+  ]
+};
+
+
 const useStyles = makeStyles({
   root: {
-    width: (props) => (props.phone ? '100%' : '1300px!important'),
+    width: (props) => (props.phone ? '100%' : '100%'),
     overflow: 'hidden',
     backgroundColor: '#252525',
-    marginTop: (props) => (props.phone ? 100 : 40),
-    fontFamily: "'Roboto Condensed', sans-serif",
+    fontFamily: "'Roboto', sans-serif",
+    backgroundImage:`url(${Background1})`,
+  },
+  label:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'flex-end',
+    width: (props) => (props?.phone ? "auto" : "50%"),
+  },
+  content:{
+    width: (props) => (props?.phone ? "100%" : "1180px"),
+  },
+  slider: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: "100%",
+    marginTop:'40px'
+  },
+  slideBottomBackground: {
+    position: "absolute",
+    bottom: 0,
+    width: "30%",
+    height: "20px",
+  },
+
+  sliderItemBackImg: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    background:'green',
+    backgroundImage: (props) => `url(${props.backgroundImg})`,
+    backgroundPosition: "center",
+    filter: "blur(0px)",
+    "-webkit9-filter": "blur(0px)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    height: (props) => (props?.phone ? "auto" : "300px"),
+    margin: '10px',
+    borderRadius: '10px',
+    border: '1px solid #C19D65'
+  },
+
+  sliderItemContainer: {
+    position: "relative",
+    zIndex: 99,
+    transform: "translate(0px, -100%)",
+    marginBottom: 40,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  boxTitle: {
+    fontSize: '32px',
+    fontWeight: '300'
+  },
+  box:{
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent:'center',
+  },
+  boxImage: {
+    width: (props) => (props?.phone ? '100%' : '340px'),
+    height: (props) => (props?.phone ? '150px' : '230px'),
+  },
+  bottomBox: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+    fontWeight: '300'
+  },
+  brand: {
+    color: '#C19D65',
+    fontWeight: '400'
+  },
+
+  value:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'flex-start',
+    width: (props) => (props?.phone ? "auto" : "50%"),
+    marginLeft:'15px',
+    color: '#C19D65'
+
+  },
+  rowHalf:{
+    display:'flex',
+    alignItems:'center',  
+    width: (props) => (props?.phone ? '100%' : '50%'),
+    color:'white',
+    justifyContent:'center',
+    fontWeight:'300',
+    fontSize:'20px',
+    marginTop:'30px'
   },
   cardContent: {
     display: 'flex',
     maxWidth: (props) => (props.phone ? '100%' : '1300px'),
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
+    padding:'80px 0px',
+    backgroundColor :'',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     flexWrap: 'wrap',
+    backgroundImage:`url(${Background})`,
   },
   cardButton: {
     display: 'flex',
@@ -162,12 +440,19 @@ const useStyles = makeStyles({
     paddingLeft: (props) => (props.phone ? 0 : 24),
   },
   title: {
-    marginBottom: 30,
-    textAlign: 'left',
-    fontSize: 22,
-    fontFamily: "'Roboto Condensed', sans-serif",
-    fontWeight: 'bold',
+    marginTop: 30,
+    fontSize: 32,
+    fontWeight: 100,
     color: colorss.brandTextColor,
+    width:'100%',
+    textAlign: (props) => (props?.phone ? "center" : "left"),
+  },
+  description:{
+    color:'white',
+    fontSize:'20px',
+    fontWeight:100,
+    marginTop:'10px',
+    textAlign: (props) => (props?.phone ? "center" : "left"),
   },
   titleWithParentId: {
     marginBottom: 10,
@@ -178,17 +463,7 @@ const useStyles = makeStyles({
     color: 'black',
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
   },
-  description: {
-    margin: 'auto',
-    textAlign: 'center',
-    fontFamily: 'SF Pro Display',
-    fontWeight: 'normal',
-    fontSize: '14px',
-    color: 'black',
-    maxWidth: 650,
-    marginLeft: (props) => (props.phone ? -8 : 'auto'),
-    width: '99%',
-  },
+
   descriptionWithParentId: {
     textAlign: 'left',
     fontFamily: 'SF Pro Display',
@@ -198,5 +473,8 @@ const useStyles = makeStyles({
     maxWidth: 550,
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
+  },
+  arrow:{
+    width:(props) => (props.phone ? '30px' : '50px'),
   },
 });

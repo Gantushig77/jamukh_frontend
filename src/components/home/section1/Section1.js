@@ -1,13 +1,11 @@
 import React, { useRef, useContext } from "react";
-import { Container, Typography, Button } from "@mui/material";
+import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import colors from "../../../constants/colors";
 import screen1 from "../../../assets/images/screen1.png";
 import screen2 from "../../../assets/images/screen2.png";
-import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import TheContext from "../../../context/context";
-import FaceIcon from "@mui/icons-material/Face";
 
 export default function Section1(props) {
   const classes = useStyles(props);
@@ -18,6 +16,7 @@ export default function Section1(props) {
 
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
+  
       <Slider ref={slider} {...sliderConfig} className={classes.slider}>
         {/* Item 1 */}
         <SliderItem
@@ -60,43 +59,7 @@ const SliderItem = (props) => {
 
 return (
     <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg} />
-      <div className={classes.sliderItemContainer}>
-        <Container className={classes.textContainer}>
-          <div className={classes.avatar}>
-            <FaceIcon />
-            <div className={classes.avatarColumn}>
-              {props?.admin}
-              <div className={classes.avatarColumnTime}>{props?.time}</div>
-            </div>
-          </div>
-          <Typography className={classes.title}>{props?.title}</Typography>
-          <Typography className={classes.description}>
-            {props?.description}
-          </Typography>
-          <div className={classes.column}>
-            <div className={classes.area}>{props?.area}</div>
-            <Button className={classes.button}>
-              <Link to={props?.link} className={classes.link}>
-                {props?.buttonText}
-              </Link>
-            </Button>
-          </div>
-        </Container>
-              <div className={classes.dots_container}>
-                <div
-                  onClick={() => sliderRef.current.slickPrev()}
-                  className={props?.dots === 1 ? classes.dot_active : classes.dot}
-                />
-            
-                <div
-                  onClick={() => sliderRef.current.slickNext()}
-                  className={props?.dots === 2 ? classes.dot_active : classes.dot}
-                />
-              </div>
-              <div className={classes.slideBottomBackground}>
-            </div>  
-      </div>
+
     </Container>
   );
 };

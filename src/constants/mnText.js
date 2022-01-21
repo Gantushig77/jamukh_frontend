@@ -4,7 +4,7 @@ const mnText = {
     login: 'Нэвтрэх',
     logout: 'Гарах',
     links: {
-      general: ['НOME', 'NEWS', 'PROPERTY','ANTIQUES','CARS','ESTATE','CONTACT'],
+      general: [ 'Эртний эдлэл', 'Үл хөдлөх','Машин','Газар','Уранзураг'],
       superadmin: ['Админууд'],
       admin: ['Операторууд', 'Хэрэглэгчид', 'Дэлгүүр', 'Захиалга'],
       operator: ['Дэлгүүр', 'Захиалга', 'Ангилал', 'Бараа', 'Хүргэлт'],
@@ -48,8 +48,8 @@ const mnText = {
     password: 'Нууц үг',
     passwordVerify: 'Нууц үг батлах',
     otpButton: 'Баталгаажуулах',
-    remember: 'Remeber',
-    forgot: 'Forgot password',
+    remember: 'Нууц үг сануулах',
+    forgot: 'Нууц үг мартсан',
   },
   forgot: {
     title: `Нууц үг сэргээх`,
