@@ -26,11 +26,7 @@ import Select from '@mui/material/Select';
 import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 
-
 export default function LoginPage() {
-
-
-
   const [value, setValue] = useState('');
   const [renderLoading, setRenderLoading] = useState(true);
   const [checked, setChecked] = useState(1);
@@ -69,7 +65,6 @@ export default function LoginPage() {
     severity: 'success',
   });
 
-
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
       open: state,
@@ -78,13 +73,9 @@ export default function LoginPage() {
     });
   };
 
-
   const handleChange = (event) => {
-
     setValue(event.target.value);
-
   };
-
 
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -100,8 +91,6 @@ export default function LoginPage() {
   const handlePasswordState = (num) => {
     setPasswordState(num);
   };
-
- 
 
   const sendLogin = () => {
     if (!usernameState || !passwordState) {
@@ -176,6 +165,8 @@ export default function LoginPage() {
 
   useEffect(() => {
     setRenderLoading(false);
+    setFirstnameState('Бат');
+    setLastnameState('Бат');
   }, []);
 
   return (
@@ -198,261 +189,288 @@ export default function LoginPage() {
 
       {/* Input container */}
       <div className={classes.containerEnd}>
-      <Container className={classes.inputContainer}>
-        {/* Login */}
-        {tab === false ? 
-         <>
-          {renderLoading ? (
-            <CircularIndeterminate />
-          ) : (
-            <Fade in={checked === 1} mountOnEnter unmountOnExit>
-              <div className={classes.inputItem1}>
-                {/* Logo */}
-                <div className={classes.tabs}>
-                  <div className={tab === true?classes.tab:classes.activeTab} style={{borderRight:"1px solid #e6e6e61e"}} onClick={()=>{setTab(false)}}>Нэвтрэх</div> 
-                  <div className={tab === false?classes.tab:classes.activeTab} onClick={()=>{setTab(true)}}>Бүртгүүлэх</div> 
-                </div>
-                {/* Input */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'text'}
-                  value={usernameState}
-                  onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'PHONE & EMAIL'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                {/* Input password */}
-                <InputBase
-                  type={passType.pass}
-                  value={passwordState}
-                  className={classes.textfieldSlide3}
-                  onChange={(e) => handlePasswordState(e.target.value)}
-                  endAdornment={
-                    <IconButton
-                      color='primary'
-                      className={classes.endAdornmentIcon}
-                      onClick={() => handlePassType(1)}
-                      aria-label='see password'
-                    >
-                      {passType.pass === 'password' ? (
-                        <VisibilityIcon htmlColor={'gray'} />
-                      ) : (
-                        <VisibilityOffIcon htmlColor={'gray'} />
-                      )}
-                    </IconButton>
-                  }
-                  placeholder={'PASSWORD'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                {/* Remember me & forgot password */}
-                <Container disableGutters className={classes.rememberOuterContainer}>
-                  <Container disableGutters className={classes.rememberContainer}>
-                    <Checkbox
-                      checked={checkboxState}
-                      onChange={handleCheckboxState}
-                      inputProps={{ 'aria-label': 'сануулах' }}
-                    />
-                    <Typography className={classes.rememberText}>
-                      {contextText.login.remember}
-                    </Typography>
-                  </Container>
-                  <Container disableGutters className={classes.forgotContainer}>
-                    <Typography
-                      onClick={() => handleCheck(2)}
-                      className={classes.forgotText}
-                    >
-                      {contextText.login.forgot}
-                    </Typography>
-                  </Container>
-                </Container>
-                {/* Submit to next page */}
-                <Button onClick={() => sendLogin()} className={classes.button}>
-                  {contextText.login.title}
-                </Button>
-              </div>
-            </Fade>
-          )}
-        </>:
-          <>
-          {renderLoading ? (
-            <CircularIndeterminate />
-          ) : (
-            <Fade in={checked === 1} mountOnEnter unmountOnExit>
-              <div className={classes.inputItem1}>
-                {/* Logo */}
-                <div className={classes.tabs}>
-                  <div className={tab === true?classes.tab:classes.activeTab} style={{borderRight:"1px solid #e6e6e61e"}} onClick={()=>{setTab(false)}}>Нэвтрэх</div> 
-                  <div className={tab === false?classes.tab:classes.activeTab} onClick={()=>{setTab(true)}}>Бүртгүүлэх</div> 
-                </div>
-                {/* InputFirst */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'text'}
-                  value={firstnameState}
-                  onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'Овог'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                {/* InputLast */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'text'}
-                  value={lastnameState}
-                  onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'Нэр'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                {/* Input phone */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'text'}
-                  value={usernameState}
-                  onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'Дугаар'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                {/* Input email */}
-                <InputBase
-                  className={classes.textfield}
-                  type={'text'}
-                  value={usernameState}
-                  onChange={(e) => handleUsernameState(e.target.value)}
-                  placeholder={'Email'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-             {/* Input level */}
-            <FormControl fullWidth  className={classes.level}>
-
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    variant="outlined"
-                    value={value || "test"}
-                    placeholder="test"
-                    renderValue={value !== '' ? undefined : () => <div className={classes.placeHolderLevel}>Зэрэг</div>}
-                    onChange={handleChange}
-                    MenuProps={{
-
-                      PaperProps: {
-                      style: {
-                        color:'#C19D65',
-                        fontWeight:'100'
-                      }}
-
-                    }}
-                    itemProp={
-                      {
-                        style: {
-                          color:'red'
+        <Container className={classes.inputContainer}>
+          {/* Login */}
+          {tab === false ? (
+            <>
+              {renderLoading ? (
+                <CircularIndeterminate />
+              ) : (
+                <Fade in={checked === 1} mountOnEnter unmountOnExit>
+                  <div className={classes.inputItem1}>
+                    {/* Logo */}
+                    <div className={classes.tabs}>
+                      <div
+                        className={tab === true ? classes.tab : classes.activeTab}
+                        style={{ borderRight: '1px solid #e6e6e61e' }}
+                        onClick={() => {
+                          setTab(false);
+                        }}
+                      >
+                        Нэвтрэх
+                      </div>
+                      <div
+                        className={tab === false ? classes.tab : classes.activeTab}
+                        onClick={() => {
+                          setTab(true);
+                        }}
+                      >
+                        Бүртгүүлэх
+                      </div>
+                    </div>
+                    {/* Input */}
+                    <InputBase
+                      className={classes.textfield}
+                      type={'text'}
+                      value={usernameState}
+                      onChange={(e) => handleUsernameState(e.target.value)}
+                      placeholder={'PHONE & EMAIL'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
                         }
+                      }}
+                    />
+                    {/* Input password */}
+                    <InputBase
+                      type={passType.pass}
+                      value={passwordState}
+                      className={classes.textfieldSlide3}
+                      onChange={(e) => handlePasswordState(e.target.value)}
+                      endAdornment={
+                        <IconButton
+                          color='primary'
+                          className={classes.endAdornmentIcon}
+                          onClick={() => handlePassType(1)}
+                          aria-label='see password'
+                        >
+                          {passType.pass === 'password' ? (
+                            <VisibilityIcon htmlColor={'gray'} />
+                          ) : (
+                            <VisibilityOffIcon htmlColor={'gray'} />
+                          )}
+                        </IconButton>
                       }
-                    }
-                  >
-                      <MenuItem value={10}>Энгийн</MenuItem>
-                      <MenuItem value={20}>Bronze</MenuItem>
-                      <MenuItem value={30}>Silver</MenuItem>
-                      <MenuItem value={40}>Gold</MenuItem>
-                      <MenuItem value={50}>Platinium</MenuItem>
-                      <MenuItem value={60}>VIP</MenuItem>
-                  </Select>
+                      placeholder={'PASSWORD'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* Remember me & forgot password */}
+                    <Container disableGutters className={classes.rememberOuterContainer}>
+                      <Container disableGutters className={classes.rememberContainer}>
+                        <Checkbox
+                          checked={checkboxState}
+                          onChange={handleCheckboxState}
+                          inputProps={{ 'aria-label': 'сануулах' }}
+                        />
+                        <Typography className={classes.rememberText}>
+                          {contextText.login.remember}
+                        </Typography>
+                      </Container>
+                      <Container disableGutters className={classes.forgotContainer}>
+                        <Typography
+                          onClick={() => handleCheck(2)}
+                          className={classes.forgotText}
+                        >
+                          {contextText.login.forgot}
+                        </Typography>
+                      </Container>
+                    </Container>
+                    {/* Submit to next page */}
+                    <Button onClick={() => sendLogin()} className={classes.button}>
+                      {contextText.login.title}
+                    </Button>
+                  </div>
+                </Fade>
+              )}
+            </>
+          ) : (
+            <>
+              {renderLoading ? (
+                <CircularIndeterminate />
+              ) : (
+                <Fade in={checked === 1} mountOnEnter unmountOnExit>
+                  <div className={classes.inputItem1}>
+                    {/* Logo */}
+                    <div className={classes.tabs}>
+                      <div
+                        className={tab === true ? classes.tab : classes.activeTab}
+                        style={{ borderRight: '1px solid #e6e6e61e' }}
+                        onClick={() => {
+                          setTab(false);
+                        }}
+                      >
+                        Нэвтрэх
+                      </div>
+                      <div
+                        className={tab === false ? classes.tab : classes.activeTab}
+                        onClick={() => {
+                          setTab(true);
+                        }}
+                      >
+                        Бүртгүүлэх
+                      </div>
+                    </div>
+                    {/* InputFirst */}
+                    <InputBase
+                      className={classes.textfield}
+                      type={'text'}
+                      value={firstnameState}
+                      onChange={(e) => handleUsernameState(e.target.value)}
+                      placeholder={'Овог'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* InputLast */}
+                    <InputBase
+                      className={classes.textfield}
+                      type={'text'}
+                      value={lastnameState}
+                      onChange={(e) => handleUsernameState(e.target.value)}
+                      placeholder={'Нэр'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* Input phone */}
+                    <InputBase
+                      className={classes.textfield}
+                      type={'text'}
+                      value={usernameState}
+                      onChange={(e) => handleUsernameState(e.target.value)}
+                      placeholder={'Дугаар'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* Input email */}
+                    <InputBase
+                      className={classes.textfield}
+                      type={'text'}
+                      value={usernameState}
+                      onChange={(e) => handleUsernameState(e.target.value)}
+                      placeholder={'Email'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* Input level */}
+                    <FormControl fullWidth className={classes.level}>
+                      <Select
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
+                        variant='outlined'
+                        value={value || 'test'}
+                        placeholder='test'
+                        renderValue={
+                          value !== ''
+                            ? undefined
+                            : () => <div className={classes.placeHolderLevel}>Зэрэг</div>
+                        }
+                        onChange={handleChange}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              color: '#C19D65',
+                              fontWeight: '100',
+                            },
+                          },
+                        }}
+                        itemProp={{
+                          style: {
+                            color: 'red',
+                          },
+                        }}
+                      >
+                        <MenuItem value={10}>Энгийн</MenuItem>
+                        <MenuItem value={20}>Bronze</MenuItem>
+                        <MenuItem value={30}>Silver</MenuItem>
+                        <MenuItem value={40}>Gold</MenuItem>
+                        <MenuItem value={50}>Platinium</MenuItem>
+                        <MenuItem value={60}>VIP</MenuItem>
+                      </Select>
+                    </FormControl>
+                    {/* Input password */}
+                    <InputBase
+                      type={passType.pass}
+                      value={passwordState}
+                      className={classes.textfieldSlide3}
+                      onChange={(e) => handlePasswordState(e.target.value)}
+                      endAdornment={
+                        <IconButton
+                          color='primary'
+                          className={classes.endAdornmentIcon}
+                          onClick={() => handlePassType(1)}
+                          aria-label='see password'
+                        >
+                          {passType.pass === 'password' ? (
+                            <VisibilityIcon htmlColor={'gray'} />
+                          ) : (
+                            <VisibilityOffIcon htmlColor={'gray'} />
+                          )}
+                        </IconButton>
+                      }
+                      placeholder={'Нууц үг'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
+                    {/* Input password */}
+                    <InputBase
+                      type={passType.pass}
+                      value={passwordState}
+                      className={classes.textfieldSlide3}
+                      onChange={(e) => handlePasswordState(e.target.value)}
+                      endAdornment={
+                        <IconButton
+                          color='primary'
+                          className={classes.endAdornmentIcon}
+                          onClick={() => handlePassType(1)}
+                          aria-label='see password'
+                        >
+                          {passType.pass === 'password' ? (
+                            <VisibilityIcon htmlColor={'gray'} />
+                          ) : (
+                            <VisibilityOffIcon htmlColor={'gray'} />
+                          )}
+                        </IconButton>
+                      }
+                      placeholder={'Баталгаажуулах нууц үг'}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          sendLogin();
+                        }
+                      }}
+                    />
 
-                  </FormControl>
-                     {/* Input password */}
-                     <InputBase
-                  type={passType.pass}
-                  value={passwordState}
-                  className={classes.textfieldSlide3}
-                  onChange={(e) => handlePasswordState(e.target.value)}
-                  endAdornment={
-                    <IconButton
-                      color='primary'
-                      className={classes.endAdornmentIcon}
-                      onClick={() => handlePassType(1)}
-                      aria-label='see password'
-                    >
-                      {passType.pass === 'password' ? (
-                        <VisibilityIcon htmlColor={'gray'} />
-                      ) : (
-                        <VisibilityOffIcon htmlColor={'gray'} />
-                      )}
-                    </IconButton>
-                  }
-                  placeholder={'Нууц үг'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-                     {/* Input password */}
-                     <InputBase
-                  type={passType.pass}
-                  value={passwordState}
-                  className={classes.textfieldSlide3}
-                  onChange={(e) => handlePasswordState(e.target.value)}
-                  endAdornment={
-                    <IconButton
-                      color='primary'
-                      className={classes.endAdornmentIcon}
-                      onClick={() => handlePassType(1)}
-                      aria-label='see password'
-                    >
-                      {passType.pass === 'password' ? (
-                        <VisibilityIcon htmlColor={'gray'} />
-                      ) : (
-                        <VisibilityOffIcon htmlColor={'gray'} />
-                      )}
-                    </IconButton>
-                  }
-                  placeholder={'Баталгаажуулах нууц үг'}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendLogin();
-                    }
-                  }}
-                />
-        
-                {/* Submit to next page */}
-                <Button onClick={() => sendLogin()} className={classes.button}>
-                  {contextText.login.title}
-                </Button>
-              </div>
-            </Fade>
+                    {/* Submit to next page */}
+                    <Button onClick={() => sendLogin()} className={classes.button}>
+                      {contextText.login.title}
+                    </Button>
+                  </div>
+                </Fade>
+              )}
+            </>
           )}
-        </>
-        }
-      
-
-      
-      </Container>
+        </Container>
       </div>
       <div className={classes.footer}>
-        <Footer phone={phoneSize} tablet={tabletSize}  />
-      </div>  
+        <Footer phone={phoneSize} tablet={tabletSize} />
+      </div>
     </div>
   );
 }
@@ -479,16 +497,16 @@ const otpInputStyle = {
 };
 
 const useStyles = makeStyles({
-  placeHolderLevel:{
-    display:'flex',
-    justifyContent:'center',
-    color:'#FFFFFF80',
-    fontWeight:'100'
+  placeHolderLevel: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: '#FFFFFF80',
+    fontWeight: '100',
   },
-  footer:{
-    position:"sticky",
-    top: "calc( 100vh - 60px )",
-    width:"100%",
+  footer: {
+    position: 'sticky',
+    top: 'calc( 100vh - 60px )',
+    width: '100%',
     backgroundColor: (props) => (props.phone ? 'rgb(37,37,37,1)' : 'rgb(37,37,37,0.7)'),
   },
   jamuhLogo: {
@@ -500,7 +518,7 @@ const useStyles = makeStyles({
     padding: '100px',
     fontFamily: 'Roboto, sans-serif',
     fontWeight: '100',
-    backgroundColor:'black'
+    backgroundColor: 'black',
   },
   container: {
     display: 'flex',
@@ -508,7 +526,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    width:'100%',
+    width: '100%',
     height: '100vh',
     backgroundImage: `url(${Login})`,
   },
@@ -529,18 +547,18 @@ const useStyles = makeStyles({
     height: '100%',
   },
   inputContainer: {
-    padding:'60px 20px',
+    padding: '60px 20px',
     width: (props) => (props.phone ? '100%' : '50%'),
     backgroundColor: (props) => (props.phone ? 'rgb(37,37,37,1)' : 'rgb(37,37,37,0.7)'),
-    borderRadius:'10px',
+    borderRadius: '10px',
     boxShadow: (props) =>
       props.phone ? 'none' : props.trigger ? '0 0 20px #ccc' : 'none',
   },
-  containerEnd:{
-    display:'flex',
-    justifyContent:'center',
-    width:(props) => (props.phone ? '100%' : '50%'),
-    marginTop:(props) => (props.phone ? '120px' : '0px')
+  containerEnd: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: (props) => (props.phone ? '100%' : '50%'),
+    marginTop: (props) => (props.phone ? '120px' : '0px'),
   },
   otpContainerStyle: {
     marginTop: 20,
@@ -628,18 +646,17 @@ const useStyles = makeStyles({
     fontWeight: '100',
   },
   button: {
-    border:'1px solid #e6e6e61e',
+    border: '1px solid #e6e6e61e',
     width: '100%',
     height: 45,
     borderRadius: 5,
-    fontSize:'18px',
-    fontWeight:100,
-    color:'#D38F36',
-    marginTop:'20px',
+    fontSize: '18px',
+    fontWeight: 100,
+    color: '#D38F36',
+    marginTop: '20px',
     '&:hover': {
-      background:
-        '#A97045',
-        color:'white'
+      background: '#A97045',
+      color: 'white',
     },
   },
   transparentButton: {
@@ -721,11 +738,11 @@ const useStyles = makeStyles({
     marginTop: '30%',
     marginBottom: '30%',
   },
-  level:{
-    marginTop:"15px",
-    backgroundColor:"#454C4C",
-    borderRadius:"6px",
-    color:"#F6F8FA!important"
+  level: {
+    marginTop: '15px',
+    backgroundColor: '#454C4C',
+    borderRadius: '6px',
+    color: '#F6F8FA!important',
   },
   rememberContainer: {
     display: 'flex',
@@ -748,17 +765,17 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop:'20px'
+    marginTop: '20px',
   },
   rememberText: {
     fontSize: 16,
     color: colors.gray,
-    fontWeight:'100'
+    fontWeight: '100',
   },
   forgotText: {
     fontSize: 16,
     color: colors.gray,
-    fontWeight:'100',
+    fontWeight: '100',
     textAlign: 'end',
     '&:hover': {
       color: '#CD864F',
@@ -791,26 +808,26 @@ const useStyles = makeStyles({
     flexDirection: (props) => (props.tablet || props.trigger ? 'column' : 'row'),
     justifyContent: 'space-between',
   },
-  tabs:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center',
-    fontSize:'28px',
-    color:'white',
-    fontWeight:'100',
-    marginBottom:'20px'
+  tabs: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '28px',
+    color: 'white',
+    fontWeight: '100',
+    marginBottom: '20px',
   },
-  tab:{ 
-    textAlign:'center',
-    padding:"5px 20px",
+  tab: {
+    textAlign: 'center',
+    padding: '5px 20px',
     '&:hover': {
       color: '#cd864f6c',
       cursor: 'pointer',
     },
   },
-  activeTab:{
-    padding:"5px 20px",
+  activeTab: {
+    padding: '5px 20px',
     color: '#CD864F',
     cursor: 'pointer',
-  }
+  },
 });
