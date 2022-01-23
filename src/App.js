@@ -29,13 +29,16 @@ import Property from './assets/background/land.png';
 import Cars from './assets/background/cars.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
-import Membership from './pages/membership/membership'
+import Membership from './pages/membership/membership';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
-import './App.css'
+import './App.css';
+// import firebaseConfig from './firebase/firebase';
+// import { initializeApp } from 'firebase';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 export default function App() {
-  initializeApp(firebaseConfig);
+  // initializeApp(firebaseConfig);
   const messaging = getMessaging();
   getToken(messaging, {
     vapidKey:
@@ -193,8 +196,8 @@ export default function App() {
               />
             </Route>
             <Route path={'/membership'}>
-              <Membership/>
-            </Route>  
+              <Membership />
+            </Route>
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
             </Route>
