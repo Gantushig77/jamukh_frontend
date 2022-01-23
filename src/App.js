@@ -29,15 +29,10 @@ import Property from './assets/background/land.png';
 import Cars from './assets/background/cars.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
+import Membership from './pages/membership/membership'
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
-<<<<<<< HEAD
 import './App.css'
-=======
-import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-import firebaseConfig from './firebase/firebase';
->>>>>>> 5ffd1507fa3be3f9b07d95f1c0c69ac62ad334b6
 
 export default function App() {
   initializeApp(firebaseConfig);
@@ -197,6 +192,9 @@ export default function App() {
                 tablet={tabletSize}
               />
             </Route>
+            <Route path={'/membership'}>
+              <Membership/>
+            </Route>  
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
             </Route>
