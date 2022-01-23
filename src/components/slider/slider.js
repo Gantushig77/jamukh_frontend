@@ -5,15 +5,25 @@ import screen1 from '../../assets/images/screen1.png';
 import screen2 from '../../assets/images/screen2.png';
 import Slider from 'react-slick';
 import TheContext from '../../context/context';
-import ArrowL from '../../assets/arrow/arrowL.png'
-import ArrowR from '../../assets/arrow/arrowR.png'
+import ArrowL from '../../assets/arrow/arrowL.png';
+import ArrowR from '../../assets/arrow/arrowR.png';
 
 function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" ,cursor:"pointer" ,position:"absolute",right:"0",top:'32%'}} onClick={onClick} >
-        <img src={ArrowR} className={classes.arrow} alt=""/>
+    <div
+      style={{
+        ...style,
+        display: 'block',
+        cursor: 'pointer',
+        position: 'absolute',
+        right: '0',
+        top: '32%',
+      }}
+      onClick={onClick}
+    >
+      <img src={ArrowR} className={classes.arrow} alt='' />
     </div>
   );
 }
@@ -22,72 +32,78 @@ function PrevArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" ,cursor:"pointer",position:"absolute",left:"0",zIndex:"100",top:'32%'}} onClick={onClick}>
-       <img className={classes.arrow} src={ArrowL} alt=""/>
-</div>
+    <div
+      style={{
+        ...style,
+        display: 'block',
+        cursor: 'pointer',
+        position: 'absolute',
+        left: '0',
+        zIndex: '100',
+        top: '32%',
+      }}
+      onClick={onClick}
+    >
+      <img className={classes.arrow} src={ArrowL} alt='' />
+    </div>
   );
 }
 
 export default function SliderCustom(props) {
-
   let slider = useRef(null);
 
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
 
   return (
-   
-      <Slider ref={slider} {...sliderConfig}  >
+    <Slider ref={slider} {...sliderConfig}>
+      {/* Item 1 */}
 
-        {/* Item 1 */}
+      <SliderItem
+        dots={1}
+        sliderRef={slider}
+        phone={props?.phone}
+        avatar={''}
+        admin={'Grand Marshal'}
+        time={'12min'}
+        area={'MKV 4,500,000$'}
+        title={'GRAND MARSHAL LUXURY VILLAS'}
+        description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+        buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+        backgroundImg={screen1}
+        link={account ? '/user/services' : '/sign-up'}
+      />
 
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          avatar={''}
-          admin={'Grand Marshal'}
-          time={'12min'}
-          area={'MKV 4,500,000$'}
-          title={'GRAND MARSHAL LUXURY VILLAS'}
-          description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-          buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-          backgroundImg={screen1}
-          link={account ? '/user/services' : '/sign-up'}
-        />
+      {/* Item 2 */}
 
-        {/* Item 2 */}
-        
-        <SliderItem
-          dots={2}
-          sliderRef={slider}
-          phone={props?.phone}
-          avatar={''}
-          admin={'Grand Marshal'}
-          time={'12min'}
-          area={'MKV 4,500,000$'}
-          title={'GRAND MARSHAL LUXURY VILLAS'}
-          description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-          buttonText={account ? 'Үйлчилгээ харах' : 'Бүртгүүлэх'}
-          link={account ? '/user/services' : '/sign-up'}
-          backgroundImg={screen2}
-        />
-
-      </Slider>
+      <SliderItem
+        dots={2}
+        sliderRef={slider}
+        phone={props?.phone}
+        avatar={''}
+        admin={'Grand Marshal'}
+        time={'12min'}
+        area={'MKV 4,500,000$'}
+        title={'GRAND MARSHAL LUXURY VILLAS'}
+        description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+        buttonText={account ? 'Үйлчилгээ харах' : 'Бүртгүүлэх'}
+        link={account ? '/user/services' : '/sign-up'}
+        backgroundImg={screen2}
+      />
+    </Slider>
   );
 }
 
 const SliderItem = (props) => {
-
   const classes = useStyles(props);
 
   return (
-      <div className={classes.sliderItemBackImg} >
-        <div className={classes.sliderItemContainer}>
-          <div className={classes.textContainer}>Алмазан бөгж</div>
-          <div className={classes.textSub}>Jamukh Jadraan</div>
-        </div>
+    <div className={classes.sliderItemBackImg}>
+      <div className={classes.sliderItemContainer}>
+        <div className={classes.textContainer}>Алмазан бөгж</div>
+        <div className={classes.textSub}>Jamukh Jadraan</div>
       </div>
+    </div>
   );
 };
 
@@ -112,8 +128,8 @@ const useStyles = makeStyles({
     zIndex: '-1',
   },
   slider: {
-    display:'flex',
-    alignItems:'center',
+    display: 'flex',
+    alignItems: 'center',
     width: '100%',
   },
   sliderItemBackImg: {
@@ -126,7 +142,7 @@ const useStyles = makeStyles({
     backgroundSize: 'cover',
     width: '100vw',
     justifyContent: 'center',
-    height:'600px'
+    height: '600px',
   },
   sliderItemContainer: {
     position: 'absolute',
@@ -134,26 +150,27 @@ const useStyles = makeStyles({
     zIndex: 99,
     transform: 'translate(0px, -100%)',
     width: '100%',
-    background: 'rgb(21,21,22)',
-    background: 'linear-gradient(0deg, rgba(21,21,22,0.6615021008403361) 33%, rgba(21,21,22,0.15730042016806722) 45%)'
+    // background: 'rgb(21,21,22)',
+    background:
+      'linear-gradient(0deg, rgba(21,21,22,0.6615021008403361) 33%, rgba(21,21,22,0.15730042016806722) 45%)',
   },
   textContainer: {
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     fontSize: (props) => (props?.phone ? '50px' : '100px'),
-    fontWeight:'100',
+    fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
-    color:'white',
+    color: 'white',
   },
-  textSub:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+  textSub: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
-    fontSize:'32px',
-    fontWeight:'100',
+    fontSize: '32px',
+    fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
     color: '#C19D65',
   },
@@ -323,8 +340,7 @@ const useStyles = makeStyles({
     marginBottom: 10,
     cursor: 'pointer',
   },
-  arrow:{
-    width:'60px'
-  }
-
+  arrow: {
+    width: '60px',
+  },
 });

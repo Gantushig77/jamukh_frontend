@@ -16,7 +16,6 @@ import Home from './pages/general/home';
 import List from './pages/listNews/list';
 import NotFound from './pages/general/notFound';
 import Login from './pages/general/login';
-// import Logout from './pages/general/logout';
 import TermsAndConditions from './pages/general/termsAndConditions';
 import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
@@ -25,16 +24,50 @@ import News from './pages/news/news';
 import CreateAd from './pages/createAd/createAd';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
-import Atiquest from './assets/background/aquest.png'
-import Property from './assets/background/land.png'
-import Cars from './assets/background/cars.png'
-import Estate from './assets/background/estate.png'
-import Painting from './assets/background/Painting.png'
+import Atiquest from './assets/background/aquest.png';
+import Property from './assets/background/land.png';
+import Cars from './assets/background/cars.png';
+import Estate from './assets/background/estate.png';
+import Painting from './assets/background/Painting.png';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
+<<<<<<< HEAD
 import './App.css'
+=======
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import firebaseConfig from './firebase/firebase';
+>>>>>>> 5ffd1507fa3be3f9b07d95f1c0c69ac62ad334b6
 
 export default function App() {
+  initializeApp(firebaseConfig);
+  const messaging = getMessaging();
+  getToken(messaging, {
+    vapidKey:
+      'BNzJiPC9z7KVdpg0XQdqwljbIxe6N4vgUiyMpZ8UQwPXt5MfQ2dvRg6JfSfUsxxJbwesAIShLZiD3KKpcFZ4c64',
+  })
+    .then((currentToken) => {
+      if (currentToken) {
+        console.log(currentToken);
+        // Send the token to your server and update the UI if necessary
+        // ...
+      } else {
+        // Show permission request UI
+        console.log(
+          'No registration token available. Request permission to generate one.'
+        );
+        // ...
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // ...
+    });
+
+  onMessage(messaging, (payload) => {
+    console.log(payload);
+  });
+
   let token = localStorage.getItem('jamukh_token');
 
   const classes = useAppStyles();
@@ -112,7 +145,7 @@ export default function App() {
               <Home />
             </Route>
             <Route path={'/detailnews/:id'}>
-              <News  />
+              <News />
             </Route>
             <Route path={'/login'}>
               <Login />
@@ -127,22 +160,42 @@ export default function App() {
               <List />
             </Route>
             <Route path={'/profile'}>
-              <Profile/>
+              <Profile />
             </Route>
             <Route path={'/antiquest'}>
-              <Category  bg={Atiquest} title="Эртний эдлэл" phone={phoneSize} tablet={tabletSize}/>
+              <Category
+                bg={Atiquest}
+                title='Эртний эдлэл'
+                phone={phoneSize}
+                tablet={tabletSize}
+              />
             </Route>
             <Route path={'/property'}>
-              <Category  bg={Property} title="Газар" phone={phoneSize} tablet={tabletSize} />
+              <Category
+                bg={Property}
+                title='Газар'
+                phone={phoneSize}
+                tablet={tabletSize}
+              />
             </Route>
             <Route path={'/cars'}>
-              <Category  bg={Cars} title="Машин" phone={phoneSize} tablet={tabletSize}/>
+              <Category bg={Cars} title='Машин' phone={phoneSize} tablet={tabletSize} />
             </Route>
             <Route path={'/estate'}>
-              <Category  bg={Estate} title="Үл хөдлөх" phone={phoneSize} tablet={tabletSize}/>
+              <Category
+                bg={Estate}
+                title='Үл хөдлөх'
+                phone={phoneSize}
+                tablet={tabletSize}
+              />
             </Route>
             <Route path={'/painting'}>
-              <Category  bg={Painting} title="Уран зураг" phone={phoneSize} tablet={tabletSize}/>
+              <Category
+                bg={Painting}
+                title='Уран зураг'
+                phone={phoneSize}
+                tablet={tabletSize}
+              />
             </Route>
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
