@@ -50,7 +50,7 @@ export default function News(props) {
           severity={snackbarState.severity}
           sx={{ width: '100%' }}
         >
-          {snackbarState.message}
+            {snackbarState.message}
         </Alert>
       </Snackbar>
       <Section2 phone={phoneSize} tablet={tabletSize} />

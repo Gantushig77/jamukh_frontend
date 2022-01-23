@@ -122,7 +122,6 @@ const SliderItem = (props) => {
 };
 
 const sliderConfig = {
-  // dots: true,
   infinite: true,
   speed: 500,
   arrows: true,

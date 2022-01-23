@@ -3,20 +3,14 @@ import React from 'react';
 // import json2mq from 'json2mq';
 import { makeStyles } from '@mui/styles';
 import StarIcon from '@mui/icons-material/Star';
+import Profile from '../../../assets/profile/profile.jpeg';
 
 export default function Friends(props) {
   const classes = useStyles(props);
-  // const phoneSize = useMediaQuery('(max-width: 767px)');
-  // const tabletSize = useMediaQuery(
-  //   json2mq({
-  //     minWidth: 768,
-  //     maxWidth: 1023,
-  //   })
-  // );
 
   return (
     <div className={classes.container}>
-      <img src={props.img} className={classes.img} alt={''} />
+      <img src={Profile} className={classes.img} alt={''} />
       <div className={classes.name}>{props.name}</div>
       <div className={classes.rate}>
         <StarIcon className={classes.starRank} />

@@ -32,6 +32,7 @@ import Estate from './assets/background/estate.png'
 import Painting from './assets/background/Painting.png'
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
+import './App.css'
 
 export default function App() {
   let token = localStorage.getItem('jamukh_token');

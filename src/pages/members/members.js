@@ -29,7 +29,7 @@ export default function Members() {
   };
 
   return (
-    <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
+    <div >
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar

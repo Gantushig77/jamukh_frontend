@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect,useRef } from 'react';
+
 import {
   Container,
   Typography,
@@ -16,6 +17,7 @@ import {
   Alert,
   Snackbar,
   Pagination,
+  AvatarGroup,
 } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -29,7 +31,7 @@ import Rate from '../../assets/icons/rate.png';
 import Heart from '../../assets/icons/heart.png';
 import Test from '../../assets/images/test.png';
 import StarIcon from '@mui/icons-material/Star';
-import profile_member_badge from '../../assets/icons/profile_member_badge.svg';
+import Membermedal from '../../assets/images/plat.png';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { countries, provinces, discricts } from '../../constants/countryInfo';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
@@ -42,9 +44,42 @@ import { emailValidator } from '../../helpers/helperFunctions';
 import { img_url, membership_img_url } from '../../constants/url';
 import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
 import { getListOfMembershipTypes } from '../../api/membership';
+import AvatarImage from '../../assets/profile/profile.jpeg';
+import Title from '../../components/title/title';
+import Footer from '../../components/footer/footer';
+import Background1 from '../../assets/background/background.png';
+import ArrowL from '../../assets/arrow/arrowL.png'
+import ArrowR from '../../assets/arrow/arrowR.png'
+import screen2 from "../../assets/images/background.png";
+import DemoImage from '../../assets/images/demoImage.png';
+import Slider from "react-slick";
+
+//Slider arrow
+function NextArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" }} onClick={onClick} >
+        <img src={ArrowR} className={classes.arrow} alt=""/>
+    </div>
+  );
+}
+
+function PrevArrow(props) {
+  const classes = useStyles(props);
+  const { style, onClick } = props;
+  return (
+    <div  style={{ ...style, display: "block" ,cursor:"pointer"}} onClick={onClick}>
+    <img className={classes.arrow} src={ArrowL} alt=""/>
+</div>
+  );
+}
+
+
 
 export default function Profile() {
   // Constants
+  let slider = useRef(null);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
   const phoneSize = useMediaQuery('(max-width: 767px)');
@@ -397,7 +432,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#252525', paddingBottom: '20px' }}>
+    <div style={{margin:'0',padding:'0'}} className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -906,8 +941,8 @@ export default function Profile() {
                               {item?.firstname && item?.lastname
                                 ? item?.firstname + ' ' + item?.lastname
                                 : item?.username
-                                ? item?.username
-                                : 'No name'}
+                                  ? item?.username
+                                  : 'No name'}
                             </Typography>
                             <div className={classes.smallProfileRank}>
                               <StarIcon
@@ -945,93 +980,7 @@ export default function Profile() {
           </Box>
         </Fade>
       </Modal>
-      {/* Membership types modal */}
-      <Modal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
-        open={membershipModal}
-        onClose={handleMembershipModalClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={membershipModal}>
-          <Box className={classes.memberModalBox}>
-            <Typography
-              textAlign={'center'}
-              sx={{ mt: 2, mb: 3 }}
-              className={classes.memberTitle}
-            >
-              MEMBERSHIP TYPES
-            </Typography>
-            <Typography
-              sx={{ mb: 2, fontFamily: 'Roboto Condensed' }}
-              textAlign={'center'}
-            >
-              Хэрэглэгч та өөрт тохирох зэрэглэлээ сонгож үйлчлүүлнэ үү.
-            </Typography>
-            {membershipLoading ? (
-              <div className={classes.memberTypeLoading}>
-                <CircularProgress sx={{ color: 'orange' }} />
-              </div>
-            ) : (
-              <div className={classes.membershipModalContainer}>
-                {membershipList?.length > 0 &&
-                  membershipList?.map((item, index) => (
-                    <Container
-                      className={classes.memberTypeContainer}
-                      key={index + item?.type_name}
-                    >
-                      <img
-                        src={membership_img_url + item.member_img.url}
-                        alt={'member types'}
-                        className={classes.memberTypeImg}
-                      />
-                      <Typography
-                        sx={{ mt: 2, fontWeight: 'bold', fontFamily: 'Roboto Condensed' }}
-                        textAlign={'center'}
-                        className={classes.memberTypeTitle}
-                      >
-                        {item?.type_name}
-                      </Typography>
-                      <Typography
-                        sx={{ my: 1, fontFamily: 'Roboto Condensed' }}
-                        textAlign={'center'}
-                        className={classes.memberTypeMonthlyPay}
-                      >
-                        {item?.monthly_pay + ' ₮ / 1 сар'}
-                      </Typography>
-                      <Divider sx={{ mb: 2, mt: 2 }} />
-                      <div style={{ minHeight: 85 }}>
-                        {item?.listfeatures?.length > 0 &&
-                          item?.listfeatures?.map((featureItem, featureIndex) => (
-                            <Typography
-                              sx={{ fontSize: 14, fontFamily: 'Roboto Condensed' }}
-                              textAlign={'center'}
-                              key={featureIndex}
-                            >
-                              {featureItem}
-                            </Typography>
-                          ))}
-                      </div>
-                      <div className={classes.memberTypItemButton}>
-                        <Button fullWidth className={classes.membersButton}>
-                          <Typography>
-                            {account?.membership_type?.id === item?.id
-                              ? 'Сонгосон'
-                              : 'Сонгох'}
-                          </Typography>
-                        </Button>
-                      </div>
-                    </Container>
-                  ))}
-              </div>
-            )}
-          </Box>
-        </Fade>
-      </Modal>
+
       {/* Body */}
       <Container disableGutters maxWidth={false} className={classes.root}>
         <div className={classes.rootRow}>
@@ -1040,66 +989,45 @@ export default function Profile() {
             <div className={classes.row1}>
               {/* Profile  */}
               <div className={classes.textContainer}>
-                <div className={classes.profile_badge}>
-                  <img
-                    src={membership_img_url + account?.membership_type?.member_img?.url}
-                    alt={'platinum badge'}
-                    style={{ paddingTop: 10, width: 60, height: 60 }}
-                  />
-                </div>
+             
                 <div className={classes.avatar}>
-                  {account?.avatar?.url ? (
-                    <img
-                      alt={'avatar 3'}
-                      src={img_url + account?.avatar?.url}
-                      className={classes.avatarImageBig}
+                  <img
+                    alt={'avatar 3'}
+                    src={AvatarImage}
+                    className={classes.avatarImageBig}
+                  />
+                <div className={classes.profile_badge}>
+                    {/* <img
+                      src={membership_img_url + account?.membership_type?.member_img?.url}
+                      alt={'platinum badge'}
+                      style={{ paddingTop: 10, width: 60, height: 60 }}
+                    /> */}
+                   <img
+                      src={Membermedal}
+                      alt={'platinum badge'}
+                      style={{ paddingTop: 10, width: 40, height: 40 }}
                     />
-                  ) : (
-                    <Avatar sx={{ width: 100, height: 100 }}>
-                      <Typography fontSize={35} color={'white'} fontWeight={'bolder'}>
-                        {account?.firstname?.charAt(0)}
-                      </Typography>
-                    </Avatar>
-                  )}
+
                 </div>
-                <Typography className={classes.title} noWrap>
-                  {(account?.firstname || '') + ' ' + (account?.lastname || '')}
-                </Typography>
-                <Typography align={'center'} className={classes.email}>
-                  {account?.email || ''}
-                </Typography>
-                <div className={classes.row}>
-                  {[
-                    { name: 'My sales', icon: Sale, value: account?.sales_count || 0 },
-                    {
-                      name: 'Members',
-                      icon: Members,
-                      value: account?.member_count,
-                    },
-                    { name: 'My rate', icon: Rate, value: account?.rating || 0 },
-                    {
-                      name: 'Favorite',
-                      icon: Heart,
-                      value: account?.user_liked_ads?.ads?.length || 0,
-                    },
-                  ].map(
-                    (item, index) =>
-                      index < 6 && (
-                        <div className={classes.column} key={index + 'shitty'}>
-                          <img src={item?.icon} className={classes.icons} alt={'sale'} />
-                          <div className={classes.saleText}>{item?.name}</div>
-                          <div className={classes.saleCount}>{item?.value}</div>
-                        </div>
-                      )
-                  )}
                 </div>
+                 <div className={classes.profile_name}>
+                     Jamukha Jadraan
+                 </div>       
+
+  
                 {/* Update profile */}
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
                   <Button
                     onClick={() => handleModalOpen()}
                     className={classes.updateButton}
                   >
-                    Update Profile
+                    Зэрэглэл
+                  </Button>
+                  <Button
+                    onClick={() => handleModalOpen()}
+                    className={classes.updateButton}
+                  >
+                   Засах
                   </Button>
                 </div>
               </div>
@@ -1150,8 +1078,8 @@ export default function Profile() {
                                 {item?.firstname && item?.lastname
                                   ? item?.firstname + ' ' + item?.lastname
                                   : item?.username
-                                  ? item?.username
-                                  : 'No name'}
+                                    ? item?.username
+                                    : 'No name'}
                               </Typography>
                             </div>
                             <div className={classes.smallProfileRank}>
@@ -1168,169 +1096,106 @@ export default function Profile() {
                 </div>
               </div>
             </div>
+
             {/* SALES */}
-            <div className={classes.mySales}>MY SALES</div>
-            <div className={classes.myDiv}>
-              <img src={Test} style={{ height: '300px', width: '200px' }} alt='test1' />
-              <img src={Test} style={{ height: '300px', width: '200px' }} alt='test2' />
-              <img src={Test} style={{ height: '300px', width: '200px' }} alt='test3' />
-              <img src={Test} style={{ height: '300px', width: '200px' }} alt='test4' />
-              <img src={Test} style={{ height: '300px', width: '200px' }} alt='test5' />
-            </div>
-          </div>
-          {/* Membership types */}
-          <div className={classes.membersAdvantage}>
-            <div className={classes.membersAdvantageContaint}>
-              <div>
-                <img
-                  src={membership_img_url + account?.membership_type?.member_img?.url}
-                  alt={'badge'}
-                  className={classes.membersLogo}
-                />
-              </div>
-              <div className={classes.membersTextContainer}>
-                {membershipLoading ? (
-                  <div>
-                    <Typography sx={{ color: 'black' }}>Loading...</Typography>
-                  </div>
-                ) : (
-                  membershipList?.map(
-                    (item, index) =>
-                      account?.membership_type?._id === item?._id && (
-                        <div key={index + 'membership type'}>
-                          <div className={classes.membersDescription}>
-                            <div className={classes.membersTitle}>
-                              {account?.membership_type?.id === item?.id &&
-                                item?.type_name}
-                            </div>
-
-                            {account?.membership_type?.id === item?.id && (
-                              <div style={{ minHeight: 85 }}>
-                                {item?.listfeatures?.length > 0 ? (
-                                  item?.listfeatures?.map((featureItem, featureIndex) => (
-                                    <Typography
-                                      sx={{
-                                        fontSize: 14,
-                                        fontFamily: 'Roboto Condensed',
-                                      }}
-                                      key={featureIndex}
-                                    >
-                                      {`Эрхэм хэрэглэгч та ${item?.type_name} зэрэглэлийн
-                                      гишүүнчлэлтэй бөгөөд, ${featureItem}`}
-                                    </Typography>
-                                  ))
-                                ) : (
-                                  <Typography>
-                                    Өөрийн зэрэглэл болон түүнээс доош зэрэглэлийн
-                                    заруудыг харах боломжтой.
-                                  </Typography>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )
-                  )
-                )}
-                <div className={classes.membersButtonContainer}>
-                  <Button
-                    onClick={() => handleMembershipModalOpen()}
-                    className={classes.membersButton}
-                  >
-                    SEE ALL
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Favorite sales */}
-          <div className={classes.mySales}>FAVORITE SALES</div>
-          <div className={classes.myDiv}>
-            <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
-            <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
-            <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
-            <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
-            <img src={Test} style={{ height: '300px', width: '200px' }} alt={''} />
-          </div>
-
-          <div className={classes.aboutContainers}>
-            <div className={classes.aboutContainer}>
-              <div className={classes.aboutGenerel}>
-                <div className={classes.avatar}>
-                  {account?.avatar?.url ? (
-                    <img
-                      alt={'avatar 3'}
-                      src={img_url + account?.avatar?.url}
-                      className={classes.avatarImageBig}
+            <div className={classes.saleBackground}>
+              <div className={classes.mySale}>
+                <Title name="Миний зар" />
+                <Slider  {...sliderConfig} className={classes.slider1}>
+                    <SliderItem
+                      dots={1}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
                     />
-                  ) : (
-                    <Avatar sx={{ width: 100, height: 100 }}>
-                      <Typography fontSize={35} color={'white'} fontWeight={'bolder'}>
-                        {account?.firstname?.charAt(0)}
-                      </Typography>
-                    </Avatar>
-                  )}
-                </div>
-                <Typography className={classes.title}>{account?.firstname}</Typography>
-                <Typography className={classes.email1}>{account?.email}</Typography>
+                    <SliderItem
+                      dots={1}
+                      sliderRef={slider}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
+                    />
+                    <SliderItem
+                      dots={1}
+                      sliderRef={slider}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
+                    />
+                    <SliderItem
+                      dots={1}
+                      sliderRef={slider}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
+                    />
+                    <SliderItem
+                      dots={1}
+                      sliderRef={slider}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
+                    />
+                    <SliderItem
+                      dots={1}
+                      sliderRef={slider}
+                      phone={phoneSize}
+                      backgroundImg={screen2}
+                      link={account ? "/user/services" : "/sign-up"}
+                    />
+
+                  </Slider>
               </div>
-              <div className={classes.aboutMe}>
-                <div className={classes.aboutMeTitle}>ABOUT ME</div>
-                <div className={classes.aboutMeDescription}>{account?.bio}</div>
-              </div>
-            </div>
-            {/* CV */}
-            <div className={classes.aboutCv}>
-              <table>
-                <thead>
-                  <tr>
-                    <th className={classes.aboutMeTitle}>CV</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Name</td>
-                    <td className={classes.td}>Irmuunzaya</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Years</td>
-                    <td className={classes.td}>1988.05.06</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Education</td>
-                    <td className={classes.td}>
-                      USA,Oxford Univercity, International Management{' '}
-                    </td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Work experience</td>
-                    <td className={classes.td}>Google Group, Marketing Manager</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>References</td>
-                    <td className={classes.td}>English, Spanish, Germany</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Career</td>
-                    <td className={classes.td}>Mongolian Leader Manager</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Certifications</td>
-                    <td className={classes.td}>International TOP Manager 2012</td>
-                  </tr>
-                  <tr className={classes.tableBorder}>
-                    <td className={classes.tdF}>Projects</td>
-                    <td className={classes.td}>Golomt bank </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
       </Container>
+      <Footer phone={phoneSize} tablet={tabletSize}  />
     </div>
   );
 }
+
+const SliderItem = (props) => {
+
+  const classes = useStyles(props);
+
+  return (
+    <Container disableGutters maxWidth={false}>
+      <div className={classes.sliderItemBackImg1} >
+        <img src={DemoImage} className={classes.boxImage} alt=""/>
+        <div className={classes.boxTitle}>
+          Алмазан бөгж
+        </div>
+        <div className={classes.bottomBox}>
+          <div className={classes.price}>$ 9000</div>
+          <div className={classes.brand}>GUCCI</div>
+        </div>
+      </div>
+    </Container>
+  );
+};
+
+const sliderConfig = {
+  infinite: true,
+  speed: 500,
+  arrows: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  responsive: [
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 1,
+        arrows: true,
+      }
+    }
+  ]
+};
+
 
 const useStyles = makeStyles({
   memberTypItemButton: {
@@ -1339,11 +1204,35 @@ const useStyles = makeStyles({
     marginBottom: 20,
     width: '100%',
   },
+  container:{
+    backgroundImage: `url(${Background1})`,
+    fontWeight:'100',
+    fontFamily: "'Roboto', sans-serif",
+  
+  },
+  profile_name:{
+    display:'flex',
+    justifyContent:'center',
+    color:'white',
+    marginTop:'20px',
+    color:'#C19D65',
+    fontSize:'25px'
+  },
+  mySale:{
+    width:(props) => (props?.phone ? '100%' : '1300px'),
+    paddingTop:'30px'
+  },
   memberTypeMonthlyPay: {
-    fontFamily: 'Roboto',
     color: 'darkgray',
     fontSize: '21px',
     fontWeight: 'bold',
+  },
+  saleBackground:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    width:'100%',
+   
   },
   memberTypeLoading: {
     display: 'flex',
@@ -1367,7 +1256,6 @@ const useStyles = makeStyles({
     maxWidth: 180,
   },
   memberTypeTitle: {
-    fontFamily: 'Roboto Condensed',
     color: colors.orange,
     fontSize: '1.5rem',
   },
@@ -1394,7 +1282,6 @@ const useStyles = makeStyles({
     width: '100%',
   },
   mmAccountName: {
-    fontFamily: 'Roboto Condensed',
     marginTop: '15px',
     color: colors.orange,
     fontSize: '20px',
@@ -1412,7 +1299,6 @@ const useStyles = makeStyles({
   mmDeleteButton: {
     border: '1px solid #D3D3D3',
     color: 'orange',
-    fontFamily: 'Roboto Condensed',
     fontWeight: '700',
     borderRadius: '0',
     paddingRight: 20,
@@ -1442,7 +1328,6 @@ const useStyles = makeStyles({
     marginTop: 20,
     borderRadius: 0,
     color: 'gray',
-    fontFamily: 'Roboto Condensed',
     fontWeight: '700',
   },
   profileImg: {
@@ -1451,27 +1336,7 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     },
   },
-  checkboxDiv: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkboxRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  },
-  textFieldSquare: {
-    marginRight: 5,
-    marginLeft: 5,
-  },
-  fieldDiv: {
-    minHeight: 78,
-    width: '100%',
-    marginRight: 5,
-    marginLeft: 5,
-  },
+
   modalBox: {
     position: 'absolute',
     top: '50%',
@@ -1498,30 +1363,23 @@ const useStyles = makeStyles({
     overflow: 'auto',
     maxHeight: '90%',
   },
-  modalRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
+
   updateModalDiv: {
     marginTop: 30,
     outline: 'none',
   },
   updateButton: {
+    display:'flex',
+    alignItems:'center',
     marginTop: 20,
     borderRadius: 0,
     color: 'white',
-    fontFamily: 'Roboto Condensed',
-    fontWeight: '700',
-    paddingRight: 20,
-    paddingLeft: 20,
-    background:
-      'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
+    fontWeight: '300',
+    fontSize:'12px',
+    border:'1px solid #d390636c',
+    borderRadius:'8px'
   },
   profile_badge: {
-    backgroundImage: `url(${profile_member_badge})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100% 100%',
     position: 'absolute',
@@ -1529,88 +1387,13 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     height: 100,
     width: 100,
-  },
-  tableBorder: {
-    display: 'flex',
-    width: '100%',
-    padding: '5px',
-    borderBottom: '1px solid #F0F0F0',
+    bottom:'-60px',
+    right:'10px'
   },
   root: {
-    minHeight: (props) => (props.phone ? 780 : 560),
     width: '100%',
-    fontFamily: 'Roboto Condensed',
-    backgroundColor: colors.backgroundColor,
-  },
-  tdF: {
-    textAlign: 'left',
-    width: '50%',
-    fontWeight: '300',
-  },
-  td: {
-    textAlign: 'left',
-    width: '50%',
-  },
-  aboutGenerelImg: {
-    width: '150px',
-    borderRadius: '100%',
-    marginBottom: '20px',
-  },
-  aboutMeDescription: {
-    textAlign: 'justify',
-    fontWeight: '300',
-    fontSize: '26px',
-  },
-  aboutCv: {
-    width: '30%',
-    height: '100%',
-    backgroundColor: 'white',
-    padding: '20px',
-  },
-  aboutMeTitle: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    color: colors.brandTextColor,
-    fontSize: '32px',
-    fontWeight: 'bold',
-    marginBottom: '30px',
-  },
-  aboutMe: {
-    padding: '20px',
-  },
-  aboutContainer: {
-    display: 'flex',
-    backgroundColor: 'white',
-
-    width: '70%',
-    marginRight: '10px',
-  },
-  aboutContainers: {
-    display: 'flex',
-    margin: ' 0px 40px',
-    justifyContent: 'space-between',
-  },
-  aboutGenerel: {
-    padding: '40px',
-    borderRight: '1px solid #CBCBCB',
-  },
-  membersButtonContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  membersButton: {
-    display: 'flex',
-    width: '100px',
-    borderRadius: 0,
-    justifyContent: 'center',
-    marginTop: '20px',
-    color: 'white',
-    padding: '5px',
-    background:
-      'linear-gradient(178.42deg, #F8D4A0 -60.84%, #E49461 1.15%, #954D1D 75.77%, #C0703D 139.77%)',
   },
   rootRow: {
-    backgroundColor: colors.backgroundColor,
     height: 'auto',
   },
   starRank: {
@@ -1686,7 +1469,6 @@ const useStyles = makeStyles({
     color: colors.orange,
     fontSize: '16px',
     fontWeight: 'bold',
-    fontFamily: 'Roboto Condensed',
   },
   memberContainer: {
     display: 'flex',
@@ -1710,13 +1492,12 @@ const useStyles = makeStyles({
     minWidth: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px',
+    padding: (props) => (props?.phone ? '0px' : '10px'),
   },
   memberTitle: {
     color: colors.orange,
     fontSize: '28px',
     fontWeight: '700',
-    fontFamily: 'Roboto Condensed',
   },
   memberTitleSEE: {
     color: 'white',
@@ -1738,6 +1519,7 @@ const useStyles = makeStyles({
   row1: {
     display: 'flex',
     alignItems: 'center',
+    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
   faceIcon: {
     fontSize: '80px',
@@ -1746,8 +1528,6 @@ const useStyles = makeStyles({
     marginBottom: '10px',
   },
   slider: {
-    minHeight: '520px',
-    maxHeight: 540,
     width: '100%',
   },
   path: {
@@ -1767,28 +1547,25 @@ const useStyles = makeStyles({
     fontSize: '12px',
     color: 'white',
     marginTop: '5px',
-    fontFamily: 'Roboto Condensed',
   },
   saleCount: {
     fontSize: '22px',
     color: '#D38F63',
     marginTop: '5px',
     fontWeight: 'bold',
-    fontFamily: 'Roboto Condensed',
   },
   sliderItemBackImg: {
     boxShadow:
       ' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset',
     backgroundImage: (props) =>
-      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${props.backgroundImg})`,
+      `linear-gradient(rgba(0, 0, 0, 0.5),rgba(37,37,37,1) 100%), url(${AvatarImage})`,
     backgroundColor: 'lightgray',
     backgroundPosition: 'center',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: (props) => (props?.phone ? '600px' : '500px'),
-    marginBottom: 60,
+    height: (props) => (props?.phone ? '600px' : '640px'),
     width: '100%',
     justifyContent: 'center',
   },
@@ -1798,19 +1575,18 @@ const useStyles = makeStyles({
     position: 'relative',
     zIndex: 99,
     transform: 'translate(0px, -100%)',
-    height: (props) => (props?.phone ? '600px' : '500px'),
+    height: (props) => (props?.phone ? '600px' : '530px'),
     marginBottom: 10,
     width: '100%',
   },
   textContainer: {
     display: 'flex',
     backgroundColor: '#171717',
-    width: '220px',
+    width:'220px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     minHeight: '100px',
-    margin: '90px',
-    marginTop: '10px',
+    margin:(props) => (props?.phone ? '90px' : '45px'),
     padding: (props) => (props?.phone ? '10px' : '10px'),
     borderRadius: '5px',
   },
@@ -1821,7 +1597,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     color: '#AA7654',
-    fontFamily: "'Roboto Condensed', sans-serif",
     marginTop: (props) => (props?.phone ? 10 : 60),
   },
   avatarColumn: {
@@ -1841,7 +1616,6 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     color: colors.brandTextColor,
-    fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '700',
     marginRight: '10px',
     fontSize: (props) => (props?.phone ? 8 : 18),
@@ -1851,7 +1625,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'flex-start',
     fontWeight: '300',
-    fontFamily: "'Roboto Condensed', sans-serif",
     color: 'white',
     fontSize: (props) => (props?.phone ? 4 : 12),
   },
@@ -1859,7 +1632,6 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     fontSize: (props) => (props?.phone ? 18 : 18),
-    fontFamily: "'Roboto Condensed', sans-serif",
     fontWeight: '700',
     justifyContent: 'center',
     textAlign: 'center',
@@ -1879,7 +1651,6 @@ const useStyles = makeStyles({
     fontSize: '12px',
   },
   button: {
-    fontFamily: "'Roboto Condensed', sans-serif",
     backgroundColor: colors.brandTextColor,
     width: 100,
     '&:hover': {
@@ -1894,34 +1665,6 @@ const useStyles = makeStyles({
       color: 'white',
     },
   },
-  thirtyPercentSquare: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 140,
-    height: 140,
-    position: 'absolute',
-    bottom: '-1%',
-    right: '25%',
-    borderRadius: 27,
-    zIndex: 999,
-    backgroundColor: colors.orange,
-  },
-  thirtyPercentRound: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 140,
-    height: 140,
-    position: 'absolute',
-    bottom: '-1%',
-    right: '25%',
-    borderRadius: 70,
-    zIndex: 10,
-    backgroundColor: colors.orange,
-  },
   saleLine: {
     backgroundColor: 'white',
     height: 3,
@@ -1933,50 +1676,60 @@ const useStyles = makeStyles({
     height: 3,
     width: 60,
   },
-  dots_container: {
+
+  slider1: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    alignContent: 'center',
+    justifyContent: 'center',
+    width: "100%",
   },
-  dot: {
-    height: 15,
-    width: 15,
-    backgroundColor: 'white',
-    opacity: '30%',
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: 'pointer',
+  sliderItemBackImg1: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    background: colors.lightGray,
+    backgroundImage: (props) => `url(${props.backgroundImg})`,
+    backgroundPosition: "center",
+    filter: "blur(0px)",
+    "-webkit9-filter": "blur(0px)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    height: (props) => (props?.phone ? "auto" : "300px"),
+    margin: '10px',
+    borderRadius: '10px',
+    border: '1px solid #C19D65',
   },
-  dot_active: {
-    height: 15,
-    width: 30,
-    backgroundColor: colors.brandTextColor,
-    opacity: '100%',
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: 'pointer',
+  boxImage: {
+    width: (props) => (props?.phone ? '80%' : '300px'),
+    height: (props) => (props?.phone ? '150px' : '210px')
   },
-  dots_seperator: {
-    height: 3,
-    width: 50,
-    backgroundColor: 'white',
-    opacity: '30%',
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: 'pointer',
+  bottomBox: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+    fontWeight: '300'
   },
-  dots_seperator_active: {
-    height: 3,
-    width: 50,
-    backgroundColor: 'white',
-    opacity: '100%',
-    borderRadius: 7,
-    margin: 5,
-    marginBottom: 10,
-    cursor: 'pointer',
+  brand: {
+    color: '#C19D65',
+    fontWeight: '400'
+  },
+  arrow:{
+    height: (props) => (props?.phone ? '65px' : '100px'),
+    width:'auto'
+  },
+  boxTitle: {
+    fontSize: '32px',
+    fontWeight: '300',
+    color:'white'
+  },
+  price:{
+    color:'white' 
+  },
+  brand: {
+    color: '#C19D65',
+    fontWeight: '400'
   },
 });
