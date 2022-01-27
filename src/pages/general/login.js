@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   useMediaQuery,
   InputBase,
@@ -18,7 +18,7 @@ import TheContext from '../../context/context';
 import { Alert } from '@mui/lab';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { login } from '../../api/account';
+import { login, signUp ,sendOtpCode , singUpInfo} from '../../api/account';
 import Login from '../../assets/background/login.png';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -26,16 +26,23 @@ import Select from '@mui/material/Select';
 import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 
+
 export default function LoginPage() {
-  const [value, setValue] = useState('');
-  const [renderLoading, setRenderLoading] = useState(true);
+
+  const [renderLoading, setRenderLoading] = useState(false);
   const [checked, setChecked] = useState(1);
   const [usernameState, setUsenameState] = useState('');
+  const [email, setEmail] = useState('');
+  const [rank, setRank] = useState('');
   const [firstnameState, setFirstnameState] = useState('');
   const [lastnameState, setLastnameState] = useState('');
+  const [phone, setPhone] = useState('');
   const [passwordState, setPasswordState] = useState('');
+  const [checkPassword, setCheckPassword] = useState('');
   const [checkboxState, setCheckboxState] = useState(false);
   const [tab, setTab] = useState(false);
+  const [otpInput , setOtpInput] = useState(false);
+  const [otpCode , setOtpCode] = useState('');
   const [passType, setPassType] = useState({
     pass: 'password',
     verify: 'password',
@@ -73,9 +80,7 @@ export default function LoginPage() {
     });
   };
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+
 
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -108,7 +113,7 @@ export default function LoginPage() {
     } else {
       login(usernameState, passwordState)
         .then((res) => {
-          console.log(res);
+          console.log(res,"res");
           if (res.status === 200) {
             localStorage.setItem('jamukh_token', res?.data?.token);
             localStorage.setItem('jamukh_auth', 'true');
@@ -141,7 +146,130 @@ export default function LoginPage() {
         });
     }
   };
+  
+  const sendSignUp = () => {
+    setRenderLoading(true);
+    if (!firstnameState || !lastnameState || !passwordState || !checkPassword || !phone || !email || !rank) {
+      handleSnackOpen({
+        state: true,
+        msg: 'Аль нэг талбарын утга хоосон байна',
+        type: 'warning',
+      });
+      setRenderLoading(false);
+    } 
+    else if (passwordState !== checkPassword) {
+      handleSnackOpen({
+        state: true,
+        msg: 'Нууц үг таарахгүй байна',
+        type: 'warning',
+      });
+      setRenderLoading(false);
+    }
+    else if (passwordState.length < 4) {
+      handleSnackOpen({
+        state: true,
+        msg: 'Нууц үг хамгийн багадаа 4 оронтой байна.',
+        type: 'warning',
+      });
+      setRenderLoading(false);
+    }
+    else if (phone.length < 8) {
+      handleSnackOpen({
+        state: true,
+        msg: 'Утасны дугаар буруу байна.',
+        type: 'warning',
+      });
+      setRenderLoading(false);
+    } else {
+      signUp(phone)
+      .then((res) => {
+        handleSnackOpen({
+          state: true,
+          msg:res.data.msg,
+          type: 'success',
+        });
+           if(res.data.msg === "An account with the phone number already exists"||res.data.msg === "The OTP code is incorrect"){
+            handleSnackOpen({
+              state: true,
+              msg:res.data.msg,
+              type: 'error',
+            });
+            setRenderLoading(false);
+           }
+          else{
+            setOtpInput(true);
+            setRenderLoading(false);
+          }
+           
+          })
+          
+      .catch((e) => {
+        console.log(e);
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+    }
+  };
 
+  const sendOtp = () => {
+    setRenderLoading(true);
+
+    sendOtpCode(phone,parseInt(otpCode))
+      .then((res) => {
+        if(res.data.msg === "OTP code is correct. Please enter your password."){
+          singUpInfo( firstnameState,lastnameState ,passwordState ,rank,phone,email,parseInt(otpCode))
+          .then((res) => {
+            console.log(res,"res")
+            handleSnackOpen({
+              state: true,
+              msg:res.data.msg,
+              type: 'success',
+            });
+            localStorage.setItem('jamukh_token', res?.data?.token);
+            localStorage.setItem('jamukh_auth', 'true');
+            setTimeout(() => {
+              window.location.replace('/');
+            }, 1000);
+          })
+          .catch((e) => {
+            setRenderLoading(false);
+            handleSnackOpen({
+              state: true,
+              msg:
+                e.message === 'user.not.found'
+                  ? 'Хэрэглэгч олдсонгүй'
+                  : 'Нэр үг эсвэл нууц үг буруу байна.',
+              type: 'error',
+            });
+          });
+        }
+        else{
+            handleSnackOpen({
+              state: true,
+              msg:res.data.msg,
+              type: 'error',
+            });
+          }
+          
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+    
+  };
   const handlePassType = (num) => {
     if (num === 1)
       setPassType({
@@ -163,11 +291,7 @@ export default function LoginPage() {
     setChecked(num);
   };
 
-  useEffect(() => {
-    setRenderLoading(false);
-    setFirstnameState('Бат');
-    setLastnameState('Бат');
-  }, []);
+  
 
   return (
     <div className={classes.container}>
@@ -193,7 +317,7 @@ export default function LoginPage() {
           {/* Login */}
           {tab === false ? (
             <>
-              {renderLoading ? (
+              {renderLoading === true ? (
                 <CircularIndeterminate />
               ) : (
                 <Fade in={checked === 1} mountOnEnter unmountOnExit>
@@ -289,7 +413,7 @@ export default function LoginPage() {
             </>
           ) : (
             <>
-              {renderLoading ? (
+              {renderLoading === true ? (
                 <CircularIndeterminate />
               ) : (
                 <Fade in={checked === 1} mountOnEnter unmountOnExit>
@@ -314,153 +438,176 @@ export default function LoginPage() {
                         Бүртгүүлэх
                       </div>
                     </div>
-                    {/* InputFirst */}
-                    <InputBase
-                      className={classes.textfield}
-                      type={'text'}
-                      value={firstnameState}
-                      onChange={(e) => handleUsernameState(e.target.value)}
-                      placeholder={'Овог'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
-                    {/* InputLast */}
-                    <InputBase
-                      className={classes.textfield}
-                      type={'text'}
-                      value={lastnameState}
-                      onChange={(e) => handleUsernameState(e.target.value)}
-                      placeholder={'Нэр'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
-                    {/* Input phone */}
-                    <InputBase
-                      className={classes.textfield}
-                      type={'text'}
-                      value={usernameState}
-                      onChange={(e) => handleUsernameState(e.target.value)}
-                      placeholder={'Дугаар'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
-                    {/* Input email */}
-                    <InputBase
-                      className={classes.textfield}
-                      type={'text'}
-                      value={usernameState}
-                      onChange={(e) => handleUsernameState(e.target.value)}
-                      placeholder={'Email'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
-                    {/* Input level */}
-                    <FormControl fullWidth className={classes.level}>
-                      <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        variant='outlined'
-                        value={value || 'test'}
-                        placeholder='test'
-                        renderValue={
-                          value !== ''
-                            ? undefined
-                            : () => <div className={classes.placeHolderLevel}>Зэрэг</div>
-                        }
-                        onChange={handleChange}
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              color: '#C19D65',
-                              fontWeight: '100',
-                            },
-                          },
-                        }}
-                        itemProp={{
-                          style: {
-                            color: 'red',
-                          },
-                        }}
-                      >
-                        <MenuItem value={10}>Энгийн</MenuItem>
-                        <MenuItem value={20}>Bronze</MenuItem>
-                        <MenuItem value={30}>Silver</MenuItem>
-                        <MenuItem value={40}>Gold</MenuItem>
-                        <MenuItem value={50}>Platinium</MenuItem>
-                        <MenuItem value={60}>VIP</MenuItem>
-                      </Select>
-                    </FormControl>
-                    {/* Input password */}
-                    <InputBase
-                      type={passType.pass}
-                      value={passwordState}
-                      className={classes.textfieldSlide3}
-                      onChange={(e) => handlePasswordState(e.target.value)}
-                      endAdornment={
-                        <IconButton
-                          color='primary'
-                          className={classes.endAdornmentIcon}
-                          onClick={() => handlePassType(1)}
-                          aria-label='see password'
-                        >
-                          {passType.pass === 'password' ? (
-                            <VisibilityIcon htmlColor={'gray'} />
-                          ) : (
-                            <VisibilityOffIcon htmlColor={'gray'} />
-                          )}
-                        </IconButton>
-                      }
-                      placeholder={'Нууц үг'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
-                    {/* Input password */}
-                    <InputBase
-                      type={passType.pass}
-                      value={passwordState}
-                      className={classes.textfieldSlide3}
-                      onChange={(e) => handlePasswordState(e.target.value)}
-                      endAdornment={
-                        <IconButton
-                          color='primary'
-                          className={classes.endAdornmentIcon}
-                          onClick={() => handlePassType(1)}
-                          aria-label='see password'
-                        >
-                          {passType.pass === 'password' ? (
-                            <VisibilityIcon htmlColor={'gray'} />
-                          ) : (
-                            <VisibilityOffIcon htmlColor={'gray'} />
-                          )}
-                        </IconButton>
-                      }
-                      placeholder={'Баталгаажуулах нууц үг'}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          sendLogin();
-                        }
-                      }}
-                    />
 
-                    {/* Submit to next page */}
-                    <Button onClick={() => sendLogin()} className={classes.button}>
-                      {contextText.login.title}
-                    </Button>
+                  {otpInput === false ?
+                        <>
+                        {/* InputFirst */}
+                        <InputBase
+                          className={classes.textfield}
+                          type={'text'}
+                          value={firstnameState}
+                          onChange={(e) => setFirstnameState(e.target.value)}
+                          placeholder={'Овог'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />
+                        {/* InputLast */}
+                        <InputBase
+                          className={classes.textfield}
+                          type={'text'}
+                          value={lastnameState}
+                          onChange={(e) => setLastnameState(e.target.value)}
+                          placeholder={'Нэр'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />
+                        {/* Input phone */}
+                        <InputBase
+                          className={classes.textfield}
+                          type={'number'}
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder={'Дугаар'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />
+                         <InputBase
+                          className={classes.textfield}
+                          type={'text'}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={'Email'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />    
+                        {/* Input level */}
+                        <FormControl fullWidth className={classes.level}>
+                          <Select
+                            labelId='demo-simple-select-label'
+                            id='demo-simple-select'
+                            variant='outlined'
+                            value={rank || 'test'}
+                            placeholder='test'
+                            renderValue={
+                              rank !== ''
+                                ? undefined
+                                : () => <div className={classes.placeHolderLevel}>Зэрэг</div>
+                            }
+                            onChange={(e) => setRank(e.target.value)}
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  color: '#C19D65',
+                                  fontWeight: '100',
+                                },
+                              },
+                            }}
+                            itemProp={{
+                              style: {
+                                color: 'red',
+                              },
+                            }}
+                          >
+                            <MenuItem value={6}>Энгийн</MenuItem>
+                            <MenuItem value={5}>Bronze</MenuItem>
+                            <MenuItem value={4}>Silver</MenuItem>
+                            <MenuItem value={3}>Gold</MenuItem>
+                            <MenuItem value={2}>Platinium</MenuItem>
+                            <MenuItem value={1}>VIP</MenuItem>
+                          </Select>
+                        </FormControl>
+                        {/* Input password */}
+                        <InputBase
+                          type={passType.pass}
+                          value={passwordState}
+                          className={classes.textfieldSlide3}
+                          onChange={(e) => handlePasswordState(e.target.value)}
+                          endAdornment={
+                            <IconButton
+                              color='primary'
+                              className={classes.endAdornmentIcon}
+                              onClick={() => handlePassType(1)}
+                              aria-label='see password'
+                            >
+                              {passType.pass === 'password' ? (
+                                <VisibilityIcon htmlColor={'gray'} />
+                              ) : (
+                                <VisibilityOffIcon htmlColor={'gray'} />
+                              )}
+                            </IconButton>
+                          }
+                          placeholder={'Нууц үг'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />
+                        {/* Input password */}
+                        <InputBase
+                          type={passType.pass}
+                          value={checkPassword}
+                          className={classes.textfieldSlide3}
+                          onChange={(e) => setCheckPassword(e.target.value)}
+                          endAdornment={
+                            <IconButton
+                              color='primary'
+                              className={classes.endAdornmentIcon}
+                              onClick={() => handlePassType(1)}
+                              aria-label='see password'
+                            >
+                              {passType.pass === 'password' ? (
+                                <VisibilityIcon htmlColor={'gray'} />
+                              ) : (
+                                <VisibilityOffIcon htmlColor={'gray'} />
+                              )}
+                            </IconButton>
+                          }
+                          placeholder={'Баталгаажуулах нууц үг'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendSignUp();
+                            }
+                          }}
+                        />
+    
+                        {/* Submit to next page */}
+                        <Button onClick={() => sendSignUp()} className={classes.button}>
+                           Бүртгүүлэх
+                        </Button>
+                        </>
+                        :
+                        <>
+                        <InputBase
+                        className={classes.textfield}
+                        type={'number'}
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value)}
+                        placeholder={'Code'}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            sendOtp();
+                          }
+                        }}
+                      />
+                         <Button onClick={() => sendOtp()} className={classes.button}>
+                           Илгээх
+                        </Button>
+                      </>  
+                        }
+          
                   </div>
                 </Fade>
               )}

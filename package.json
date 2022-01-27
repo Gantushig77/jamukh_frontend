@@ -28,6 +28,7 @@
     "react-barcode": "^1.4.0",
     "react-burger-menu": "^3.0.6",
     "react-dom": "^17.0.2",
+    "react-dropzone": "^11.5.1",
     "react-emotion": "^10.0.0",
     "react-facebook-login": "^4.1.1",
     "react-icons": "^4.3.1",
@@ -38,6 +39,7 @@
     "react-scripts": "^4.0.3",
     "react-share": "^4.4.0",
     "react-slick": "^0.28.1",
+    "react-truncate-markup": "^5.1.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.9"

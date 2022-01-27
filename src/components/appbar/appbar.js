@@ -184,7 +184,7 @@ export default function Appbar(props) {
                             </p>
                           )
                            }
-                        )
+                        
                       </Avatar>
                     </Tooltip>
                     ):

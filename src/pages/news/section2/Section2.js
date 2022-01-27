@@ -7,17 +7,15 @@ import Background from '../../../assets/background/background.png'
 import Slider from "react-slick";
 import ArrowL from '../../../assets/arrow/arrowL.png'
 import ArrowR from '../../../assets/arrow/arrowR.png'
-import screen2 from "../../../assets/images/background.png";
 import TheContext from "../../../context/context";
-import DemoImage from '../../../assets/images/demoImage.png';
 import Footer from '../../../components/footer/footer';
 
 function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" }} onClick={onClick} >
-        <img src={ArrowR} className={classes.arrow} alt=""/>
+    <div style={{ ...style, display: "block" }} onClick={onClick} >
+      <img src={ArrowR} className={classes.arrow} alt="" />
     </div>
   );
 }
@@ -26,9 +24,9 @@ function PrevArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" ,cursor:"pointer"}} onClick={onClick}>
-    <img className={classes.arrow} src={ArrowL} alt=""/>
-</div>
+    <div style={{ ...style, display: "block", cursor: "pointer" }} onClick={onClick}>
+      <img className={classes.arrow} src={ArrowL} alt="" />
+    </div>
   );
 }
 
@@ -47,155 +45,71 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Үнэ 
-              </div>  
-              <div className={classes.value}>
-                 $ 30000 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-             <div className={classes.label}>
-              Дотор өнгө
-              </div> 
-              <div className={classes.value}>
-                 Цагаан 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-             <div className={classes.label}>
-               Үйлдвэр 
-              </div>  
-              <div className={classes.value}>
-                Lexus
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-           <div className={classes.rowHalf}>
-              <div className={classes.label}>
-                Мотор багтаамж 
-              </div>  
-              <div className={classes.value}>
-                 4.6 л 
-              </div>  
-           </div>  
-            
-           <Slider  {...sliderConfig} className={classes.slider} >
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-              <SliderItem
-                dots={1}
-                sliderRef={slider}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                link={account ? "/user/services" : "/sign-up"}
-              />
-      </Slider>
-       <div className={classes.content}>
-          <div className={classes.title}>
-              Тайлбар
-          </div>  
-          <div className={classes.description}>
-            il porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellinoil porcellino
-          </div>  
-        </div>
+         
+            { props?.ads_info === undefined ?<div/>: 
+                 props?.ads_info.length === 0 ? <div/>:props?.ads_info.map((item, i) =>
+                    <div className={classes.rowHalf} key={i}>
+                      <div className={classes.label}>
+                        {item?.label}
+                      </div>
+                      <div className={classes.value}>
+                        {item?.value}
+                      </div>
+                    </div>
+            )}
+
+        {  props.image.length === 0 ?
+          <div/>
+          : 
+          <Slider  {...{
+              infinite: true,
+              speed: 500,
+              arrows: true,
+              slidesToShow: props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
+              slidesToScroll: 1,
+              nextArrow: <NextArrow />,
+              prevArrow: <PrevArrow />,
+              responsive: [
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 1,
+                    arrows: true,
+                  }
+                }
+              ]
+            }} className={classes.slider} >
+              {
+                props?.image.map((item, i) =>
+                  <SliderItem
+                    dots={1}
+                    key={i}
+                    sliderRef={slider}
+                    phone={props?.phone}
+                    avatar={''}
+                    admin={'Grand Marshal'}
+                    time={'12min'}
+                    area={'MKV 4,500,000$'}
+                    title={props?.title}
+                    description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+                    buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+                    backgroundImg={item?.url}
+                    link={account ? '/user/services' : '/sign-up'}
+                  />
+                )
+              }
+            </Slider>}
+         
+            <div className={classes.content}>
+              <div className={classes.title}>
+                Тайлбар
+              </div>
+              <div className={classes.description}>
+                {props?.description}
+              </div>
+            </div>
           </Container>
         </>
       )}
@@ -208,32 +122,12 @@ const SliderItem = (props) => {
 
   return (
     <div className={classes.box}>
-      <img src={DemoImage} className={classes.boxImage} alt=""/>
+      <img src={props.backgroundImg} className={classes.boxImage} alt="" />
     </div>
   );
 };
 
-const sliderConfig = {
-  // dots: true,
-  infinite: true,
-  speed: 500,
-  arrows: true,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-  responsive: [
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-        arrows: true,
-      }
-    }
-  ]
-};
+
 
 
 const useStyles = makeStyles({
@@ -242,15 +136,16 @@ const useStyles = makeStyles({
     overflow: 'hidden',
     backgroundColor: '#252525',
     fontFamily: "'Roboto', sans-serif",
-    backgroundImage:`url(${Background1})`,
+    backgroundImage: `url(${Background1})`,
   },
-  label:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'flex-end',
+  label: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     width: (props) => (props?.phone ? "auto" : "50%"),
   },
-  content:{
+  content: {
+    padding: (props) => (props?.phone ? "10px" : "30px"),
     width: (props) => (props?.phone ? "100%" : "1180px"),
   },
   slider: {
@@ -258,7 +153,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     width: "100%",
-    marginTop:'40px'
+    marginTop: '40px'
   },
   slideBottomBackground: {
     position: "absolute",
@@ -273,7 +168,7 @@ const useStyles = makeStyles({
     padding: '10px',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    background:'green',
+    background: 'green',
     backgroundImage: (props) => `url(${props.backgroundImg})`,
     backgroundPosition: "center",
     filter: "blur(0px)",
@@ -299,11 +194,11 @@ const useStyles = makeStyles({
     fontSize: '32px',
     fontWeight: '300'
   },
-  box:{
+  box: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   boxImage: {
     width: (props) => (props?.phone ? '100%' : '340px'),
@@ -321,36 +216,36 @@ const useStyles = makeStyles({
     fontWeight: '400'
   },
 
-  value:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'flex-start',
+  value: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     width: (props) => (props?.phone ? "auto" : "50%"),
-    marginLeft:'15px',
+    marginLeft: '15px',
     color: '#C19D65'
 
   },
-  rowHalf:{
-    display:'flex',
-    alignItems:'center',  
+  rowHalf: {
+    display: 'flex',
+    alignItems: 'center',
     width: (props) => (props?.phone ? '100%' : '50%'),
-    color:'white',
-    justifyContent:'center',
-    fontWeight:'300',
-    fontSize:'20px',
-    marginTop:'30px'
+    color: 'white',
+    fontWeight: '300',
+    fontSize: '20px',
+    marginTop: '30px'
   },
   cardContent: {
     display: 'flex',
     maxWidth: (props) => (props.phone ? '100%' : '1300px'),
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
-    padding:'80px 0px',
-    backgroundColor :'',
-    justifyContent: 'center',
+    padding: '80px 0px',
+    backgroundColor: '',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
+    minHeight:'100vh',
     flexWrap: 'wrap',
-    backgroundImage:`url(${Background})`,
+    backgroundImage: `url(${Background})`,
   },
   cardButton: {
     display: 'flex',
@@ -444,14 +339,14 @@ const useStyles = makeStyles({
     fontSize: 32,
     fontWeight: 100,
     color: colorss.brandTextColor,
-    width:'100%',
+    width: '100%',
     textAlign: (props) => (props?.phone ? "center" : "left"),
   },
-  description:{
-    color:'white',
-    fontSize:'20px',
-    fontWeight:100,
-    marginTop:'10px',
+  description: {
+    color: 'white',
+    fontSize: '20px',
+    fontWeight: 100,
+    marginTop: '10px',
     textAlign: (props) => (props?.phone ? "center" : "left"),
   },
   titleWithParentId: {
@@ -474,7 +369,7 @@ const useStyles = makeStyles({
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
   },
-  arrow:{
-    width:(props) => (props.phone ? '30px' : '50px'),
+  arrow: {
+    width: (props) => (props.phone ? '30px' : '50px'),
   },
 });

@@ -54,7 +54,9 @@ export default function News(props) {
         </Alert>
       </Snackbar>
       <Section2 phone={phoneSize} tablet={tabletSize} />
-      <Footer phone={phoneSize} tablet={tabletSize} />
+      <div className={classes.footer}>
+        <Footer phone={phoneSize} tablet={tabletSize} />
+      </div>
     </div>
   );
 }
@@ -67,8 +69,12 @@ const useStyles = makeStyles({
     position:'relative',
     backgroundImage:`url(${Background})`,
     backgroundPosition:"center",
-    backgroundSize:'cover',
     backgroundRepeat:'no-repeat',
-    fontFamily: "'Roboto Condensed', sans-serif",
+    height:'100%'
   },
+  footer:{
+    position:"sticky",
+    top: "calc( 100vh - 60px )",
+    width:"100%",
+  }
 })

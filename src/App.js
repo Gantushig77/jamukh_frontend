@@ -39,32 +39,28 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 export default function App() {
   // initializeApp(firebaseConfig);
-  const messaging = getMessaging();
-  getToken(messaging, {
-    vapidKey:
-      'BNzJiPC9z7KVdpg0XQdqwljbIxe6N4vgUiyMpZ8UQwPXt5MfQ2dvRg6JfSfUsxxJbwesAIShLZiD3KKpcFZ4c64',
-  })
-    .then((currentToken) => {
-      if (currentToken) {
-        console.log(currentToken);
-        // Send the token to your server and update the UI if necessary
-        // ...
-      } else {
-        // Show permission request UI
-        console.log(
-          'No registration token available. Request permission to generate one.'
-        );
-        // ...
-      }
-    })
-    .catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-      // ...
-    });
+  // const messaging = getMessaging();
+  // getToken(messaging, {
+  //   vapidKey:
+  //     'BNzJiPC9z7KVdpg0XQdqwljbIxe6N4vgUiyMpZ8UQwPXt5MfQ2dvRg6JfSfUsxxJbwesAIShLZiD3KKpcFZ4c64',
+  // })
+  //   .then((currentToken) => {
+  //     if (currentToken) {
+  //       console.log(currentToken);
+  //     } else {
+  //       console.log(
+  //         'No registration token available. Request permission to generate one.'
+  //       );
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.log('An error occurred while retrieving token. ', err);
 
-  onMessage(messaging, (payload) => {
-    console.log(payload);
-  });
+  //   });
+
+  // onMessage(messaging, (payload) => {
+  //   console.log(payload);
+  // });
 
   let token = localStorage.getItem('jamukh_token');
 
@@ -200,6 +196,9 @@ export default function App() {
             </Route>
             <Route path={'/terms-and-conditions'}>
               <TermsAndConditions />
+            </Route>
+            <Route path={'/create-ad'}>
+              <CreateAd />
             </Route>
             <PrivateRoute path={'/create-ad'} authenticated={isAuthenticated()}>
               <CreateAd />

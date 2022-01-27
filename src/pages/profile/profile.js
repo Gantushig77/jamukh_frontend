@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect,useRef } from 'react';
-
+import React, { useState, useContext, useEffect } from 'react';
+import { BiTimeFive } from 'react-icons/bi';
 import {
   Container,
   Typography,
@@ -17,21 +17,17 @@ import {
   Alert,
   Snackbar,
   Pagination,
-  AvatarGroup,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
+import TruncateMarkup from 'react-truncate-markup';
+import moment from 'moment';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
 import TheContext from '../../context/context';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
-import Sale from '../../assets/icons/sale.png';
-import Members from '../../assets/icons/member.png';
-import Rate from '../../assets/icons/rate.png';
-import Heart from '../../assets/icons/heart.png';
-import Test from '../../assets/images/test.png';
 import StarIcon from '@mui/icons-material/Star';
-import Membermedal from '../../assets/images/plat.png';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { countries, provinces, discricts } from '../../constants/countryInfo';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
@@ -41,7 +37,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { emailValidator } from '../../helpers/helperFunctions';
-import { img_url, membership_img_url } from '../../constants/url';
+import { img_url } from '../../constants/url';
 import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
 import { getListOfMembershipTypes } from '../../api/membership';
 import AvatarImage from '../../assets/profile/profile.jpeg';
@@ -51,8 +47,9 @@ import Background1 from '../../assets/background/background.png';
 import ArrowL from '../../assets/arrow/arrowL.png'
 import ArrowR from '../../assets/arrow/arrowR.png'
 import screen2 from "../../assets/images/background.png";
-import DemoImage from '../../assets/images/demoImage.png';
 import Slider from "react-slick";
+import { getads } from '../../api/ads';
+
 
 //Slider arrow
 function NextArrow(props) {
@@ -77,11 +74,16 @@ function PrevArrow(props) {
 
 
 
+
 export default function Profile() {
   // Constants
-  let slider = useRef(null);
+
+  const page = 1;
+  const limit = 50 ;
+  const [news, setNews] = useState([])
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
+  const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -95,10 +97,26 @@ export default function Profile() {
     backgroundImg: img_url + account?.avatar?.url,
   });
 
+  useEffect(() => {
+    getads( page , limit )
+    .then((res) => {
+      setNews(res.data.ads)
+    })
+    .catch((e) => {
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Хэрэглэгч олдсонгүй'
+            : 'Нэр үг эсвэл нууц үг буруу байна.',
+        type: 'error',
+      });
+    });
+  }, [page]);
+
   // States
   const [open, setOpen] = useState(false);
   const [memberModal, setMemberModal] = useState(false);
-  const [membershipModal, setMembershipModal] = useState(false);
   const [memberModalType, setMemberModalType] = useState(0);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -111,6 +129,8 @@ export default function Profile() {
     lastname: account?.lastname || '',
     address: account?.address || '',
     email: account?.email || '',
+    avatar:account?.avatar || '',
+    member_type_str:account?.member_type_str || '',
     bio: account?.bio || '',
     gender: account?.gender || 'male',
     country: account?.country || countries[0].value,
@@ -157,8 +177,6 @@ export default function Profile() {
   const [accListPage, setAccListPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
 
-  const [membershipList, setMembershipList] = useState([]);
-  const [membershipLoading, setMembershipLoading] = useState(false);
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -232,13 +250,7 @@ export default function Profile() {
     setMemberModal(false);
   };
 
-  const handleMembershipModalOpen = () => {
-    setMembershipModal(true);
-  };
-
-  const handleMembershipModalClose = () => {
-    setMembershipModal(false);
-  };
+ 
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
@@ -419,12 +431,9 @@ export default function Profile() {
   }, [accListPage]);
 
   useEffect(() => {
-    setMembershipLoading(true);
     getListOfMembershipTypes()
       .then((res) => {
         console.log(res);
-        setMembershipLoading(false);
-        setMembershipList(res?.data);
       })
       .catch((err) => {
         console.log(err);
@@ -991,29 +1000,43 @@ export default function Profile() {
               <div className={classes.textContainer}>
              
                 <div className={classes.avatar}>
-                  <img
-                    alt={'avatar 3'}
-                    src={AvatarImage}
-                    className={classes.avatarImageBig}
-                  />
+                {authenticated ===true ? (
+                    <Avatar
+                        alt='Profile Avatar'
+                        className={classes.avatarImageBig}
+                       >
+                          {fieldState.avatar?.url ? (
+                            <img
+                              alt={'profile'}
+                              className={classes.avatar}
+                              src={img_url + fieldState.avatar?.url}
+                            />
+                          ) : (
+                            <p style={{ fontWeight: 'bold' ,fontSize:'32px'}}>
+                              {
+                                fieldState.firstname[0]?.toUpperCase()
+                              }
+                            </p>
+                           )
+                           }
+                        
+                      </Avatar>
+                ):""}     
                 <div className={classes.profile_badge}>
-                    {/* <img
-                      src={membership_img_url + account?.membership_type?.member_img?.url}
-                      alt={'platinum badge'}
-                      style={{ paddingTop: 10, width: 60, height: 60 }}
-                    /> */}
-                   <img
-                      src={Membermedal}
-                      alt={'platinum badge'}
-                      style={{ paddingTop: 10, width: 40, height: 40 }}
-                    />
 
                 </div>
                 </div>
                  <div className={classes.profile_name}>
-                     Jamukha Jadraan
+                     <div className={classes.profile_name_firstname}>{fieldState.firstname}</div> 
+                     <div>{account?.lastname}</div>
                  </div>       
-
+                 <div className={classes.membership}>
+                     <div className={classes.member_type_str}>{account?.member_type_str}</div> 
+                     <div>member</div>
+                 </div>   
+                 <div className={classes.membership}>
+                     <div>{account?.tel}</div>
+                 </div>    
   
                 {/* Update profile */}
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
@@ -1101,50 +1124,29 @@ export default function Profile() {
             <div className={classes.saleBackground}>
               <div className={classes.mySale}>
                 <Title name="Миний зар" />
+                {news.length === 0 ?
+                <></> 
+                : 
                 <Slider  {...sliderConfig} className={classes.slider1}>
-                    <SliderItem
-                      dots={1}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-                    <SliderItem
-                      dots={1}
-                      sliderRef={slider}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-                    <SliderItem
-                      dots={1}
-                      sliderRef={slider}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-                    <SliderItem
-                      dots={1}
-                      sliderRef={slider}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-                    <SliderItem
-                      dots={1}
-                      sliderRef={slider}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-                    <SliderItem
-                      dots={1}
-                      sliderRef={slider}
-                      phone={phoneSize}
-                      backgroundImg={screen2}
-                      link={account ? "/user/services" : "/sign-up"}
-                    />
-
+                   
+                   {
+                     news.map((item,i) =>  
+                     <Link to={`/detailnews/${item.ads_id}`} style={{textDecoration:'none'}}>
+                      <SliderItem
+                          dots={1}
+                          key={i}
+                          item={item}
+                          phone={phoneSize}
+                          backgroundImg={screen2}
+                          link={account ? "/user/services" : "/sign-up"}
+                      />
+                     </Link>
+                    )
+                   }
                   </Slider>
+                  }
+                
+                  
               </div>
             </div>
           </div>
@@ -1158,17 +1160,21 @@ export default function Profile() {
 const SliderItem = (props) => {
 
   const classes = useStyles(props);
+  const item = props.item
 
   return (
     <Container disableGutters maxWidth={false}>
       <div className={classes.sliderItemBackImg1} >
-        <img src={DemoImage} className={classes.boxImage} alt=""/>
-        <div className={classes.boxTitle}>
-          Алмазан бөгж
-        </div>
+        <img src={item.ad_imgs[0]?.url} className={classes.boxImage} alt=""/>
+          <TruncateMarkup lines={1} ellipsis={() => {/* renders "+X more users" */ }}>
+            <div className={classes.boxTitle}>
+                  {item?.title}
+            </div>
+          </TruncateMarkup>
         <div className={classes.bottomBox}>
-          <div className={classes.price}>$ 9000</div>
-          <div className={classes.brand}>GUCCI</div>
+          <div className={classes.brand}>{item?.price+item?.currency_symbol}</div>
+          <div className={classes.price}><BiTimeFive />{moment(item.created_date).format('YYYY.MM.DD')}</div>
+         
         </div>
       </div>
     </Container>
@@ -1213,14 +1219,28 @@ const useStyles = makeStyles({
   profile_name:{
     display:'flex',
     justifyContent:'center',
-    color:'white',
+    flexDirection:(props) => (props?.phone ? 'column' : 'row'),
     marginTop:'20px',
     color:'#C19D65',
     fontSize:'25px'
   },
+  profile_name_firstname:{
+    marginRight:(props) => (props?.phone ? '0px' : '5px'),
+  },
+  member_type_str:{
+    marginRight:(props) => (props?.phone ? '0px' : '5px'),
+  },
+  membership:{
+    display:'flex',
+    color:'#C19D65',
+    fontSize:'18px',
+    marginTop:'10px',
+    justifyContent:'center',
+    flexDirection:(props) => (props?.phone ? 'column' : 'row')
+  },
   mySale:{
     width:(props) => (props?.phone ? '100%' : '1300px'),
-    paddingTop:'30px'
+    paddingTop:(props) => (props?.phone ? '30px' : '130px')
   },
   memberTypeMonthlyPay: {
     color: 'darkgray',
@@ -1372,7 +1392,6 @@ const useStyles = makeStyles({
     display:'flex',
     alignItems:'center',
     marginTop: 20,
-    borderRadius: 0,
     color: 'white',
     fontWeight: '300',
     fontSize:'12px',
@@ -1388,7 +1407,8 @@ const useStyles = makeStyles({
     height: 100,
     width: 100,
     bottom:'-60px',
-    right:'10px'
+    right:'10px',
+    zIndex:'3'
   },
   root: {
     width: '100%',
@@ -1476,16 +1496,23 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   avatarImage: {
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
     width: '80px',
     height: '80px',
     borderRadius: '100%',
     objectFit: 'cover',
   },
   avatarImageBig: {
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
     width: '120px',
     height: '120px',
     borderRadius: '100%',
     objectFit: 'cover',
+    marginTop:'10px'
   },
   memberTop: {
     display: 'flex',
@@ -1597,7 +1624,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     color: '#AA7654',
-    marginTop: (props) => (props?.phone ? 10 : 60),
   },
   avatarColumn: {
     display: 'flex',
@@ -1681,7 +1707,8 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: "100%",
+    width: '100%',
+    
   },
   sliderItemBackImg1: {
     display: 'flex',
@@ -1726,10 +1753,8 @@ const useStyles = makeStyles({
     color:'white'
   },
   price:{
+    display:'flex',
+    alignItems:'center',
     color:'white' 
-  },
-  brand: {
-    color: '#C19D65',
-    fontWeight: '400'
   },
 });

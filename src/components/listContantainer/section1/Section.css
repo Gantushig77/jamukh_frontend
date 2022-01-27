@@ -1,18 +1,27 @@
 input.placeholder {
     text-align: center;
+    font-weight: 100;
 }
 ::-webkit-input-placeholder {
     text-align: center;
+    font-weight: 100;
  }
  
  :-moz-placeholder { /* Firefox 18- */
     text-align: center;  
+    font-weight: 100;
  }
  
  ::-moz-placeholder {  /* Firefox 19+ */
     text-align: center;  
+    font-weight: 100;
  }
  
  :-ms-input-placeholder {  
-    color:#cd864f1f
+    color:#cd864f1f;
+    font-weight: 100;
+ }
+ ul{
+    display: flex;
+    flex-direction: column!important;
  }

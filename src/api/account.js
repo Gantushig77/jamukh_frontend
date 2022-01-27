@@ -5,8 +5,28 @@ const login = (user_cred, password) => {
   return ax_instance.post('/account/login', { user_cred, password });
 };
 
-const signUp = (data) => {
-  return ax_instance.post('/account/sign-up', data);
+const signUp = (phone) => {
+  return ax_instance.post('/account/sign-up', 
+  {'tel':phone,
+});
+};
+const sendOtpCode = (phone ,otp) => {
+  return ax_instance.post('/account/sign-up', 
+  {'tel':phone,
+  "otp_code":otp
+});
+};
+const singUpInfo = (firstname,lastname ,password ,rank,phone,email,otp_code) => {
+  return ax_instance.post('/account/sign-up', 
+  {
+    'tel':phone,
+    'otp_code':otp_code,
+    'password':password,
+    'firstname':firstname,
+    'lastname':lastname,
+    'email':email,
+    'req_member': rank
+});
 };
 
 const getProfile = () => {
@@ -62,8 +82,10 @@ const formDataUpdateProfile = (dataFile, info) => {
 export {
   login,
   signUp,
+  sendOtpCode,
   getProfile,
   getListOfAccounts,
   updateProfile,
   formDataUpdateProfile,
+  singUpInfo
 };

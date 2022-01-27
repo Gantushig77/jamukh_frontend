@@ -1,8 +1,6 @@
 import React, { useRef, useContext } from 'react';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
-import screen1 from '../../assets/images/screen1.png';
-import screen2 from '../../assets/images/screen2.png';
 import Slider from 'react-slick';
 import TheContext from '../../context/context';
 import ArrowL from '../../assets/arrow/arrowL.png';
@@ -56,51 +54,41 @@ export default function SliderCustom(props) {
   const account = ContextHook.account;
 
   return (
-    <Slider ref={slider} {...sliderConfig}>
-      {/* Item 1 */}
-
-      <SliderItem
-        dots={1}
-        sliderRef={slider}
-        phone={props?.phone}
-        avatar={''}
-        admin={'Grand Marshal'}
-        time={'12min'}
-        area={'MKV 4,500,000$'}
-        title={'GRAND MARSHAL LUXURY VILLAS'}
-        description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-        buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-        backgroundImg={screen1}
-        link={account ? '/user/services' : '/sign-up'}
-      />
-
-      {/* Item 2 */}
-
-      <SliderItem
-        dots={2}
-        sliderRef={slider}
-        phone={props?.phone}
-        avatar={''}
-        admin={'Grand Marshal'}
-        time={'12min'}
-        area={'MKV 4,500,000$'}
-        title={'GRAND MARSHAL LUXURY VILLAS'}
-        description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-        buttonText={account ? 'Үйлчилгээ харах' : 'Бүртгүүлэх'}
-        link={account ? '/user/services' : '/sign-up'}
-        backgroundImg={screen2}
-      />
+    
+      props.data.length === 0 ?
+      <div></div>: 
+      <Slider ref={slider} {...sliderConfig}>   {
+              props.data.map((item,i) =>  
+                    <SliderItem
+                      dots={1}
+                      key={i}
+                      sliderRef={slider}
+                      phone={props?.phone}
+                      avatar={''}
+                      admin={'Grand Marshal'}
+                      time={'12min'}
+                      area={'MKV 4,500,000$'}
+                      title={props?.title}
+                      description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+                      buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+                      backgroundImg={item?.url}
+                      link={account ? '/user/services' : '/sign-up'}
+                    />
+             )
+      }
     </Slider>
+    
+   
   );
 }
 
 const SliderItem = (props) => {
   const classes = useStyles(props);
-
+  console.log(props,"props")
   return (
     <div className={classes.sliderItemBackImg}>
       <div className={classes.sliderItemContainer}>
-        <div className={classes.textContainer}>Алмазан бөгж</div>
+        <div className={classes.textContainer}>{props?.title}</div>
         <div className={classes.textSub}>Jamukh Jadraan</div>
       </div>
     </div>

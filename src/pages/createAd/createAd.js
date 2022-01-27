@@ -5,8 +5,8 @@ import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import Slider from '../../components/slider/slider';
 import Section2 from './section2/Section2';
+
 
 export default function CreateAd() {
   const phoneSize = useMediaQuery('(max-width: 767px)');
@@ -55,7 +55,6 @@ export default function CreateAd() {
         </Alert>
       </Snackbar>
       {/* Slider */}
-      <Slider phone={phoneSize} tablet={tabletSize} />
       {/* Body */}
       <Section2 phone={phoneSize} tablet={tabletSize} />
     </div>
@@ -63,7 +62,5 @@ export default function CreateAd() {
 }
 
 const useStyles = makeStyles({
-  root: {
-    paddingBottom: 20,
-  },
+ 
 });
