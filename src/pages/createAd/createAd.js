@@ -6,9 +6,10 @@ import Appbar from '../../components/appbar/appbar';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import Section2 from './section2/Section2';
-
-
+import Footer from '../../components/footer/footer';
+import Background from '../../assets/background/profile.png'
 export default function CreateAd() {
+
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -57,10 +58,34 @@ export default function CreateAd() {
       {/* Slider */}
       {/* Body */}
       <Section2 phone={phoneSize} tablet={tabletSize} />
+      <div className={classes.footer}>
+           <Footer phone={phoneSize} tablet={tabletSize} />
+       </div>
     </div>
   );
 }
 
 const useStyles = makeStyles({
- 
+  footer:{
+    position:"sticky",
+    top: "calc( 100vh - 20px )",
+    width:"100%",
+  },
+  root: {
+    display:'flex',
+    alignItems:'center',
+    flexDirection:'column',
+    paddingTop:'80px',
+    width: '100%',
+    zIndex: '1',
+    fontFamily: 'Roboto, sans-serif',
+    backgroundImage:`url(${Background})`,
+    backgroundPosition:"center",
+    backgroundSize:'cover',
+    backgroundRepeat:'no-repeat',
+    minHeight:'100vh',
+    color:'white',
+    fontWeight:'100'
+  },
+
 });

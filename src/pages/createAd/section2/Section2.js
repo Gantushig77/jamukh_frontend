@@ -1,7 +1,6 @@
 import React, {  useState  } from 'react';
 import { makeStyles } from '@mui/styles';
 import Title from '../../../components/title/title'
-import Background from '../../../assets/background/profile.png'
 import Background1 from '../../../assets/background/background.png'
 import Car from '../../../components/create/car'
 import Antique from '../../../components/create/antique'
@@ -71,10 +70,6 @@ const useStyles = makeStyles({
     width: '100%',
     zIndex: '1',
     fontFamily: 'Roboto, sans-serif',
-    backgroundImage:`url(${Background})`,
-    backgroundPosition:"center",
-    backgroundSize:'cover',
-    backgroundRepeat:'no-repeat',
     minHeight:'100vh',
     color:'white',
     fontWeight:'100'
@@ -99,7 +94,7 @@ const useStyles = makeStyles({
     backgroundPosition:"center",
     backgroundSize:'cover',
     backgroundRepeat:'no-repeat',
-    padding:(props) => (props.phone ? '10px 0px' : '5px 30px'),
+    padding:(props) => (props.phone ? '10px 0px' : '15px 30px'),
   },
   tab: {
     width: 'auto',

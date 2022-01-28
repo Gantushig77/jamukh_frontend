@@ -72,7 +72,7 @@ export default function Appbar(props) {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           PaperProps={paperProps}
         >
-          <MenuItem onClick={() => history.push('/create-ad')}>
+          <MenuItem onClick={() => history.push('/profile')}>
             <Avatar alt='Profile Avatar 2'>
               {authenticated ? (
                 account?.avatar?.url ? (

@@ -133,7 +133,7 @@ export default function App() {
   return (
     <div className='App'>
       <TheContext.Provider value={{ contextValue, langChange, account }}>
-        <Router>
+        <Router forceRefresh={true}>
           <Switch>
             <Route exact path={'/'}>
               <Home />

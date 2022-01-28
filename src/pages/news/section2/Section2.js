@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react";
 import { Container } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import Background1 from '../../../assets/background/detailnews.png';
+import Background1 from '../../../assets/background/background.png'
 import Background from '../../../assets/background/background.png'
 import Slider from "react-slick";
 import ArrowL from '../../../assets/arrow/arrowL.png'
