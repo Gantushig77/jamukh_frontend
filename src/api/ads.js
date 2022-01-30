@@ -8,5 +8,14 @@ const getads = ( page, limit ) => {
 const getDetail = ( id ) => {
   return ax_instance.get(`/ads/get-ad?ad_id=${id}`);
   };
-
-export {getads ,getDetail };
+const getCategoryAds = ( id , limit) => {
+return ax_instance.get(`/ads/get-new-ads?page=1&limit=${limit}&order=DESC&category=${id}`);
+};
+const getBlogList = ( id , limit) => {
+  return ax_instance.get(`/blog/blog-list?page=1&limit=10&category=All&order=DESC`);
+  };
+const getDetailNews = ( id ) => {
+  return ax_instance.get(`/blog/blog-post?id=${id}`);
+  };   
+      
+export {getads ,getDetail ,getCategoryAds,getBlogList,getDetailNews};

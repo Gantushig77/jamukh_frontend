@@ -20,7 +20,7 @@ export default function CustomDropdownArray({
   });
 
   const handleValue = (item) => {
-    console.log(item);
+
     onChange(item);
     setValue(item);
   };

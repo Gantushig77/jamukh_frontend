@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import Section from '../../components/listContantainer/section1/Section1'
-
-
-
+import { getCategoryAds } from '../../api/ads';
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Category(props) {
 
   const classes = useStyles(props);
-
-
+  const [ads, setAds] = useState([])
+  const categoryId = props.id;
+  const limit = 100;
+  const [isLoading, setLoading] = useState( true );
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: 'Амжилттай илгээлээ',
@@ -25,6 +26,33 @@ export default function Category(props) {
       return;
     }
     setSnackbarState({ ...snackbarState, open: false });
+  };
+
+  useEffect(() => {
+    getCategoryAds( categoryId , limit )
+    .then((res) => {
+      setAds(res.data.ads);
+      setLoading(false);
+    })
+    .catch((e) => {
+      setLoading(false);
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Хэрэглэгч олдсонгүй'
+            : 'Нэр үг эсвэл нууц үг буруу байна.',
+        type: 'error',
+      });
+    });
+  }, [categoryId]);
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
   };
 
   return (
@@ -47,9 +75,15 @@ export default function Category(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
+      {isLoading === true ?
+      <div className={classes.isLoading}> 
+          <HashLoader color='#D38F63' loading={true} size={120} />
+      </div>
+      :  
       <div className={classes.section}> 
-          <Section bg={props?.bg} title={props?.title} phone={props?.phone} tablet={props?.tablet}/>
-       </div> 
+          <Section data={ads} bg={props?.bg} title={props?.title} phone={props?.phone} tablet={props?.tablet}/>
+       </div> }
+     
       <div className={classes.footer}>
            <Footer phone={props?.phone} tablet={props?.tablet} />
        </div>
@@ -62,6 +96,12 @@ const useStyles = makeStyles({
   },
   section:{
     width: (props) => (props?.phone ? '100%' : '1300px'),
+  },
+  isLoading:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    height:'100%',
   },
   background:{
     display:'flex',

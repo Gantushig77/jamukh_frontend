@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
-import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import Section2 from './section2/Section2';
 import { makeStyles } from '@mui/styles';
 import Background from '../../assets/background/news.png'
 import Appbar from '../../components/appbar/appbar';
+import Footer from '../../components/footer/footer';
 
 
 export default function News(props) {
@@ -38,7 +38,7 @@ export default function News(props) {
     <div
      className={classes.root}
     >
-       <Appbar phone={phoneSize} tablet={tabletSize} />
+       <Appbar phone={phoneSize} tablet={tabletSize} className={classes.headerBackground}/>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
@@ -65,13 +65,13 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     margin: '0px',
-    padding: '0px',
+    padding:'0px',
     position:'relative',
     backgroundImage:`url(${Background})`,
-    backgroundPosition:"center",
     backgroundRepeat:'no-repeat',
-    height:'100%'
+    height:(props) => (props.phone ? '80vh' : '20%'),
   },
+  
   footer:{
     position:"sticky",
     top: "calc( 100vh - 60px )",

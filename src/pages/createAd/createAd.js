@@ -75,7 +75,6 @@ const useStyles = makeStyles({
     display:'flex',
     alignItems:'center',
     flexDirection:'column',
-    paddingTop:'80px',
     width: '100%',
     zIndex: '1',
     fontFamily: 'Roboto, sans-serif',

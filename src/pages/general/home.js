@@ -69,7 +69,6 @@ const useStyles = makeStyles({
   background:{
     display:'flex',
     alignItems:'center',
-    justifyContent:'center',
     flexDirection:'column',
     position:'relative',
     backgroundImage:`url(${Background})`,

@@ -13,14 +13,13 @@ import PrivateRoute from './components/privateRoute/privateRoute';
 import useAppStyles from './styles/js/classes';
 import { logout } from './helpers/logout';
 import Home from './pages/general/home';
-import List from './pages/listNews/list';
 import NotFound from './pages/general/notFound';
 import Login from './pages/general/login';
 import TermsAndConditions from './pages/general/termsAndConditions';
 import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
 import Category from './pages/category/category';
-import News from './pages/news/news';
+import Ads from './pages/ads/ads';
 import CreateAd from './pages/createAd/createAd';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
@@ -29,6 +28,8 @@ import Property from './assets/background/land.png';
 import Cars from './assets/background/cars.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
+import List from './pages/listNews/list';
+import Detailnews from './pages/Detailnews/Detailnews';
 import Membership from './pages/membership/membership';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
@@ -82,7 +83,7 @@ export default function App() {
           : enText
         : mnText,
     activeLang:
-      localStorage.getItem('activeLang') !== null
+      localStorage.getItem('activeLangRouter') !== null
         ? localStorage.getItem('activeLang')
         : 'mn',
   });
@@ -138,86 +139,75 @@ export default function App() {
             <Route exact path={'/'}>
               <Home />
             </Route>
-            <Route path={'/detailnews/:id'}>
-              <News />
-            </Route>
+            <PrivateRoute path={'/adsDetail/:id'} authenticated={isAuthenticated()}>
+              <Ads />
+            </PrivateRoute>
+            <PrivateRoute path={'/detailNews/:id'} authenticated={isAuthenticated()}>
+              <Detailnews />
+            </PrivateRoute>
+            <PrivateRoute path={'/news'} authenticated={isAuthenticated()}>
+              <List />
+            </PrivateRoute>
+            <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
+            <Profile />
+            </PrivateRoute>
+            <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
+                <Category
+                    bg={Atiquest}
+                    title='Эртний эдлэл'
+                    phone={phoneSize}
+                    tablet={tabletSize}
+                    id = {2}
+                />
+            </PrivateRoute>
+            <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
+            <Category
+                bg={Property}
+                title='Газар'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id = {3}
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
+                <Category
+                    bg={Estate}
+                    title='Үл хөдлөх'
+                    phone={phoneSize}
+                    tablet={tabletSize}
+                    id = {5}
+                  />
+            </PrivateRoute>
+            <PrivateRoute path={'/painting'} authenticated={isAuthenticated()}>
+            <Category
+                bg={Painting}
+                title='Уран зураг'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id = {4}
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
+             <Category 
+              bg={Cars} 
+              title='Машин' 
+              phone={phoneSize}
+              tablet={tabletSize} 
+              id={1}
+              />
+            </PrivateRoute>
             <Route path={'/login'}>
               <Login />
             </Route>
             <Route path={'/logout'}>
               <Members />
             </Route>
-            <Route path={'/news'}>
-              <News />
-            </Route>
-            <Route path={'/list'}>
-              <List />
-            </Route>
-            <Route path={'/profile'}>
-              <Profile />
-            </Route>
-            <Route path={'/antiquest'}>
-              <Category
-                bg={Atiquest}
-                title='Эртний эдлэл'
-                phone={phoneSize}
-                tablet={tabletSize}
-              />
-            </Route>
-            <Route path={'/property'}>
-              <Category
-                bg={Property}
-                title='Газар'
-                phone={phoneSize}
-                tablet={tabletSize}
-              />
-            </Route>
-            <Route path={'/cars'}>
-              <Category bg={Cars} title='Машин' phone={phoneSize} tablet={tabletSize} />
-            </Route>
-            <Route path={'/estate'}>
-              <Category
-                bg={Estate}
-                title='Үл хөдлөх'
-                phone={phoneSize}
-                tablet={tabletSize}
-              />
-            </Route>
-            <Route path={'/painting'}>
-              <Category
-                bg={Painting}
-                title='Уран зураг'
-                phone={phoneSize}
-                tablet={tabletSize}
-              />
-            </Route>
-            <Route path={'/membership'}>
-              <Membership />
-            </Route>
-            <Route path={'/terms-and-conditions'}>
-              <TermsAndConditions />
-            </Route>
-            <Route path={'/create-ad'}>
-              <CreateAd />
-            </Route>
             <PrivateRoute path={'/create-ad'} authenticated={isAuthenticated()}>
               <CreateAd />
             </PrivateRoute>
-            {/* <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
-              <Property />
-            </PrivateRoute>
-            <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
-              <Category />
-            </PrivateRoute>
-            <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
-              <Cars />
-            </PrivateRoute> */}
             <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
               <Members />
             </PrivateRoute>
-            {/* <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
-              <Estate />
-            </PrivateRoute> */}
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>

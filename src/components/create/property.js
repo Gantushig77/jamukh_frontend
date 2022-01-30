@@ -7,10 +7,15 @@ import InputBase from '@mui/material/InputBase';
 import { DropzoneAreaBase } from "material-ui-dropzone";
 import TextField from "@material-ui/core/TextField";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { base_url } from '../../constants/url';
+import { Alert } from '@mui/lab';
+import { Snackbar } from '@mui/material';
 
-
-export default function Car(props) {
+export default function Property(props) {
   const classes = useStyles(props);
+  const [isLoading, setisLoading] = useState(false);
+  const category = [5]
+  const [title, settitle] = useState('');
   const [room_count, setroom_count] = useState('');
   const [has_garage, sethas_garage] = useState('');
   const [district, setdistrict] = useState('');
@@ -27,7 +32,7 @@ export default function Car(props) {
   const [price, setprice] = useState('');
   const [priceSymbol, setpriceSymbol] = useState('₮');
   const [description, setdescription] = useState('');
-
+  const token = localStorage.getItem('jamukh_token');
   
   const districts = ["Багануур", "Багахангай", "Баянгол", "Баянзүрх", "Налайх", "Сонгино Хайрхан", "Сүхбаатар", "Хан-уул", "Чингэлтэй", "Орон нутаг"]
 
@@ -38,17 +43,138 @@ export default function Car(props) {
       (file) => !files.find((f) => f.data === file.data)
     );
     setFiles([...files, ...newFiles]);
-    console.log(files, "files");
+
   };
 
+//Snack
+
+const [snackbarState, setSnackbarState] = useState({
+  open: false,
+  message: 'Амжилттай илгээлээ',
+  severity: 'success',
+});
+const handleSnackClose = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+  setSnackbarState({ ...snackbarState, open: false });
+};
+
+const handleSnackOpen = ({ state, msg, type }) => {
+  setSnackbarState({
+    open: state,
+    message: msg,
+    severity: type,
+  });
+};
   const handleDelete = (deleted) => {
     setFiles(files.filter((f) => f !== deleted));
   };
 
 
+// file upload
+
+const formDataUpdateAds = () => {
+  setisLoading(true)
+  if(room_count===''||has_garage===''||district===''||address===''||size_mk===''||balcony_count===''||door_type===''||wind_type===''||wind_count===''||floor_type===''||floor_count===''||building_level===''||commission_date === '' ||price===''||description===''||files.length === 0){
+   
+    handleSnackOpen({
+      state: true,
+      msg:'Аль нэг талбар дутуу байна',
+       type: 'error',
+   });
+   setisLoading(false)
+  }
+  else{
+    const info ={"title":title,"category":category,"description":description,'price':price,'currency_symbol':priceSymbol,'ads_info':[{'label':'Өрөөний тоо','value':room_count},{'label':'Граж','value':has_garage},{'label':'Дүүрэг','value':district},{'label':'Байршил','value':address},{'label':'Талбай км2','value':size_mk},{'label':'Тагт','value':balcony_count},{'label':'Хаалга','value':door_type},{'label':'Цонх','value':wind_type},{'label':'Цонхны тоо','value':wind_count},{'label':'Шал','value':floor_type},{'label':'Хэдэн давхар','value':floor_count},{'label':'Барилгын давхар','value':building_level},{'label':'Ашиглалтанд орсон он','value':commission_date}]}
+    return new Promise((resolve, reject) => {
+      let req = new XMLHttpRequest();
+      let formData = new FormData();
+      if (files !== undefined && files !== null) {
+        files.forEach((item) => {
+          formData.append('file', item.file);
+        });
+      }
+      formData.append('info', JSON.stringify(info));
+  
+      req.open('POST', `${base_url}/ads/create-ad`);
+      req.setRequestHeader('Authorization', `Bearer ${token}`);
+  
+      try {
+        req.send(formData);
+        req.onreadystatechange = function() {
+          if (req.readyState === 4) {
+            if (req.status === 200 || req.status === 202) {
+              const res = JSON.parse(req.response);
+              resolve(res);
+              setisLoading(false)
+              handleSnackOpen({
+                state: true,
+                msg: 'Зар амжилтай орлоо',
+                type: 'success',
+              });
+            } else {
+              setisLoading(false)
+              handleSnackOpen({
+                state: true,
+                msg: 'Зар оруулахад алдаа гарлаа',
+                type: 'warning',
+              });
+              return reject(req.statusText);
+            
+            }
+          }
+        };
+      } catch (e) {
+        setisLoading(false)
+        handleSnackOpen({
+          state: true,
+          msg: 'Зар оруулахад алдаа гарлаа',
+          type: 'warning',
+        });
+        return reject(e);
+     
+      }
+    });
+  }
+  
+  
+  };
+
 
   return (
     <div className={classes.root}>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={snackbarState.open}
+        autoHideDuration={5000}
+        onClose={handleSnackClose}
+      >
+        <Alert
+          onClose={handleSnackClose}
+          severity={snackbarState.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarState.message}
+        </Alert>
+      </Snackbar>
+       <div className={classes.row}>
+        <div className={classes.width30L}>
+          Гарчиг 
+        </div>
+        <div className={classes.width40}>
+          <InputBase
+            type="text"
+            value={title}
+            className={classes.textfields}
+            onChange={(e) => settitle(e.target.value)}
+            placeholder={'Гарчиг'}
+          />
+        </div>
+        <div className={classes.width30R}>
+
+        </div>
+      </div>
       <div className={classes.row}>
         <div className={classes.width30L}>
           Өрөөний тоо
@@ -666,10 +792,15 @@ export default function Car(props) {
       <div className={classes.row}>
         <div className={classes.width30L}>
         </div>
-        <div className={classes.width40}>
-          <div className={classes.button}>
+           <div className={classes.width40}>
+          {isLoading === false?   
+          <div className={classes.button} onClick={()=>{formDataUpdateAds()}}>
             Зар нэмэх
+          </div>:  
+          <div className={classes.button} >
+            Уншиж байна ...
           </div>
+          }
         </div>
         <div className={classes.width30R}>
         </div>

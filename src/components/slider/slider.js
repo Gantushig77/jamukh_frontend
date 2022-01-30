@@ -84,7 +84,6 @@ export default function SliderCustom(props) {
 
 const SliderItem = (props) => {
   const classes = useStyles(props);
-  console.log(props,"props")
   return (
     <div className={classes.sliderItemBackImg}>
       <div className={classes.sliderItemContainer}>

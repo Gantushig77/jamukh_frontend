@@ -7,36 +7,177 @@ import InputBase from '@mui/material/InputBase';
 import { DropzoneAreaBase } from "material-ui-dropzone";
 import TextField from "@material-ui/core/TextField";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { base_url } from '../../constants/url';
+import { Alert } from '@mui/lab';
+import { Snackbar } from '@mui/material';
 
-
-export default function Car(props) {
+export default function Painting(props) {
   const classes = useStyles(props);
   const [condition, setcondition] = useState('');
-  const [material, setmaterial] = useState('');
-
-  const [brand, setbrand] = useState('');
+  const [isLoading, setisLoading] = useState(false);
+  const [artist_name, setartist_name] = useState('');
+  const category = [4];
+  const [title, settitle] = useState('');
   const [price, setprice] = useState('');
   const [priceSymbol, setpriceSymbol] = useState('₮');
   const [description, setdescription] = useState('');
   const [files, setFiles] = useState([]);
-
+  const token = localStorage.getItem('jamukh_token');
   const handleAdd = (newFiles) => {
     newFiles = newFiles.filter(
       (file) => !files.find((f) => f.data === file.data)
     );
     setFiles([...files, ...newFiles]);
-    console.log(files, "files");
+
   };
 
   const handleDelete = (deleted) => {
     setFiles(files.filter((f) => f !== deleted));
   };
 
+//Snack
 
+const [snackbarState, setSnackbarState] = useState({
+  open: false,
+  message: 'Амжилттай илгээлээ',
+  severity: 'success',
+});
+const handleSnackClose = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+  setSnackbarState({ ...snackbarState, open: false });
+};
+
+const handleSnackOpen = ({ state, msg, type }) => {
+  setSnackbarState({
+    open: state,
+    message: msg,
+    severity: type,
+  });
+};
+
+// file upload
+
+const formDataUpdateAds = () => {
+  setisLoading(true)
+  if(artist_name===''||condition===''||price===''||description===''||files.length === 0){
+   
+    handleSnackOpen({
+      state: true,
+      msg:'Аль нэг талбар дутуу байна',
+       type: 'error',
+   });
+   setisLoading(false)
+  }
+  else{
+    const info ={"title":title,"category":category,"description":description,'price':price,'currency_symbol':priceSymbol,'ads_info':[{'label':'Зураачын нэр','value':condition},{'label':'Зураачын нэр','value':artist_name}]}
+    return new Promise((resolve, reject) => {
+      let req = new XMLHttpRequest();
+      let formData = new FormData();
+      if (files !== undefined && files !== null) {
+        files.forEach((item) => {
+          formData.append('file', item.file);
+        });
+      }
+      formData.append('info', JSON.stringify(info));
+  
+      req.open('POST', `${base_url}/ads/create-ad`);
+      req.setRequestHeader('Authorization', `Bearer ${token}`);
+  
+      try {
+        req.send(formData);
+        req.onreadystatechange = function() {
+          if (req.readyState === 4) {
+            if (req.status === 200 || req.status === 202) {
+              const res = JSON.parse(req.response);
+              resolve(res);
+              setisLoading(false)
+              handleSnackOpen({
+                state: true,
+                msg: 'Зар амжилтай орлоо',
+                type: 'success',
+              });
+            } else {
+              setisLoading(false)
+              handleSnackOpen({
+                state: true,
+                msg: 'Зар оруулахад алдаа гарлаа',
+                type: 'warning',
+              });
+              return reject(req.statusText);
+           
+            }
+          }
+        };
+      } catch (e) {
+        setisLoading(false)
+        handleSnackOpen({
+          state: true,
+          msg: 'Зар оруулахад алдаа гарлаа',
+          type: 'warning',
+        });
+        return reject(e);
+      
+      }
+    });
+  }
+  };
 
   return (
     <div className={classes.root}>
-  
+
+      
+     <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={snackbarState.open}
+        autoHideDuration={5000}
+        onClose={handleSnackClose}
+      >
+        <Alert
+          onClose={handleSnackClose}
+          severity={snackbarState.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarState.message}
+        </Alert>
+      </Snackbar>
+      <div className={classes.row}>
+        <div className={classes.width30L}>
+          Гарчиг 
+        </div>
+        <div className={classes.width40}>
+          <InputBase
+            type="text"
+            value={title}
+            className={classes.textfields}
+            onChange={(e) => settitle(e.target.value)}
+            placeholder={'Гарчиг'}
+          />
+        </div>
+        <div className={classes.width30R}>
+
+        </div>
+      </div>       
+    {/* //artist_name*/}
+
+    <div className={classes.row}>
+        <div className={classes.width30L}>
+          Зурагны нэр
+        </div>
+        <div className={classes.width40}>
+          <InputBase
+            type="text"
+            value={artist_name}
+            className={classes.textfields}
+            onChange={(e) => setartist_name(e.target.value)}
+            placeholder={'Зурагны нэр'}
+          />
+        </div>
+        <div className={classes.width30R}>
+
+        </div>
+      </div>
       {/* //Condition */}
 
       <div className={classes.row}>
@@ -86,80 +227,7 @@ export default function Car(props) {
 
         </div>
       </div>
-    
-      {/* //brand*/}
 
-      <div className={classes.row}>
-        <div className={classes.width30L}>
-          Бренд
-        </div>
-        <div className={classes.width40}>
-          <InputBase
-            type="text"
-            value={brand}
-            className={classes.textfields}
-            onChange={(e) => setbrand(e.target.value)}
-            placeholder={'Явсан км2'}
-          />
-        </div>
-        <div className={classes.width30R}>
-
-        </div>
-      </div>
-      {/* //material */}
-
-      <div className={classes.row}>
-        <div className={classes.width30L}>
-          Материал
-        </div>
-        <div className={classes.width40}>
-          <FormControl fullWidth className={classes.level}>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              variant='outlined'
-              className={classes.select}
-              value={material || 'a'}
-              placeholder='test'
-              inputProps={{
-                classes: {
-                  root: classes.border,
-                  icon: classes.icon,
-                },
-              }}
-              renderValue={
-                material !== ''
-                  ? undefined
-                  : () => <div className={classes.placeHolderLevel}>Сонгох</div>
-              }
-              onChange={(e) => { setmaterial(e.target.value) }}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    color: '#C19D65',
-                    fontWeight: '100',
-                  },
-                },
-              }}
-              itemProp={{
-                style: {
-                  color: 'red',
-                },
-              }}
-            >
-              <MenuItem value="Алт">Алт</MenuItem>
-              <MenuItem value="Мөнгө">Мөнгө</MenuItem>
-              <MenuItem value="Алмаз">Алмаз</MenuItem>
-              <MenuItem value="Зэс">Зэс</MenuItem>
-              <MenuItem value="Үнэт чулуу">Үнэт чулуу</MenuItem>
-              <MenuItem value="Бусад">Бусад</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className={classes.width30R}>
-
-        </div>
-      </div>
       {/* //imageUpload*/}
 
       <div className={classes.row}>
@@ -263,13 +331,21 @@ export default function Car(props) {
 
       {/* //Send*/}
 
-      <div className={classes.row}>
+       {/* //Send*/}
+
+       <div className={classes.row}>
         <div className={classes.width30L}>
         </div>
+     
         <div className={classes.width40}>
-          <div className={classes.button}>
+          {isLoading === false?   
+          <div className={classes.button} onClick={()=>{formDataUpdateAds()}}>
             Зар нэмэх
+          </div>:  
+          <div className={classes.button} >
+            Уншиж байна ...
           </div>
+          }
         </div>
         <div className={classes.width30R}>
         </div>

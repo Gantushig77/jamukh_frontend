@@ -1,65 +1,93 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Test from '../../../assets/images/object.png';
 import Title from '../../../components/title/title'
 import Background from '../../../assets/background/background.png'
 import { Link } from 'react-router-dom';
+import { getBlogList } from '../../../api/ads';
+import TruncateMarkup from 'react-truncate-markup';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import  './Section.css'
-
+import styles from './Section.module.css'
 
 export default function Section2(props) {
   const classes = useStyles(props);
+  const limit = 10;
+  const [news, setNews] = useState([])
+  const [page, setPage] = useState([])
+
+  useEffect(() => {
+    getBlogList(page, limit)
+      .then((res) => {
+        setPage(res.page_length)
+        setNews(res.data.blog_list)
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+  }, [page]);
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+
+  const [setSnackbarState] = useState({
+    open: false,
+    message: 'Амжилттай илгээлээ',
+    severity: 'success',
+  });
+
 
   return (
     <div className={classes.root}>
-      <Title name="Мэдээ"/>
+      <Title name="Мэдээ" />
       {props?.parentId ? (
         <></>
       ) : (
         <>
           <Container className={classes.cardContent}>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>
-            <CardItem phone={props} />
-          </Link>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>
-            <CardItem phone={props} />
-          </Link>  
-          <Link className={classes.menuListItem} to='/detailnews/:id'>
-            <CardItem phone={props} />
-          </Link>    
-          <Link className={classes.menuListItem} to='/detailnews/:id'>  
-            <CardItem phone={props} />
-          </Link>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>
-            <CardItem phone={props} />
-          </Link>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>
-            <CardItem phone={props} />
-          </Link>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>  
-            <CardItem phone={props} />
-          </Link>
-          <Link className={classes.menuListItem} to='/detailnews/:id'>  
-            <CardItem phone={props} />
-           </Link> 
-           <Stack spacing={2}>
-            <Pagination count={10} variant="outlined" style={{marginTop:"20px"}}  renderItem={(item) => (
-                <PaginationItem
-                  components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-                  {...item}
-                  className="pageButton"
-                />
-              )}/>
-        
-          </Stack>
+
+            {
+              news.length > 0 ?
+                <div className={classes.columm}>
+                  {news.map((item, i) => 
+                  <Link key={i} className={classes.menuListItem} to={`/detailNews/${item.blog_id}`}>
+                    <CardItem phone={props} item={item}/>
+                  </Link>)}
+                    <Stack spacing={2} className={styles.pagination}>
+                      <Pagination count={page} variant="outlined" style={{ marginTop: "20px" }} renderItem={(item) => (
+                        <PaginationItem
+                          components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                          {...item}
+                          className="pageButton"
+                        />
+                      )} />
+                    </Stack>
+                </div>
+                :
+                <div className={classes.empty}>
+                  Хуудас олдсонгүй
+                </div>
+            }
+
+
+
           </Container>
-      
+
         </>
       )}
     </div>
@@ -68,15 +96,23 @@ export default function Section2(props) {
 
 const CardItem = (props) => {
   const classes = useStyles(props.phone);
+  const item = props.item
   return (
     <div className={classes.cardRoot}>
-      <img src={Test} className={classes.imageCard} alt={''} />
+      <img src={item.meta_img_url} className={classes.imageCard} alt={''} />
       <div className={classes.cardPadding}>
-        <div className={classes.cardTitle}>MONGOLIAN TOP ARCHITECTURE DESIGN</div>
-      
+         <TruncateMarkup lines={2} ellipsis={() => {}}>
+            <div className={classes.cardTitle}> 
+              {item.title}
+            </div>
+         </TruncateMarkup>   
+         <TruncateMarkup lines={3} ellipsis={() => {}}>
         <div className={classes.cardDesc}>
-        With an all-new platform and a new, more powerful twin-turbo engine, the 2022 LX 600 features five stunning models delivering greater agility
+ 
+            {item.description}
+         
         </div>
+        </TruncateMarkup>  
         <div className={classes.cardButtonContent}>
           Дэлгэрэнгүй
         </div>
@@ -88,17 +124,31 @@ const CardItem = (props) => {
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    position:'relative',
-    paddingTop:'90px',
+    position: 'relative',
+    paddingTop: '90px',
     fontFamily: 'Roboto, sans-serif',
-    fontWeight:'100'
+    fontWeight: '100',
+    height: '100vh'
+  },
+  columm:{
+    display:'flex',
+    flexDirection:'column', 
+    width: (props) => (props.phone ? '100%' : '1300px'),
+  },
+  empty: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '30px',
+    color: '#C6824D',
+    fontSize: '60px',
+    fontFamily: "'Lobster', cursive",
   },
 
-
-  menuListItem:{
-    textDecoration:'none',
-    borderBottom:'1px solid #C19D6580',
-    padding:'10px 0',
+  menuListItem: {
+    textDecoration: 'none',
+    borderBottom: '1px solid #C19D6580',
+    padding: '10px 0',
   },
   cardContent: {
     display: 'flex',
@@ -108,11 +158,12 @@ const useStyles = makeStyles({
     alignItems: 'center',
     width: '100%',
     flexWrap: 'wrap',
-    position:'relative',
-    backgroundImage:`url(${Background})`,
-    padding:"40px",
-    marginTop:'20px',
-    border:'1px solid #C6824D'
+    position: 'relative',
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "300px 250px",
+    padding: "40px",
+    marginTop: '20px',
+    border: '1px solid #C6824D'
   },
   cardButton: {
     display: 'flex',
@@ -128,9 +179,10 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingTop: 8,
-    color:'#C19D65',
-    fontWeight:'400',
-    fontSize:'18px'
+    color: '#C19D65',
+    fontWeight: '400',
+    fontSize: '18px',
+    width:'100%'
   },
   card: {
     width: '100px',
@@ -138,31 +190,32 @@ const useStyles = makeStyles({
   cardRoot: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent:'space-evenly',
+    justifyContent: 'flex-start',
+    flexDirection:(props) => (props.phone ? 'column' : 'row'),
     width: '100%',
-    textAlign: 'left',
+    textAlign: (props) => (props.phone ? 'center' : 'left'),
     margin: 5,
-   
   },
   imageCard: {
     height: '200px',
     width: '300px',
-    borderRadius:'20px',
-    border:'1px solid #C6824D'
+    borderRadius: '20px',
+    border: '1px solid #C6824D'
   },
   cardPadding: {
     padding: '10px',
+    width:'100%'
   },
   cardTitle: {
     fontSize: 30,
-    color:'#C19D65',
-    fontWeight:'300'
+    color: '#C19D65',
+    fontWeight: '300'
   },
   cardDesc: {
     fontSize: 20,
     fontWeight: '100',
-    color:'white',
-    marginTop:'10px'
+    color: 'white',
+    marginTop: '10px'
   },
   cardDate: {
     fontSize: 14,

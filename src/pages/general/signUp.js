@@ -79,14 +79,11 @@ export default function SignUp() {
   const [registerPhone, { loading: rpLoading }] = useMutation(REGISTER_WITH_PHONE, {
     onCompleted(data) {
       localStorage.setItem('jamukh_token', data.registerWithPhone);
-      console.log('submit phone register done.');
-      console.log(data);
+   
       sendPhoneOtp();
       handleCheck(2);
     },
-    onError(error) {
-      console.log('submit phone error occured.');
-      console.log(error.message);
+    onError(error) {;
       handleSnackOpen({
         state: true,
         msg: error.message,
@@ -135,10 +132,10 @@ export default function SignUp() {
 
   const [sendPhoneOtp, { loading: otpLoading }] = useMutation(SEND_PHONE_OTP, {
     onCompleted(data) {
-      console.log(data);
+ 
     },
     onError(e) {
-      console.log(e.message);
+    
       handleSnackOpen({
         state: true,
         msg: e.message,

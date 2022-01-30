@@ -91,9 +91,7 @@ const useStyles = makeStyles({
     width:(props) => (props.phone ? '100%' : '1300px'),
     marginTop:'50px',
     backgroundImage:`url(${Background1})`,
-    backgroundPosition:"center",
-    backgroundSize:'cover',
-    backgroundRepeat:'no-repeat',
+    backgroundSize: "300px 250px",
     padding:(props) => (props.phone ? '10px 0px' : '15px 30px'),
   },
   tab: {

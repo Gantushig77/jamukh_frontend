@@ -40,7 +40,6 @@ import { emailValidator } from '../../helpers/helperFunctions';
 import { img_url } from '../../constants/url';
 import { formDataUpdateProfile, getListOfAccounts } from '../../api/account';
 import { getListOfMembershipTypes } from '../../api/membership';
-import AvatarImage from '../../assets/profile/profile.jpeg';
 import Title from '../../components/title/title';
 import Footer from '../../components/footer/footer';
 import Background1 from '../../assets/background/background.png';
@@ -1132,7 +1131,7 @@ export default function Profile() {
                    
                    {
                      news.map((item,i) =>  
-                     <Link to={`/detailnews/${item.ads_id}`} style={{textDecoration:'none'}}>
+                     <Link to={`/adsDetail/${item.ads_id}`} style={{textDecoration:'none'}}>
                       <SliderItem
                           dots={1}
                           key={i}
@@ -1583,6 +1582,8 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   sliderItemBackImg: {
+    padding:'0px',
+    margin:'0px',
     boxShadow:
       ' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset',
     backgroundImage: (props) =>
@@ -1604,7 +1605,6 @@ const useStyles = makeStyles({
     zIndex: 99,
     transform: 'translate(0px, -100%)',
     height: (props) => (props?.phone ? '600px' : '530px'),
-    marginBottom: 10,
     width: '100%',
   },
   textContainer: {

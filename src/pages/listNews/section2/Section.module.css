@@ -1,0 +1,17 @@
+.pageButton{
+    background-color: white;
+}
+.pageButton:hover{
+    background-color: #b48f49a9;
+    color:white
+}
+.css-lqq3n7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: #B48E49;
+    color:white
+}
+.pagination ul {
+    display: flex;
+    align-items: center!important;
+    flex-direction: row!important;
+    justify-content: center;
+}

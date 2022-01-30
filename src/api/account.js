@@ -2,6 +2,7 @@ import ax_instance from '../helpers/axios_instance';
 import { base_url } from '../constants/url';
 
 const login = (user_cred, password) => {
+
   return ax_instance.post('/account/login', { user_cred, password });
 };
 
@@ -47,8 +48,6 @@ const formDataUpdateProfile = (dataFile, info) => {
   return new Promise((resolve, reject) => {
     let req = new XMLHttpRequest();
     let formData = new FormData();
-
-    console.log('file', dataFile);
     if (dataFile !== undefined || dataFile !== null) {
       formData.append('file', dataFile);
     }

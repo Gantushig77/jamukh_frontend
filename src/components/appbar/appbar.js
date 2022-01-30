@@ -31,7 +31,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
 import Logo from '../../assets/images/logo.png'
-
+import {logout} from '../../helpers/logout';
+import Background from '../../assets/background/background.png'
 
 export default function Appbar(props) {
   let history = useHistory();
@@ -60,7 +61,7 @@ export default function Appbar(props) {
   };
 
   return (
-    <AppBar  className={classes.root}>
+    <AppBar position='sticky' className={classes.root}>
       <Toolbar className={classes.toolbar}>
         {/* Profile menu */}
         <Menu
@@ -92,7 +93,7 @@ export default function Appbar(props) {
                 <div />
               )}
             </Avatar>
-            Profile
+            Хувий мэдээлэл
           </MenuItem>
           {authenticated && (
             <div>
@@ -101,12 +102,12 @@ export default function Appbar(props) {
                 <ListItemIcon>
                   <HistoryEduIcon fontSize='small' />
                 </ListItemIcon>
-                <Typography variant='body2'>Create an AD</Typography>
+                <Typography variant='body2'>Зар нэмэх</Typography>
               </MenuItem>
             </div>
           )}
           <Divider />
-          <MenuItem onClick={() => history.push(authenticated ? '/logout' : '/login')}>
+          <MenuItem onClick={() => {logout()}}>
             <ListItemIcon>
               {authenticated ? (
                 <Logout fontSize='small' />
@@ -116,7 +117,7 @@ export default function Appbar(props) {
             </ListItemIcon>
             {authenticated ? (
               <>
-                <Typography variant='body2'>Logout</Typography>
+                <Typography variant='body2'>Гарах</Typography>
               </>
             ) : (
               <>
@@ -241,22 +242,22 @@ export default function Appbar(props) {
               </div>
               <div className={classes.menuList}>
                 <Link className={classes.menuListItem} to='/'>
-                  Home
+                  Нүүр
                 </Link>
                 <Link className={classes.menuListItem} to='/news'>
-                  News
+                  Мэдээ
                 </Link>
                 <Link className={classes.menuListItem} to='/property'>
-                  Property
+                  Газар
                 </Link>
                 <Link className={classes.menuListItem} to='/antiquest'>
-                  Antiquest
+                  Эртний эдлэл
                 </Link>
                 <Link className={classes.menuListItem} to='/cars'>
-                  Cars
+                  Машин
                 </Link>
                 <Link className={classes.menuListItem} to='/estate'>
-                  Estate
+                  Үл хөдлөх
                 </Link>
               </div>
             </div>
@@ -269,12 +270,15 @@ export default function Appbar(props) {
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundColor: (props) => (props?.trigger ? '#252525' : colors.gray0),
+    display:'flex',
+    alignItems:'center',
+    backgroundColor: (props) => (props?.trigger ? '#252525' : 'transparent'),
     boxShadow: 'none',
     fontWeight:'300',
     fontFamily: "'Roboto', sans-serif",
     fontSize:'18px',
     color:'white',
+    padding: (props) => (props?.trigger ? '0px 0px' : '0px 10px'),
   },
   menuContainer:{
     display:'flex',
@@ -315,6 +319,8 @@ const useStyles = makeStyles(() => ({
     padding: '20px',
     fontSize: '20px',
     textAlign: 'flex-start',
+    color:'white',
+    fontWeight:'100'
   },
   burgerLogo: {
     display: 'flex',
@@ -517,6 +523,10 @@ const useStyles = makeStyles(() => ({
   },
   burgerPadding: {
     padding: '10px',
+    position: 'relative',
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "300px 250px",
+    height:'100vh',
   },
   authLinkActive: {
     textDecoration: 'none',

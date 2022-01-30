@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, {  useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import colors from "../../../constants/colors";
 import screen2 from "../../../assets/images/background.png";
@@ -6,21 +6,22 @@ import Slider from "react-slick";
 import TheContext from "../../../context/context";
 import { Container } from "@mui/material";
 import Input from '@mui/material/Input';
-import DemoImage from '../../../assets/images/demoImage.png';
 import ArrowL from '../../../assets/arrow/arrowL.png'
 import ArrowR from '../../../assets/arrow/arrowR.png'
 import TopArrow from '../../../assets/arrow/topArrow.png'
 import './Section.css'
-
-
+import moment from 'moment';
+import TruncateMarkup from 'react-truncate-markup';
+import { BiTimeFive } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 
 function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" }} onClick={onClick} >
-        <img src={ArrowR} className={classes.arrow} alt=""/>
+    <div style={{ ...style, display: "block" }} onClick={onClick} >
+      <img src={ArrowR} className={classes.arrow} alt="" />
     </div>
   );
 }
@@ -29,75 +30,79 @@ function PrevArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" ,cursor:"pointer"}} onClick={onClick}>
-    <img className={classes.arrow} src={ArrowL} alt=""/>
-</div>
+    <div style={{ ...style, display: "block", cursor: "pointer" }} onClick={onClick}>
+      <img className={classes.arrow} src={ArrowL} alt="" />
+    </div>
   );
 }
 
 export default function Section(props) {
-  
-  const classes = useStyles(props);
-  let slider = useRef(null);
 
+  const classes = useStyles(props);
+  const data = props.data;
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
-
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
       <div className={classes.titleSlider}>
-          
-          <div className={classes.textSlide}>{props?.title}</div>
-          <img src={TopArrow} alt=""/>
+        <div className={classes.textSlide}>{props?.title}</div>
+        <img src={TopArrow} alt="" />
       </div>
       <div className={classes.search}>
         <Input id="standard-basic" label="Standard" variant="standard" className={classes.textField} placeholder="Хайх" />
       </div>
-      <Slider  {...sliderConfig} className={classes.slider}>
-        <SliderItem
-          dots={1}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-        <SliderItem
-          dots={1}
-          sliderRef={slider}
-          phone={props?.phone}
-          backgroundImg={screen2}
-          link={account ? "/user/services" : "/sign-up"}
-        />
-
-      </Slider>
-    </Container>
+    
+        {
+        data.length=== 0 ?
+         <div className={classes.empty}>
+                Зар олдсонгүй
+         </div>
+         :  
+         <Slider  {...{
+            infinite: true,
+            speed: 500,
+            arrows: true,
+            slidesToShow: data.length > 3 ? 3 : data.length,
+            slidesToScroll: 1,
+            nextArrow: <NextArrow />,
+            prevArrow: <PrevArrow />,
+            responsive: [
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  initialSlide: 1,
+                  arrows: true,
+                }
+              }
+            ]
+          }} 
+          className={classes.slider}
+          >
+            {
+            
+            data.map((item,i) => 
+            <Link to={`/adsDetail/${item.ads_id}`} style={{textDecoration:'none'}}>
+                  <SliderItem
+                    dots={1}
+                    key={i}
+                    phone={props?.phone}
+                    backgroundImg={screen2}
+                    image={item?.ad_imgs[0]?.url}
+                    title={item?.title}
+                    price={item?.price+item?.currency_symbol}
+                    link={account ? "/user/services" : "/sign-up"}
+                    date={item?.created_date}
+                  /> 
+             </Link>     
+                )}
+            
+         </Slider>
+       
+        }
+    
+    </Container >
   );
 }
 
@@ -108,58 +113,46 @@ const SliderItem = (props) => {
   return (
     <Container disableGutters maxWidth={false}>
       <div className={classes.sliderItemBackImg} >
-        <img src={DemoImage} className={classes.boxImage} alt=""/>
-        <div className={classes.boxTitle}>
-          Алмазан бөгж
-        </div>
+        <img src={props.image} className={classes.boxImage} alt="" />
+        <TruncateMarkup lines={1} ellipsis={() => {/* renders "+X more users" */ }}>
+            <div className={classes.boxTitle}>
+                  {props?.title}
+            </div>
+          </TruncateMarkup>
         <div className={classes.bottomBox}>
-          <div className={classes.price}>$ 9000</div>
-          <div className={classes.brand}>GUCCI</div>
+         {<div className={classes.price}><BiTimeFive />{moment(props.date).format('YYYY.MM.DD')}</div>}
+          <div className={classes.brand}>{props.price}</div>
         </div>
       </div>
     </Container>
   );
 };
 
-const sliderConfig = {
-  infinite: true,
-  speed: 500,
-  arrows: true,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-  responsive: [
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-        arrows: true,
-      }
-    }
-  ]
-};
+
 
 
 const useStyles = makeStyles({
-  arrow:{
+  arrow: {
     height: (props) => (props?.phone ? '65px' : '100px'),
-    width:'auto'
+    width: 'auto'
   },
   firstWord: {
     color: "white",
     fontWeight: 100
   },
-  textSlide:{
-    borderBottom:'2px solid #C6824D',
-    marginBottom:'10px',
-    paddingBottom:'5px'
+  price:{
+    display:"flex",
+    alignItems:'center',
+    color: "white",
+  },
+  textSlide: {
+    borderBottom: '2px solid #C6824D',
+    marginBottom: '10px',
+    paddingBottom: '5px'
   },
   titleSlider: {
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     alignItems: 'center',
     fontSize: (props) => (props?.phone ? '42px' : '65px'),
   },
@@ -172,7 +165,8 @@ const useStyles = makeStyles({
     alignItems: 'center',
     width: '100%',
     justifyContent: 'space-between',
-    fontWeight: '300'
+    fontWeight: '300',
+  
   },
   brand: {
     color: '#C19D65',
@@ -195,7 +189,8 @@ const useStyles = makeStyles({
   },
   boxTitle: {
     fontSize: '32px',
-    fontWeight: '300'
+    fontWeight: '300',
+    color:'white'
   },
   root: {
     display: 'flex',
@@ -204,7 +199,7 @@ const useStyles = makeStyles({
     height: '60vh',
     flexDirection: 'column ',
     fontWeight: '100',
-    marginTop:(props) => (props?.phone ? '90px' : '200px'),
+    marginTop: (props) => (props?.phone ? '90px' : '200px'),
     fontFamily: 'Roboto, sans-serif',
     color: 'white'
   },
@@ -244,6 +239,20 @@ const useStyles = makeStyles({
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65'
+  },
+
+  empty:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:'30px',
+    color:'#C6824D',
+    fontSize:'60px',
+    borderRadius:'20px',
+    backgroundColor:'rgba(21,21,22,0.9)',
+    height:'300px',
+    width:'100%',
+    fontFamily: "'Lobster', cursive",
   },
 
   sliderItemContainer: {

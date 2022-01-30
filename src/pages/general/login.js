@@ -113,7 +113,6 @@ export default function LoginPage() {
     } else {
       login(usernameState, passwordState)
         .then((res) => {
-          console.log(res,"res");
           if (res.status === 200) {
             localStorage.setItem('jamukh_token', res?.data?.token);
             localStorage.setItem('jamukh_auth', 'true');
@@ -134,7 +133,6 @@ export default function LoginPage() {
           }
         })
         .catch((e) => {
-          console.log(e);
           handleSnackOpen({
             state: true,
             msg:
@@ -204,7 +202,6 @@ export default function LoginPage() {
           })
           
       .catch((e) => {
-        console.log(e);
         handleSnackOpen({
           state: true,
           msg:
@@ -225,7 +222,6 @@ export default function LoginPage() {
         if(res.data.msg === "OTP code is correct. Please enter your password."){
           singUpInfo( firstnameState,lastnameState ,passwordState ,rank,phone,email,parseInt(otpCode))
           .then((res) => {
-            console.log(res,"res")
             handleSnackOpen({
               state: true,
               msg:res.data.msg,
@@ -671,7 +667,6 @@ const useStyles = makeStyles({
     display: 'flex',
     fontFamily: 'Roboto, sans-serif',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
     height: '100vh',
@@ -704,8 +699,10 @@ const useStyles = makeStyles({
   containerEnd: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems:'center',
     width: (props) => (props.phone ? '100%' : '50%'),
     marginTop: (props) => (props.phone ? '120px' : '0px'),
+    height:'100%'
   },
   otpContainerStyle: {
     marginTop: 20,
