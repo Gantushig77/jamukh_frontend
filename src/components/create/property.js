@@ -137,11 +137,9 @@ const formDataUpdateAds = () => {
       }
     });
   }
-  
-  
   };
 
-
+  
   return (
     <div className={classes.root}>
       <Snackbar

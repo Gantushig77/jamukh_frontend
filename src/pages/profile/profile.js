@@ -48,7 +48,7 @@ import ArrowR from '../../assets/arrow/arrowR.png'
 import screen2 from "../../assets/images/background.png";
 import Slider from "react-slick";
 import { getads } from '../../api/ads';
-
+import  '../../App.css'
 
 //Slider arrow
 function NextArrow(props) {
@@ -474,7 +474,7 @@ export default function Profile() {
         }}
       >
         <Fade in={open}>
-          <Box className={classes.modalBox}>
+          <Box className={classes.modalBox1}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {imgReplacer.length > 0 ? (
                 <Avatar
@@ -870,6 +870,7 @@ export default function Profile() {
         BackdropProps={{
           timeout: 500,
         }}
+        className={classes.modal}
       >
         <Fade in={memberModal}>
           <Box className={classes.modalBox}>
@@ -954,12 +955,12 @@ export default function Profile() {
                             </Typography>
                             <div className={classes.smallProfileRank}>
                               <StarIcon
-                                sx={{ color: 'black' }}
+                                sx={{ color: 'yellow' }}
                                 className={classes.starRank}
                               />
                               <Typography
                                 color={'black'}
-                                sx={{ paddingTop: '2px', paddingLeft: '2px' }}
+                                sx={{ paddingTop: '2px', paddingLeft: '2px' ,color: 'white' }}
                                 textAlign={'center'}
                               >
                                 {item?.rating || 0}
@@ -982,6 +983,7 @@ export default function Profile() {
                   page={accListPage}
                   count={pageCount}
                   onChange={handlePagination}
+                  className="rowProfilePage"
                 />
               </Container>
             </div>
@@ -1042,7 +1044,7 @@ export default function Profile() {
                   <Button
                     className={classes.updateButton}
                   >
-                    <Link to="/membership" style={{color:'white'}}>
+                    <Link to="/members" style={{color:'white'}}>
                           Зэрэглэл
                     </Link>
                   </Button>
@@ -1364,12 +1366,30 @@ const useStyles = makeStyles({
     transform: 'translate(-50%, -50%)',
     maxWidth: 1000,
     width: '100%',
-    backgroundColor: 'white',
     boxShadow: 24,
     padding: 30,
     overflow: 'auto',
     maxHeight: '90%',
+    backgroundImage: `url(${Background1})`,
+    color:'white!important'
   },
+  modalBox1: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: 1000,
+    width: '100%',
+    boxShadow: 24,
+    padding: 30,
+    overflow: 'auto',
+    maxHeight: '90%',
+    backgroundColor:'white',
+    color:'white!important'
+  },
+
+
+
   memberModalBox: {
     position: 'absolute',
     top: '50%',

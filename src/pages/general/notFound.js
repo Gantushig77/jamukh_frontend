@@ -21,7 +21,7 @@ export default function NotFound(props) {
     <div  className={classes.root}>
        <Appbar phone={phoneSize} tablet={tabletSize} className={classes.headerBackground}/>
       <Container className={classes.content}>
-        404
+        Хуудас олдсонгүй
       </Container>
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} />
@@ -43,9 +43,11 @@ const useStyles = makeStyles({
     display:'flex',
     alignItems:'center',
     justifyContent:'center',
-    height:'100%',
-    fontSize:'50px',
-    color:'white'
+    height: "calc( 100% - 120px )",
+    fontSize:(props) => (props?.phone ? '35px' : '50px'),
+    color:'white',
+    marin:'0',
+    padding:'0'
   },
   footer:{
     position:"sticky",

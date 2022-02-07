@@ -216,7 +216,8 @@ export default function App() {
             </PrivateRoute>
             {/* 404 page. Must be at the bottom. */}
             <Route path={'*'}>
-              <NotFound />
+              <NotFound  phone={phoneSize}
+                    tablet={tabletSize}/>
             </Route>
           </Switch>
         </Router>

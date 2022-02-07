@@ -5,3 +5,19 @@
 a{
     text-decoration: none!important;
   }
+.rowProfilePage ul{
+  display: flex!important;
+  align-items: center;
+  flex-direction: row!important;
+  color:white!important;
+}  
+.rowProfilePage ul li {
+  color:white!important;
+}  
+
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root{
+  color:white!important;
+}
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: rgba(255, 255, 255, 0.08);
+}
