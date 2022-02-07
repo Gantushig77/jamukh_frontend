@@ -10,6 +10,8 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import { base_url } from '../../constants/url';
+import './create.css';
+
 
 export default function Antique(props) {
   const classes = useStyles(props);

@@ -10,6 +10,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { base_url } from '../../constants/url';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
+import './create.css';
 
 export default function Painting(props) {
   const classes = useStyles(props);

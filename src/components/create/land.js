@@ -10,6 +10,8 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { base_url } from '../../constants/url';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
+import './create.css';
+
 
 export default function Land(props) {
   const classes = useStyles(props);
@@ -339,8 +341,8 @@ const formDataUpdateAds = () => {
         <div className={classes.width40}>
             <TextField
               multiline={true}
-              rows={8}
               name="Description"
+              rows={8}
               autoComplete="off"
               variant="outlined"
               className={classes.textArea}
@@ -392,7 +394,8 @@ const useStyles = makeStyles({
   textArea:{
     backgroundColor:'white',
     width:'100%',
-    borderRadius:'5px'
+    borderRadius:'5px',
+    height:'80px'
   },
   button: {
     width: '100%',

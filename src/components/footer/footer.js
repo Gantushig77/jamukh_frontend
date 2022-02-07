@@ -10,7 +10,7 @@ export default function Footer(props) {
     <div className={classes.root}>
       <div className={classes.flexContainer}>
         <div className={classes.address}>
-        Jamukha Proporties © 2022 All rights reserved
+          Jamukha Proporties © 2022 All rights reserved
         </div>
 
         <div className={classes.social}>
