@@ -17,7 +17,7 @@ export default function Footer(props) {
           <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
             Мэдээ
           </Link>  
-          <Link className={classes.menuListItem} to='/estate'>
+          <Link className={classes.menuListItem} to='/about'>
             Бидний тухай
           </Link>  
         </div>
