@@ -15,7 +15,7 @@ import { logout } from './helpers/logout';
 import Home from './pages/general/home';
 import NotFound from './pages/general/notFound';
 import Login from './pages/general/login';
-import TermsAndConditions from './pages/general/termsAndConditions';
+// import TermsAndConditions from './pages/general/termsAndConditions';
 import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
 import Category from './pages/category/category';
@@ -30,13 +30,13 @@ import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
 import List from './pages/listNews/list';
 import Detailnews from './pages/Detailnews/Detailnews';
-import Membership from './pages/membership/membership';
+// import Membership from './pages/membership/membership';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import './App.css';
 // import firebaseConfig from './firebase/firebase';
 // import { initializeApp } from 'firebase';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+// import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 export default function App() {
   // initializeApp(firebaseConfig);
@@ -149,51 +149,51 @@ export default function App() {
               <List />
             </PrivateRoute>
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
-            <Profile />
+              <Profile />
             </PrivateRoute>
             <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
-                <Category
-                    bg={Atiquest}
-                    title='Эртний эдлэл'
-                    phone={phoneSize}
-                    tablet={tabletSize}
-                    id = {2}
-                />
+              <Category
+                bg={Atiquest}
+                title='Эртний эдлэл'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={2}
+              />
             </PrivateRoute>
             <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
-            <Category
+              <Category
                 bg={Property}
                 title='Газар'
                 phone={phoneSize}
                 tablet={tabletSize}
-                id = {3}
+                id={3}
               />
             </PrivateRoute>
             <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
-                <Category
-                    bg={Estate}
-                    title='Үл хөдлөх'
-                    phone={phoneSize}
-                    tablet={tabletSize}
-                    id = {5}
-                  />
+              <Category
+                bg={Estate}
+                title='Үл хөдлөх'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={5}
+              />
             </PrivateRoute>
             <PrivateRoute path={'/painting'} authenticated={isAuthenticated()}>
-            <Category
+              <Category
                 bg={Painting}
                 title='Уран зураг'
                 phone={phoneSize}
                 tablet={tabletSize}
-                id = {4}
+                id={4}
               />
             </PrivateRoute>
             <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
-             <Category 
-              bg={Cars} 
-              title='Машин' 
-              phone={phoneSize}
-              tablet={tabletSize} 
-              id={1}
+              <Category
+                bg={Cars}
+                title='Машин'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={1}
               />
             </PrivateRoute>
             <Route path={'/login'}>
@@ -216,8 +216,7 @@ export default function App() {
             </PrivateRoute>
             {/* 404 page. Must be at the bottom. */}
             <Route path={'*'}>
-              <NotFound  phone={phoneSize}
-                    tablet={tabletSize}/>
+              <NotFound phone={phoneSize} tablet={tabletSize} />
             </Route>
           </Switch>
         </Router>

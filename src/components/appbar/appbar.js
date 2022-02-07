@@ -30,9 +30,9 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
-import Logo from '../../assets/images/logo.png'
-import {logout} from '../../helpers/logout';
-import Background from '../../assets/background/background.png'
+import Logo from '../../assets/images/logo.png';
+import { logout } from '../../helpers/logout';
+import Background from '../../assets/background/background.png';
 
 export default function Appbar(props) {
   let history = useHistory();
@@ -107,7 +107,11 @@ export default function Appbar(props) {
             </div>
           )}
           <Divider />
-          <MenuItem onClick={() => {logout()}}>
+          <MenuItem
+            onClick={() => {
+              logout();
+            }}
+          >
             <ListItemIcon>
               {authenticated ? (
                 <Logout fontSize='small' />
@@ -151,26 +155,28 @@ export default function Appbar(props) {
                 </>
               </Grid>
               <Grid item xs={4} className={classes.menuLogo}>
-             
-                  <img src={Logo} style={{width:"40%"}} alt=""/>
-              
+                <img src={Logo} style={{ width: '40%' }} alt='' />
               </Grid>
               {/* Menu filters and account settings */}
               <Grid item xs={4}>
-                <Grid container direction={'row'} alignItems={'center'} className={classes.containerEnd}>
+                <Grid
+                  container
+                  direction={'row'}
+                  alignItems={'center'}
+                  className={classes.containerEnd}
+                >
                   <div className={classes.contact}>
-                    <div className={classes.contactText}>Холбоо барих</div> 
+                    <div className={classes.contactText}>Холбоо барих</div>
                     <div className={classes.phoneNumber}>77779999</div>
-                  </div>  
+                  </div>
                   <Grid item>
-                  {authenticated ? (
-                    <Tooltip title='Account settings'>
-                  
-                      <Avatar
-                        alt='Profile Avatar'
-                        className={classes.avatar}
-                        onClick={handleClick}
-                       >
+                    {authenticated ? (
+                      <Tooltip title='Account settings'>
+                        <Avatar
+                          alt='Profile Avatar'
+                          className={classes.avatar}
+                          onClick={handleClick}
+                        >
                           {account?.avatar?.url ? (
                             <img
                               alt={'profile'}
@@ -183,14 +189,14 @@ export default function Appbar(props) {
                                 account?.firstname?.length > 1 &&
                                 account?.firstname[0]?.toUpperCase()}
                             </p>
-                          )
-                           }
-                        
-                      </Avatar>
-                    </Tooltip>
-                    ):
-                    <Link className={classes.avatarLink} to='/login'>Нэвтрэх</Link>
-                  }
+                          )}
+                        </Avatar>
+                      </Tooltip>
+                    ) : (
+                      <Link className={classes.avatarLink} to='/login'>
+                        Нэвтрэх
+                      </Link>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -270,43 +276,42 @@ export default function Appbar(props) {
 
 const useStyles = makeStyles(() => ({
   root: {
-    display:'flex',
-    alignItems:'center',
+    display: 'flex',
+    alignItems: 'center',
     backgroundColor: (props) => (props?.trigger ? '#252525' : 'transparent'),
     boxShadow: 'none',
-    fontWeight:'300',
+    fontWeight: '300',
     fontFamily: "'Roboto', sans-serif",
-    fontSize:'18px',
-    color:'white',
+    fontSize: '18px',
+    color: 'white',
     padding: (props) => (props?.trigger ? '0px 0px' : '0px 10px'),
   },
-  menuContainer:{
-    display:'flex',
-    alignItems:'center',
-    margin:"0px 10px"
+  menuContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0px 10px',
   },
-  contact:{
-    fontWeight:'100',
+  contact: {
+    fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
-    display:'flex',
-    justifyContent:'space-between',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  contactText: {
+    marginRight: '20px',
+  },
 
-  },
-  contactText:{
-    marginRight:"20px"
-  },
-  
-  phoneNumber:{
-     color:"#C19D65"  
+  phoneNumber: {
+    color: '#C19D65',
   },
   menuAvatar: {
     objectFit: 'cover',
     width: '100%',
     height: '100%',
   },
-  containerEnd:{
-    display:'flex',
-    justifyContent:'space-between',
+  containerEnd: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   menuList: {
     display: 'flex',
@@ -315,12 +320,11 @@ const useStyles = makeStyles(() => ({
   },
   menuListItem: {
     textDecoration: 'none',
-    color: 'black',
     padding: '20px',
     fontSize: '20px',
     textAlign: 'flex-start',
-    color:'white',
-    fontWeight:'100'
+    color: 'white',
+    fontWeight: '100',
   },
   burgerLogo: {
     display: 'flex',
@@ -388,14 +392,14 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     margin: 'auto',
     color: 'white',
-    padding:'0px'
+    padding: '0px',
   },
   menuLogo: {
-   display:"flex",
-   justifyContent:"center",
-   alignItems:"center"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  
+
   menu: {
     fontFamily: "'Roboto', sans-serif",
   },
@@ -409,7 +413,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
   roleGrid: {
-    width:"1300px"
+    width: '1300px',
   },
   username: {
     fontSize: 17,
@@ -471,10 +475,10 @@ const useStyles = makeStyles(() => ({
       color: colors.lightPurple,
     },
   },
-  avatarLink:{
-    textDecoration:'none',
-    color:'white',
-    fontWeight:'100',
+  avatarLink: {
+    textDecoration: 'none',
+    color: 'white',
+    fontWeight: '100',
     '&:hover': {
       color: colors.brandTextColor,
     },
@@ -492,17 +496,16 @@ const useStyles = makeStyles(() => ({
   link: {
     textDecoration: 'none',
     color: 'white',
-    fontWeight:'100',
+    fontWeight: '100',
     fontSize: '18px',
     cursor: 'pointer',
     '&:hover': {
       color: colors.brandTextColor,
     },
   },
-  menuPadding:{
-    display:'flex',
-    justifyContent:'space-between',
- 
+  menuPadding: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   activeLink: {
     textDecoration: 'none',
@@ -525,8 +528,8 @@ const useStyles = makeStyles(() => ({
     padding: '10px',
     position: 'relative',
     backgroundImage: `url(${Background})`,
-    backgroundSize: "300px 250px",
-    height:'100vh',
+    backgroundSize: '300px 250px',
+    height: '100vh',
   },
   authLinkActive: {
     textDecoration: 'none',

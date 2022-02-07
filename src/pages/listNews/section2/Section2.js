@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Title from '../../../components/title/title'
-import Background from '../../../assets/background/background.png'
+import Title from '../../../components/title/title';
+import Background from '../../../assets/background/background.png';
 import { Link } from 'react-router-dom';
 import { getBlogList } from '../../../api/ads';
 import TruncateMarkup from 'react-truncate-markup';
@@ -11,19 +11,36 @@ import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import styles from './Section.module.css'
+import styles from './Section.module.css';
 
 export default function Section2(props) {
   const classes = useStyles(props);
   const limit = 10;
-  const [news, setNews] = useState([])
-  const [page, setPage] = useState([])
+  const [news, setNews] = useState([]);
+  const [page, setPage] = useState([]);
+
+  const [setSnackbarState] = useState({
+    open: false,
+    message: 'Амжилттай илгээлээ',
+    severity: 'success',
+  });
+
+  const handleSnackOpen = useCallback(
+    ({ state, msg, type }) => {
+      setSnackbarState({
+        open: state,
+        message: msg,
+        severity: type,
+      });
+    },
+    [setSnackbarState]
+  );
 
   useEffect(() => {
     getBlogList(page, limit)
       .then((res) => {
-        setPage(res.page_length)
-        setNews(res.data.blog_list)
+        setPage(res.page_length);
+        setNews(res.data.blog_list);
       })
       .catch((e) => {
         handleSnackOpen({
@@ -35,59 +52,46 @@ export default function Section2(props) {
           type: 'error',
         });
       });
-  }, [page]);
-
-  const handleSnackOpen = ({ state, msg, type }) => {
-    setSnackbarState({
-      open: state,
-      message: msg,
-      severity: type,
-    });
-  };
-
-  const [setSnackbarState] = useState({
-    open: false,
-    message: 'Амжилттай илгээлээ',
-    severity: 'success',
-  });
-
+  }, [page, handleSnackOpen]);
 
   return (
     <div className={classes.root}>
-      <Title name="Мэдээ" />
+      <Title name='Мэдээ' />
       {props?.parentId ? (
         <></>
       ) : (
         <>
           <Container className={classes.cardContent}>
-
-            {
-              news.length > 0 ?
-                <div className={classes.columm}>
-                  {news.map((item, i) => 
-                  <Link key={i} className={classes.menuListItem} to={`/detailNews/${item.blog_id}`}>
-                    <CardItem phone={props} item={item}/>
-                  </Link>)}
-                    <Stack spacing={2} className={styles.pagination}>
-                      <Pagination count={page} variant="outlined" style={{ marginTop: "20px" }} renderItem={(item) => (
-                        <PaginationItem
-                          components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-                          {...item}
-                          className="pageButton"
-                        />
-                      )} />
-                    </Stack>
-                </div>
-                :
-                <div className={classes.empty}>
-                  Хуудас олдсонгүй
-                </div>
-            }
-
-
-
+            {news.length > 0 ? (
+              <div className={classes.columm}>
+                {news.map((item, i) => (
+                  <Link
+                    key={i}
+                    className={classes.menuListItem}
+                    to={`/detailNews/${item.blog_id}`}
+                  >
+                    <CardItem phone={props} item={item} />
+                  </Link>
+                ))}
+                <Stack spacing={2} className={styles.pagination}>
+                  <Pagination
+                    count={page}
+                    variant='outlined'
+                    style={{ marginTop: '20px' }}
+                    renderItem={(item) => (
+                      <PaginationItem
+                        components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                        {...item}
+                        className='pageButton'
+                      />
+                    )}
+                  />
+                </Stack>
+              </div>
+            ) : (
+              <div className={classes.empty}>Хуудас олдсонгүй</div>
+            )}
           </Container>
-
         </>
       )}
     </div>
@@ -96,26 +100,18 @@ export default function Section2(props) {
 
 const CardItem = (props) => {
   const classes = useStyles(props.phone);
-  const item = props.item
+  const item = props.item;
   return (
     <div className={classes.cardRoot}>
       <img src={item.meta_img_url} className={classes.imageCard} alt={''} />
       <div className={classes.cardPadding}>
-         <TruncateMarkup lines={2} ellipsis={() => {}}>
-            <div className={classes.cardTitle}> 
-              {item.title}
-            </div>
-         </TruncateMarkup>   
-         <TruncateMarkup lines={3} ellipsis={() => {}}>
-        <div className={classes.cardDesc}>
- 
-            {item.description}
-         
-        </div>
-        </TruncateMarkup>  
-        <div className={classes.cardButtonContent}>
-          Дэлгэрэнгүй
-        </div>
+        <TruncateMarkup lines={2} ellipsis={() => {}}>
+          <div className={classes.cardTitle}>{item.title}</div>
+        </TruncateMarkup>
+        <TruncateMarkup lines={3} ellipsis={() => {}}>
+          <div className={classes.cardDesc}>{item.description}</div>
+        </TruncateMarkup>
+        <div className={classes.cardButtonContent}>Дэлгэрэнгүй</div>
       </div>
     </div>
   );
@@ -128,11 +124,11 @@ const useStyles = makeStyles({
     paddingTop: '90px',
     fontFamily: 'Roboto, sans-serif',
     fontWeight: '100',
-    height: '100vh'
+    height: '100vh',
   },
-  columm:{
-    display:'flex',
-    flexDirection:'column', 
+  columm: {
+    display: 'flex',
+    flexDirection: 'column',
     width: (props) => (props.phone ? '100%' : '1300px'),
   },
   empty: {
@@ -160,10 +156,10 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     position: 'relative',
     backgroundImage: `url(${Background})`,
-    backgroundSize: "300px 250px",
-    padding: "40px",
+    backgroundSize: '300px 250px',
+    padding: '40px',
     marginTop: '20px',
-    border: '1px solid #C6824D'
+    border: '1px solid #C6824D',
   },
   cardButton: {
     display: 'flex',
@@ -182,7 +178,7 @@ const useStyles = makeStyles({
     color: '#C19D65',
     fontWeight: '400',
     fontSize: '18px',
-    width:'100%'
+    width: '100%',
   },
   card: {
     width: '100px',
@@ -191,7 +187,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flexDirection:(props) => (props.phone ? 'column' : 'row'),
+    flexDirection: (props) => (props.phone ? 'column' : 'row'),
     width: '100%',
     textAlign: (props) => (props.phone ? 'center' : 'left'),
     margin: 5,
@@ -200,22 +196,22 @@ const useStyles = makeStyles({
     height: '200px',
     width: '300px',
     borderRadius: '20px',
-    border: '1px solid #C6824D'
+    border: '1px solid #C6824D',
   },
   cardPadding: {
     padding: '10px',
-    width:'100%'
+    width: '100%',
   },
   cardTitle: {
     fontSize: 30,
     color: '#C19D65',
-    fontWeight: '300'
+    fontWeight: '300',
   },
   cardDesc: {
     fontSize: 20,
     fontWeight: '100',
     color: 'white',
-    marginTop: '10px'
+    marginTop: '10px',
   },
   cardDate: {
     fontSize: 14,
@@ -246,5 +242,4 @@ const useStyles = makeStyles({
     fontFamily: 'SF Pro Display',
     color: 'gray',
   },
-
 });
