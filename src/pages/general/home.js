@@ -5,8 +5,8 @@ import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-import { makeStyles } from "@mui/styles";
-import Background from '../../assets/images/home.png'
+import { makeStyles } from '@mui/styles';
+import Background from '../../assets/images/home.png';
 
 export default function Home(props) {
   const classes = useStyles(props);
@@ -17,7 +17,6 @@ export default function Home(props) {
       maxWidth: 1023,
     })
   );
-
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -32,8 +31,6 @@ export default function Home(props) {
 
     setSnackbarState({ ...snackbarState, open: false });
   };
-
-
 
   return (
     <div className={classes.background}>
@@ -53,33 +50,31 @@ export default function Home(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-    
+
       <div className={classes.footer}>
-         <Footer phone={phoneSize} tablet={tabletSize}  />
+        <Footer phone={phoneSize} tablet={tabletSize} />
       </div>
     </div>
   );
-
-
 }
 const useStyles = makeStyles({
   root: {
-    width: "100%",
+    width: '100%',
   },
-  background:{
-    display:'flex',
-    alignItems:'center',
-    flexDirection:'column',
-    position:'relative',
-    backgroundImage:`url(${Background})`,
-    backgroundPosition:"center",
-    backgroundSize:'cover',
-    backgroundRepeat:'no-repeat',
-    height:"100vh"
+  background: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
   },
-  footer:{
-    position:"sticky",
-    top: "calc( 100vh - 60px )",
-    width:"100%",
-  }
-})
+  footer: {
+    position: 'sticky',
+    top: 'calc( 100vh - 60px )',
+    width: '100%',
+  },
+});

@@ -18,7 +18,7 @@ import TheContext from '../../context/context';
 import { Alert } from '@mui/lab';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { login, signUp ,sendOtpCode , singUpInfo} from '../../api/account';
+import { login, signUp, sendOtpCode, singUpInfo } from '../../api/account';
 import Login from '../../assets/background/login.png';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -26,9 +26,7 @@ import Select from '@mui/material/Select';
 import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 
-
 export default function LoginPage() {
-
   const [renderLoading, setRenderLoading] = useState(false);
   const [checked, setChecked] = useState(1);
   const [usernameState, setUsenameState] = useState('');
@@ -41,8 +39,8 @@ export default function LoginPage() {
   const [checkPassword, setCheckPassword] = useState('');
   const [checkboxState, setCheckboxState] = useState(false);
   const [tab, setTab] = useState(false);
-  const [otpInput , setOtpInput] = useState(false);
-  const [otpCode , setOtpCode] = useState('');
+  const [otpInput, setOtpInput] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
   const [passType, setPassType] = useState({
     pass: 'password',
     verify: 'password',
@@ -79,8 +77,6 @@ export default function LoginPage() {
       severity: type,
     });
   };
-
-
 
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -144,34 +140,39 @@ export default function LoginPage() {
         });
     }
   };
-  
+
   const sendSignUp = () => {
     setRenderLoading(true);
-    if (!firstnameState || !lastnameState || !passwordState || !checkPassword || !phone || !email || !rank) {
+    if (
+      !firstnameState ||
+      !lastnameState ||
+      !passwordState ||
+      !checkPassword ||
+      !phone ||
+      !email ||
+      !rank
+    ) {
       handleSnackOpen({
         state: true,
         msg: 'Аль нэг талбарын утга хоосон байна',
         type: 'warning',
       });
       setRenderLoading(false);
-    } 
-    else if (passwordState !== checkPassword) {
+    } else if (passwordState !== checkPassword) {
       handleSnackOpen({
         state: true,
         msg: 'Нууц үг таарахгүй байна',
         type: 'warning',
       });
       setRenderLoading(false);
-    }
-    else if (passwordState.length < 4) {
+    } else if (passwordState.length < 4) {
       handleSnackOpen({
         state: true,
         msg: 'Нууц үг хамгийн багадаа 4 оронтой байна.',
         type: 'warning',
       });
       setRenderLoading(false);
-    }
-    else if (phone.length < 8) {
+    } else if (phone.length < 8) {
       handleSnackOpen({
         state: true,
         msg: 'Утасны дугаар буруу байна.',
@@ -180,79 +181,86 @@ export default function LoginPage() {
       setRenderLoading(false);
     } else {
       signUp(phone)
-      .then((res) => {
-        handleSnackOpen({
-          state: true,
-          msg:res.data.msg,
-          type: 'success',
-        });
-           if(res.data.msg === "An account with the phone number already exists"||res.data.msg === "The OTP code is incorrect"){
+        .then((res) => {
+          handleSnackOpen({
+            state: true,
+            msg: res.data.msg,
+            type: 'success',
+          });
+          if (
+            res.data.msg === 'An account with the phone number already exists' ||
+            res.data.msg === 'The OTP code is incorrect'
+          ) {
             handleSnackOpen({
               state: true,
-              msg:res.data.msg,
+              msg: res.data.msg,
               type: 'error',
             });
             setRenderLoading(false);
-           }
-          else{
+          } else {
             setOtpInput(true);
             setRenderLoading(false);
           }
-           
-          })
-          
-      .catch((e) => {
-        handleSnackOpen({
-          state: true,
-          msg:
-            e.message === 'user.not.found'
-              ? 'Хэрэглэгч олдсонгүй'
-              : 'Нэр үг эсвэл нууц үг буруу байна.',
-          type: 'error',
+        })
+
+        .catch((e) => {
+          handleSnackOpen({
+            state: true,
+            msg:
+              e.message === 'user.not.found'
+                ? 'Хэрэглэгч олдсонгүй'
+                : 'Нэр үг эсвэл нууц үг буруу байна.',
+            type: 'error',
+          });
         });
-      });
     }
   };
 
   const sendOtp = () => {
     setRenderLoading(true);
 
-    sendOtpCode(phone,parseInt(otpCode))
+    sendOtpCode(phone, parseInt(otpCode))
       .then((res) => {
-        if(res.data.msg === "OTP code is correct. Please enter your password."){
-          singUpInfo( firstnameState,lastnameState ,passwordState ,rank,phone,email,parseInt(otpCode))
-          .then((res) => {
-            handleSnackOpen({
-              state: true,
-              msg:res.data.msg,
-              type: 'success',
+        if (res.data.msg === 'OTP code is correct. Please enter your password.') {
+          singUpInfo(
+            firstnameState,
+            lastnameState,
+            passwordState,
+            rank,
+            phone,
+            email,
+            parseInt(otpCode)
+          )
+            .then((res) => {
+              handleSnackOpen({
+                state: true,
+                msg: res.data.msg,
+                type: 'success',
+              });
+              localStorage.setItem('jamukh_token', res?.data?.token);
+              localStorage.setItem('jamukh_auth', 'true');
+              setTimeout(() => {
+                window.location.replace('/');
+              }, 1000);
+            })
+            .catch((e) => {
+              setRenderLoading(false);
+              handleSnackOpen({
+                state: true,
+                msg:
+                  e.message === 'user.not.found'
+                    ? 'Хэрэглэгч олдсонгүй'
+                    : 'Нэр үг эсвэл нууц үг буруу байна.',
+                type: 'error',
+              });
             });
-            localStorage.setItem('jamukh_token', res?.data?.token);
-            localStorage.setItem('jamukh_auth', 'true');
-            setTimeout(() => {
-              window.location.replace('/');
-            }, 1000);
-          })
-          .catch((e) => {
-            setRenderLoading(false);
-            handleSnackOpen({
-              state: true,
-              msg:
-                e.message === 'user.not.found'
-                  ? 'Хэрэглэгч олдсонгүй'
-                  : 'Нэр үг эсвэл нууц үг буруу байна.',
-              type: 'error',
-            });
+        } else {
+          handleSnackOpen({
+            state: true,
+            msg: res.data.msg,
+            type: 'error',
           });
         }
-        else{
-            handleSnackOpen({
-              state: true,
-              msg:res.data.msg,
-              type: 'error',
-            });
-          }
-          
       })
       .catch((e) => {
         handleSnackOpen({
@@ -264,8 +272,8 @@ export default function LoginPage() {
           type: 'error',
         });
       });
-    
   };
+
   const handlePassType = (num) => {
     if (num === 1)
       setPassType({
@@ -287,11 +295,10 @@ export default function LoginPage() {
     setChecked(num);
   };
 
-  
-
   return (
     <div className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
+      {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
@@ -435,8 +442,8 @@ export default function LoginPage() {
                       </div>
                     </div>
 
-                  {otpInput === false ?
-                        <>
+                    {otpInput === false ? (
+                      <>
                         {/* InputFirst */}
                         <InputBase
                           className={classes.textfield}
@@ -476,7 +483,7 @@ export default function LoginPage() {
                             }
                           }}
                         />
-                         <InputBase
+                        <InputBase
                           className={classes.textfield}
                           type={'text'}
                           value={email}
@@ -487,7 +494,7 @@ export default function LoginPage() {
                               sendSignUp();
                             }
                           }}
-                        />    
+                        />
                         {/* Input level */}
                         <FormControl fullWidth className={classes.level}>
                           <Select
@@ -499,7 +506,9 @@ export default function LoginPage() {
                             renderValue={
                               rank !== ''
                                 ? undefined
-                                : () => <div className={classes.placeHolderLevel}>Зэрэг</div>
+                                : () => (
+                                    <div className={classes.placeHolderLevel}>Зэрэг</div>
+                                  )
                             }
                             onChange={(e) => setRank(e.target.value)}
                             MenuProps={{
@@ -578,32 +587,31 @@ export default function LoginPage() {
                             }
                           }}
                         />
-    
+
                         {/* Submit to next page */}
                         <Button onClick={() => sendSignUp()} className={classes.button}>
-                           Бүртгүүлэх
+                          Бүртгүүлэх
                         </Button>
-                        </>
-                        :
-                        <>
+                      </>
+                    ) : (
+                      <>
                         <InputBase
-                        className={classes.textfield}
-                        type={'number'}
-                        value={otpCode}
-                        onChange={(e) => setOtpCode(e.target.value)}
-                        placeholder={'Code'}
-                        onKeyPress={(e) => {
-                          if (e.key === 'Enter') {
-                            sendOtp();
-                          }
-                        }}
-                      />
-                         <Button onClick={() => sendOtp()} className={classes.button}>
-                           Илгээх
+                          className={classes.textfield}
+                          type={'number'}
+                          value={otpCode}
+                          onChange={(e) => setOtpCode(e.target.value)}
+                          placeholder={'Code'}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              sendOtp();
+                            }
+                          }}
+                        />
+                        <Button onClick={() => sendOtp()} className={classes.button}>
+                          Илгээх
                         </Button>
-                      </>  
-                        }
-          
+                      </>
+                    )}
                   </div>
                 </Fade>
               )}
@@ -671,6 +679,9 @@ const useStyles = makeStyles({
     width: '100%',
     height: '100vh',
     backgroundImage: `url(${Login})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   },
   logo: {
     display: 'flex',
@@ -699,10 +710,10 @@ const useStyles = makeStyles({
   containerEnd: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     width: (props) => (props.phone ? '100%' : '50%'),
     marginTop: (props) => (props.phone ? '120px' : '0px'),
-    height:'100%'
+    height: '100%',
   },
   otpContainerStyle: {
     marginTop: 20,

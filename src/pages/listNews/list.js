@@ -6,12 +6,10 @@ import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import Section2 from './section2/Section2';
 import { makeStyles } from '@mui/styles';
-import Background from '../../assets/background/news.png'
+import Background from '../../assets/background/news.png';
 import Appbar from '../../components/appbar/appbar';
 
-
 export default function News(props) {
-
   const classes = useStyles(props);
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
@@ -35,10 +33,8 @@ export default function News(props) {
   };
 
   return (
-    <div
-     className={classes.root}
-    >
-       <Appbar phone={phoneSize} tablet={tabletSize} />
+    <div className={classes.root}>
+      <Appbar phone={phoneSize} tablet={tabletSize} />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
@@ -64,11 +60,11 @@ const useStyles = makeStyles({
     width: '100%',
     margin: '0px',
     padding: '0px',
-    position:'relative',
-    backgroundImage:`url(${Background})`,
-    backgroundPosition:"center",
-    backgroundSize:'cover',
-    backgroundRepeat:'no-repeat',
+    position: 'relative',
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
     fontFamily: "'Roboto Condensed', sans-serif",
   },
-})
+});

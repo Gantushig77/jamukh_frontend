@@ -20,7 +20,6 @@ export default function CustomDropdownArray({
   });
 
   const handleValue = (item) => {
-
     onChange(item);
     setValue(item);
   };
@@ -45,12 +44,12 @@ export default function CustomDropdownArray({
         style={open ? { opacity: 1, display: 'unset' } : null}
         ref={ref}
       >
-        {options.map((item, index) => (
+        {options?.map((item, index) => (
           <h1
             className={classes.optionItem}
             style={{ backgroundColor: value === item ? 'rgba(0,0,0,0.05)' : null }}
             onClick={() => handleValue(item)}
-            key={index}
+            key={index + 'option'}
           >
             {item}
           </h1>

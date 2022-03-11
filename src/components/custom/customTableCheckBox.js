@@ -60,7 +60,7 @@ export default function CustomTable({
             paddingRight: horizontalPadding,
           }}
         >
-          {items.map((item, index) => {
+          {items?.map((item, index) => {
             if (typeof item.item === 'string') {
               return (
                 <div

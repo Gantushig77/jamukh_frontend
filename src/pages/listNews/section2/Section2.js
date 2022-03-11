@@ -39,6 +39,7 @@ export default function Section2(props) {
   useEffect(() => {
     getBlogList(page, limit)
       .then((res) => {
+        console.log(res);
         setPage(res.page_length);
         setNews(res.data.blog_list);
       })
@@ -64,9 +65,9 @@ export default function Section2(props) {
           <Container className={classes.cardContent}>
             {news.length > 0 ? (
               <div className={classes.columm}>
-                {news.map((item, i) => (
+                {news?.map((item, i) => (
                   <Link
-                    key={i}
+                    key={i + 'news'}
                     className={classes.menuListItem}
                     to={`/detailNews/${item.blog_id}`}
                   >

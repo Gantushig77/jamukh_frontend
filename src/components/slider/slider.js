@@ -53,32 +53,28 @@ export default function SliderCustom(props) {
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
 
-  return (
-    
-      props.data.length === 0 ?
-      <div></div>: 
-      <Slider ref={slider} {...sliderConfig}>   {
-              props.data.map((item,i) =>  
-                    <SliderItem
-                      dots={1}
-                      key={i}
-                      sliderRef={slider}
-                      phone={props?.phone}
-                      avatar={''}
-                      admin={'Grand Marshal'}
-                      time={'12min'}
-                      area={'MKV 4,500,000$'}
-                      title={props?.title}
-                      description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-                      buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-                      backgroundImg={item?.url}
-                      link={account ? '/user/services' : '/sign-up'}
-                    />
-             )
-      }
+  return props.data.length === 0 ? (
+    <div></div>
+  ) : (
+    <Slider ref={slider} {...sliderConfig}>
+      {props.data.map((item, i) => (
+        <SliderItem
+          dots={1}
+          key={i + 'slider'}
+          sliderRef={slider}
+          phone={props?.phone}
+          avatar={''}
+          admin={'Grand Marshal'}
+          time={'12min'}
+          area={'MKV 4,500,000$'}
+          title={props?.title}
+          description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+          buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+          backgroundImg={item?.url}
+          link={account ? '/user/services' : '/sign-up'}
+        />
+      ))}
     </Slider>
-    
-   
   );
 }
 
@@ -129,7 +125,7 @@ const useStyles = makeStyles({
     backgroundSize: 'cover',
     width: '100vw',
     justifyContent: 'center',
-    height: '600px',
+    // height: '600px',
   },
   sliderItemContainer: {
     position: 'absolute',

@@ -94,11 +94,11 @@ export default function CustomTableItem({
             paddingRight: horizontalPadding,
           }}
         >
-          {items.map((item, index) => {
+          {items?.map((item, index) => {
             if (typeof item.item === 'string') {
               return (
                 <div
-                  key={'string item' + index}
+                  key={'item' + index}
                   className={classes.item}
                   style={{
                     marginRight: subMargin,

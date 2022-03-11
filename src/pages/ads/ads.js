@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import Appbar from '../../components/appbar/appbar';
@@ -9,10 +9,9 @@ import Section2 from './section2/Section2';
 import { getDetail } from '../../api/ads';
 import { useParams } from 'react-router-dom';
 
-
 export default function News() {
   const params = useParams();
-  const [isLoading, setLoading] = useState( true );
+  const [isLoading, setLoading] = useState(true);
   const [posts, setPosts] = useState({});
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
@@ -34,17 +33,17 @@ export default function News() {
     }
     setSnackbarState({ ...snackbarState, open: false });
   };
+
   useEffect(() => {
-   
-    getDetail(params.id)  
-    .then((res) => {
-        setPosts(res.data);
+    getDetail(params.id)
+      .then((res) => {
+        console.log(res?.data);
+        setPosts(res?.data);
         setLoading(false);
-    })
-    .catch((e) => {
-         
-    });
-},[params.id]);
+      })
+      .catch((e) => {});
+  }, [params.id]);
+
   return (
     <div
       style={{
@@ -68,13 +67,25 @@ export default function News() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      {isLoading === true ? <></>
-      :
-      <>  
-          <Slider data={posts?.ad_imgs} title={posts?.title} phone={phoneSize} tablet={tabletSize} />
-          <Section2 image={posts?.ad_imgs} description={posts?.description} ads_info={posts?.ads_info[0]?.info_obj} phone={phoneSize} tablet={tabletSize} />
-      </>}
-    
+      {isLoading === true ? (
+        <>Loading...</>
+      ) : (
+        <>
+          <Slider
+            data={posts?.ad_imgs}
+            title={posts?.title}
+            phone={phoneSize}
+            tablet={tabletSize}
+          />
+          <Section2
+            image={posts?.ad_imgs}
+            description={posts?.description}
+            ads_info={posts?.ads_info[0]?.info_obj}
+            phone={phoneSize}
+            tablet={tabletSize}
+          />
+        </>
+      )}
     </div>
   );
 }

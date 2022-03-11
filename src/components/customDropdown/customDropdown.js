@@ -59,7 +59,7 @@ export default function CustomDropdown({
             className={classes.optionItem}
             style={{ backgroundColor: value === item ? 'rgba(0,0,0,0.05)' : null }}
             onClick={() => handleValue(item)}
-            key={indx}
+            key={'plus' + indx}
           >
             {item?.name}
           </h1>

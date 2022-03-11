@@ -1,21 +1,21 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext } from 'react';
 import { Container } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import Background1 from '../../../assets/background/adsDetail.png'
-import Background from '../../../assets/background/background.png'
-import Slider from "react-slick";
-import ArrowL from '../../../assets/arrow/arrowL.png'
-import ArrowR from '../../../assets/arrow/arrowR.png'
-import TheContext from "../../../context/context";
+import Background1 from '../../../assets/background/adsDetail.png';
+import Background from '../../../assets/background/background.png';
+import Slider from 'react-slick';
+import ArrowL from '../../../assets/arrow/arrowL.png';
+import ArrowR from '../../../assets/arrow/arrowR.png';
+import TheContext from '../../../context/context';
 import Footer from '../../../components/footer/footer';
 
 function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div style={{ ...style, display: "block" }} onClick={onClick} >
-      <img src={ArrowR} className={classes.arrow} alt="" />
+    <div style={{ ...style, display: 'block' }} onClick={onClick}>
+      <img src={ArrowR} className={classes.arrow} alt='' />
     </div>
   );
 }
@@ -24,12 +24,11 @@ function PrevArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div style={{ ...style, display: "block", cursor: "pointer" }} onClick={onClick}>
-      <img className={classes.arrow} src={ArrowL} alt="" />
+    <div style={{ ...style, display: 'block', cursor: 'pointer' }} onClick={onClick}>
+      <img className={classes.arrow} src={ArrowL} alt='' />
     </div>
   );
 }
-
 
 export default function Section2(props) {
   const classes = useStyles(props);
@@ -44,51 +43,52 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-         
-            { props?.ads_info === undefined || props?.ads_info === null ?<div/>: 
-                 props?.ads_info.length === 0 ? <div/>:props?.ads_info.map((item, i) =>
-                    <div className={classes.rowHalf} key={i}>
-                      <div className={classes.label}>
-                        {item?.label}
-                      </div>
-                      <div className={classes.value}>
-                        {item?.value}
-                      </div>
-                    </div>
+            {props?.ads_info === undefined || props?.ads_info === null ? (
+              <div />
+            ) : props?.ads_info.length === 0 ? (
+              <div />
+            ) : (
+              props?.ads_info.map((item, i) => (
+                <div className={classes.rowHalf} key={i + 'id'}>
+                  <div className={classes.label}>{item?.label}</div>
+                  <div className={classes.value}>{item?.value}</div>
+                </div>
+              ))
             )}
 
-        {  props.image === undefined|| props?.ads_info === null ?
-          <div/>
-          : 
-
-          props.image?.length === 0?
-          <div/>
-          : 
-          <Slider  {...{
-              infinite: true,
-              speed: 500,
-              arrows: true,
-              slidesToShow: props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
-              slidesToScroll: 1,
-              nextArrow: <NextArrow />,
-              prevArrow: <PrevArrow />,
-              responsive: [
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    initialSlide: 1,
-                    arrows: true,
-                  }
-                }
-              ]
-            }} className={classes.slider} >
-              {
-                props?.image.map((item, i) =>
+            {props.image === undefined || props?.ads_info === null ? (
+              <div />
+            ) : props.image?.length === 0 ? (
+              <div />
+            ) : (
+              <Slider
+                {...{
+                  infinite: true,
+                  speed: 500,
+                  arrows: true,
+                  slidesToShow:
+                    props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
+                  slidesToScroll: 1,
+                  nextArrow: <NextArrow />,
+                  prevArrow: <PrevArrow />,
+                  responsive: [
+                    {
+                      breakpoint: 600,
+                      settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        initialSlide: 1,
+                        arrows: true,
+                      },
+                    },
+                  ],
+                }}
+                className={classes.slider}
+              >
+                {props?.image.map((item, i) => (
                   <SliderItem
                     dots={1}
-                    key={i}
+                    key={i + 'slider item'}
                     sliderRef={slider}
                     phone={props?.phone}
                     avatar={''}
@@ -101,17 +101,13 @@ export default function Section2(props) {
                     backgroundImg={item?.url}
                     link={account ? '/user/services' : '/sign-up'}
                   />
-                )
-              }
-            </Slider>}
-         
+                ))}
+              </Slider>
+            )}
+
             <div className={classes.content}>
-              <div className={classes.title}>
-                Тайлбар
-              </div>
-              <div className={classes.description}>
-                {props?.description}
-              </div>
+              <div className={classes.title}>Тайлбар</div>
+              <div className={classes.description}>{props?.description}</div>
             </div>
           </Container>
         </>
@@ -125,13 +121,10 @@ const SliderItem = (props) => {
 
   return (
     <div className={classes.box}>
-      <img src={props.backgroundImg} className={classes.boxImage} alt="" />
+      <img src={props.backgroundImg} className={classes.boxImage} alt='' />
     </div>
   );
 };
-
-
-
 
 const useStyles = makeStyles({
   root: {
@@ -145,24 +138,24 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    width: (props) => (props?.phone ? "auto" : "50%"),
+    width: (props) => (props?.phone ? 'auto' : '50%'),
   },
   content: {
-    padding: (props) => (props?.phone ? "10px" : "30px"),
-    width: (props) => (props?.phone ? "100%" : "1180px"),
+    padding: (props) => (props?.phone ? '10px' : '30px'),
+    width: (props) => (props?.phone ? '100%' : '1180px'),
   },
   slider: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: "100%",
-    marginTop: '40px'
+    width: '100%',
+    marginTop: '40px',
   },
   slideBottomBackground: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    width: "30%",
-    height: "20px",
+    width: '30%',
+    height: '20px',
   },
 
   sliderItemBackImg: {
@@ -172,29 +165,29 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     flexDirection: 'column',
     backgroundImage: (props) => `url(${props.backgroundImg})`,
-    backgroundPosition: "center",
-    filter: "blur(0px)",
-    "-webkit9-filter": "blur(0px)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: (props) => (props?.phone ? "auto" : "300px"),
+    backgroundPosition: 'center',
+    filter: 'blur(0px)',
+    '-webkit9-filter': 'blur(0px)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: (props) => (props?.phone ? 'auto' : '300px'),
     margin: '10px',
     borderRadius: '10px',
-    border: '1px solid #C19D65'
+    border: '1px solid #C19D65',
   },
 
   sliderItemContainer: {
-    position: "relative",
+    position: 'relative',
     zIndex: 99,
-    transform: "translate(0px, -100%)",
+    transform: 'translate(0px, -100%)',
     marginBottom: 40,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center"
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   boxTitle: {
     fontSize: '32px',
-    fontWeight: '300'
+    fontWeight: '300',
   },
   box: {
     display: 'flex',
@@ -211,21 +204,20 @@ const useStyles = makeStyles({
     alignItems: 'center',
     width: '100%',
     justifyContent: 'space-between',
-    fontWeight: '300'
+    fontWeight: '300',
   },
   brand: {
     color: '#C19D65',
-    fontWeight: '400'
+    fontWeight: '400',
   },
 
   value: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: (props) => (props?.phone ? "auto" : "50%"),
+    width: (props) => (props?.phone ? 'auto' : '50%'),
     marginLeft: '15px',
-    color: '#C19D65'
-
+    color: '#C19D65',
   },
   rowHalf: {
     display: 'flex',
@@ -234,7 +226,7 @@ const useStyles = makeStyles({
     color: 'white',
     fontWeight: '300',
     fontSize: '20px',
-    marginTop: '30px'
+    marginTop: '30px',
   },
   cardContent: {
     display: 'flex',
@@ -245,10 +237,10 @@ const useStyles = makeStyles({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    minHeight:'100vh',
+    minHeight: '100vh',
     flexWrap: 'wrap',
     backgroundImage: `url(${Background})`,
-    backgroundSize: "300px 250px",
+    backgroundSize: '300px 250px',
   },
   cardButton: {
     display: 'flex',
@@ -343,14 +335,14 @@ const useStyles = makeStyles({
     fontWeight: 100,
     color: colorss.brandTextColor,
     width: '100%',
-    textAlign: (props) => (props?.phone ? "center" : "left"),
+    textAlign: (props) => (props?.phone ? 'center' : 'left'),
   },
   description: {
     color: 'white',
     fontSize: '20px',
     fontWeight: 100,
     marginTop: '10px',
-    textAlign: (props) => (props?.phone ? "center" : "left"),
+    textAlign: (props) => (props?.phone ? 'center' : 'left'),
   },
   titleWithParentId: {
     marginBottom: 10,

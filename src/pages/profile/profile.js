@@ -43,20 +43,20 @@ import { getListOfMembershipTypes } from '../../api/membership';
 import Title from '../../components/title/title';
 import Footer from '../../components/footer/footer';
 import Background1 from '../../assets/background/background.png';
-import ArrowL from '../../assets/arrow/arrowL.png'
-import ArrowR from '../../assets/arrow/arrowR.png'
-import screen2 from "../../assets/images/background.png";
-import Slider from "react-slick";
+import ArrowL from '../../assets/arrow/arrowL.png';
+import ArrowR from '../../assets/arrow/arrowR.png';
+import screen2 from '../../assets/images/background.png';
+import Slider from 'react-slick';
 import { getads } from '../../api/ads';
-import  '../../App.css'
+import '../../App.css';
 
 //Slider arrow
 function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" }} onClick={onClick} >
-        <img src={ArrowR} className={classes.arrow} alt=""/>
+    <div style={{ ...style, display: 'block' }} onClick={onClick}>
+      <img src={ArrowR} className={classes.arrow} alt='' />
     </div>
   );
 }
@@ -65,21 +65,18 @@ function PrevArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div  style={{ ...style, display: "block" ,cursor:"pointer"}} onClick={onClick}>
-    <img className={classes.arrow} src={ArrowL} alt=""/>
-</div>
+    <div style={{ ...style, display: 'block', cursor: 'pointer' }} onClick={onClick}>
+      <img className={classes.arrow} src={ArrowL} alt='' />
+    </div>
   );
 }
-
-
-
 
 export default function Profile() {
   // Constants
 
   const page = 1;
-  const limit = 50 ;
-  const [news, setNews] = useState([])
+  const limit = 50;
+  const [news, setNews] = useState([]);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
@@ -97,20 +94,20 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    getads( page , limit )
-    .then((res) => {
-      setNews(res.data.ads)
-    })
-    .catch((e) => {
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Хэрэглэгч олдсонгүй'
-            : 'Нэр үг эсвэл нууц үг буруу байна.',
-        type: 'error',
+    getads(page, limit)
+      .then((res) => {
+        setNews(res.data.ads);
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
       });
-    });
   }, [page]);
 
   // States
@@ -128,8 +125,8 @@ export default function Profile() {
     lastname: account?.lastname || '',
     address: account?.address || '',
     email: account?.email || '',
-    avatar:account?.avatar || '',
-    member_type_str:account?.member_type_str || '',
+    avatar: account?.avatar || '',
+    member_type_str: account?.member_type_str || '',
     bio: account?.bio || '',
     gender: account?.gender || 'male',
     country: account?.country || countries[0].value,
@@ -175,7 +172,6 @@ export default function Profile() {
   const [accListLoading, setAccListLoading] = useState(false);
   const [accListPage, setAccListPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
-
 
   // Functions
   const handleSnackClose = (event, reason) => {
@@ -248,8 +244,6 @@ export default function Profile() {
   const handleMemberModalClose = () => {
     setMemberModal(false);
   };
-
- 
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
@@ -440,7 +434,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div style={{margin:'0',padding:'0'}} className={classes.container}>
+    <div style={{ margin: '0', padding: '0' }} className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -526,7 +520,7 @@ export default function Profile() {
                     helperText={fieldState.error.country ? 'Incorrect entry.' : ' '}
                     className={classes.textFieldSquare}
                   >
-                    {countries.map((option, index) => (
+                    {countries?.map((option, index) => (
                       <MenuItem
                         onClick={() =>
                           handleFieldChange(
@@ -534,7 +528,7 @@ export default function Profile() {
                             index
                           )
                         }
-                        key={option.label}
+                        key={option.label + index}
                         value={option.value}
                       >
                         {option.label}
@@ -554,7 +548,7 @@ export default function Profile() {
                     helperText={fieldState.error.city ? 'Incorrect entry.' : ' '}
                     className={classes.textFieldSquare}
                   >
-                    {provinces.map((option, index) => (
+                    {provinces?.map((option, index) => (
                       <MenuItem
                         onClick={() =>
                           handleFieldChange(
@@ -562,7 +556,7 @@ export default function Profile() {
                             index
                           )
                         }
-                        key={option.label}
+                        key={option.label + index}
                         value={option.value}
                       >
                         {option.label}
@@ -583,8 +577,8 @@ export default function Profile() {
                     onChange={(e) => handleFieldChange(e)}
                     className={classes.textFieldSquare}
                   >
-                    {discricts[fieldState.cityIndex].map((option) => (
-                      <MenuItem key={option} value={option}>
+                    {discricts[fieldState?.cityIndex]?.map((option, index) => (
+                      <MenuItem key={index + 'i op'} value={option}>
                         {option}
                       </MenuItem>
                     ))}
@@ -950,8 +944,8 @@ export default function Profile() {
                               {item?.firstname && item?.lastname
                                 ? item?.firstname + ' ' + item?.lastname
                                 : item?.username
-                                  ? item?.username
-                                  : 'No name'}
+                                ? item?.username
+                                : 'No name'}
                             </Typography>
                             <div className={classes.smallProfileRank}>
                               <StarIcon
@@ -960,7 +954,11 @@ export default function Profile() {
                               />
                               <Typography
                                 color={'black'}
-                                sx={{ paddingTop: '2px', paddingLeft: '2px' ,color: 'white' }}
+                                sx={{
+                                  paddingTop: '2px',
+                                  paddingLeft: '2px',
+                                  color: 'white',
+                                }}
                                 textAlign={'center'}
                               >
                                 {item?.rating || 0}
@@ -983,7 +981,7 @@ export default function Profile() {
                   page={accListPage}
                   count={pageCount}
                   onChange={handlePagination}
-                  className="rowProfilePage"
+                  className='rowProfilePage'
                 />
               </Container>
             </div>
@@ -999,60 +997,60 @@ export default function Profile() {
             <div className={classes.row1}>
               {/* Profile  */}
               <div className={classes.textContainer}>
-             
                 <div className={classes.avatar}>
-                {authenticated ===true ? (
-                    <Avatar
-                        alt='Profile Avatar'
-                        className={classes.avatarImageBig}
-                       >
-                          {fieldState.avatar?.url ? (
-                            <img
-                              alt={'profile'}
-                              className={classes.avatar}
-                              src={img_url + fieldState.avatar?.url}
-                            />
-                          ) : (
-                            <p style={{ fontWeight: 'bold' ,fontSize:'32px'}}>
-                              {
-                                fieldState.firstname[0]?.toUpperCase()
-                              }
-                            </p>
-                           )
-                           }
-                        
-                      </Avatar>
-                ):""}     
-                <div className={classes.profile_badge}>
+                  {authenticated === true ? (
+                    <Avatar alt='Profile Avatar' className={classes.avatarImageBig}>
+                      {fieldState.avatar?.url ? (
+                        <img
+                          alt={'profile'}
+                          className={classes.avatar}
+                          src={img_url + fieldState.avatar?.url}
+                        />
+                      ) : (
+                        <p style={{ fontWeight: 'bold', fontSize: '32px' }}>
+                          {fieldState.firstname[0]?.toUpperCase()}
+                        </p>
+                      )}
+                    </Avatar>
+                  ) : (
+                    ''
+                  )}
+                  <div className={classes.profile_badge}></div>
+                </div>
+                <div className={classes.profile_name}>
+                  <div className={classes.profile_name_firstname}>
+                    {fieldState.firstname}
+                  </div>
+                  <div>{account?.lastname}</div>
+                </div>
+                <div className={classes.membership}>
+                  <div className={classes.member_type_str}>
+                    {account?.member_type_str}
+                  </div>
+                  <div>member</div>
+                </div>
+                <div className={classes.membership}>
+                  <div>{account?.tel}</div>
+                </div>
 
-                </div>
-                </div>
-                 <div className={classes.profile_name}>
-                     <div className={classes.profile_name_firstname}>{fieldState.firstname}</div> 
-                     <div>{account?.lastname}</div>
-                 </div>       
-                 <div className={classes.membership}>
-                     <div className={classes.member_type_str}>{account?.member_type_str}</div> 
-                     <div>member</div>
-                 </div>   
-                 <div className={classes.membership}>
-                     <div>{account?.tel}</div>
-                 </div>    
-  
                 {/* Update profile */}
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-                  <Button
-                    className={classes.updateButton}
-                  >
-                    <Link to="/members" style={{color:'white'}}>
-                          Зэрэглэл
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-evenly',
+                  }}
+                >
+                  <Button className={classes.updateButton}>
+                    <Link to='/members' style={{ color: 'white' }}>
+                      Зэрэглэл
                     </Link>
                   </Button>
                   <Button
                     onClick={() => handleModalOpen()}
                     className={classes.updateButton}
                   >
-                   Засах
+                    Засах
                   </Button>
                 </div>
               </div>
@@ -1103,8 +1101,8 @@ export default function Profile() {
                                 {item?.firstname && item?.lastname
                                   ? item?.firstname + ' ' + item?.lastname
                                   : item?.username
-                                    ? item?.username
-                                    : 'No name'}
+                                  ? item?.username
+                                  : 'No name'}
                               </Typography>
                             </div>
                             <div className={classes.smallProfileRank}>
@@ -1125,58 +1123,60 @@ export default function Profile() {
             {/* SALES */}
             <div className={classes.saleBackground}>
               <div className={classes.mySale}>
-                <Title name="Миний зар" />
-                {news.length === 0 ?
-                <></> 
-                : 
-                <Slider  {...sliderConfig} className={classes.slider1}>
-                   
-                   {
-                     news.map((item,i) =>  
-                     <Link to={`/adsDetail/${item.ads_id}`} style={{textDecoration:'none'}}>
-                      <SliderItem
+                <Title name='Миний зар' />
+                {news.length === 0 ? (
+                  <></>
+                ) : (
+                  <Slider {...sliderConfig} className={classes.slider1}>
+                    {news?.map((item, i) => (
+                      <Link
+                        key={i + 'key is here'}
+                        to={`/adsDetail/${item.ads_id}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <SliderItem
                           dots={1}
-                          key={i}
                           item={item}
                           phone={phoneSize}
                           backgroundImg={screen2}
-                          link={account ? "/user/services" : "/sign-up"}
-                      />
-                     </Link>
-                    )
-                   }
+                          link={account ? '/user/services' : '/sign-up'}
+                        />
+                      </Link>
+                    ))}
                   </Slider>
-                  }
-                
-                  
+                )}
               </div>
             </div>
           </div>
         </div>
       </Container>
-      <Footer phone={phoneSize} tablet={tabletSize}  />
+      <Footer phone={phoneSize} tablet={tabletSize} />
     </div>
   );
 }
 
 const SliderItem = (props) => {
-
   const classes = useStyles(props);
-  const item = props.item
+  const item = props.item;
 
   return (
     <Container disableGutters maxWidth={false}>
-      <div className={classes.sliderItemBackImg1} >
-        <img src={item.ad_imgs[0]?.url} className={classes.boxImage} alt=""/>
-          <TruncateMarkup lines={1} ellipsis={() => {/* renders "+X more users" */ }}>
-            <div className={classes.boxTitle}>
-                  {item?.title}
-            </div>
-          </TruncateMarkup>
+      <div className={classes.sliderItemBackImg1}>
+        <img src={item.ad_imgs[0]?.url} className={classes.boxImage} alt='' />
+        <TruncateMarkup
+          lines={1}
+          ellipsis={() => {
+            /* renders "+X more users" */
+          }}
+        >
+          <div className={classes.boxTitle}>{item?.title}</div>
+        </TruncateMarkup>
         <div className={classes.bottomBox}>
-          <div className={classes.brand}>{item?.price+item?.currency_symbol}</div>
-          <div className={classes.price}><BiTimeFive />{moment(item.created_date).format('YYYY.MM.DD')}</div>
-         
+          <div className={classes.brand}>{item?.price + item?.currency_symbol}</div>
+          <div className={classes.price}>
+            <BiTimeFive />
+            {moment(item.created_date).format('YYYY.MM.DD')}
+          </div>
         </div>
       </div>
     </Container>
@@ -1199,11 +1199,10 @@ const sliderConfig = {
         slidesToScroll: 1,
         initialSlide: 1,
         arrows: true,
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
-
 
 const useStyles = makeStyles({
   memberTypItemButton: {
@@ -1212,49 +1211,47 @@ const useStyles = makeStyles({
     marginBottom: 20,
     width: '100%',
   },
-  container:{
+  container: {
     backgroundImage: `url(${Background1})`,
-    fontWeight:'100',
+    fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
-  
   },
-  profile_name:{
-    display:'flex',
-    justifyContent:'center',
-    flexDirection:(props) => (props?.phone ? 'column' : 'row'),
-    marginTop:'20px',
-    color:'#C19D65',
-    fontSize:'25px'
+  profile_name: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
+    marginTop: '20px',
+    color: '#C19D65',
+    fontSize: '25px',
   },
-  profile_name_firstname:{
-    marginRight:(props) => (props?.phone ? '0px' : '5px'),
+  profile_name_firstname: {
+    marginRight: (props) => (props?.phone ? '0px' : '5px'),
   },
-  member_type_str:{
-    marginRight:(props) => (props?.phone ? '0px' : '5px'),
+  member_type_str: {
+    marginRight: (props) => (props?.phone ? '0px' : '5px'),
   },
-  membership:{
-    display:'flex',
-    color:'#C19D65',
-    fontSize:'18px',
-    marginTop:'10px',
-    justifyContent:'center',
-    flexDirection:(props) => (props?.phone ? 'column' : 'row')
+  membership: {
+    display: 'flex',
+    color: '#C19D65',
+    fontSize: '18px',
+    marginTop: '10px',
+    justifyContent: 'center',
+    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
-  mySale:{
-    width:(props) => (props?.phone ? '100%' : '1300px'),
-    paddingTop:(props) => (props?.phone ? '30px' : '130px')
+  mySale: {
+    width: (props) => (props?.phone ? '100%' : '1300px'),
+    paddingTop: (props) => (props?.phone ? '30px' : '130px'),
   },
   memberTypeMonthlyPay: {
     color: 'darkgray',
     fontSize: '21px',
     fontWeight: 'bold',
   },
-  saleBackground:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    width:'100%',
-   
+  saleBackground: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   memberTypeLoading: {
     display: 'flex',
@@ -1371,7 +1368,7 @@ const useStyles = makeStyles({
     overflow: 'auto',
     maxHeight: '90%',
     backgroundImage: `url(${Background1})`,
-    color:'white!important'
+    color: 'white!important',
   },
   modalBox1: {
     position: 'absolute',
@@ -1384,11 +1381,9 @@ const useStyles = makeStyles({
     padding: 30,
     overflow: 'auto',
     maxHeight: '90%',
-    backgroundColor:'white',
-    color:'white!important'
+    backgroundColor: 'white',
+    color: 'white!important',
   },
-
-
 
   memberModalBox: {
     position: 'absolute',
@@ -1409,14 +1404,14 @@ const useStyles = makeStyles({
     outline: 'none',
   },
   updateButton: {
-    display:'flex',
-    alignItems:'center',
+    display: 'flex',
+    alignItems: 'center',
     marginTop: 20,
     color: 'white',
     fontWeight: '300',
-    fontSize:'12px',
-    border:'1px solid #d390636c',
-    borderRadius:'8px'
+    fontSize: '12px',
+    border: '1px solid #d390636c',
+    borderRadius: '8px',
   },
   profile_badge: {
     backgroundRepeat: 'no-repeat',
@@ -1426,9 +1421,9 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     height: 100,
     width: 100,
-    bottom:'-60px',
-    right:'10px',
-    zIndex:'3'
+    bottom: '-60px',
+    right: '10px',
+    zIndex: '3',
   },
   root: {
     width: '100%',
@@ -1516,23 +1511,23 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   avatarImage: {
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '80px',
     height: '80px',
     borderRadius: '100%',
     objectFit: 'cover',
   },
   avatarImageBig: {
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '120px',
     height: '120px',
     borderRadius: '100%',
     objectFit: 'cover',
-    marginTop:'10px'
+    marginTop: '10px',
   },
   memberTop: {
     display: 'flex',
@@ -1602,8 +1597,8 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   sliderItemBackImg: {
-    padding:'0px',
-    margin:'0px',
+    padding: '0px',
+    margin: '0px',
     boxShadow:
       ' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset',
     backgroundImage: (props) =>
@@ -1630,11 +1625,11 @@ const useStyles = makeStyles({
   textContainer: {
     display: 'flex',
     backgroundColor: '#171717',
-    width:'220px',
+    width: '220px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     minHeight: '100px',
-    margin:(props) => (props?.phone ? '90px' : '45px'),
+    margin: (props) => (props?.phone ? '90px' : '45px'),
     padding: (props) => (props?.phone ? '10px' : '10px'),
     borderRadius: '5px',
   },
@@ -1729,7 +1724,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    
   },
   sliderItemBackImg1: {
     display: 'flex',
@@ -1739,43 +1733,43 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     background: colors.lightGray,
     backgroundImage: (props) => `url(${props.backgroundImg})`,
-    backgroundPosition: "center",
-    filter: "blur(0px)",
-    "-webkit9-filter": "blur(0px)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    height: (props) => (props?.phone ? "auto" : "300px"),
+    backgroundPosition: 'center',
+    filter: 'blur(0px)',
+    '-webkit9-filter': 'blur(0px)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: (props) => (props?.phone ? 'auto' : '300px'),
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',
   },
   boxImage: {
     width: (props) => (props?.phone ? '80%' : '300px'),
-    height: (props) => (props?.phone ? '150px' : '210px')
+    height: (props) => (props?.phone ? '150px' : '210px'),
   },
   bottomBox: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     justifyContent: 'space-between',
-    fontWeight: '300'
+    fontWeight: '300',
   },
   brand: {
     color: '#C19D65',
-    fontWeight: '400'
+    fontWeight: '400',
   },
-  arrow:{
+  arrow: {
     height: (props) => (props?.phone ? '65px' : '100px'),
-    width:'auto'
+    width: 'auto',
   },
   boxTitle: {
     fontSize: '32px',
     fontWeight: '300',
-    color:'white'
+    color: 'white',
   },
-  price:{
-    display:'flex',
-    alignItems:'center',
-    color:'white' 
+  price: {
+    display: 'flex',
+    alignItems: 'center',
+    color: 'white',
   },
 });
