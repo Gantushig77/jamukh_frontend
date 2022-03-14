@@ -253,9 +253,6 @@ export default function Appbar(props) {
                 <Link className={classes.menuListItem} to='/news'>
                   Мэдээ
                 </Link>
-                <Link className={classes.menuListItem} to='/property'>
-                  Газар
-                </Link>
                 <Link className={classes.menuListItem} to='/antiquest'>
                   Эртний эдлэл
                 </Link>

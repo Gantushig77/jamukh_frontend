@@ -15,55 +15,24 @@ import { logout } from './helpers/logout';
 import Home from './pages/general/home';
 import NotFound from './pages/general/notFound';
 import Login from './pages/general/login';
-// import TermsAndConditions from './pages/general/termsAndConditions';
 import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
 import Category from './pages/category/category';
 import Ads from './pages/ads/ads';
-import CreateAd from './pages/createAd/createAd';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
-import Atiquest from './assets/background/aquest.png';
-import Property from './assets/background/land.png';
+import Antique from './assets/background/aquest.png';
 import Cars from './assets/background/cars.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
 import List from './pages/listNews/list';
 import Detailnews from './pages/Detailnews/Detailnews';
-// import Membership from './pages/membership/membership';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import './App.css';
-// import firebaseConfig from './firebase/firebase';
-// import { initializeApp } from 'firebase';
-// import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 export default function App() {
-  // initializeApp(firebaseConfig);
-  // const messaging = getMessaging();
-  // getToken(messaging, {
-  //   vapidKey:
-  //     'BNzJiPC9z7KVdpg0XQdqwljbIxe6N4vgUiyMpZ8UQwPXt5MfQ2dvRg6JfSfUsxxJbwesAIShLZiD3KKpcFZ4c64',
-  // })
-  //   .then((currentToken) => {
-  //     if (currentToken) {
-  //       console.log(currentToken);
-  //     } else {
-  //       console.log(
-  //         'No registration token available. Request permission to generate one.'
-  //       );
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log('An error occurred while retrieving token. ', err);
-
-  //   });
-
-  // onMessage(messaging, (payload) => {
-  //   console.log(payload);
-  // });
-
-  let token = localStorage.getItem('jamukh_token');
+  const token = localStorage.getItem('jamukh_token');
 
   const classes = useAppStyles();
   const loading = false;
@@ -151,22 +120,13 @@ export default function App() {
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
-            <PrivateRoute path={'/antiquest'} authenticated={isAuthenticated()}>
+            <PrivateRoute path={'/antique'} authenticated={isAuthenticated()}>
               <Category
-                bg={Atiquest}
+                bg={Antique}
                 title='Эртний эдлэл'
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={2}
-              />
-            </PrivateRoute>
-            <PrivateRoute path={'/property'} authenticated={isAuthenticated()}>
-              <Category
-                bg={Property}
-                title='Газар'
-                phone={phoneSize}
-                tablet={tabletSize}
-                id={3}
               />
             </PrivateRoute>
             <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
@@ -175,7 +135,7 @@ export default function App() {
                 title='Үл хөдлөх'
                 phone={phoneSize}
                 tablet={tabletSize}
-                id={5}
+                id={4}
               />
             </PrivateRoute>
             <PrivateRoute path={'/painting'} authenticated={isAuthenticated()}>
@@ -184,7 +144,7 @@ export default function App() {
                 title='Уран зураг'
                 phone={phoneSize}
                 tablet={tabletSize}
-                id={4}
+                id={3}
               />
             </PrivateRoute>
             <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
@@ -199,19 +159,10 @@ export default function App() {
             <Route path={'/login'}>
               <Login />
             </Route>
-            <Route path={'/logout'}>
-              <Members />
-            </Route>
-            <PrivateRoute path={'/create-ad'} authenticated={isAuthenticated()}>
-              <CreateAd />
-            </PrivateRoute>
             <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
               <Members />
             </PrivateRoute>
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
-              <Profile />
-            </PrivateRoute>
-            <PrivateRoute path={'/user/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
             {/* 404 page. Must be at the bottom. */}
