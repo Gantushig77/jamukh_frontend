@@ -49,7 +49,6 @@ function PrevArrow(props) {
 
 export default function SliderCustom(props) {
   let slider = useRef(null);
-
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
 
@@ -63,7 +62,7 @@ export default function SliderCustom(props) {
           key={i + 'slider'}
           sliderRef={slider}
           phone={props?.phone}
-          avatar={''}
+          avatar={props.avatar}
           admin={'Grand Marshal'}
           time={'12min'}
           area={'MKV 4,500,000$'}
@@ -81,10 +80,10 @@ export default function SliderCustom(props) {
 const SliderItem = (props) => {
   const classes = useStyles(props);
   return (
-    <div className={classes.sliderItemBackImg}>
+    <div className={classes.sliderItemBackImg} style={{backgroundImage:props.backgroundImg, height:"500px"}}>
       <div className={classes.sliderItemContainer}>
         <div className={classes.textContainer}>{props?.title}</div>
-        <div className={classes.textSub}>Jamukh Jadraan</div>
+        <div className={classes.textSub}>{props?.avatar?.lastname} {props.avatar?.firstname}</div>
       </div>
     </div>
   );
@@ -116,6 +115,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   sliderItemBackImg: {
+    position:'relative',
     background: colors.lightGray,
     backgroundImage: (props) => `url(${props.backgroundImg})`,
     backgroundPosition: 'center',
@@ -129,11 +129,9 @@ const useStyles = makeStyles({
   },
   sliderItemContainer: {
     position: 'absolute',
-    bottom: (props) => (props?.phone ? '90px' : '-155px'),
+    bottom:'0px',
     zIndex: 99,
-    transform: 'translate(0px, -100%)',
     width: '100%',
-    // background: 'rgb(21,21,22)',
     background:
       'linear-gradient(0deg, rgba(21,21,22,0.6615021008403361) 33%, rgba(21,21,22,0.15730042016806722) 45%)',
   },

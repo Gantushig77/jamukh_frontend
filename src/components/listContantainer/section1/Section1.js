@@ -96,7 +96,6 @@ export default function Section(props) {
                 title={item?.title}
                 price={item?.price + item?.currency_symbol}
                 link={account ? '/user/services' : '/sign-up'}
-                date={item?.created_date}
               />
             </Link>
           ))}
@@ -113,6 +112,7 @@ const SliderItem = (props) => {
     <Container disableGutters maxWidth={false}>
       <div className={classes.sliderItemBackImg}>
         <img src={props.image} className={classes.boxImage} alt='' />
+        <div className={classes.bgColor}>
         <TruncateMarkup
           lines={1}
           ellipsis={() => {
@@ -122,13 +122,8 @@ const SliderItem = (props) => {
           <div className={classes.boxTitle}>{props?.title}</div>
         </TruncateMarkup>
         <div className={classes.bottomBox}>
-          {
-            <div className={classes.price}>
-              <BiTimeFive />
-              {moment(props.date).format('YYYY.MM.DD')}
-            </div>
-          }
           <div className={classes.brand}>{props.price}</div>
+        </div>
         </div>
       </div>
     </Container>
@@ -161,8 +156,10 @@ const useStyles = makeStyles({
     fontSize: (props) => (props?.phone ? '42px' : '65px'),
   },
   boxImage: {
-    width: (props) => (props?.phone ? '80%' : '300px'),
+    width: (props) => (props?.phone ? '100%' : '100%'),
     height: (props) => (props?.phone ? '150px' : '210px'),
+    borderTopRightRadius:'10px',
+    borderTopLeftRadius:'10px'
   },
   bottomBox: {
     display: 'flex',
@@ -174,6 +171,7 @@ const useStyles = makeStyles({
   brand: {
     color: '#C19D65',
     fontWeight: '400',
+    padding:'10px'
   },
   textField: {
     textAlign: 'center',
@@ -191,9 +189,12 @@ const useStyles = makeStyles({
     color: 'white',
   },
   boxTitle: {
-    fontSize: '32px',
+    fontSize: '30px',
     fontWeight: '300',
     color: 'white',
+    textAlign:'center',
+    borderBottom:'1px solid #A18659',
+    padding:'5px'
   },
   root: {
     display: 'flex',
@@ -206,7 +207,9 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, sans-serif',
     color: 'white',
   },
-
+  bgColor:{
+    width:'100%',
+  },
   search: {
     border: 'none',
     fontWeight: '300',
@@ -228,17 +231,13 @@ const useStyles = makeStyles({
   sliderItemBackImg: {
     display: 'flex',
     alignItems: 'center',
-    padding: '10px',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    background: colors.lightGray,
-    backgroundImage: (props) => `url(${props.backgroundImg})`,
-    backgroundPosition: 'center',
+    background: 'rgb(0,0,0)',
+    background: 'linear-gradient(0deg, rgba(0,0,0,0.85) 100%, rgba(0,0,0,0.85) 100%)',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    height: (props) => (props?.phone ? 'auto' : '300px'),
+    height: (props) => (props?.phone ? 'auto' : '320px'),
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',

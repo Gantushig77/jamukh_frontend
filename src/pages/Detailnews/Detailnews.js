@@ -80,7 +80,7 @@ const handleSnackOpen = ({ state, msg, type }) => {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-       <Section2 phone={phoneSize} tablet={tabletSize} posts={posts} isLoading={isLoading}/>
+       {/* <Section2 phone={phoneSize} tablet={tabletSize} posts={posts} isLoading={isLoading}/> */}
        <div className={classes.footer}>
           <Footer phone={phoneSize} tablet={tabletSize}  />
         </div>

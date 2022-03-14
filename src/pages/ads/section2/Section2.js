@@ -32,30 +32,36 @@ function PrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
+  console.log(props,"props")
   let slider = useRef(null);
   const ContextHook = useContext(TheContext);
-  const account = ContextHook.account;
-
+  const account = ContextHook.account; 
+  
   return (
     <div className={classes.root}>
       {props?.parentId ? (
         <></>
       ) : (
-        <>
+        <Container className={classes.contentRoot}>
           <Container className={classes.cardContent}>
             {props?.ads_info === undefined || props?.ads_info === null ? (
               <div />
             ) : props?.ads_info.length === 0 ? (
               <div />
             ) : (
-              props?.ads_info.map((item, i) => (
+              <div className={classes.borderInfo}>
+              {props?.ads_info.map((item, i) => (
                 <div className={classes.rowHalf} key={i + 'id'}>
                   <div className={classes.label}>{item?.label}</div>
                   <div className={classes.value}>{item?.value}</div>
                 </div>
-              ))
+              ))}
+              </div>
             )}
-
+          </Container>
+          <div className={classes.zurag}>
+                ЗУРАГ
+           </div>  
             {props.image === undefined || props?.ads_info === null ? (
               <div />
             ) : props.image?.length === 0 ? (
@@ -104,13 +110,27 @@ export default function Section2(props) {
                 ))}
               </Slider>
             )}
-
-            <div className={classes.content}>
-              <div className={classes.title}>Тайлбар</div>
-              <div className={classes.description}>{props?.description}</div>
-            </div>
-          </Container>
-        </>
+            <div className={classes.zurag}>
+                  ДЭЛГЭРЭНГҮЙ
+            </div>  
+            <Container className={classes.cardContent}>
+              <div className={classes.content}>
+                  <div className={classes.description}>{props?.description}</div>
+              </div>
+            </Container>
+            <Container className={classes.cardContent}>
+              <div className={classes.avatar}>
+                <div className={classes.avatarContent}>
+                  <img src={props.avatar.avatar.url} style={{border:'1px solid white',height:'50px',width:'50px', borderRadius:'100%',marginRight:'10px'}} alt=""/>
+                  {props.avatar.firstname}
+                </div>
+                <div className={classes.price}>
+                    {props.symbol}
+                    {props.price}
+                </div>  
+              </div>
+            </Container>
+        </Container>
       )}
       <Footer phone={props.phone} tablet={props.tablet} />
     </div>
@@ -119,6 +139,7 @@ export default function Section2(props) {
 const SliderItem = (props) => {
   const classes = useStyles(props);
 
+  
   return (
     <div className={classes.box}>
       <img src={props.backgroundImg} className={classes.boxImage} alt='' />
@@ -130,9 +151,29 @@ const useStyles = makeStyles({
   root: {
     width: (props) => (props.phone ? '100%' : '100%'),
     overflow: 'hidden',
-    backgroundColor: '#252525',
+    backgroundColor: '#151516',
     fontFamily: "'Roboto', sans-serif",
-    backgroundImage: `url(${Background1})`,
+  },
+  zurag:{
+    textAlign:'center',
+    margin:'40px 0px',
+    padding:'20px',
+    width:'100%',
+    color:'#C19D65',
+    fontWeight:'300',
+    fontSize:'30px',
+    borderTop:'1px solid #e6e6e6',
+    borderBottom:'1px solid #e6e6e6'
+  },
+  avatarContent:{
+    display:'flex',
+    alignItems:'center',
+    color:'white'
+  },
+  price:{
+    color:'#C18E44',
+    fontSize:'30px',
+    fontWeight:'300'
   },
   label: {
     display: 'flex',
@@ -140,9 +181,25 @@ const useStyles = makeStyles({
     justifyContent: 'flex-end',
     width: (props) => (props?.phone ? 'auto' : '50%'),
   },
+  avatar:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'space-between',
+    marginTop:'80px',
+    width:'100%'
+  },
+  borderInfo:{
+    display: 'flex',
+    flexWrap: 'wrap',
+    border:'1px solid  #C19D65',
+    width:'100%',
+    borderRadius:'20px'
+  },
   content: {
+    border:'1px solid #C19D65',
     padding: (props) => (props?.phone ? '10px' : '30px'),
-    width: (props) => (props?.phone ? '100%' : '1180px'),
+    width: (props) => (props?.phone ? '100%' : '1300px'),
+    borderRadius:'20px'
   },
   slider: {
     display: 'flex',
@@ -164,7 +221,6 @@ const useStyles = makeStyles({
     padding: '10px',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    backgroundImage: (props) => `url(${props.backgroundImg})`,
     backgroundPosition: 'center',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
@@ -196,8 +252,10 @@ const useStyles = makeStyles({
     justifyContent: 'center',
   },
   boxImage: {
-    width: (props) => (props?.phone ? '100%' : '340px'),
-    height: (props) => (props?.phone ? '150px' : '230px'),
+
+    width: (props) => (props?.phone ? '100%' : '900px'),
+    height: (props) => (props?.phone ? '150px' : '430px'),
+
   },
   bottomBox: {
     display: 'flex',
@@ -210,7 +268,6 @@ const useStyles = makeStyles({
     color: '#C19D65',
     fontWeight: '400',
   },
-
   value: {
     display: 'flex',
     alignItems: 'center',
@@ -226,21 +283,27 @@ const useStyles = makeStyles({
     color: 'white',
     fontWeight: '300',
     fontSize: '20px',
-    marginTop: '30px',
+    padding:'20px',
+  },
+  contentRoot:{
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    maxWidth: '100%',
+    margin:'100px 0px'
   },
   cardContent: {
     display: 'flex',
     maxWidth: (props) => (props.phone ? '100%' : '1300px'),
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
-    padding: '80px 0px',
     backgroundColor: '',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    minHeight: '100vh',
     flexWrap: 'wrap',
-    backgroundImage: `url(${Background})`,
     backgroundSize: '300px 250px',
+    // boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
+ 
   },
   cardButton: {
     display: 'flex',
@@ -266,8 +329,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     maxWidth: (props) => (props.phone ? '100%' : 260),
     width: (props) => (props.phone ? '100%' : 330),
-    // maxWidth:260,
-    // width:330,
     marginBottom: 20,
     textAlign: 'left',
     margin: 5,

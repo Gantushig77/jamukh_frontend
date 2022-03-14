@@ -37,7 +37,7 @@ export default function News() {
   useEffect(() => {
     getDetail(params.id)
       .then((res) => {
-        console.log(res?.data);
+        console.log(res?.data,"resdata");
         setPosts(res?.data);
         setLoading(false);
       })
@@ -76,6 +76,7 @@ export default function News() {
             title={posts?.title}
             phone={phoneSize}
             tablet={tabletSize}
+            avatar={posts?.created_user}
           />
           <Section2
             image={posts?.ad_imgs}
@@ -83,6 +84,9 @@ export default function News() {
             ads_info={posts?.ads_info[0]?.info_obj}
             phone={phoneSize}
             tablet={tabletSize}
+            avatar={posts?.created_user}
+            symbol={posts?.currency_symbol}
+            price={posts?.price}
           />
         </>
       )}

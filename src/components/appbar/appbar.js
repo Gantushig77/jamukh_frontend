@@ -30,7 +30,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/logo/jamukh.png';
 import { logout } from '../../helpers/logout';
 import Background from '../../assets/background/background.png';
 
@@ -281,7 +281,8 @@ const useStyles = makeStyles(() => ({
     fontFamily: "'Roboto', sans-serif",
     fontSize: '18px',
     color: 'white',
-    padding: (props) => (props?.trigger ? '0px 0px' : '0px 10px'),
+    padding: (props) => (props?.trigger ? '0px 10px' : '0px 10px'),
+    position: 'fixed'
   },
   menuContainer: {
     display: 'flex',
