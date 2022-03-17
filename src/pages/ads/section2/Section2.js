@@ -2,8 +2,8 @@ import React, { useRef, useContext } from 'react';
 import { Container } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-import Background1 from '../../../assets/background/adsDetail.png';
-import Background from '../../../assets/background/background.png';
+// import Background1 from '../../../assets/background/adsDetail.png';
+// import Background from '../../../assets/background/background.png';
 import Slider from 'react-slick';
 import ArrowL from '../../../assets/arrow/arrowL.png';
 import ArrowR from '../../../assets/arrow/arrowR.png';
@@ -32,11 +32,11 @@ function PrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  console.log(props,"props")
+  console.log(props, 'props');
   let slider = useRef(null);
   const ContextHook = useContext(TheContext);
-  const account = ContextHook.account; 
-  
+  const account = ContextHook.account;
+
   return (
     <div className={classes.root}>
       {props?.parentId ? (
@@ -50,86 +50,92 @@ export default function Section2(props) {
               <div />
             ) : (
               <div className={classes.borderInfo}>
-              {props?.ads_info.map((item, i) => (
-                <div className={classes.rowHalf} key={i + 'id'}>
-                  <div className={classes.label}>{item?.label}</div>
-                  <div className={classes.value}>{item?.value}</div>
-                </div>
-              ))}
+                {props?.ads_info.map((item, i) => (
+                  <div className={classes.rowHalf} key={i + 'id'}>
+                    <div className={classes.label}>{item?.label}</div>
+                    <div className={classes.value}>{item?.value}</div>
+                  </div>
+                ))}
               </div>
             )}
           </Container>
-          <div className={classes.zurag}>
-                ЗУРАГ
-           </div>  
-            {props.image === undefined || props?.ads_info === null ? (
-              <div />
-            ) : props.image?.length === 0 ? (
-              <div />
-            ) : (
-              <Slider
-                {...{
-                  infinite: true,
-                  speed: 500,
-                  arrows: true,
-                  slidesToShow:
-                    props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
-                  slidesToScroll: 1,
-                  nextArrow: <NextArrow />,
-                  prevArrow: <PrevArrow />,
-                  responsive: [
-                    {
-                      breakpoint: 600,
-                      settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        initialSlide: 1,
-                        arrows: true,
-                      },
+          <div className={classes.zurag}>ЗУРАГ</div>
+          {props.image === undefined || props?.ads_info === null ? (
+            <div />
+          ) : props.image?.length === 0 ? (
+            <div />
+          ) : (
+            <Slider
+              {...{
+                infinite: true,
+                speed: 500,
+                arrows: true,
+                slidesToShow:
+                  props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
+                slidesToScroll: 1,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                responsive: [
+                  {
+                    breakpoint: 600,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      initialSlide: 1,
+                      arrows: true,
                     },
-                  ],
-                }}
-                className={classes.slider}
-              >
-                {props?.image.map((item, i) => (
-                  <SliderItem
-                    dots={1}
-                    key={i + 'slider item'}
-                    sliderRef={slider}
-                    phone={props?.phone}
-                    avatar={''}
-                    admin={'Grand Marshal'}
-                    time={'12min'}
-                    area={'MKV 4,500,000$'}
-                    title={props?.title}
-                    description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-                    buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-                    backgroundImg={item?.url}
-                    link={account ? '/user/services' : '/sign-up'}
-                  />
-                ))}
-              </Slider>
-            )}
-            <div className={classes.zurag}>
-                  ДЭЛГЭРЭНГҮЙ
-            </div>  
-            <Container className={classes.cardContent}>
-              <div className={classes.content}>
-                  <div className={classes.description}>{props?.description}</div>
+                  },
+                ],
+              }}
+              className={classes.slider}
+            >
+              {props?.image.map((item, i) => (
+                <SliderItem
+                  dots={1}
+                  key={i + 'slider item'}
+                  sliderRef={slider}
+                  phone={props?.phone}
+                  avatar={''}
+                  admin={'Grand Marshal'}
+                  time={'12min'}
+                  area={'MKV 4,500,000$'}
+                  title={props?.title}
+                  description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
+                  buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+                  backgroundImg={item?.url}
+                  link={account ? '/user/services' : '/sign-up'}
+                />
+              ))}
+            </Slider>
+          )}
+          <div className={classes.zurag}>ДЭЛГЭРЭНГҮЙ</div>
+          <Container className={classes.cardContent}>
+            <div className={classes.content}>
+              <div className={classes.description}>{props?.description}</div>
+            </div>
+          </Container>
+          <Container className={classes.cardContent}>
+            <div className={classes.avatar}>
+              <div className={classes.avatarContent}>
+                <img
+                  src={props.avatar.avatar.url}
+                  style={{
+                    border: '1px solid white',
+                    height: '50px',
+                    width: '50px',
+                    borderRadius: '100%',
+                    marginRight: '10px',
+                  }}
+                  alt=''
+                />
+                {props.avatar.firstname}
               </div>
-            </Container>
-            <Container className={classes.cardContent}>
-              <div className={classes.avatar}>
-                <div className={classes.avatarContent}>
-                  <img src={props.avatar.avatar.url} style={{border:'1px solid white',height:'50px',width:'50px', borderRadius:'100%',marginRight:'10px'}} alt=""/>
-                  {props.avatar.firstname}
-                </div>
-                <div className={classes.price}>
-                    {props.symbol}
-                    {props.price}
-                </div>  
+              <div className={classes.price}>
+                {props.symbol}
+                {props.price}
               </div>
-            </Container>
+            </div>
+          </Container>
         </Container>
       )}
       <Footer phone={props.phone} tablet={props.tablet} />
@@ -139,7 +145,6 @@ export default function Section2(props) {
 const SliderItem = (props) => {
   const classes = useStyles(props);
 
-  
   return (
     <div className={classes.box}>
       <img src={props.backgroundImg} className={classes.boxImage} alt='' />
@@ -154,26 +159,26 @@ const useStyles = makeStyles({
     backgroundColor: '#151516',
     fontFamily: "'Roboto', sans-serif",
   },
-  zurag:{
-    textAlign:'center',
-    margin:'40px 0px',
-    padding:'20px',
-    width:'100%',
-    color:'#C19D65',
-    fontWeight:'300',
-    fontSize:'30px',
-    borderTop:'1px solid #e6e6e6',
-    borderBottom:'1px solid #e6e6e6'
+  zurag: {
+    textAlign: 'center',
+    margin: '40px 0px',
+    padding: '20px',
+    width: '100%',
+    color: '#C19D65',
+    fontWeight: '300',
+    fontSize: '30px',
+    borderTop: '1px solid #e6e6e6',
+    borderBottom: '1px solid #e6e6e6',
   },
-  avatarContent:{
-    display:'flex',
-    alignItems:'center',
-    color:'white'
+  avatarContent: {
+    display: 'flex',
+    alignItems: 'center',
+    color: 'white',
   },
-  price:{
-    color:'#C18E44',
-    fontSize:'30px',
-    fontWeight:'300'
+  price: {
+    color: '#C18E44',
+    fontSize: '30px',
+    fontWeight: '300',
   },
   label: {
     display: 'flex',
@@ -181,25 +186,25 @@ const useStyles = makeStyles({
     justifyContent: 'flex-end',
     width: (props) => (props?.phone ? 'auto' : '50%'),
   },
-  avatar:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'space-between',
-    marginTop:'80px',
-    width:'100%'
+  avatar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: '80px',
+    width: '100%',
   },
-  borderInfo:{
+  borderInfo: {
     display: 'flex',
     flexWrap: 'wrap',
-    border:'1px solid  #C19D65',
-    width:'100%',
-    borderRadius:'20px'
+    border: '1px solid  #C19D65',
+    width: '100%',
+    borderRadius: '20px',
   },
   content: {
-    border:'1px solid #C19D65',
+    border: '1px solid #C19D65',
     padding: (props) => (props?.phone ? '10px' : '30px'),
     width: (props) => (props?.phone ? '100%' : '1300px'),
-    borderRadius:'20px'
+    borderRadius: '20px',
   },
   slider: {
     display: 'flex',
@@ -252,10 +257,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
   },
   boxImage: {
-
     width: (props) => (props?.phone ? '100%' : '900px'),
     height: (props) => (props?.phone ? '150px' : '430px'),
-
   },
   bottomBox: {
     display: 'flex',
@@ -283,14 +286,14 @@ const useStyles = makeStyles({
     color: 'white',
     fontWeight: '300',
     fontSize: '20px',
-    padding:'20px',
+    padding: '20px',
   },
-  contentRoot:{
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
+  contentRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     maxWidth: '100%',
-    margin:'100px 0px'
+    margin: '100px 0px',
   },
   cardContent: {
     display: 'flex',
@@ -303,7 +306,6 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     backgroundSize: '300px 250px',
     // boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
- 
   },
   cardButton: {
     display: 'flex',

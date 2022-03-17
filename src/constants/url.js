@@ -3,8 +3,8 @@ const backend_port = '4000';
 
 const base_url =
   DEV === true
-    ? `http://43.231.114.19:${backend_port}`
-    : `http://192.168.1.26:${backend_port}`;
+    ? `http://192.168.1.26:${backend_port}`
+    : `http://43.231.114.19:${backend_port}`;
 
 const img_url = DEV === true ? `${base_url}/image/` : `${base_url}/image/`;
 

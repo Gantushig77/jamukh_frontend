@@ -28,7 +28,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { img_url } from '../../constants/url';
 import Jamukh from '../../assets/icons/Jamuh_logo.png';
 import Logo from '../../assets/logo/jamukh.png';
 import { logout } from '../../helpers/logout';
@@ -80,7 +79,7 @@ export default function Appbar(props) {
                   <img
                     alt={'_test'}
                     className={classes.menuAvatar}
-                    src={img_url + account?.avatar?.url}
+                    src={account?.avatar?.url}
                   />
                 ) : (
                   <p style={{ fontWeight: 'bold' }}>
@@ -155,7 +154,12 @@ export default function Appbar(props) {
                 </>
               </Grid>
               <Grid item xs={4} className={classes.menuLogo}>
-                <img src={Logo} style={{ width: '40%' }} alt='' />
+                <img
+                  src={Logo}
+                  style={{ width: '40%', cursor: 'pointer' }}
+                  onClick={() => history.push('/')}
+                  alt='just alt pls'
+                />
               </Grid>
               {/* Menu filters and account settings */}
               <Grid item xs={4}>
@@ -181,7 +185,7 @@ export default function Appbar(props) {
                             <img
                               alt={'profile'}
                               className={classes.avatar}
-                              src={img_url + account?.avatar?.url}
+                              src={account?.avatar?.url}
                             />
                           ) : (
                             <p style={{ fontWeight: 'bold' }}>
@@ -282,7 +286,7 @@ const useStyles = makeStyles(() => ({
     fontSize: '18px',
     color: 'white',
     padding: (props) => (props?.trigger ? '0px 10px' : '0px 10px'),
-    position: 'fixed'
+    position: 'fixed',
   },
   menuContainer: {
     display: 'flex',

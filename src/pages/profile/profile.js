@@ -917,7 +917,7 @@ export default function Profile() {
                             {item?.avatar?.url ? (
                               <img
                                 alt={'avatar 3'}
-                                src={img_url + item?.avatar?.url}
+                                src={item?.avatar?.url}
                                 className={classes.avatarImage}
                               />
                             ) : (
@@ -1004,7 +1004,7 @@ export default function Profile() {
                         <img
                           alt={'profile'}
                           className={classes.avatar}
-                          src={img_url + fieldState.avatar?.url}
+                          src={fieldState.avatar?.url}
                         />
                       ) : (
                         <p style={{ fontWeight: 'bold', fontSize: '32px' }}>
@@ -1080,7 +1080,7 @@ export default function Profile() {
                             {item?.avatar?.url ? (
                               <img
                                 alt={'avatar 3'}
-                                src={img_url + item?.avatar?.url}
+                                src={item?.avatar?.url}
                                 className={classes.avatarImage}
                               />
                             ) : (

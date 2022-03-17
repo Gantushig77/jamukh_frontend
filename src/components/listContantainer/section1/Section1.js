@@ -10,9 +10,7 @@ import ArrowL from '../../../assets/arrow/arrowL.png';
 import ArrowR from '../../../assets/arrow/arrowR.png';
 import TopArrow from '../../../assets/arrow/topArrow.png';
 import './Section.css';
-import moment from 'moment';
 import TruncateMarkup from 'react-truncate-markup';
-import { BiTimeFive } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
 function NextArrow(props) {
@@ -113,17 +111,17 @@ const SliderItem = (props) => {
       <div className={classes.sliderItemBackImg}>
         <img src={props.image} className={classes.boxImage} alt='' />
         <div className={classes.bgColor}>
-        <TruncateMarkup
-          lines={1}
-          ellipsis={() => {
-            /* renders "+X more users" */
-          }}
-        >
-          <div className={classes.boxTitle}>{props?.title}</div>
-        </TruncateMarkup>
-        <div className={classes.bottomBox}>
-          <div className={classes.brand}>{props.price}</div>
-        </div>
+          <TruncateMarkup
+            lines={1}
+            ellipsis={() => {
+              /* renders "+X more users" */
+            }}
+          >
+            <div className={classes.boxTitle}>{props?.title}</div>
+          </TruncateMarkup>
+          <div className={classes.bottomBox}>
+            <div className={classes.brand}>{props.price}</div>
+          </div>
         </div>
       </div>
     </Container>
@@ -158,8 +156,8 @@ const useStyles = makeStyles({
   boxImage: {
     width: (props) => (props?.phone ? '100%' : '100%'),
     height: (props) => (props?.phone ? '150px' : '210px'),
-    borderTopRightRadius:'10px',
-    borderTopLeftRadius:'10px'
+    borderTopRightRadius: '10px',
+    borderTopLeftRadius: '10px',
   },
   bottomBox: {
     display: 'flex',
@@ -171,7 +169,7 @@ const useStyles = makeStyles({
   brand: {
     color: '#C19D65',
     fontWeight: '400',
-    padding:'10px'
+    padding: '10px',
   },
   textField: {
     textAlign: 'center',
@@ -192,9 +190,9 @@ const useStyles = makeStyles({
     fontSize: '30px',
     fontWeight: '300',
     color: 'white',
-    textAlign:'center',
-    borderBottom:'1px solid #A18659',
-    padding:'5px'
+    textAlign: 'center',
+    borderBottom: '1px solid #A18659',
+    padding: '5px',
   },
   root: {
     display: 'flex',
@@ -207,8 +205,8 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, sans-serif',
     color: 'white',
   },
-  bgColor:{
-    width:'100%',
+  bgColor: {
+    width: '100%',
   },
   search: {
     border: 'none',
@@ -233,7 +231,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    background: 'rgb(0,0,0)',
+    // background: 'rgb(0,0,0)',
     background: 'linear-gradient(0deg, rgba(0,0,0,0.85) 100%, rgba(0,0,0,0.85) 100%)',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
