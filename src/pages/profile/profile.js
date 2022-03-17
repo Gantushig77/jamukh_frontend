@@ -93,23 +93,6 @@ export default function Profile() {
     backgroundImg: img_url + account?.avatar?.url,
   });
 
-  useEffect(() => {
-    getads(page, limit)
-      .then((res) => {
-        setNews(res.data.ads);
-      })
-      .catch((e) => {
-        handleSnackOpen({
-          state: true,
-          msg:
-            e.message === 'user.not.found'
-              ? 'Хэрэглэгч олдсонгүй'
-              : 'Нэр үг эсвэл нууц үг буруу байна.',
-          type: 'error',
-        });
-      });
-  }, [page]);
-
   // States
   const [open, setOpen] = useState(false);
   const [memberModal, setMemberModal] = useState(false);
@@ -380,6 +363,23 @@ export default function Profile() {
   const handlePagination = (event, value) => {
     setAccListPage(value);
   };
+
+  useEffect(() => {
+    getads(page, limit)
+      .then((res) => {
+        setNews(res.data.ads);
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+  }, [page]);
 
   useEffect(() => {
     if (account) {
@@ -988,7 +988,6 @@ export default function Profile() {
           </Box>
         </Fade>
       </Modal>
-
       {/* Body */}
       <Container disableGutters maxWidth={false} className={classes.root}>
         <div className={classes.rootRow}>
@@ -1000,11 +999,11 @@ export default function Profile() {
                 <div className={classes.avatar}>
                   {authenticated === true ? (
                     <Avatar alt='Profile Avatar' className={classes.avatarImageBig}>
-                      {fieldState.avatar?.url ? (
+                      {account?.avatar?.url ? (
                         <img
                           alt={'profile'}
                           className={classes.avatar}
-                          src={fieldState.avatar?.url}
+                          src={account?.avatar?.url}
                         />
                       ) : (
                         <p style={{ fontWeight: 'bold', fontSize: '32px' }}>
@@ -1640,6 +1639,8 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     color: '#AA7654',
+    width: 120,
+    marginLeft: 40,
   },
   avatarColumn: {
     display: 'flex',

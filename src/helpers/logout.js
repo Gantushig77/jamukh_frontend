@@ -3,7 +3,10 @@ const logout = () => {
     try {
       localStorage.setItem('jamukh_auth', 'false');
       localStorage.setItem('jamukh_token', '');
-      resolve();
+      setTimeout(() => {
+        window.location.reload();
+        resolve();
+      }, 500);
     } catch (e) {
       reject(e);
     }

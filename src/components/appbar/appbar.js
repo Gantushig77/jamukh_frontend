@@ -153,6 +153,7 @@ export default function Appbar(props) {
                   ))}
                 </>
               </Grid>
+              {/* Logo */}
               <Grid item xs={4} className={classes.menuLogo}>
                 <img
                   src={Logo}
@@ -173,6 +174,7 @@ export default function Appbar(props) {
                     <div className={classes.contactText}>Холбоо барих</div>
                     <div className={classes.phoneNumber}>77779999</div>
                   </div>
+                  {/* Profile menu thumbnail */}
                   <Grid item>
                     {authenticated ? (
                       <Tooltip title='Account settings'>
