@@ -22,4 +22,8 @@ const getDetailNews = (id) => {
   return ax_instance.get(`/blog/blog-post?id=${id}`);
 };
 
-export { getads, getDetail, getCategoryAds, getBlogList, getDetailNews };
+const getProfile = () => {
+  return ax_instance.get(`/account/profile`);
+};
+
+export { getads, getDetail, getCategoryAds, getBlogList, getDetailNews, getProfile };

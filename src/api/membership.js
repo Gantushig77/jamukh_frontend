@@ -4,4 +4,11 @@ const getListOfMembershipTypes = () => {
   return ax_instance.get('/membership/get-membership-types');
 };
 
-export { getListOfMembershipTypes };
+
+const getMembershipSend = (id) => {
+  return ax_instance.post('/member-request/create-request',{'req_subs':id
+});
+};
+
+
+export { getListOfMembershipTypes , getMembershipSend};

@@ -123,7 +123,7 @@ export default function App() {
             <PrivateRoute path={'/antique'} authenticated={isAuthenticated()}>
               <Category
                 bg={Antique}
-                title='Эртний эдлэл'
+                title='Үнэт эдлэл'
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={2}
@@ -165,7 +165,7 @@ export default function App() {
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
-            {/* 404 page. Must be at the bottom. */}
+            {/* 404 page. Must be at the bottom. */}            
             <Route path={'*'}>
               <NotFound phone={phoneSize} tablet={tabletSize} />
             </Route>

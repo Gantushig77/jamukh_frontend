@@ -1,17 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Title from '../../../components/title/title';
 import Background from '../../../assets/background/background.png';
 import Avatar from '../../../assets/images/avatar.jpg';
 import './Section.css';
+import { getProfile } from '../../../api/ads';
+import { getMembershipSend } from '../../../api/membership';
 
 export default function Section2(props) {
   const classes = useStyles(props);
+  const [id, setId] = useState('');
   const [tab, setTab] = useState('Энгийн');
   const [tabButton, setTabButton] = useState('member');
   const [count, setCount] = useState(0);
+  const token = localStorage.getItem('jamukh_token');
 
+
+  useEffect(() => {
+    getProfile()
+    .then((res) => {
+      setId(res.data.id)
+      console.log(res,"res")
+    })
+    .catch((e) => {
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Хэрэглэгч олдсонгүй'
+            : 'Нэр үг эсвэл нууц үг буруу байна.',
+        type: 'error',
+      });
+    });
+  }, [token]);
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+  const [snackbarState, setSnackbarState] = useState({
+    open: false,
+    message: 'Амжилттай илгээлээ',
+    severity: 'success',
+  });
+
+
+  const requestCode = () => {
+    if ( id !== '' ) {
+      getMembershipSend(id)
+      .then((res) => {
+        setId(res.data.id)
+        console.log(res,"res")
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+    }
+
+  };
   const data = [
     {
       description: 'Зах зээлийн өрсөлдөөнд манлайлахад хөтөч тань болно',
@@ -143,25 +200,16 @@ export default function Section2(props) {
                   </div>
                 </div>
                 <div className={classes.membersContainer}>
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
-                  <Member phone={props} />
+                  <div className={classes.description}>{data[count].description}</div>
+                  <div className={classes.subDescription}>{data[count].subDescription}</div>
+                  <div className={classes.reqButton}>Хүсэлт илгээх</div>
+       
                 </div>
               </div>
-              <div className={classes.request}>
-                <div className={classes.description}>{data[count].description}</div>
-                <div className={classes.subDescription}>{data[count].subDescription}</div>
-                <div className={classes.reqButton}>Хүсэлт илгээх</div>
-              </div>
+            
             </>
-            <div className={classes.info}>
+            <div className={classes.request}>
+            
               <div className={classes.rowNumber}>
                 <div className={classes.number}>1</div>{' '}
                 <div className={classes.numberDes}>
@@ -237,7 +285,6 @@ const useStyles = makeStyles({
   rowNumber: {
     display: 'flex',
     width: '100%',
-    alignItems: 'center',
     marginBottom: '10px',
   },
   number: {
@@ -281,8 +328,14 @@ const useStyles = makeStyles({
 
   membersContainer: {
     display: 'flex',
+    flexDirection:'column',
     margin: '20px 0px',
+    padding:'20px',
     flexWrap: 'wrap',
+    alignItems:'center',
+    border:'1px solid #C19D65',
+    borderRadius:'10px',
+    backgroundColor: '#161515e3',
   },
   info: {
     marginTop: '60px',
@@ -319,8 +372,9 @@ const useStyles = makeStyles({
     marginTop: (props) => (props.phone ? '10px' : '0px'),
     borderRadius: (props) => (props.phone ? '10px' : '0px'),
     border: '1px solid #C19D65',
-    textAlign: 'center',
     backgroundColor: '#161515e3',
+    color:'white',
+    cursor:'pointer'
   },
   tabs: {
     width: '100%',
@@ -363,6 +417,7 @@ const useStyles = makeStyles({
     borderRadius: '5px',
     cursor: 'pointer',
     margin: '10px',
+  
   },
   counterMember: {
     color: 'white',
