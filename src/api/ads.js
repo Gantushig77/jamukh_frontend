@@ -22,8 +22,11 @@ const getDetailNews = (id) => {
   return ax_instance.get(`/blog/blog-post?id=${id}`);
 };
 
-const getProfile = () => {
-  return ax_instance.get(`/account/profile`);
+const getRealtor = (id) => {
+  return ax_instance.get(`/admin/list-of-admin?sort=ASC&page=${id}&perPage=10&role=realtor`);
 };
 
-export { getads, getDetail, getCategoryAds, getBlogList, getDetailNews, getProfile };
+
+
+
+export { getads, getDetail, getCategoryAds, getBlogList, getDetailNews ,getRealtor};

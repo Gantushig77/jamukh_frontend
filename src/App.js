@@ -27,6 +27,7 @@ import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
 import List from './pages/listNews/list';
 import Detailnews from './pages/Detailnews/Detailnews';
+import Realtor from './pages/realtor/realtor';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import './App.css';
@@ -127,6 +128,12 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={2}
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/realtor'} authenticated={isAuthenticated()}>
+              <Realtor
+                phone={phoneSize}
+                tablet={tabletSize}
               />
             </PrivateRoute>
             <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>

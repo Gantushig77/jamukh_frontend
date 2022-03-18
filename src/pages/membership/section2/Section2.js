@@ -5,31 +5,55 @@ import Title from '../../../components/title/title';
 import Background from '../../../assets/background/background.png';
 import Avatar from '../../../assets/images/avatar.jpg';
 import './Section.css';
-import { getProfile } from '../../../api/ads';
-import { getMembershipSend } from '../../../api/membership';
+import { getMembershipSend ,getMembershipType} from '../../../api/membership';
+import { Alert } from '@mui/lab';
+import { Snackbar } from '@mui/material';
+
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  const [id, setId] = useState('');
-  const [tab, setTab] = useState('Энгийн');
-  const [tabButton, setTabButton] = useState('member');
-  const [count, setCount] = useState(0);
+  const [bronze, setBronze] = useState('');
+  const [silver, setSilver] = useState('');
+  const [gold, setGold] = useState('');
+  const [platinium, setPlatinium] = useState('');
+  const [tab, setTab] = useState('Bronze');
+  const [count, setCount] = useState(1);
+  const [memberid, setMemberId] = useState(-1)
   const token = localStorage.getItem('jamukh_token');
 
 
   useEffect(() => {
-    getProfile()
+    getMembershipType()
     .then((res) => {
-      setId(res.data.id)
-      console.log(res,"res")
+     let i = 0;
+     while (res.data.length > i) {
+
+      
+       if( res.data[i].type_name ===  "Platinum"){
+         setPlatinium(res.data[i].id)
+       }
+       if( res.data[i].type_name ===  "Gold"){
+        setGold(res.data[i].id)
+      }
+      if( res.data[i].type_name ===  "Silver"){
+        setSilver(res.data[i].id)
+      }
+      if( res.data[i].type_name ===  "Bronze"){
+        setBronze(res.data[i].id);
+        setMemberId(bronze);
+      }
+        i++;
+  
+    }
+      
     })
     .catch((e) => {
       handleSnackOpen({
         state: true,
         msg:
           e.message === 'user.not.found'
-            ? 'Хэрэглэгч олдсонгүй'
-            : 'Нэр үг эсвэл нууц үг буруу байна.',
+            ? 'Хүсэлтэнд алдаа гарлаа'
+            : 'Хүсэлтэнд алдаа гарлаа',
         type: 'error',
       });
     });
@@ -47,14 +71,23 @@ export default function Section2(props) {
     message: 'Амжилттай илгээлээ',
     severity: 'success',
   });
-
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarState({ ...snackbarState, open: false });
+  };
 
   const requestCode = () => {
-    if ( id !== '' ) {
-      getMembershipSend(id)
+    console.log(memberid,"memberid")
+    if ( memberid !== -1 ) {
+      getMembershipSend(memberid)
       .then((res) => {
-        setId(res.data.id)
-        console.log(res,"res")
+        handleSnackOpen({
+          state: true,
+          msg: res.data.msg,
+          type: 'success',
+        });
       })
       .catch((e) => {
         handleSnackOpen({
@@ -102,10 +135,24 @@ export default function Section2(props) {
   ];
   return (
     <div className={classes.root}>
+       <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        open={snackbarState.open}
+        autoHideDuration={5000}
+        onClose={handleSnackClose}
+      >
+        <Alert
+          onClose={handleSnackClose}
+          severity={snackbarState.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarState.message}
+        </Alert>
+      </Snackbar>
       <div className={classes.titleTop}>
         <Title name='Зэрэглэл' />
       </div>
-      {props?.parentId ? (
+      {props?.parentId && bronze === "" && silver === "" && gold === "" && platinium === "" ? (
         <></>
       ) : (
         <>
@@ -113,20 +160,13 @@ export default function Section2(props) {
             <>
               <div className={classes.members}>
                 <div className={classes.tabs}>
-                  <div
-                    className={tab === 'Энгийн' ? classes.tabActive : classes.tab}
-                    onClick={() => {
-                      setTab('Энгийн');
-                      setCount(0);
-                    }}
-                  >
-                    Энгийн
-                  </div>
+      
                   <div
                     className={tab === 'Bronze' ? classes.tabActive : classes.tab}
                     onClick={() => {
                       setTab('Bronze');
                       setCount(1);
+                      setMemberId(bronze);
                     }}
                   >
                     Bronze
@@ -136,6 +176,7 @@ export default function Section2(props) {
                     onClick={() => {
                       setTab('Silver');
                       setCount(2);
+                      setMemberId(silver);
                     }}
                   >
                     Silver
@@ -145,6 +186,7 @@ export default function Section2(props) {
                     onClick={() => {
                       setTab('Gold');
                       setCount(3);
+                      setMemberId(gold);
                     }}
                   >
                     Gold
@@ -154,46 +196,14 @@ export default function Section2(props) {
                     onClick={() => {
                       setTab('Platinium');
                       setCount(4);
+                      setMemberId(platinium);
                     }}
                   >
                     Platinium
                   </div>
-                  <div
-                    className={tab === 'Vip' ? classes.tabActive : classes.tab}
-                    onClick={() => {
-                      setTab('Vip');
-                      setCount(5);
-                    }}
-                  >
-                    Vip
-                  </div>
                 </div>
                 <div className={classes.subTitle}>
-                  <div className={classes.tabButtons}>
-                    <div
-                      className={
-                        tabButton === 'member'
-                          ? classes.tabButtonActive
-                          : classes.tabButton
-                      }
-                      onClick={() => {
-                        setTabButton('member');
-                      }}
-                    >
-                      Гишүүд
-                    </div>
-                    <div
-                      className={
-                        tabButton === 'request'
-                          ? classes.tabButtonActive
-                          : classes.tabButton
-                      }
-                      onClick={() => {
-                        setTabButton('request');
-                      }}
-                    >
-                      Хүсэлтүүд
-                    </div>
+                  <div>
                   </div>
                   <div className={classes.counterMember}>
                     {tab} зэрэглэлийн 132 гишүүд байна
@@ -202,7 +212,9 @@ export default function Section2(props) {
                 <div className={classes.membersContainer}>
                   <div className={classes.description}>{data[count].description}</div>
                   <div className={classes.subDescription}>{data[count].subDescription}</div>
-                  <div className={classes.reqButton}>Хүсэлт илгээх</div>
+                  <div className={classes.reqButton}  onClick={() => { requestCode()}}>
+                    Хүсэлт илгээх
+                  </div>
        
                 </div>
               </div>
@@ -324,6 +336,7 @@ const useStyles = makeStyles({
     padding: '8px',
     marginTop: '30px',
     borderRadius: '5px',
+    cursor: 'pointer'
   },
 
   membersContainer: {

@@ -15,6 +15,9 @@ export default function Footer(props) {
 
         <div className={classes.social}>
           <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
+            Борлуулагч
+          </Link>
+          <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
             Мэдээ
           </Link>  
           <Link className={classes.menuListItem} to='/about'>

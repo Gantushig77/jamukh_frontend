@@ -11,4 +11,8 @@ const getMembershipSend = (id) => {
 };
 
 
-export { getListOfMembershipTypes , getMembershipSend};
+const getMembershipType = () => {
+  return ax_instance.get('/membership/get-membership-types')
+};
+
+export { getListOfMembershipTypes , getMembershipSend , getMembershipType};
