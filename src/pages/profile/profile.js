@@ -1123,9 +1123,7 @@ export default function Profile() {
             <div className={classes.saleBackground}>
               <div className={classes.mySale}>
                 <Title name='Миний зар' />
-                {news.length === 0 ? (
-                  <></>
-                ) : (
+                {news.length === 0 && (
                   <Slider {...sliderConfig} className={classes.slider1}>
                     {news?.map((item, i) => (
                       <Link
