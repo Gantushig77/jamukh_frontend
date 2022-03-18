@@ -3,12 +3,11 @@ import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Title from '../../../components/title/title';
 import Background from '../../../assets/background/background.png';
-import Avatar from '../../../assets/images/avatar.jpg';
+// import Avatar from '../../../assets/images/avatar.jpg';
 import './Section.css';
-import { getMembershipSend ,getMembershipType} from '../../../api/membership';
+import { getMembershipSend, getMembershipType } from '../../../api/membership';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
-
 
 export default function Section2(props) {
   const classes = useStyles(props);
@@ -18,45 +17,41 @@ export default function Section2(props) {
   const [platinium, setPlatinium] = useState('');
   const [tab, setTab] = useState('Bronze');
   const [count, setCount] = useState(1);
-  const [memberid, setMemberId] = useState(-1)
+  const [memberid, setMemberId] = useState(-1);
   const token = localStorage.getItem('jamukh_token');
 
-
   useEffect(() => {
-    getMembershipType()
-    .then((res) => {
-     let i = 0;
-     while (res.data.length > i) {
-
-      
-       if( res.data[i].type_name ===  "Platinum"){
-         setPlatinium(res.data[i].id)
-       }
-       if( res.data[i].type_name ===  "Gold"){
-        setGold(res.data[i].id)
-      }
-      if( res.data[i].type_name ===  "Silver"){
-        setSilver(res.data[i].id)
-      }
-      if( res.data[i].type_name ===  "Bronze"){
-        setBronze(res.data[i].id);
-        setMemberId(bronze);
-      }
-        i++;
-  
-    }
-      
-    })
-    .catch((e) => {
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Хүсэлтэнд алдаа гарлаа'
-            : 'Хүсэлтэнд алдаа гарлаа',
-        type: 'error',
-      });
-    });
+    if (token)
+      getMembershipType()
+        .then((res) => {
+          let i = 0;
+          while (res.data.length > i) {
+            if (res.data[i].type_name === 'Platinum') {
+              setPlatinium(res.data[i].id);
+            }
+            if (res.data[i].type_name === 'Gold') {
+              setGold(res.data[i].id);
+            }
+            if (res.data[i].type_name === 'Silver') {
+              setSilver(res.data[i].id);
+            }
+            if (res.data[i].type_name === 'Bronze') {
+              setBronze(res.data[i].id);
+              setMemberId(res.data[i].id);
+            }
+            i++;
+          }
+        })
+        .catch((e) => {
+          handleSnackOpen({
+            state: true,
+            msg:
+              e.message === 'user.not.found'
+                ? 'Хүсэлтэнд алдаа гарлаа'
+                : 'Хүсэлтэнд алдаа гарлаа',
+            type: 'error',
+          });
+        });
   }, [token]);
 
   const handleSnackOpen = ({ state, msg, type }) => {
@@ -66,11 +61,13 @@ export default function Section2(props) {
       severity: type,
     });
   };
+
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: 'Амжилттай илгээлээ',
     severity: 'success',
   });
+
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -79,29 +76,29 @@ export default function Section2(props) {
   };
 
   const requestCode = () => {
-    console.log(memberid,"memberid")
-    if ( memberid !== -1 ) {
+    console.log(memberid, 'memberid');
+    if (memberid !== -1) {
       getMembershipSend(memberid)
-      .then((res) => {
-        handleSnackOpen({
-          state: true,
-          msg: res.data.msg,
-          type: 'success',
+        .then((res) => {
+          handleSnackOpen({
+            state: true,
+            msg: res.data.msg,
+            type: 'success',
+          });
+        })
+        .catch((e) => {
+          handleSnackOpen({
+            state: true,
+            msg:
+              e.message === 'user.not.found'
+                ? 'Хэрэглэгч олдсонгүй'
+                : 'Нэр үг эсвэл нууц үг буруу байна.',
+            type: 'error',
+          });
         });
-      })
-      .catch((e) => {
-        handleSnackOpen({
-          state: true,
-          msg:
-            e.message === 'user.not.found'
-              ? 'Хэрэглэгч олдсонгүй'
-              : 'Нэр үг эсвэл нууц үг буруу байна.',
-          type: 'error',
-        });
-      });
     }
-
   };
+
   const data = [
     {
       description: 'Зах зээлийн өрсөлдөөнд манлайлахад хөтөч тань болно',
@@ -133,9 +130,10 @@ export default function Section2(props) {
         'Бизнесийн олон талын хамтын ажиллагааг хангах, тогтвортой сүлжээг бүрдүүлж, харилцан ашигтай түншлэлийг бэхжүүлнэ.',
     },
   ];
+
   return (
     <div className={classes.root}>
-       <Snackbar
+      <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
         autoHideDuration={5000}
@@ -152,7 +150,11 @@ export default function Section2(props) {
       <div className={classes.titleTop}>
         <Title name='Зэрэглэл' />
       </div>
-      {props?.parentId && bronze === "" && silver === "" && gold === "" && platinium === "" ? (
+      {props?.parentId &&
+      bronze === '' &&
+      silver === '' &&
+      gold === '' &&
+      platinium === '' ? (
         <></>
       ) : (
         <>
@@ -160,7 +162,6 @@ export default function Section2(props) {
             <>
               <div className={classes.members}>
                 <div className={classes.tabs}>
-      
                   <div
                     className={tab === 'Bronze' ? classes.tabActive : classes.tab}
                     onClick={() => {
@@ -203,25 +204,28 @@ export default function Section2(props) {
                   </div>
                 </div>
                 <div className={classes.subTitle}>
-                  <div>
-                  </div>
+                  <div></div>
                   <div className={classes.counterMember}>
                     {tab} зэрэглэлийн 132 гишүүд байна
                   </div>
                 </div>
                 <div className={classes.membersContainer}>
                   <div className={classes.description}>{data[count].description}</div>
-                  <div className={classes.subDescription}>{data[count].subDescription}</div>
-                  <div className={classes.reqButton}  onClick={() => { requestCode()}}>
+                  <div className={classes.subDescription}>
+                    {data[count].subDescription}
+                  </div>
+                  <div
+                    className={classes.reqButton}
+                    onClick={() => {
+                      requestCode();
+                    }}
+                  >
                     Хүсэлт илгээх
                   </div>
-       
                 </div>
               </div>
-            
             </>
             <div className={classes.request}>
-            
               <div className={classes.rowNumber}>
                 <div className={classes.number}>1</div>{' '}
                 <div className={classes.numberDes}>
@@ -269,16 +273,16 @@ export default function Section2(props) {
   );
 }
 
-const Member = (props) => {
-  const classes = useStyles(props.phone);
-  return (
-    <div className={classes.cardRoot}>
-      <img src={Avatar} className={classes.imageCard} alt={''} />
-      <div className={classes.lastName}>Jamukha</div>
-      <div className={classes.firstName}>Jadraan</div>
-    </div>
-  );
-};
+// const Member = (props) => {
+//   const classes = useStyles(props.phone);
+//   return (
+//     <div className={classes.cardRoot}>
+//       <img src={Avatar} className={classes.imageCard} alt={''} />
+//       <div className={classes.lastName}>Jamukha</div>
+//       <div className={classes.firstName}>Jadraan</div>
+//     </div>
+//   );
+// };
 
 const useStyles = makeStyles({
   root: {
@@ -336,18 +340,18 @@ const useStyles = makeStyles({
     padding: '8px',
     marginTop: '30px',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
 
   membersContainer: {
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     margin: '20px 0px',
-    padding:'20px',
+    padding: '20px',
     flexWrap: 'wrap',
-    alignItems:'center',
-    border:'1px solid #C19D65',
-    borderRadius:'10px',
+    alignItems: 'center',
+    border: '1px solid #C19D65',
+    borderRadius: '10px',
     backgroundColor: '#161515e3',
   },
   info: {
@@ -386,8 +390,8 @@ const useStyles = makeStyles({
     borderRadius: (props) => (props.phone ? '10px' : '0px'),
     border: '1px solid #C19D65',
     backgroundColor: '#161515e3',
-    color:'white',
-    cursor:'pointer'
+    color: 'white',
+    cursor: 'pointer',
   },
   tabs: {
     width: '100%',
@@ -430,7 +434,6 @@ const useStyles = makeStyles({
     borderRadius: '5px',
     cursor: 'pointer',
     margin: '10px',
-  
   },
   counterMember: {
     color: 'white',

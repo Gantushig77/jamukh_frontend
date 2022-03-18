@@ -8,13 +8,13 @@ import Background from '../../assets/background/news.png';
 import { makeStyles } from '@mui/styles';
 import Footer from '../../components/footer/footer';
 import { getRealtor } from '../../api/ads';
-import Section2 from './section2/Section2'
+import Section2 from './section2/Section2';
 
 export default function Detailnews(props) {
   const classes = useStyles(props);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [posts, setPosts] = useState({});
-  const [isLoading, setLoading] = useState( true );
+  const [isLoading, setLoading] = useState(true);
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
@@ -22,25 +22,25 @@ export default function Detailnews(props) {
       maxWidth: 1023,
     })
   );
+
   useEffect(() => {
-    
-    getRealtor(page)
-    .then((res) => {
-      console.log(res,"res.data")
-      setPosts(res.data);
-      setLoading(false);
-    })
-    .catch((e) => {
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Хэрэглэгч олдсонгүй'
-            : 'Нэр үг эсвэл нууц үг буруу байна.',
-        type: 'error',
+    getRealtor(1)
+      .then((res) => {
+        console.log(res, 'res.data');
+        setPosts(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
       });
-    });
-  }, [page]);
+  }, []);
 
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
@@ -80,7 +80,12 @@ export default function Detailnews(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-         <Section2 phone={phoneSize} tablet={tabletSize} posts={posts} isLoading={isLoading}/>
+      <Section2
+        phone={phoneSize}
+        tablet={tabletSize}
+        posts={posts}
+        isLoading={isLoading}
+      />
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} />
       </div>
