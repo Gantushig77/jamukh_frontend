@@ -11,19 +11,16 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  Button
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import SearchIcon from '@mui/icons-material/Search';
 import colors from '../../constants/colors';
 import { Link } from 'react-router-dom';
 import TheContext from '../../context/context';
 import { useHistory, useLocation } from 'react-router-dom';
 import { url } from '../../constants/url';
 import MenuIcon from '@mui/icons-material/Menu';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
@@ -32,6 +29,8 @@ import Jamukh from '../../assets/icons/Jamuh_logo.png';
 import Logo from '../../assets/logo/jamukh.png';
 import { logout } from '../../helpers/logout';
 import Background from '../../assets/background/background.png';
+import { BsFillBookmarkStarFill } from 'react-icons/bs';
+
 
 export default function Appbar(props) {
   let history = useHistory();
@@ -42,12 +41,15 @@ export default function Appbar(props) {
   });
   const classes = useStyles({ trigger });
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl1, setAnchorEl1] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const currentRoute = location.pathname;
   const open = Boolean(anchorEl);
+  const open1 = Boolean(anchorEl1);
   const ContextHook = useContext(TheContext);
   const contextText = ContextHook.contextValue.contextText;
   const account = ContextHook.account;
+
 
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
@@ -57,6 +59,13 @@ export default function Appbar(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+
+  const handleClose1= () => {
+    setAnchorEl1(null);
   };
 
   return (
@@ -92,19 +101,9 @@ export default function Appbar(props) {
                 <div />
               )}
             </Avatar>
-            Хувий мэдээлэл
+            Profile
           </MenuItem>
-          {authenticated && (
-            <div>
-              <Divider />
-              <MenuItem onClick={() => history.push('/create-ad')}>
-                <ListItemIcon>
-                  <HistoryEduIcon fontSize='small' />
-                </ListItemIcon>
-                <Typography variant='body2'>Зар нэмэх</Typography>
-              </MenuItem>
-            </div>
-          )}
+        
           <Divider />
           <MenuItem
             onClick={() => {
@@ -139,7 +138,7 @@ export default function Appbar(props) {
             >
               {/* Appbar links */}
               <Grid item xs={4} className={classes.menuPadding}>
-                <>
+                <div className={classes.menuListName}>
                   {url.general.map((item, index) => (
                     <Link
                       key={item}
@@ -151,7 +150,30 @@ export default function Appbar(props) {
                       {contextText.appbar.links.general[index]}
                     </Link>
                   ))}
-                </>
+                     <Button
+                      id="basic-button"
+                      aria-controls={open1 ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open1 ? 'true' : undefined}
+                      onClick={handleClick1}
+                      className={classes.link}
+                    >
+                      Үл хөдлөх
+                    </Button>
+                   <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl1}
+                      open={open1}
+                      onClose={handleClose1}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                    >
+                      <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
+                      <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
+                      <MenuItem onClick={() => history.push('/apartment')}>Apartment</MenuItem>
+                    </Menu>
+                </div>
               </Grid>
               {/* Logo */}
               <Grid item xs={4} className={classes.menuLogo}>
@@ -170,12 +192,15 @@ export default function Appbar(props) {
                   alignItems={'center'}
                   className={classes.containerEnd}
                 >
+              
+
                   <div className={classes.contact}>
                     <div className={classes.contactText}>Холбоо барих</div>
                     <div className={classes.phoneNumber}>77779999</div>
                   </div>
+                  <BsFillBookmarkStarFill size={28} style={{cursor:'pointer',color:'white'}}   onClick={() => history.push('/profile')}/>
                   {/* Profile menu thumbnail */}
-                  <Grid item>
+                  <Grid item> 
                     {authenticated ? (
                       <Tooltip title='Account settings'>
                         <Avatar
@@ -219,7 +244,7 @@ export default function Appbar(props) {
               <MenuIcon style={{ height: '40px', width: '40px' }} />
             </IconButton>
             <div>
-              <IconButton size='large' aria-label='search' color='inherit'>
+              {/* <IconButton size='large' aria-label='search' color='inherit'>
                 <FilterAltIcon />
               </IconButton>
               <IconButton size='large' aria-label='search' color='inherit'>
@@ -227,7 +252,7 @@ export default function Appbar(props) {
               </IconButton>
               <IconButton size='large' aria-label='search' color='inherit'>
                 <SearchIcon />
-              </IconButton>
+              </IconButton> */}
               <Tooltip title='Account settings'>
                 <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
                   <Avatar sx={{ width: 32, height: 32 }}>
@@ -259,14 +284,31 @@ export default function Appbar(props) {
                 <Link className={classes.menuListItem} to='/news'>
                   Мэдээ
                 </Link>
-                <Link className={classes.menuListItem} to='/antiquest'>
-                  Эртний эдлэл
-                </Link>
+                <Button
+                      id="basic-button"
+                      aria-controls={open1 ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open1 ? 'true' : undefined}
+                      onClick={handleClick1}
+                      className={classes.link}
+                    >
+                      Үл хөдлөх
+                    </Button>
+                   <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl1}
+                      open={open1}
+                      onClose={handleClose1}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                    >
+                      <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
+                      <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
+                      <MenuItem onClick={() => history.push('/apartment')}>Apartment</MenuItem>
+                    </Menu>
                 <Link className={classes.menuListItem} to='/cars'>
                   Машин
-                </Link>
-                <Link className={classes.menuListItem} to='/estate'>
-                  Үл хөдлөх
                 </Link>
               </div>
             </div>
@@ -294,6 +336,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     margin: '0px 10px',
+  },
+  menuListName:{
+    display:'flex',
+    alignItems:'center'
   },
   contact: {
     fontWeight: '100',
@@ -499,7 +545,9 @@ const useStyles = makeStyles(() => ({
   },
   link: {
     textDecoration: 'none',
+    textTransform: 'none',
     color: 'white',
+    padding:'20px',
     fontWeight: '100',
     fontSize: '18px',
     cursor: 'pointer',

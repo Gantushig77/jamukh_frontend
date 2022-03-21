@@ -39,7 +39,6 @@ export default function Section2(props) {
   useEffect(() => {
     getBlogList(page, limit)
       .then((res) => {
-        console.log(res);
         setPage(res.page_length);
         setNews(res.data.blog_list);
       })
@@ -125,7 +124,7 @@ const useStyles = makeStyles({
     paddingTop: '90px',
     fontFamily: 'Roboto, sans-serif',
     fontWeight: '100',
-    height: '100vh',
+    height: 'auto',
   },
   columm: {
     display: 'flex',
