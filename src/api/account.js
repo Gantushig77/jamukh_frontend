@@ -2,32 +2,27 @@ import ax_instance from '../helpers/axios_instance';
 import { base_url } from '../constants/url';
 
 const login = (user_cred, password) => {
-
   return ax_instance.post('/account/login', { user_cred, password });
 };
 
 const signUp = (phone) => {
-  return ax_instance.post('/account/sign-up', 
-  {'tel':phone,
-});
+  return ax_instance.post('/account/sign-up', { 'tel': phone });
 };
-const sendOtpCode = (phone ,otp) => {
-  return ax_instance.post('/account/sign-up', 
-  {'tel':phone,
-  "otp_code":otp
-});
+
+const sendOtpCode = (phone, otp) => {
+  return ax_instance.post('/account/sign-up', { 'tel': phone, 'otp_code': otp });
 };
-const singUpInfo = (firstname,lastname ,password ,rank,phone,email,otp_code) => {
-  return ax_instance.post('/account/sign-up', 
-  {
-    'tel':phone,
-    'otp_code':otp_code,
-    'password':password,
-    'firstname':firstname,
-    'lastname':lastname,
-    'email':email,
-    'req_member': rank
-});
+
+const singUpInfo = (firstname, lastname, password, rank, phone, email, otp_code) => {
+  return ax_instance.post('/account/sign-up', {
+    'tel': phone,
+    'otp_code': otp_code,
+    'password': password,
+    'firstname': firstname,
+    'lastname': lastname,
+    'email': email,
+    'req_member': rank,
+  });
 };
 
 const getProfile = () => {
@@ -36,7 +31,7 @@ const getProfile = () => {
 
 const getListOfAccounts = (sort, page, perPage) => {
   return ax_instance.get(
-    `/account/get-accounts?sort=${sort}&page=${page}&perPage=${perPage}`
+    `/admin/list-of-admin?sort=${sort}&role=realtor&page=${page}&perPage=${perPage}`
   );
 };
 
@@ -86,5 +81,5 @@ export {
   getListOfAccounts,
   updateProfile,
   formDataUpdateProfile,
-  singUpInfo
+  singUpInfo,
 };

@@ -1,4 +1,4 @@
-import React, { useContext,useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import colors from '../../../constants/colors';
 import screen2 from '../../../assets/images/background.png';
@@ -19,7 +19,7 @@ function NextArrow(props) {
   const classes = useStyles(props);
   const { style, onClick } = props;
   return (
-    <div style={{ ...style, display: 'block' }} onClick={onClick}>
+    <div style={{ ...style, display: 'block', cursor: 'pointer' }} onClick={onClick}>
       <img src={ArrowR} className={classes.arrow} alt='' />
     </div>
   );
@@ -41,53 +41,50 @@ export default function Section(props) {
   const [isLoading, setLoading] = useState(false);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
-  const [snackbarState, setSnackbarState] = useState({
-    open: false,
-    message: 'Амжилттай илгээлээ',
-    severity: 'success',
-  });
+  // const [snackbarState, setSnackbarState] = useState({
+  //   open: false,
+  //   message: 'Амжилттай илгээлээ',
+  //   severity: 'success',
+  // });
 
-  const handleSnackClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarState({ ...snackbarState, open: false });
-  };
+  // const handleSnackClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setSnackbarState({ ...snackbarState, open: false });
+  // };
 
-
-  const handleSnackOpen = ({ state, msg, type }) => {
-    setSnackbarState({
-      open: state,
-      message: msg,
-      severity: type,
-    });
-  };
-
-
-
+  // const handleSnackOpen = ({ state, msg, type }) => {
+  //   setSnackbarState({
+  //     open: state,
+  //     message: msg,
+  //     severity: type,
+  //   });
+  // };
 
   const search = (e) => {
     setLoading(true);
-    getSearch(e.target.value ,props.categoryId,props.subCategory)
-    .then((res) => {
-  
-      setData(res.data.ads)
-      setLoading(false);
-    
-    })
-    .catch((e) => {
-      setLoading(false);
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Холболтын алдаа гарлаа'
-            : 'Холболтын алдаа гарлаа',
-        type: 'error',
+    getSearch(e.target.value, props.categoryId, props.subCategory)
+      .then((res) => {
+        setData(res.data.ads);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        // handleSnackOpen({
+        //   state: true,
+        //   msg:
+        //     e.message === 'user.not.found'
+        //       ? 'Холболтын алдаа гарлаа'
+        //       : 'Холболтын алдаа гарлаа',
+        //   type: 'error',
+        // });
       });
-    });
-
   };
+
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data]);
 
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
@@ -96,72 +93,73 @@ export default function Section(props) {
         <img src={TopArrow} alt='' />
       </div>
 
-      {isLoading === true ? <div className={classes.Loading}><HashLoader size={52} style={{color:'#9D8357'}}/></div>
-      :
-      <div className={classes.Container}>
-      <div className={classes.search}>
-        <Input
-          id='standard-basic'
-          label='Standard'
-          variant='standard'
-          className={classes.textField}
-          placeholder='Хайх'
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              search(e);
-            }
-          }}
-        />
-      </div>
-
-      {data.length === 0 ? (
-        <div className={classes.empty}>Зар олдсонгүй</div>
+      {isLoading === true ? (
+        <div className={classes.Loading}>
+          <HashLoader size={52} style={{ color: '#9D8357' }} />
+        </div>
       ) : (
-        <Slider
-          {...{
-            infinite: true,
-            speed: 500,
-            arrows: true,
-            slidesToShow: data.length > 3 ? 3 : data.length,
-            slidesToScroll: 1,
-            nextArrow: <NextArrow />,
-            prevArrow: <PrevArrow />,
-            responsive: [
-              {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1,
-                  initialSlide: 1,
-                  arrows: true,
-                },
-              },
-            ],
-          }}
-          className={classes.slider}
-        >
-          {data?.map((item, i) => (
-            <Link
-              key={i + 'i+'}
-              to={`/adsDetail/${item.ads_id}`}
-              style={{ textDecoration: 'none' }}
+        <div className={classes.Container}>
+          <div className={classes.search}>
+            <Input
+              id='standard-basic'
+              label='Standard'
+              variant='standard'
+              className={classes.textField}
+              placeholder='Хайх'
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  search(e);
+                }
+              }}
+            />
+          </div>
+          {data.length === 0 ? (
+            <div className={classes.empty}>Зар олдсонгүй</div>
+          ) : (
+            <Slider
+              {...{
+                infinite: true,
+                speed: 500,
+                arrows: true,
+                slidesToShow: data.length > 3 ? 3 : data.length,
+                slidesToScroll: 1,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                responsive: [
+                  {
+                    breakpoint: 600,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      initialSlide: 1,
+                      arrows: true,
+                    },
+                  },
+                ],
+              }}
+              className={classes.slider}
             >
-              <SliderItem
-                dots={1}
-                phone={props?.phone}
-                backgroundImg={screen2}
-                image={item?.ad_imgs[0]?.url}
-                title={item?.title}
-                price={item?.price + item?.currency_symbol}
-                link={account ? '/user/services' : '/sign-up'}
-              />
-            </Link>
-          ))}
-        </Slider>
-      
+              {data?.map((item, i) => (
+                <Link
+                  key={i + 'i+'}
+                  to={`/adsDetail/${item.ads_id}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <SliderItem
+                    dots={1}
+                    phone={props?.phone}
+                    backgroundImg={screen2}
+                    image={item?.ad_imgs[0]?.url}
+                    title={item?.title}
+                    price={item?.price + item?.currency_symbol}
+                    link={account ? '/user/services' : '/sign-up'}
+                  />
+                </Link>
+              ))}
+            </Slider>
+          )}
+        </div>
       )}
-    </div>
-}
     </Container>
   );
 }
@@ -170,7 +168,11 @@ const SliderItem = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Container disableGutters maxWidth={false}>
+    <Container
+      disableGutters
+      maxWidth={false}
+      style={{ display: 'flex', justifyContent: 'center' }}
+    >
       <div className={classes.sliderItemBackImg}>
         <img src={props.image} className={classes.boxImage} alt='' />
         <div className={classes.bgColor}>
@@ -205,24 +207,24 @@ const useStyles = makeStyles({
     alignItems: 'center',
     color: 'white',
   },
-  Container:{
-    display:'flex',
-    justifyContent:'center',
-    flexDirection:'column',
-    width:'100%'
+  Container: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: '100%',
   },
   textSlide: {
     borderBottom: '2px solid #C6824D',
     marginBottom: '10px',
     paddingBottom: '5px',
   },
-  Loading:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    width:'100%',
-    backgroundColor:'rgba(21,21,22,0.9)',
-    height:'300px'
+  Loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: 'rgba(21,21,22,0.9)',
+    height: '300px',
   },
   titleSlider: {
     display: 'flex',
@@ -286,8 +288,8 @@ const useStyles = makeStyles({
     width: '100%',
   },
   search: {
-    display:'flex',
-    justifyContent:'center',
+    display: 'flex',
+    justifyContent: 'center',
     border: 'none',
     fontWeight: '300',
   },

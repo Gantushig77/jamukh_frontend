@@ -9,7 +9,7 @@ import Section2 from './section2/Section2';
 import { getDetail } from '../../api/ads';
 import { useParams } from 'react-router-dom';
 
-export default function News() {
+export default function AdsDetail() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [liked, setLiked] = useState(true);
@@ -21,6 +21,8 @@ export default function News() {
       maxWidth: 1023,
     })
   );
+
+  console.log(liked);
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -38,7 +40,7 @@ export default function News() {
   useEffect(() => {
     getDetail(params.id)
       .then((res) => {
-        console.log(res?.data,"res.data")
+        console.log(res?.data, 'res.data');
         setPosts(res?.data);
         setLoading(false);
         setLiked(res?.data?.liked);
@@ -91,6 +93,7 @@ export default function News() {
             price={posts?.price}
             liked={posts?.liked}
             id={posts?.ads_id}
+            embed_link={posts?.embed_link}
           />
         </>
       )}

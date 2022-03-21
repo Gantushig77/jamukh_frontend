@@ -10,10 +10,12 @@ import HashLoader from 'react-spinners/HashLoader';
 
 export default function Category(props) {
   const classes = useStyles(props);
-  const [ads, setAds] = useState([]);
+
   const categoryId = props.id;
   const subCategory = props.subCategory;
   const limit = 100;
+
+  const [ads, setAds] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -28,7 +30,6 @@ export default function Category(props) {
     setSnackbarState({ ...snackbarState, open: false });
   };
 
-
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
       open: state,
@@ -37,11 +38,8 @@ export default function Category(props) {
     });
   };
 
-  
-
-
   useEffect(() => {
-    getCategoryAds(categoryId, limit,subCategory)
+    getCategoryAds(categoryId, limit, subCategory)
       .then((res) => {
         setAds(res?.data?.ads);
         setLoading(false);
@@ -57,9 +55,7 @@ export default function Category(props) {
           type: 'error',
         });
       });
-  }, [categoryId]);
-
- 
+  }, [categoryId, subCategory]);
 
   return (
     <div className={classes.background}>
@@ -91,8 +87,8 @@ export default function Category(props) {
             title={props?.title}
             phone={props?.phone}
             tablet={props?.tablet}
-            categoryId = {categoryId}
-            subCategory = {subCategory}
+            categoryId={categoryId}
+            subCategory={subCategory}
           />
         </div>
       )}
@@ -122,6 +118,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     position: 'relative',
     backgroundImage: (props) => `url(${props?.bg})`,
+    background: 'black',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

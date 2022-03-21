@@ -104,12 +104,11 @@ export default function App() {
   return (
     <div className='App'>
       <TheContext.Provider value={{ contextValue, langChange, account }}>
-        <Router forceRefresh={true}>
+        <Router>
           <Switch>
             <Route exact path={'/'}>
               <Home />
             </Route>
-
             <Route exact path={'/profile'}>
               <Profile />
             </Route>
@@ -132,16 +131,12 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={2}
-                subCategory=""
+                subCategory=''
               />
             </PrivateRoute>
-           
+
             <PrivateRoute path={'/realtor'} authenticated={isAuthenticated()}>
-              <Realtor
-                phone={phoneSize}
-                tablet={tabletSize}
-                subCategory=""
-              />
+              <Realtor phone={phoneSize} tablet={tabletSize} subCategory='' />
             </PrivateRoute>
             <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
               <Category
@@ -159,7 +154,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={3}
-                subCategory=""
+                subCategory=''
               />
             </PrivateRoute>
             <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
@@ -169,7 +164,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={1}
-                subCategory=""
+                subCategory=''
               />
             </PrivateRoute>
             <PrivateRoute path={'/land'} authenticated={isAuthenticated()}>
@@ -179,7 +174,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={4}
-                subCategory="land"
+                subCategory='land'
               />
             </PrivateRoute>
             <PrivateRoute path={'/house'} authenticated={isAuthenticated()}>
@@ -189,7 +184,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={4}
-                subCategory="house"
+                subCategory='house'
               />
             </PrivateRoute>
             <PrivateRoute path={'/apartment'} authenticated={isAuthenticated()}>
@@ -199,7 +194,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={4}
-                subCategory="apartment"
+                subCategory='apartment'
               />
             </PrivateRoute>
             <Route path={'/login'}>
@@ -211,7 +206,7 @@ export default function App() {
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
-            {/* 404 page. Must be at the bottom. */}            
+            {/* 404 page. Must be at the bottom. */}
             <Route path={'*'}>
               <NotFound phone={phoneSize} tablet={tabletSize} />
             </Route>

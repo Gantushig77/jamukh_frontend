@@ -222,7 +222,7 @@ export default function Profile() {
     setImgReplacer([]);
   };
 
-  const handleMemberModalOpen = () => setMemberModal(true);
+  // const handleMemberModalOpen = () => setMemberModal(true);
 
   const handleMemberModalClose = () => {
     setMemberModal(false);
@@ -432,7 +432,7 @@ export default function Profile() {
       .then((res) => {
         console.log(res);
         setAccListLoading(false);
-        setListOfAccounts(res?.data?.accounts);
+        setListOfAccounts(res?.data?.account_list);
         setPageCount(res?.data?.pageCount);
       })
       .catch((err) => {
@@ -453,7 +453,6 @@ export default function Profile() {
   return (
     <div style={{ margin: '0', padding: '0' }} className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
-
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}

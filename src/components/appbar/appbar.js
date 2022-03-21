@@ -11,7 +11,7 @@ import {
   Tooltip,
   Menu,
   MenuItem,
-  Button
+  Button,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
@@ -31,7 +31,6 @@ import { logout } from '../../helpers/logout';
 import Background from '../../assets/background/background.png';
 import { BsFillBookmarkStarFill } from 'react-icons/bs';
 
-
 export default function Appbar(props) {
   let history = useHistory();
   const location = useLocation();
@@ -50,7 +49,6 @@ export default function Appbar(props) {
   const contextText = ContextHook.contextValue.contextText;
   const account = ContextHook.account;
 
-
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
 
   const handleClick = (event) => {
@@ -64,7 +62,7 @@ export default function Appbar(props) {
     setAnchorEl1(event.currentTarget);
   };
 
-  const handleClose1= () => {
+  const handleClose1 = () => {
     setAnchorEl1(null);
   };
 
@@ -103,7 +101,7 @@ export default function Appbar(props) {
             </Avatar>
             Profile
           </MenuItem>
-        
+
           <Divider />
           <MenuItem
             onClick={() => {
@@ -150,29 +148,31 @@ export default function Appbar(props) {
                       {contextText.appbar.links.general[index]}
                     </Link>
                   ))}
-                     <Button
-                      id="basic-button"
-                      aria-controls={open1 ? 'basic-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open1 ? 'true' : undefined}
-                      onClick={handleClick1}
-                      className={classes.link}
-                    >
-                      Үл хөдлөх
-                    </Button>
-                   <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl1}
-                      open={open1}
-                      onClose={handleClose1}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                    >
-                      <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
-                      <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
-                      <MenuItem onClick={() => history.push('/apartment')}>Apartment</MenuItem>
-                    </Menu>
+                  <Button
+                    id='basic-button'
+                    aria-controls={open1 ? 'basic-menu' : undefined}
+                    aria-haspopup='true'
+                    aria-expanded={open1 ? 'true' : undefined}
+                    onClick={handleClick1}
+                    className={classes.link}
+                  >
+                    Үл хөдлөх
+                  </Button>
+                  <Menu
+                    id='basic-menu'
+                    anchorEl={anchorEl1}
+                    open={open1}
+                    onClose={handleClose1}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
+                    <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
+                    <MenuItem onClick={() => history.push('/apartment')}>
+                      Apartment
+                    </MenuItem>
+                  </Menu>
                 </div>
               </Grid>
               {/* Logo */}
@@ -192,15 +192,17 @@ export default function Appbar(props) {
                   alignItems={'center'}
                   className={classes.containerEnd}
                 >
-              
-
                   <div className={classes.contact}>
                     <div className={classes.contactText}>Холбоо барих</div>
                     <div className={classes.phoneNumber}>77779999</div>
                   </div>
-                  <BsFillBookmarkStarFill size={28} style={{cursor:'pointer',color:'white'}}   onClick={() => history.push('/profile')}/>
+                  <BsFillBookmarkStarFill
+                    size={28}
+                    style={{ cursor: 'pointer', color: 'white' }}
+                    onClick={() => history.push('/profile')}
+                  />
                   {/* Profile menu thumbnail */}
-                  <Grid item> 
+                  <Grid item>
                     {authenticated ? (
                       <Tooltip title='Account settings'>
                         <Avatar
@@ -285,28 +287,30 @@ export default function Appbar(props) {
                   Мэдээ
                 </Link>
                 <Button
-                      id="basic-button"
-                      aria-controls={open1 ? 'basic-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open1 ? 'true' : undefined}
-                      onClick={handleClick1}
-                      className={classes.link}
-                    >
-                      Үл хөдлөх
-                    </Button>
-                   <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl1}
-                      open={open1}
-                      onClose={handleClose1}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                    >
-                      <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
-                      <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
-                      <MenuItem onClick={() => history.push('/apartment')}>Apartment</MenuItem>
-                    </Menu>
+                  id='basic-button'
+                  aria-controls={open1 ? 'basic-menu' : undefined}
+                  aria-haspopup='true'
+                  aria-expanded={open1 ? 'true' : undefined}
+                  onClick={handleClick1}
+                  className={classes.link}
+                >
+                  Үл хөдлөх
+                </Button>
+                <Menu
+                  id='basic-menu'
+                  anchorEl={anchorEl1}
+                  open={open1}
+                  onClose={handleClose1}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
+                  <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
+                  <MenuItem onClick={() => history.push('/apartment')}>
+                    Apartment
+                  </MenuItem>
+                </Menu>
                 <Link className={classes.menuListItem} to='/cars'>
                   Машин
                 </Link>
@@ -337,9 +341,9 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     margin: '0px 10px',
   },
-  menuListName:{
-    display:'flex',
-    alignItems:'center'
+  menuListName: {
+    display: 'flex',
+    alignItems: 'center',
   },
   contact: {
     fontWeight: '100',
@@ -547,7 +551,7 @@ const useStyles = makeStyles(() => ({
     textDecoration: 'none',
     textTransform: 'none',
     color: 'white',
-    padding:'20px',
+    padding: '20px',
     fontWeight: '100',
     fontSize: '18px',
     cursor: 'pointer',
@@ -564,6 +568,8 @@ const useStyles = makeStyles(() => ({
     color: colors.brandTextColor,
     cursor: 'pointer',
     borderBottom: `2px solid ${colors.brandTextColor}`,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   authLink: {
     textDecoration: 'none',

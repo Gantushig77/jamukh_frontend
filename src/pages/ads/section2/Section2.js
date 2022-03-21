@@ -1,5 +1,5 @@
-import React, { useRef, useContext ,useState} from 'react';
-import { Container , Dialog, DialogTitle } from '@mui/material';
+import React, { useRef, useContext, useState } from 'react';
+import { Container, Dialog, DialogTitle } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 // import Background1 from '../../../assets/background/adsDetail.png';
@@ -10,14 +10,12 @@ import ArrowR from '../../../assets/arrow/arrowR.png';
 import TheContext from '../../../context/context';
 import Footer from '../../../components/footer/footer';
 import { BsFillBookmarkFill } from 'react-icons/bs';
-import { getlike , getremovelike} from '../../../api/ads';
+import { getlike, getremovelike } from '../../../api/ads';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import HashLoader from 'react-spinners/HashLoader';
-import { BsTelephone } from 'react-icons/bs'
-import { MdOutlineMailOutline } from 'react-icons/md'
-
-
+import { BsTelephone } from 'react-icons/bs';
+import { MdOutlineMailOutline } from 'react-icons/md';
 
 function NextArrow(props) {
   const classes = useStyles(props);
@@ -57,23 +55,24 @@ export default function Section2(props) {
   const [dialogPhone, setDialogPhone] = useState('');
   const [open, setOpen] = useState(false);
 
-
   const dialogClosed = () => {
-    setOpen(false)
-};
+    setOpen(false);
+  };
+
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setSnackbarState({ ...snackbarState, open: false });
   };
-  const dialogOpen = (img , email, phone, name) => {
-    setOpen(true)
+
+  const dialogOpen = (img, email, phone, name) => {
+    setOpen(true);
     setDialogAvatar(img);
     setDialogPhone(phone);
     setDialogEmail(email);
     setDialogName(name);
-};
+  };
 
   const handleSnackOpen = ({ state, msg, type }) => {
     setSnackbarState({
@@ -86,56 +85,56 @@ export default function Section2(props) {
   const liked = () => {
     setLoading(true);
     getlike(props.id)
-    .then((res) => {
-      setLoading(false);
-      setLike(true);
-      handleSnackOpen({
-        state: true,
-        msg:res.data.msg,
-        type: 'success',
+      .then((res) => {
+        setLoading(false);
+        setLike(true);
+        handleSnackOpen({
+          state: true,
+          msg: res.data.msg,
+          type: 'success',
+        });
+      })
+      .catch((e) => {
+        setLoading(false);
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Холболтын алдаа гарлаа'
+              : 'Холболтын алдаа гарлаа',
+          type: 'error',
+        });
       });
-    })
-    .catch((e) => {
-      setLoading(false);
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Холболтын алдаа гарлаа'
-            : 'Холболтын алдаа гарлаа',
-        type: 'error',
-      });
-    });
   };
+
   const removeLiked = () => {
     setLoading(true);
     getremovelike(props.id)
-    .then((res) => {
-      setLoading(false);
-      setLike(false);
-      handleSnackOpen({
-        state: true,
-        msg:res.data.msg,
-        type: 'success',
+      .then((res) => {
+        setLoading(false);
+        setLike(false);
+        handleSnackOpen({
+          state: true,
+          msg: res.data.msg,
+          type: 'success',
+        });
+      })
+      .catch((e) => {
+        setLoading(false);
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Холболтын алдаа гарлаа'
+              : 'Холболтын алдаа гарлаа',
+          type: 'error',
+        });
       });
-    })
-    .catch((e) => {
-      setLoading(false);
-      handleSnackOpen({
-        state: true,
-        msg:
-          e.message === 'user.not.found'
-            ? 'Холболтын алдаа гарлаа'
-            : 'Холболтын алдаа гарлаа',
-        type: 'error',
-      });
-    });
   };
 
   return (
     <div className={classes.root}>
-
-    <Snackbar
+      <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarState.open}
         autoHideDuration={5000}
@@ -149,28 +148,48 @@ export default function Section2(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-          <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-            <div className={classes.bookMark} style={{display:'flex',justifyContent:'flex-end',width:'1300px'}}>
-              {isLoading === true? <HashLoader style={{ color:'#A2875A'}}/>:(like === true)  ? <BsFillBookmarkFill style={{color:'#A0845A',fontSize:'52px',cursor:'pointer'}} onClick={()=>{removeLiked()}}/>:<BsFillBookmarkFill style={{color:'white',fontSize:'52px',cursor:'pointer'}} onClick={()=>{liked()}}/>}
-            </div>
-          </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div
+          className={classes.bookMark}
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            width: '1300px',
+            marginTop: 30,
+          }}
+        >
+          {isLoading === true ? (
+            <HashLoader style={{ color: '#A2875A' }} />
+          ) : like === true ? (
+            <BsFillBookmarkFill
+              style={{ color: '#A0845A', fontSize: '52px', cursor: 'pointer' }}
+              onClick={() => {
+                removeLiked();
+              }}
+            />
+          ) : (
+            <BsFillBookmarkFill
+              style={{ color: 'white', fontSize: '52px', cursor: 'pointer' }}
+              onClick={() => {
+                liked();
+              }}
+            />
+          )}
+        </div>
+      </div>
       {props?.parentId ? (
         <></>
       ) : (
         <Container className={classes.contentRoot}>
-         
           <Container className={classes.cardContent}>
-        
-              <div className={classes.borderInfo}>
-                {  
-                props?.ads_info?.map((item, i) => (
-                  <div className={classes.rowHalf} key={i + 'id'}>
-                    <div className={classes.label}>{item?.label}</div>
-                    <div className={classes.value}>{item?.value}</div>
-                  </div>  
-                ))}
-              </div>
-          
+            <div className={classes.borderInfo}>
+              {props?.ads_info?.map((item, i) => (
+                <div className={classes.rowHalf} key={i + 'id'}>
+                  <div className={classes.label}>{item?.label}</div>
+                  <div className={classes.value}>{item?.value}</div>
+                </div>
+              ))}
+            </div>
           </Container>
           <div className={classes.zurag}>ЗУРАГ</div>
           {props.image === undefined || props?.ads_info === null ? (
@@ -183,7 +202,7 @@ export default function Section2(props) {
                 infinite: true,
                 speed: 500,
                 arrows: true,
-                slidesToShow:1,
+                slidesToShow: 1,
                 slidesToScroll: 1,
                 nextArrow: <NextArrow />,
                 prevArrow: <PrevArrow />,
@@ -225,11 +244,19 @@ export default function Section2(props) {
             <div className={classes.content}>
               <div className={classes.description}>{props?.description}</div>
             </div>
+            {/* 360 Video section */}
+            <div
+              style={{
+                marginTop: 20,
+                display: 'flex',
+                width: '100%',
+              }}
+              dangerouslySetInnerHTML={{ __html: props?.embed_link }}
+            />
           </Container>
           <Container className={classes.cardContent}>
             <div className={classes.avatar}>
               <div className={classes.avatarContent}>
-        
                 <img
                   src={props?.avatar?.avatar?.url}
                   style={{
@@ -240,7 +267,14 @@ export default function Section2(props) {
                     marginRight: '10px',
                   }}
                   alt=''
-                  onClick={()=>{dialogOpen(props?.avatar?.avatar?.url,props?.avatar?.email,props?.avatar?.tel,props?.avatar?.firstname)}}
+                  onClick={() => {
+                    dialogOpen(
+                      props?.avatar?.avatar?.url,
+                      props?.avatar?.email,
+                      props?.avatar?.tel,
+                      props?.avatar?.firstname
+                    );
+                  }}
                 />
                 {props.avatar?.firstname}
               </div>
@@ -251,11 +285,17 @@ export default function Section2(props) {
             </div>
           </Container>
           <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
-            <img src={dialogAvatar} style={{width:'250px',heigth:'auto'}} alt=""/>
+            <img src={dialogAvatar} style={{ width: '250px', heigth: 'auto' }} alt='' />
             <DialogTitle>{dialogName}</DialogTitle>
-            <div className={classes.dialogText}><BsTelephone style={{marginRight:'5px'}}/>{dialogPhone}</div>
-            <div className={classes.dialogText}><MdOutlineMailOutline  style={{marginRight:'5px'}}/>{dialogEmail}</div>     
-        </Dialog>
+            <div className={classes.dialogText}>
+              <BsTelephone style={{ marginRight: '5px' }} />
+              {dialogPhone}
+            </div>
+            <div className={classes.dialogText}>
+              <MdOutlineMailOutline style={{ marginRight: '5px' }} />
+              {dialogEmail}
+            </div>
+          </Dialog>
         </Container>
       )}
       <Footer phone={props.phone} tablet={props.tablet} />
@@ -294,8 +334,8 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     color: 'white',
-    justifyContent:'center',
-    textAlign:'center'
+    justifyContent: 'center',
+    textAlign: 'center',
   },
   price: {
     color: '#C18E44',
@@ -382,7 +422,7 @@ const useStyles = makeStyles({
     width: (props) => (props?.phone ? '100%' : '900px'),
     height: (props) => (props?.phone ? '150px' : '430px'),
     border: '1px solid #9E8458',
-    borderRadius :'10px'
+    borderRadius: '10px',
   },
   bottomBox: {
     display: 'flex',

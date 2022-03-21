@@ -4,7 +4,7 @@ const enText = {
     login: 'Login',
     logout: 'Logout',
     links: {
-      general: ['Antique', 'Real state', 'Cars', 'Painting'],
+      general: ['Үнэт эдлэл', 'Машин', 'Уран зураг', 'Үл хөдлөх'],
     },
     termsAndConditions: 'Terms and conditions',
   },
