@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import colors from '../../../constants/colors';
 import screen2 from '../../../assets/images/background.png';
@@ -12,6 +12,8 @@ import TopArrow from '../../../assets/arrow/topArrow.png';
 import './Section.css';
 import TruncateMarkup from 'react-truncate-markup';
 import { Link } from 'react-router-dom';
+import { getSearch } from '../../../api/ads';
+import HashLoader from 'react-spinners/HashLoader';
 
 function NextArrow(props) {
   const classes = useStyles(props);
@@ -35,15 +37,68 @@ function PrevArrow(props) {
 
 export default function Section(props) {
   const classes = useStyles(props);
-  const data = props.data;
+  const [data, setData] = useState(props.data);
+  const [isLoading, setLoading] = useState(false);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
+  const [snackbarState, setSnackbarState] = useState({
+    open: false,
+    message: 'Амжилттай илгээлээ',
+    severity: 'success',
+  });
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarState({ ...snackbarState, open: false });
+  };
+
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+
+
+
+
+  const search = (e) => {
+    setLoading(true);
+    getSearch(e.target.value ,props.categoryId,props.subCategory)
+    .then((res) => {
+  
+      setData(res.data.ads)
+      setLoading(false);
+    
+    })
+    .catch((e) => {
+      setLoading(false);
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Холболтын алдаа гарлаа'
+            : 'Холболтын алдаа гарлаа',
+        type: 'error',
+      });
+    });
+
+  };
+
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
       <div className={classes.titleSlider}>
         <div className={classes.textSlide}>{props?.title}</div>
         <img src={TopArrow} alt='' />
       </div>
+
+      {isLoading === true ? <div className={classes.Loading}><HashLoader size={52} style={{color:'#9D8357'}}/></div>
+      :
+      <div className={classes.Container}>
       <div className={classes.search}>
         <Input
           id='standard-basic'
@@ -51,6 +106,11 @@ export default function Section(props) {
           variant='standard'
           className={classes.textField}
           placeholder='Хайх'
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              search(e);
+            }
+          }}
         />
       </div>
 
@@ -98,7 +158,10 @@ export default function Section(props) {
             </Link>
           ))}
         </Slider>
+      
       )}
+    </div>
+}
     </Container>
   );
 }
@@ -130,7 +193,7 @@ const SliderItem = (props) => {
 
 const useStyles = makeStyles({
   arrow: {
-    height: (props) => (props?.phone ? '65px' : '100px'),
+    height: (props) => (props?.phone ? '15px' : '100px'),
     width: 'auto',
   },
   firstWord: {
@@ -142,10 +205,24 @@ const useStyles = makeStyles({
     alignItems: 'center',
     color: 'white',
   },
+  Container:{
+    display:'flex',
+    justifyContent:'center',
+    flexDirection:'column',
+    width:'100%'
+  },
   textSlide: {
     borderBottom: '2px solid #C6824D',
     marginBottom: '10px',
     paddingBottom: '5px',
+  },
+  Loading:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    width:'100%',
+    backgroundColor:'rgba(21,21,22,0.9)',
+    height:'300px'
   },
   titleSlider: {
     display: 'flex',
@@ -209,6 +286,8 @@ const useStyles = makeStyles({
     width: '100%',
   },
   search: {
+    display:'flex',
+    justifyContent:'center',
     border: 'none',
     fontWeight: '300',
   },
@@ -239,6 +318,7 @@ const useStyles = makeStyles({
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',
+    width: (props) => (props?.phone ? 'auto' : '300px'),
   },
 
   empty: {

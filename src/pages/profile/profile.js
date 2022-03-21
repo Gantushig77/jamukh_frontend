@@ -47,8 +47,9 @@ import ArrowL from '../../assets/arrow/arrowL.png';
 import ArrowR from '../../assets/arrow/arrowR.png';
 import screen2 from '../../assets/images/background.png';
 import Slider from 'react-slick';
-import { getads } from '../../api/ads';
+import { getads, getliked } from '../../api/ads';
 import '../../App.css';
+import { useHistory } from 'react-router-dom';
 
 //Slider arrow
 function NextArrow(props) {
@@ -72,11 +73,10 @@ function PrevArrow(props) {
 }
 
 export default function Profile() {
-  // Constants
-
+  const history = useHistory();
   const page = 1;
   const limit = 50;
-  const [news, setNews] = useState([]);
+  const [liked, setLiked] = useState([]);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
   const authenticated = localStorage.getItem('jamukh_auth') === 'true' ? true : false;
@@ -316,7 +316,7 @@ export default function Profile() {
         });
       }
     }
-    console.log(profileImg);
+
     formDataUpdateProfile(profileImg[0], {
       id: account.id,
       familyname: fieldState.familyname,
@@ -367,7 +367,7 @@ export default function Profile() {
   useEffect(() => {
     getads(page, limit)
       .then((res) => {
-        setNews(res.data.ads);
+        setLiked(res.data.ads);
       })
       .catch((e) => {
         handleSnackOpen({
@@ -380,6 +380,23 @@ export default function Profile() {
         });
       });
   }, [page]);
+
+  useEffect(() => {
+    getliked()
+      .then((res) => {
+        setLiked(res.data.ads);
+      })
+      .catch((e) => {
+        handleSnackOpen({
+          state: true,
+          msg:
+            e.message === 'user.not.found'
+              ? 'Хэрэглэгч олдсонгүй'
+              : 'Нэр үг эсвэл нууц үг буруу байна.',
+          type: 'error',
+        });
+      });
+  }, []);
 
   useEffect(() => {
     if (account) {
@@ -436,6 +453,7 @@ export default function Profile() {
   return (
     <div style={{ margin: '0', padding: '0' }} className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
+
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -652,7 +670,7 @@ export default function Profile() {
                     )}
                   </LocalizationProvider>
                 </div>
-                <div className={classes.fieldDiv}>
+                <div className={classes.fieldDiv} style={{ marginTop: '30px' }}>
                   <TextField
                     fullWidth
                     value={fieldState.tel}
@@ -704,7 +722,7 @@ export default function Profile() {
                     checked={fieldState.gender === 'male' ? true : false}
                     onClick={() => setFieldState({ ...fieldState, gender: 'male' })}
                   />
-                  <Typography>Эрэгтэй</Typography>
+                  <Typography style={{ color: 'black' }}>Эрэгтэй</Typography>
                 </div>
                 <div
                   style={{
@@ -723,7 +741,7 @@ export default function Profile() {
                       },
                     }}
                   />
-                  <Typography>Эмэгтэй</Typography>
+                  <Typography style={{ color: 'black' }}>Эмэгтэй</Typography>
                 </div>
               </div>
               {/* High school, university, profession */}
@@ -873,7 +891,7 @@ export default function Profile() {
               sx={{ mt: 2, mb: 2 }}
               className={classes.memberTitle}
             >
-              MEMBERS
+              REALTORS
             </Typography>
             <div className={classes.membersModalContainer}>
               <div className={classes.mmButtonContainer}>
@@ -964,7 +982,6 @@ export default function Profile() {
                                 {item?.rating || 0}
                               </Typography>
                             </div>
-                            <Button className={classes.mmDeleteButton}>Delete</Button>
                           </div>
                         </div>
                       );
@@ -1056,9 +1073,9 @@ export default function Profile() {
               {/* MEMBERS */}
               <div className={classes.memberContainer}>
                 <div className={classes.memberTop}>
-                  <div className={classes.memberTitle}>MEMBERS</div>
+                  <div className={classes.memberTitle}>Realtors</div>
                   <Button
-                    onClick={() => handleMemberModalOpen()}
+                    onClick={() => history.push('/realtor')}
                     className={classes.memberTitleSEE}
                     endIcon={<ArrowForwardIosIcon />}
                   >
@@ -1122,10 +1139,34 @@ export default function Profile() {
             {/* SALES */}
             <div className={classes.saleBackground}>
               <div className={classes.mySale}>
-                <Title name='Миний зар' />
-                {news.length === 0 && (
-                  <Slider {...sliderConfig} className={classes.slider1}>
-                    {news?.map((item, i) => (
+                <Title name='Таалагдсан зар' />
+                {liked.length === 0 ? (
+                  <div className={classes.empty}>Зар олдсонгүй</div>
+                ) : (
+                  <Slider
+                    {...{
+                      infinite: true,
+                      speed: 500,
+                      arrows: true,
+                      slidesToShow: liked.length > 3 ? 3 : liked.length,
+                      slidesToScroll: 1,
+                      nextArrow: <NextArrow />,
+                      prevArrow: <PrevArrow />,
+                      responsive: [
+                        {
+                          breakpoint: 600,
+                          settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            initialSlide: 1,
+                            arrows: true,
+                          },
+                        },
+                      ],
+                    }}
+                    className={classes.slider1}
+                  >
+                    {liked?.map((item, i) => (
                       <Link
                         key={i + 'key is here'}
                         to={`/adsDetail/${item.ads_id}`}
@@ -1180,27 +1221,6 @@ const SliderItem = (props) => {
   );
 };
 
-const sliderConfig = {
-  infinite: true,
-  speed: 500,
-  arrows: true,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-  responsive: [
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-        arrows: true,
-      },
-    },
-  ],
-};
-
 const useStyles = makeStyles({
   memberTypItemButton: {
     display: 'flex',
@@ -1212,6 +1232,7 @@ const useStyles = makeStyles({
     backgroundImage: `url(${Background1})`,
     fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
+    backgroundSize: '300px 250px',
   },
   profile_name: {
     display: 'flex',
@@ -1220,6 +1241,19 @@ const useStyles = makeStyles({
     marginTop: '20px',
     color: '#C19D65',
     fontSize: '25px',
+  },
+  empty: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '30px',
+    color: '#C6824D',
+    fontSize: '60px',
+    borderRadius: '20px',
+    backgroundColor: 'rgba(21,21,22,0.9)',
+    height: '300px',
+    width: '100%',
+    fontFamily: "'Lobster', cursive",
   },
   profile_name_firstname: {
     marginRight: (props) => (props?.phone ? '0px' : '5px'),

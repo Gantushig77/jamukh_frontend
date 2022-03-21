@@ -12,6 +12,7 @@ export default function Category(props) {
   const classes = useStyles(props);
   const [ads, setAds] = useState([]);
   const categoryId = props.id;
+  const subCategory = props.subCategory;
   const limit = 100;
   const [isLoading, setLoading] = useState(true);
   const [snackbarState, setSnackbarState] = useState({
@@ -27,10 +28,21 @@ export default function Category(props) {
     setSnackbarState({ ...snackbarState, open: false });
   };
 
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+
+  
+
+
   useEffect(() => {
-    getCategoryAds(categoryId, limit)
+    getCategoryAds(categoryId, limit,subCategory)
       .then((res) => {
-        console.log(res?.data);
         setAds(res?.data?.ads);
         setLoading(false);
       })
@@ -47,13 +59,7 @@ export default function Category(props) {
       });
   }, [categoryId]);
 
-  const handleSnackOpen = ({ state, msg, type }) => {
-    setSnackbarState({
-      open: state,
-      message: msg,
-      severity: type,
-    });
-  };
+ 
 
   return (
     <div className={classes.background}>
@@ -85,10 +91,11 @@ export default function Category(props) {
             title={props?.title}
             phone={props?.phone}
             tablet={props?.tablet}
+            categoryId = {categoryId}
+            subCategory = {subCategory}
           />
         </div>
       )}
-
       <div className={classes.footer}>
         <Footer phone={props?.phone} tablet={props?.tablet} />
       </div>

@@ -12,7 +12,7 @@ const membership_img_url =
   DEV === true ? `${base_url}/membership/` : `${base_url}/membership/`;
 
 const url = {
-  general: ['/antique', '/estate', '/cars', '/painting'],
+  general: ['/antique', '/cars', '/painting'],
 };
 
 const bmLinks = {

@@ -87,12 +87,10 @@ export default function Section2(props) {
           });
         })
         .catch((e) => {
+          console.log(e.response.data.msg, 'e');
           handleSnackOpen({
             state: true,
-            msg:
-              e.message === 'user.not.found'
-                ? 'Хэрэглэгч олдсонгүй'
-                : 'Нэр үг эсвэл нууц үг буруу байна.',
+            msg: e.response.data.msg,
             type: 'error',
           });
         });
@@ -376,6 +374,7 @@ const useStyles = makeStyles({
     padding: '20px',
     marginTop: '20px',
     border: '1px solid #C6824D',
+    backgroundSize: '300px 250px',
   },
   members: {
     width: (props) => (props.phone ? '100%' : '68%'),

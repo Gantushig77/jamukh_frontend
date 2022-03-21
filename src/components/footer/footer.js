@@ -12,10 +12,9 @@ export default function Footer(props) {
         <div className={classes.address}>
           Jamukha Proporties © 2022 All rights reserved
         </div>
-
         <div className={classes.social}>
-          <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
-            Борлуулагч
+          <Link className={classes.menuListItem} to='/realtor' style={{marginRight:'10px'}}>
+            Realtors
           </Link>
           <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
             Мэдээ

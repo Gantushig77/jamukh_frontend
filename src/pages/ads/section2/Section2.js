@@ -1,5 +1,5 @@
-import React, { useRef, useContext } from 'react';
-import { Container } from '@mui/material';
+import React, { useRef, useContext ,useState} from 'react';
+import { Container , Dialog, DialogTitle } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 // import Background1 from '../../../assets/background/adsDetail.png';
@@ -9,6 +9,15 @@ import ArrowL from '../../../assets/arrow/arrowL.png';
 import ArrowR from '../../../assets/arrow/arrowR.png';
 import TheContext from '../../../context/context';
 import Footer from '../../../components/footer/footer';
+import { BsFillBookmarkFill } from 'react-icons/bs';
+import { getlike , getremovelike} from '../../../api/ads';
+import { Alert } from '@mui/lab';
+import { Snackbar } from '@mui/material';
+import HashLoader from 'react-spinners/HashLoader';
+import { BsTelephone } from 'react-icons/bs'
+import { MdOutlineMailOutline } from 'react-icons/md'
+
+
 
 function NextArrow(props) {
   const classes = useStyles(props);
@@ -32,46 +41,149 @@ function PrevArrow(props) {
 
 export default function Section2(props) {
   const classes = useStyles(props);
-  console.log(props, 'props');
   let slider = useRef(null);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
+  const [snackbarState, setSnackbarState] = useState({
+    open: false,
+    message: 'Амжилттай илгээлээ',
+    severity: 'success',
+  });
+  const [isLoading, setLoading] = useState(false);
+  const [like, setLike] = useState(props.liked);
+  const [dialogAvatar, setDialogAvatar] = useState('');
+  const [dialogName, setDialogName] = useState('');
+  const [dialogEmail, setDialogEmail] = useState('');
+  const [dialogPhone, setDialogPhone] = useState('');
+  const [open, setOpen] = useState(false);
+
+
+  const dialogClosed = () => {
+    setOpen(false)
+};
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarState({ ...snackbarState, open: false });
+  };
+  const dialogOpen = (img , email, phone, name) => {
+    setOpen(true)
+    setDialogAvatar(img);
+    setDialogPhone(phone);
+    setDialogEmail(email);
+    setDialogName(name);
+};
+
+  const handleSnackOpen = ({ state, msg, type }) => {
+    setSnackbarState({
+      open: state,
+      message: msg,
+      severity: type,
+    });
+  };
+
+  const liked = () => {
+    setLoading(true);
+    getlike(props.id)
+    .then((res) => {
+      setLoading(false);
+      setLike(true);
+      handleSnackOpen({
+        state: true,
+        msg:res.data.msg,
+        type: 'success',
+      });
+    })
+    .catch((e) => {
+      setLoading(false);
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Холболтын алдаа гарлаа'
+            : 'Холболтын алдаа гарлаа',
+        type: 'error',
+      });
+    });
+  };
+  const removeLiked = () => {
+    setLoading(true);
+    getremovelike(props.id)
+    .then((res) => {
+      setLoading(false);
+      setLike(false);
+      handleSnackOpen({
+        state: true,
+        msg:res.data.msg,
+        type: 'success',
+      });
+    })
+    .catch((e) => {
+      setLoading(false);
+      handleSnackOpen({
+        state: true,
+        msg:
+          e.message === 'user.not.found'
+            ? 'Холболтын алдаа гарлаа'
+            : 'Холболтын алдаа гарлаа',
+        type: 'error',
+      });
+    });
+  };
 
   return (
     <div className={classes.root}>
+
+    <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        open={snackbarState.open}
+        autoHideDuration={5000}
+        onClose={handleSnackClose}
+      >
+        <Alert
+          onClose={handleSnackClose}
+          severity={snackbarState.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarState.message}
+        </Alert>
+      </Snackbar>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <div className={classes.bookMark} style={{display:'flex',justifyContent:'flex-end',width:'1300px'}}>
+              {isLoading === true? <HashLoader style={{ color:'#A2875A'}}/>:(like === true)  ? <BsFillBookmarkFill style={{color:'#A0845A',fontSize:'52px',cursor:'pointer'}} onClick={()=>{removeLiked()}}/>:<BsFillBookmarkFill style={{color:'white',fontSize:'52px',cursor:'pointer'}} onClick={()=>{liked()}}/>}
+            </div>
+          </div>
       {props?.parentId ? (
         <></>
       ) : (
         <Container className={classes.contentRoot}>
+         
           <Container className={classes.cardContent}>
-            {props?.ads_info === undefined || props?.ads_info === null ? (
-              <div />
-            ) : props?.ads_info.length === 0 ? (
-              <div />
-            ) : (
+        
               <div className={classes.borderInfo}>
-                {props?.ads_info.map((item, i) => (
+                {  
+                props?.ads_info?.map((item, i) => (
                   <div className={classes.rowHalf} key={i + 'id'}>
                     <div className={classes.label}>{item?.label}</div>
                     <div className={classes.value}>{item?.value}</div>
-                  </div>
+                  </div>  
                 ))}
               </div>
-            )}
+          
           </Container>
           <div className={classes.zurag}>ЗУРАГ</div>
           {props.image === undefined || props?.ads_info === null ? (
             <div />
           ) : props.image?.length === 0 ? (
-            <div />
+            <div>Loading ...</div>
           ) : (
             <Slider
               {...{
                 infinite: true,
                 speed: 500,
                 arrows: true,
-                slidesToShow:
-                  props?.image.length > 2 ? 3 : props?.image.length > 1 ? 2 : 1,
+                slidesToShow:1,
                 slidesToScroll: 1,
                 nextArrow: <NextArrow />,
                 prevArrow: <PrevArrow />,
@@ -117,8 +229,9 @@ export default function Section2(props) {
           <Container className={classes.cardContent}>
             <div className={classes.avatar}>
               <div className={classes.avatarContent}>
+        
                 <img
-                  src={props.avatar.avatar.url}
+                  src={props?.avatar?.avatar?.url}
                   style={{
                     border: '1px solid white',
                     height: '50px',
@@ -127,8 +240,9 @@ export default function Section2(props) {
                     marginRight: '10px',
                   }}
                   alt=''
+                  onClick={()=>{dialogOpen(props?.avatar?.avatar?.url,props?.avatar?.email,props?.avatar?.tel,props?.avatar?.firstname)}}
                 />
-                {props.avatar.firstname}
+                {props.avatar?.firstname}
               </div>
               <div className={classes.price}>
                 {props.symbol}
@@ -136,6 +250,12 @@ export default function Section2(props) {
               </div>
             </div>
           </Container>
+          <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
+            <img src={dialogAvatar} style={{width:'250px',heigth:'auto'}} alt=""/>
+            <DialogTitle>{dialogName}</DialogTitle>
+            <div className={classes.dialogText}><BsTelephone style={{marginRight:'5px'}}/>{dialogPhone}</div>
+            <div className={classes.dialogText}><MdOutlineMailOutline  style={{marginRight:'5px'}}/>{dialogEmail}</div>     
+        </Dialog>
         </Container>
       )}
       <Footer phone={props.phone} tablet={props.tablet} />
@@ -174,6 +294,8 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     color: 'white',
+    justifyContent:'center',
+    textAlign:'center'
   },
   price: {
     color: '#C18E44',
@@ -259,6 +381,8 @@ const useStyles = makeStyles({
   boxImage: {
     width: (props) => (props?.phone ? '100%' : '900px'),
     height: (props) => (props?.phone ? '150px' : '430px'),
+    border: '1px solid #9E8458',
+    borderRadius :'10px'
   },
   bottomBox: {
     display: 'flex',
@@ -305,7 +429,6 @@ const useStyles = makeStyles({
     width: '100%',
     flexWrap: 'wrap',
     backgroundSize: '300px 250px',
-    // boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
   },
   cardButton: {
     display: 'flex',

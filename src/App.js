@@ -109,6 +109,10 @@ export default function App() {
             <Route exact path={'/'}>
               <Home />
             </Route>
+
+            <Route exact path={'/profile'}>
+              <Profile />
+            </Route>
             <PrivateRoute path={'/adsDetail/:id'} authenticated={isAuthenticated()}>
               <Ads />
             </PrivateRoute>
@@ -128,12 +132,15 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={2}
+                subCategory=""
               />
             </PrivateRoute>
+           
             <PrivateRoute path={'/realtor'} authenticated={isAuthenticated()}>
               <Realtor
                 phone={phoneSize}
                 tablet={tabletSize}
+                subCategory=""
               />
             </PrivateRoute>
             <PrivateRoute path={'/estate'} authenticated={isAuthenticated()}>
@@ -152,6 +159,7 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={3}
+                subCategory=""
               />
             </PrivateRoute>
             <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
@@ -161,6 +169,37 @@ export default function App() {
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={1}
+                subCategory=""
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/land'} authenticated={isAuthenticated()}>
+              <Category
+                bg={Cars}
+                title='Газар'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={4}
+                subCategory="land"
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/house'} authenticated={isAuthenticated()}>
+              <Category
+                bg={Cars}
+                title='House'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={4}
+                subCategory="house"
+              />
+            </PrivateRoute>
+            <PrivateRoute path={'/apartment'} authenticated={isAuthenticated()}>
+              <Category
+                bg={Cars}
+                title='Apartment'
+                phone={phoneSize}
+                tablet={tabletSize}
+                id={4}
+                subCategory="apartment"
               />
             </PrivateRoute>
             <Route path={'/login'}>
