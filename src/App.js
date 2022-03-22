@@ -134,7 +134,6 @@ export default function App() {
                 subCategory=''
               />
             </PrivateRoute>
-
             <PrivateRoute path={'/realtor'} authenticated={isAuthenticated()}>
               <Realtor phone={phoneSize} tablet={tabletSize} subCategory='' />
             </PrivateRoute>
