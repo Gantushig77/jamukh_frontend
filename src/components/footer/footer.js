@@ -5,23 +5,31 @@ import colors from '../../constants/colors';
 
 export default function Footer(props) {
   const classes = useStyles(props);
-    
+
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
-        <div className={classes.address}>
-          Jamukha Proporties © 2022 All rights reserved
+        <div className={classes.address} style={{ fontSize: 14 }}>
+          Бүх эрх хуулиар хамгаалагдсан. Jamukha Proporties © {new Date().getFullYear()}
         </div>
         <div className={classes.social}>
-          <Link className={classes.menuListItem} to='/realtor' style={{marginRight:'10px'}}>
-            Realtors
+          <Link
+            className={classes.menuListItem}
+            to='/realtor'
+            style={{ marginRight: '10px' }}
+          >
+            Риалторууд
           </Link>
-          <Link className={classes.menuListItem} to='/news' style={{marginRight:'10px'}}>
+          <Link
+            className={classes.menuListItem}
+            to='/news'
+            style={{ marginRight: '10px' }}
+          >
             Мэдээ
-          </Link>  
+          </Link>
           <Link className={classes.menuListItem} to='/about'>
             Бидний тухай
-          </Link>  
+          </Link>
         </div>
       </div>
     </div>
@@ -33,16 +41,16 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'center',
-    color:'white',
-    fontWeight:'100',
+    color: 'white',
+    fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
-    fontSize:'16px',
-    padding:'0 10px'
+    fontSize: '16px',
+    padding: '0 10px',
   },
   flexContainer: {
     display: 'flex',
-    width:  (props) => '100%',
-    flexDirection:(props) => (props.phone ? 'column' : 'row'),
+    width: (props) => '100%',
+    flexDirection: (props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -50,10 +58,10 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
   },
-  menuListItem:{
-    textDecoration:'none',
-    color:'white',
-    cursor:'position',
+  menuListItem: {
+    textDecoration: 'none',
+    color: 'white',
+    cursor: 'position',
     '&:hover': {
       color: '#AA6139',
     },

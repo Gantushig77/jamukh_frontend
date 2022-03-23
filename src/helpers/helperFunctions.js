@@ -7,9 +7,16 @@ const stringEllipser = (str, limit) => {
 };
 
 const isAuthenticated = () => {
-  const auth = localStorage.getItem('jamukh_auth') === 'true';
-  if (auth) return true;
-  else return false;
+  const auth =
+    localStorage.getItem('jamukh_auth') === 'false' ||
+    localStorage.getItem('jamukh_auth') === null
+      ? false
+      : true;
+  if (auth === true) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const roleChecker = (roles, check) => {

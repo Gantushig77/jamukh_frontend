@@ -71,10 +71,10 @@ export default function App() {
     if (token?.length > 0) {
       getProfile()
         .then((res) => {
-          console.log(res.data);
-          setAccount(res.data);
+          console.log(res?.data);
+          setAccount(res?.data);
 
-          if (res.data) {
+          if (res?.data) {
             localStorage.setItem('jamukh_auth', 'true');
           } else {
             localStorage.setItem('jamukh_auth', 'false');
@@ -109,10 +109,7 @@ export default function App() {
             <Route exact path={'/'}>
               <Home />
             </Route>
-            <Route exact path={'/profile'}>
-              <Profile />
-            </Route>
-            <PrivateRoute path={'/adsDetail/:id'} authenticated={isAuthenticated()}>
+            <PrivateRoute path={'/adsDetail/:id'} authenticated={() => isAuthenticated()}>
               <Ads />
             </PrivateRoute>
             <PrivateRoute path={'/detailNews/:id'} authenticated={isAuthenticated()}>

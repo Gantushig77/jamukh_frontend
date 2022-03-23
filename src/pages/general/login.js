@@ -313,7 +313,6 @@ export default function LoginPage() {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-
       {/* Input container */}
       <div className={classes.containerEnd}>
         <Container className={classes.inputContainer}>
@@ -441,7 +440,6 @@ export default function LoginPage() {
                         Бүртгүүлэх
                       </div>
                     </div>
-
                     {otpInput === false ? (
                       <>
                         {/* InputFirst */}
@@ -587,7 +585,6 @@ export default function LoginPage() {
                             }
                           }}
                         />
-
                         {/* Submit to next page */}
                         <Button onClick={() => sendSignUp()} className={classes.button}>
                           Бүртгүүлэх
@@ -673,11 +670,12 @@ const useStyles = makeStyles({
   },
   container: {
     display: 'flex',
+    position: 'absolute',
     fontFamily: 'Roboto, sans-serif',
     flexDirection: 'column',
     alignItems: 'flex-end',
     width: '100%',
-    height: '100vh',
+    height: '100%',
     backgroundImage: `url(${Login})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -701,9 +699,13 @@ const useStyles = makeStyles({
   },
   inputContainer: {
     padding: '60px 20px',
-    width: (props) => (props.phone ? '100%' : '50%'),
+    minWidth: '250px',
+    maxWidth: '500px',
+    width: (props) => (props.phone ? '100%' : '100%'),
     backgroundColor: (props) => (props.phone ? 'rgb(37,37,37,1)' : 'rgb(37,37,37,0.7)'),
     borderRadius: '10px',
+    marginTop: 60,
+    marginBottom: 20,
     boxShadow: (props) =>
       props.phone ? 'none' : props.trigger ? '0 0 20px #ccc' : 'none',
   },
@@ -711,9 +713,10 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: (props) => (props.phone ? '100%' : '50%'),
     marginTop: (props) => (props.phone ? '120px' : '0px'),
     height: '100%',
+    width: (props) => (props.phone ? '100%' : 'auto'),
+    marginRight: (props) => (props.phone ? '0px' : '10%'),
   },
   otpContainerStyle: {
     marginTop: 20,
@@ -746,6 +749,7 @@ const useStyles = makeStyles({
   },
   inputItem1: {
     display: (props) => (props.checked === 1 ? 'block' : 'none'),
+    minWidth: '250px',
   },
   inputItem2: {
     display: (props) => (props.checked === 2 ? 'block' : 'none'),

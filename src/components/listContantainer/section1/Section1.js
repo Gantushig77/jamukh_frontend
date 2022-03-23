@@ -127,6 +127,15 @@ export default function Section(props) {
                 prevArrow: <PrevArrow />,
                 responsive: [
                   {
+                    breakpoint: 1310,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
+                      initialSlide: 1,
+                      arrows: true,
+                    },
+                  },
+                  {
                     breakpoint: 600,
                     settings: {
                       slidesToShow: 1,

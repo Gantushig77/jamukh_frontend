@@ -154,7 +154,7 @@ export default function Section2(props) {
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            width: '1300px',
+            width: '100%',
             marginTop: 30,
           }}
         >
@@ -207,6 +207,15 @@ export default function Section2(props) {
                 nextArrow: <NextArrow />,
                 prevArrow: <PrevArrow />,
                 responsive: [
+                  {
+                    breakpoint: 1310,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
+                      initialSlide: 1,
+                      arrows: true,
+                    },
+                  },
                   {
                     breakpoint: 600,
                     settings: {
@@ -365,7 +374,7 @@ const useStyles = makeStyles({
   content: {
     border: '1px solid #C19D65',
     padding: (props) => (props?.phone ? '10px' : '30px'),
-    width: (props) => (props?.phone ? '100%' : '1300px'),
+    width: (props) => (props?.phone ? '100%' : '100%'),
     borderRadius: '20px',
   },
   slider: {
@@ -461,7 +470,7 @@ const useStyles = makeStyles({
   },
   cardContent: {
     display: 'flex',
-    maxWidth: (props) => (props.phone ? '100%' : '1300px'),
+    maxWidth: (props) => (props.phone ? '100%' : '100%'),
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
     backgroundColor: '',
     justifyContent: 'flex-start',

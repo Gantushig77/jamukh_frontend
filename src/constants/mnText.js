@@ -4,7 +4,7 @@ const mnText = {
     login: 'Нэвтрэх',
     logout: 'Гарах',
     links: {
-      general: ['Үнэт эдлэл', 'Машин', 'Уранзураг'],
+      general: ['Үнэт эдлэл', 'Машин', 'Уран зураг'],
     },
     termsAndConditions: 'Үйлчилгээний нөхцөл',
   },

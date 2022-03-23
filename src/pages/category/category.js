@@ -98,12 +98,13 @@ export default function Category(props) {
     </div>
   );
 }
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
   },
   section: {
-    width: (props) => (props?.phone ? '100%' : '1300px'),
+    width: (props) => (props?.phone ? '100%' : '100%'),
   },
   isLoading: {
     display: 'flex',

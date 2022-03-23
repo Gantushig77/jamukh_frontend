@@ -21,10 +21,10 @@ export default function Section2(props) {
             <div className={classes.title}>CATEGORY</div>
           </>
           <div className={classes.cardContent}>
-            <CardItem className={classes.CardItem} image={Test} name="PROPERTY"/>
-            <CardItem className={classes.CardItem} image={Antiques} name="ANTIQUES"/>
-            <CardItem className={classes.CardItem} image={Cars} name="CARS"/>
-            <CardItem className={classes.CardItem} image={Estate} name="ESTATE"/>
+            <CardItem className={classes.CardItem} image={Test} name='PROPERTY' />
+            <CardItem className={classes.CardItem} image={Antiques} name='ANTIQUES' />
+            <CardItem className={classes.CardItem} image={Cars} name='CARS' />
+            <CardItem className={classes.CardItem} image={Estate} name='ESTATE' />
           </div>
         </>
       )}
@@ -38,7 +38,7 @@ const CardItem = (props) => {
   return (
     <Card className={classes.cardRoot}>
       <div
-       className={classes.cardHoverStyle}
+        className={classes.cardHoverStyle}
         style={{
           backgroundSize: 'cover',
           width: '100%',
@@ -47,16 +47,16 @@ const CardItem = (props) => {
           height: '100%',
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
           position: 'relative',
-          "&:hover":{
-            color:"red",
-            cursor:"pointer",
+          '&:hover': {
+            color: 'red',
+            cursor: 'pointer',
             backgroundImage: `linear-gradient(rgba(216,137,87, 0.1) 5%,rgba(37,37,37,0.9) 85%),url("${props.image}")`,
-          }
+          },
         }}
       >
-          <div >
-            <FavoriteBorderIcon className={classes.heartIcon}/>
-         </div>  
+        <div>
+          <FavoriteBorderIcon className={classes.heartIcon} />
+        </div>
         <div className={classes.cardProperty}>{props.name}</div>
       </div>
     </Card>
@@ -70,23 +70,21 @@ const useStyles = makeStyles({
     backgroundColor: '#252525',
     marginTop: (props) => (props.phone ? 80 : 40),
     fontFamily: "'Roboto Condensed', sans-serif",
-    maxWidth:"1300px"
+    maxWidth: '1300px',
   },
-  cardHoverStyle:{
-    
-  },
-  heartIcon:{
+  cardHoverStyle: {},
+  heartIcon: {
     color: 'white',
-    position:'absolute',
-    right:"10px",
-    top:"10px",
-    fontSize:30,
-    cursor:"pointer",
-    "&:hover": {
-        color:colorss.brandTextColor
-    }
+    position: 'absolute',
+    right: '10px',
+    top: '10px',
+    fontSize: 30,
+    cursor: 'pointer',
+    '&:hover': {
+      color: colorss.brandTextColor,
+    },
   },
-  
+
   cardProperty: {
     color: 'white',
     fontWeight: 'bold',
@@ -98,21 +96,21 @@ const useStyles = makeStyles({
   cardContent: {
     display: 'flex',
     maxWidth: '1300px',
-    flexWrap: "wrap",
-    justifyContent:(props) => (props.phone ? "center":'space-between'),
-    alignItems:"center",
+    flexWrap: 'wrap',
+    justifyContent: (props) => (props.phone ? 'center' : 'space-between'),
+    alignItems: 'center',
     width: '100%',
   },
   card: {
     width: '100px',
   },
   cardRoot: {
-    maxWidth:  260, 
-    width:"100%",
+    maxWidth: 260,
+    width: '100%',
     height: 360,
     marginBottom: 20,
     textAlign: 'left',
-    margin: 6
+    margin: 6,
   },
   cardTitle: {
     fontSize: 17,
@@ -201,5 +199,4 @@ const useStyles = makeStyles({
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
     width: '90%',
   },
-
 });
