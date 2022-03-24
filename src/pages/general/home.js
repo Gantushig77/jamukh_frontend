@@ -6,7 +6,7 @@ import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Background from '../../assets/images/home.png';
+import Background from '../../assets/images/home.jpg';
 
 export default function Home(props) {
   const classes = useStyles(props);
@@ -50,13 +50,13 @@ export default function Home(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} />
       </div>
     </div>
   );
 }
+
 const useStyles = makeStyles({
   root: {
     width: '100%',

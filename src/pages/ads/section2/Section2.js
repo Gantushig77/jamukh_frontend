@@ -177,136 +177,126 @@ export default function Section2(props) {
           )}
         </div>
       </div>
-      {props?.parentId ? (
-        <></>
-      ) : (
-        <Container className={classes.contentRoot}>
-          <Container className={classes.cardContent}>
-            <div className={classes.borderInfo}>
-              {props?.ads_info?.map((item, i) => (
-                <div className={classes.rowHalf} key={i + 'id'}>
-                  <div className={classes.label}>{item?.label}</div>
-                  <div className={classes.value}>{item?.value}</div>
-                </div>
-              ))}
-            </div>
-          </Container>
-          <div className={classes.zurag}>ЗУРАГ</div>
-          {props.image === undefined || props?.ads_info === null ? (
-            <div />
-          ) : props.image?.length === 0 ? (
-            <div>Loading ...</div>
-          ) : (
-            <Slider
-              {...{
-                infinite: true,
-                speed: 500,
-                arrows: true,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                nextArrow: <NextArrow />,
-                prevArrow: <PrevArrow />,
-                responsive: [
-                  {
-                    breakpoint: 1310,
-                    settings: {
-                      slidesToShow: 2,
-                      slidesToScroll: 1,
-                      initialSlide: 1,
-                      arrows: true,
-                    },
-                  },
-                  {
-                    breakpoint: 600,
-                    settings: {
-                      slidesToShow: 1,
-                      slidesToScroll: 1,
-                      initialSlide: 1,
-                      arrows: true,
-                    },
-                  },
-                ],
-              }}
-              className={classes.slider}
-            >
-              {props?.image.map((item, i) => (
-                <SliderItem
-                  dots={1}
-                  key={i + 'slider item'}
-                  sliderRef={slider}
-                  phone={props?.phone}
-                  avatar={''}
-                  admin={'Grand Marshal'}
-                  time={'12min'}
-                  area={'MKV 4,500,000$'}
-                  title={props?.title}
-                  description={`Гран Маршал дөрвөн улирлын цогцолборхотхон 2-3 өрөө МУЛЬТИ ХАУСНЫ 1м.кв-ын үнийг ...`}
-                  buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-                  backgroundImg={item?.url}
-                  link={account ? '/user/services' : '/sign-up'}
-                />
-              ))}
-            </Slider>
-          )}
-          <div className={classes.zurag}>ДЭЛГЭРЭНГҮЙ</div>
-          <Container className={classes.cardContent}>
-            <div className={classes.content}>
-              <div className={classes.description}>{props?.description}</div>
-            </div>
-            {/* 360 Video section */}
-            <div
-              style={{
-                marginTop: 20,
-                display: 'flex',
-                width: '100%',
-              }}
-              dangerouslySetInnerHTML={{ __html: props?.embed_link }}
-            />
-          </Container>
-          <Container className={classes.cardContent}>
-            <div className={classes.avatar}>
-              <div className={classes.avatarContent}>
-                <img
-                  src={props?.avatar?.avatar?.url}
-                  style={{
-                    border: '1px solid white',
-                    height: '50px',
-                    width: '50px',
-                    borderRadius: '100%',
-                    marginRight: '10px',
-                  }}
-                  alt=''
-                  onClick={() => {
-                    dialogOpen(
-                      props?.avatar?.avatar?.url,
-                      props?.avatar?.email,
-                      props?.avatar?.tel,
-                      props?.avatar?.firstname
-                    );
-                  }}
-                />
-                {props.avatar?.firstname}
+      <Container className={classes.contentRoot}>
+        <Container className={classes.cardContent}>
+          <div className={classes.borderInfo}>
+            {props?.ads_info?.map((item, i) => (
+              <div className={classes.rowHalf} key={i + 'id'}>
+                <div className={classes.label}>{item?.label}</div>
+                <div className={classes.value}>{item?.value}</div>
               </div>
-              <div className={classes.price}>
-                {props.symbol}
-                {props.price}
-              </div>
-            </div>
-          </Container>
-          <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
-            <img src={dialogAvatar} style={{ width: '250px', heigth: 'auto' }} alt='' />
-            <DialogTitle>{dialogName}</DialogTitle>
-            <div className={classes.dialogText}>
-              <BsTelephone style={{ marginRight: '5px' }} />
-              {dialogPhone}
-            </div>
-            <div className={classes.dialogText}>
-              <MdOutlineMailOutline style={{ marginRight: '5px' }} />
-              {dialogEmail}
-            </div>
-          </Dialog>
+            ))}
+          </div>
         </Container>
-      )}
+        <div className={classes.zurag}>ЗУРАГ</div>
+        {props.image === undefined || props?.ads_info === null ? (
+          <div />
+        ) : props.image?.length === 0 ? (
+          <div>Loading ...</div>
+        ) : (
+          <Slider
+            {...{
+              speed: 500,
+              arrows: true,
+              infinite: true,
+              slidesToShow: 3,
+              centerMode: true,
+              slidesToScroll: 1,
+              nextArrow: <NextArrow />,
+              prevArrow: <PrevArrow />,
+              responsive: [
+                {
+                  breakpoint: 1310,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    initialSlide: 1,
+                    arrows: true,
+                  },
+                },
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 1,
+                    arrows: true,
+                  },
+                },
+              ],
+            }}
+            className={classes.slider}
+          >
+            {props?.image.map((item, i) => (
+              <SliderItem
+                key={i + 'slider item'}
+                sliderRef={slider}
+                phone={props?.phone}
+                title={props?.title}
+                buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+                backgroundImg={item?.url}
+              />
+            ))}
+          </Slider>
+        )}
+        <div className={classes.zurag}>ДЭЛГЭРЭНГҮЙ</div>
+        <Container className={classes.cardContent}>
+          <div className={classes.content}>
+            <div className={classes.description}>{props?.description}</div>
+          </div>
+          {/* 360 Video section */}
+          <div
+            style={{
+              marginTop: 20,
+              display: 'flex',
+              width: '100%',
+            }}
+            dangerouslySetInnerHTML={{ __html: props?.embed_link }}
+          />
+        </Container>
+        <Container className={classes.cardContent}>
+          <div className={classes.avatar}>
+            <div className={classes.avatarContent}>
+              <img
+                src={props?.avatar?.avatar?.url}
+                style={{
+                  border: '1px solid white',
+                  height: '50px',
+                  width: '50px',
+                  borderRadius: '100%',
+                  marginRight: '10px',
+                }}
+                alt=''
+                onClick={() => {
+                  dialogOpen(
+                    props?.avatar?.avatar?.url,
+                    props?.avatar?.email,
+                    props?.avatar?.tel,
+                    props?.avatar?.firstname
+                  );
+                }}
+              />
+              {props.avatar?.firstname}
+            </div>
+            <div className={classes.price}>
+              {props.symbol}
+              {props.price}
+            </div>
+          </div>
+        </Container>
+        <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
+          <img src={dialogAvatar} style={{ width: '250px', heigth: 'auto' }} alt='' />
+          <DialogTitle>{dialogName}</DialogTitle>
+          <div className={classes.dialogText}>
+            <BsTelephone style={{ marginRight: '5px' }} />
+            {dialogPhone}
+          </div>
+          <div className={classes.dialogText}>
+            <MdOutlineMailOutline style={{ marginRight: '5px' }} />
+            {dialogEmail}
+          </div>
+        </Dialog>
+      </Container>
       <Footer phone={props.phone} tablet={props.tablet} />
     </div>
   );
@@ -316,7 +306,12 @@ const SliderItem = (props) => {
 
   return (
     <div className={classes.box}>
-      <img src={props.backgroundImg} className={classes.boxImage} alt='' />
+      <img
+        style={{ margin: 20 }}
+        src={props.backgroundImg}
+        className={classes.boxImage}
+        alt='gave the alt'
+      />
     </div>
   );
 };
@@ -390,7 +385,6 @@ const useStyles = makeStyles({
     width: '30%',
     height: '20px',
   },
-
   sliderItemBackImg: {
     display: 'flex',
     alignItems: 'center',
@@ -407,7 +401,6 @@ const useStyles = makeStyles({
     borderRadius: '10px',
     border: '1px solid #C19D65',
   },
-
   sliderItemContainer: {
     position: 'relative',
     zIndex: 99,
@@ -429,7 +422,8 @@ const useStyles = makeStyles({
   },
   boxImage: {
     width: (props) => (props?.phone ? '100%' : '900px'),
-    height: (props) => (props?.phone ? '150px' : '430px'),
+    height: (props) => (props?.phone ? '150px' : '500px'),
+    objectFit: 'cover',
     border: '1px solid #9E8458',
     borderRadius: '10px',
   },

@@ -49,7 +49,9 @@ export default function News(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section2 phone={phoneSize} tablet={tabletSize} />
+      <div style={{ height: 'calc(100% - 50px)' }}>
+        <Section2 phone={phoneSize} tablet={tabletSize} />
+      </div>
       <Footer phone={phoneSize} tablet={tabletSize} />
     </div>
   );
@@ -58,13 +60,14 @@ export default function News(props) {
 const useStyles = makeStyles({
   root: {
     width: '100%',
+    height: '100%',
     margin: '0px',
     padding: '0px',
-    position: 'relative',
     backgroundImage: `url(${Background})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     fontFamily: "'Roboto Condensed', sans-serif",
+    position: 'absolute',
   },
 });

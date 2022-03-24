@@ -222,8 +222,6 @@ export default function Profile() {
     setImgReplacer([]);
   };
 
-  // const handleMemberModalOpen = () => setMemberModal(true);
-
   const handleMemberModalClose = () => {
     setMemberModal(false);
   };
@@ -451,7 +449,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div style={{ margin: '0', padding: '0' }} className={classes.container}>
+    <div className={classes.container}>
       <Appbar phone={phoneSize} tablet={tabletSize} />
       {/* Snackbar */}
       <Snackbar
@@ -890,7 +888,7 @@ export default function Profile() {
               sx={{ mt: 2, mb: 2 }}
               className={classes.memberTitle}
             >
-              REALTORS
+              Риалторууд
             </Typography>
             <div className={classes.membersModalContainer}>
               <div className={classes.mmButtonContainer}>
@@ -1007,7 +1005,6 @@ export default function Profile() {
       {/* Body */}
       <Container disableGutters maxWidth={false} className={classes.root}>
         <div className={classes.rootRow}>
-          <div className={classes.sliderItemBackImg} />
           <div className={classes.sliderItemContainer}>
             <div className={classes.row1}>
               {/* Profile  */}
@@ -1047,7 +1044,6 @@ export default function Profile() {
                 <div className={classes.membership}>
                   <div>{account?.tel}</div>
                 </div>
-
                 {/* Update profile */}
                 <div
                   style={{
@@ -1078,7 +1074,7 @@ export default function Profile() {
                     className={classes.memberTitleSEE}
                     endIcon={<ArrowForwardIosIcon />}
                   >
-                    SEE ALL
+                    Бүгдийг үзэх
                   </Button>
                 </div>
                 <div className={classes.memberSmallProfiles}>
@@ -1134,55 +1130,54 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-
-            {/* SALES */}
-            <div className={classes.saleBackground}>
-              <div className={classes.mySale}>
-                <Title name='Таалагдсан зар' />
-                {liked.length === 0 ? (
-                  <div className={classes.empty}>Зар олдсонгүй</div>
-                ) : (
-                  <Slider
-                    {...{
-                      infinite: true,
-                      speed: 500,
-                      arrows: true,
-                      slidesToShow: liked.length > 3 ? 3 : liked.length,
-                      slidesToScroll: 1,
-                      nextArrow: <NextArrow />,
-                      prevArrow: <PrevArrow />,
-                      responsive: [
-                        {
-                          breakpoint: 600,
-                          settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            initialSlide: 1,
-                            arrows: true,
-                          },
+          </div>
+          {/* SALES */}
+          <div className={classes.saleBackground}>
+            <div className={classes.mySale}>
+              <Title name='Таалагдсан зар' />
+              {liked.length === 0 ? (
+                <div className={classes.empty}>Зар олдсонгүй</div>
+              ) : (
+                <Slider
+                  {...{
+                    infinite: true,
+                    speed: 500,
+                    arrows: true,
+                    slidesToShow: liked.length > 3 ? 3 : liked.length,
+                    slidesToScroll: 1,
+                    nextArrow: <NextArrow />,
+                    prevArrow: <PrevArrow />,
+                    responsive: [
+                      {
+                        breakpoint: 600,
+                        settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                          initialSlide: 1,
+                          arrows: true,
                         },
-                      ],
-                    }}
-                    className={classes.slider1}
-                  >
-                    {liked?.map((item, i) => (
-                      <Link
-                        key={i + 'key is here'}
-                        to={`/adsDetail/${item.ads_id}`}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <SliderItem
-                          dots={1}
-                          item={item}
-                          phone={phoneSize}
-                          backgroundImg={screen2}
-                          link={account ? '/user/services' : '/sign-up'}
-                        />
-                      </Link>
-                    ))}
-                  </Slider>
-                )}
-              </div>
+                      },
+                    ],
+                  }}
+                  className={classes.slider1}
+                >
+                  {liked?.map((item, i) => (
+                    <Link
+                      key={i + 'key is here'}
+                      to={`/adsDetail/${item.ads_id}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <SliderItem
+                        dots={1}
+                        item={item}
+                        phone={phoneSize}
+                        backgroundImg={screen2}
+                        link={account ? '/user/services' : '/sign-up'}
+                      />
+                    </Link>
+                  ))}
+                </Slider>
+              )}
             </div>
           </div>
         </div>
@@ -1229,6 +1224,10 @@ const useStyles = makeStyles({
   },
   container: {
     backgroundImage: `url(${Background1})`,
+    height: '100%',
+    width: '100%',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
     fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
     backgroundSize: '300px 250px',
@@ -1236,7 +1235,7 @@ const useStyles = makeStyles({
   profile_name: {
     display: 'flex',
     justifyContent: 'center',
-    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
+    flexDirection: 'row',
     marginTop: '20px',
     color: '#C19D65',
     fontSize: '25px',
@@ -1266,11 +1265,7 @@ const useStyles = makeStyles({
     fontSize: '18px',
     marginTop: '10px',
     justifyContent: 'center',
-    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
-  },
-  mySale: {
-    width: (props) => (props?.phone ? '100%' : '1300px'),
-    paddingTop: (props) => (props?.phone ? '30px' : '130px'),
+    // flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
   memberTypeMonthlyPay: {
     color: 'darkgray',
@@ -1282,6 +1277,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    height: '100%',
   },
   memberTypeLoading: {
     display: 'flex',
@@ -1457,6 +1453,7 @@ const useStyles = makeStyles({
   },
   root: {
     width: '100%',
+    height: 'calc(100%)',
   },
   rootRow: {
     height: 'auto',
@@ -1592,6 +1589,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     flexDirection: (props) => (props?.phone ? 'column' : 'row'),
+    height: '100%',
   },
   faceIcon: {
     fontSize: '80px',
@@ -1626,9 +1624,9 @@ const useStyles = makeStyles({
     marginTop: '5px',
     fontWeight: 'bold',
   },
-  sliderItemBackImg: {
-    padding: '0px',
-    margin: '0px',
+  sliderItemContainer: {
+    dislay: 'flex',
+    alignItems: 'center',
     boxShadow:
       ' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset',
     backgroundImage: (props) =>
@@ -1640,16 +1638,7 @@ const useStyles = makeStyles({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     height: (props) => (props?.phone ? '600px' : '640px'),
-    width: '100%',
     justifyContent: 'center',
-  },
-  sliderItemContainer: {
-    dislay: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    zIndex: 99,
-    transform: 'translate(0px, -100%)',
-    height: (props) => (props?.phone ? '600px' : '530px'),
     width: '100%',
   },
   textContainer: {
@@ -1658,7 +1647,7 @@ const useStyles = makeStyles({
     width: '220px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    minHeight: '100px',
+    minHeight: '400px',
     margin: (props) => (props?.phone ? '90px' : '45px'),
     padding: (props) => (props?.phone ? '10px' : '10px'),
     borderRadius: '5px',
@@ -1770,7 +1759,7 @@ const useStyles = makeStyles({
     '-webkit9-filter': 'blur(0px)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: (props) => (props?.phone ? 'auto' : '300px'),
+    // height: (props) => (props?.phone ? 'auto' : '300px'),
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',

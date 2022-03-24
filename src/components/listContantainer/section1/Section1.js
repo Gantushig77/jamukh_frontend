@@ -221,6 +221,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     flexDirection: 'column',
     width: '100%',
+    maxWidth: '1300px',
   },
   textSlide: {
     borderBottom: '2px solid #C6824D',
@@ -301,6 +302,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     border: 'none',
     fontWeight: '300',
+    marginBottom: 20,
   },
   slider: {
     display: 'flex',

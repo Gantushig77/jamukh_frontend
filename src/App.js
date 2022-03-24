@@ -21,7 +21,7 @@ import Category from './pages/category/category';
 import Ads from './pages/ads/ads';
 import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
-import Antique from './assets/background/aquest.png';
+import Antique from './assets/background/jewelry.jpg';
 import Cars from './assets/background/cars.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
@@ -30,6 +30,8 @@ import Detailnews from './pages/Detailnews/Detailnews';
 import Realtor from './pages/realtor/realtor';
 import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
+import apartment_bg from './assets/background/apartment.jpg';
+import house_bg from './assets/background/house.jpg';
 import './App.css';
 
 export default function App() {
@@ -109,15 +111,15 @@ export default function App() {
             <Route exact path={'/'}>
               <Home />
             </Route>
-            <PrivateRoute path={'/adsDetail/:id'} authenticated={() => isAuthenticated()}>
+            <Route path={'/adsDetail/:id'} authenticated={isAuthenticated()}>
               <Ads />
-            </PrivateRoute>
-            <PrivateRoute path={'/detailNews/:id'} authenticated={isAuthenticated()}>
+            </Route>
+            <Route path={'/detailNews/:id'}>
               <Detailnews />
-            </PrivateRoute>
-            <PrivateRoute path={'/news'} authenticated={isAuthenticated()}>
+            </Route>
+            <Route path={'/news'} authenticated={isAuthenticated()}>
               <List />
-            </PrivateRoute>
+            </Route>
             <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
               <Profile />
             </PrivateRoute>
@@ -153,7 +155,7 @@ export default function App() {
                 subCategory=''
               />
             </PrivateRoute>
-            <PrivateRoute path={'/cars'} authenticated={isAuthenticated()}>
+            <Route path={'/cars'}>
               <Category
                 bg={Cars}
                 title='Машин'
@@ -162,8 +164,8 @@ export default function App() {
                 id={1}
                 subCategory=''
               />
-            </PrivateRoute>
-            <PrivateRoute path={'/land'} authenticated={isAuthenticated()}>
+            </Route>
+            <Route path={'/land'}>
               <Category
                 bg={Cars}
                 title='Газар'
@@ -172,35 +174,32 @@ export default function App() {
                 id={4}
                 subCategory='land'
               />
-            </PrivateRoute>
-            <PrivateRoute path={'/house'} authenticated={isAuthenticated()}>
+            </Route>
+            <Route path={'/house'}>
               <Category
-                bg={Cars}
+                bg={house_bg}
                 title='House'
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={4}
                 subCategory='house'
               />
-            </PrivateRoute>
-            <PrivateRoute path={'/apartment'} authenticated={isAuthenticated()}>
+            </Route>
+            <Route path={'/apartment'}>
               <Category
-                bg={Cars}
+                bg={apartment_bg}
                 title='Apartment'
                 phone={phoneSize}
                 tablet={tabletSize}
                 id={4}
                 subCategory='apartment'
               />
-            </PrivateRoute>
+            </Route>
             <Route path={'/login'}>
               <Login />
             </Route>
             <PrivateRoute path={'/members'} authenticated={isAuthenticated()}>
               <Members />
-            </PrivateRoute>
-            <PrivateRoute path={'/profile'} authenticated={isAuthenticated()}>
-              <Profile />
             </PrivateRoute>
             {/* 404 page. Must be at the bottom. */}
             <Route path={'*'}>
