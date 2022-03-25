@@ -12,17 +12,15 @@ import { useParams } from 'react-router-dom';
 export default function AdsDetail() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
-  const [liked, setLiked] = useState(true);
   const [posts, setPosts] = useState({});
   const phoneSize = useMediaQuery('(max-width: 767px)');
+
   const tabletSize = useMediaQuery(
     json2mq({
       minWidth: 768,
       maxWidth: 1023,
     })
   );
-
-  console.log(liked);
 
   const [snackbarState, setSnackbarState] = useState({
     open: false,
@@ -43,9 +41,11 @@ export default function AdsDetail() {
         console.log(res?.data, 'res.data');
         setPosts(res?.data);
         setLoading(false);
-        setLiked(res?.data?.liked);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        console.log(e);
+        // setLoading(false);
+      });
   }, [params.id]);
 
   return (
@@ -72,7 +72,20 @@ export default function AdsDetail() {
         </Alert>
       </Snackbar>
       {isLoading === true ? (
-        <>Loading...</>
+        <div
+          style={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            color: 'white',
+            backgroundColor: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Loading...
+        </div>
       ) : (
         <>
           <Slider
@@ -85,10 +98,22 @@ export default function AdsDetail() {
           <Section2
             image={posts?.ad_imgs}
             description={posts?.description}
-            ads_info={posts?.ads_info[0]?.info_obj}
+            ads_info={
+              posts?.ads_info !== null &&
+              posts?.ads_info !== undefined &&
+              posts?.ads_info?.length > 0
+                ? posts?.ads_info[0]?.info_obj
+                : []
+            }
             phone={phoneSize}
             tablet={tabletSize}
-            avatar={posts?.realtor[0]}
+            avatar={
+              posts?.realtor !== null &&
+              posts?.realtor !== undefined &&
+              posts?.realtor?.length > 0
+                ? posts?.realtor[0]
+                : []
+            }
             symbol={posts?.currency_symbol}
             price={posts?.price}
             liked={posts?.liked}

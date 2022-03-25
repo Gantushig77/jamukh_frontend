@@ -301,6 +301,7 @@ export default function Section2(props) {
     </div>
   );
 }
+
 const SliderItem = (props) => {
   const classes = useStyles(props);
 
@@ -582,7 +583,6 @@ const useStyles = makeStyles({
     color: 'black',
     marginLeft: (props) => (props.phone ? 10 : props.tablet ? 40 : 80),
   },
-
   descriptionWithParentId: {
     textAlign: 'left',
     fontFamily: 'SF Pro Display',
