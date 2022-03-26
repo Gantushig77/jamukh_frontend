@@ -1029,18 +1029,27 @@ export default function Profile() {
                   )}
                   <div className={classes.profile_badge}></div>
                 </div>
+                {/* Name */}
                 <div className={classes.profile_name}>
                   <div className={classes.profile_name_firstname}>
-                    {fieldState.firstname}
+                    <Typography style={{ textAlign: 'center' }}>
+                      {fieldState.firstname}
+                    </Typography>
                   </div>
-                  <div>{account?.lastname}</div>
+                  <div>
+                    <Typography style={{ textAlign: 'center' }}>
+                      {account?.lastname}
+                    </Typography>
+                  </div>
                 </div>
+                {/* Member type */}
                 <div className={classes.membership}>
                   <div className={classes.member_type_str}>
                     {account?.member_type_str}
                   </div>
                   <div>member</div>
                 </div>
+                {/* Tel */}
                 <div className={classes.membership}>
                   <div>{account?.tel}</div>
                 </div>
@@ -1235,7 +1244,7 @@ const useStyles = makeStyles({
   profile_name: {
     display: 'flex',
     justifyContent: 'center',
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginTop: '20px',
     color: '#C19D65',
     fontSize: '25px',
@@ -1265,7 +1274,6 @@ const useStyles = makeStyles({
     fontSize: '18px',
     marginTop: '10px',
     justifyContent: 'center',
-    // flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
   memberTypeMonthlyPay: {
     color: 'darkgray',
@@ -1277,7 +1285,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    height: window.screen.availHeight,
   },
   memberTypeLoading: {
     display: 'flex',
@@ -1660,7 +1668,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     color: '#AA7654',
     width: 120,
-    marginLeft: 40,
+    marginLeft: '15%',
   },
   avatarColumn: {
     display: 'flex',
