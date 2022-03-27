@@ -10,7 +10,6 @@ import enText from './constants/enText';
 import { CircularProgress } from '@mui/material';
 import { isAuthenticated } from './helpers/helperFunctions';
 import PrivateRoute from './components/privateRoute/privateRoute';
-import useAppStyles from './styles/js/classes';
 import { logout } from './helpers/logout';
 import Home from './pages/general/home';
 import NotFound from './pages/general/notFound';
@@ -19,10 +18,10 @@ import Members from './pages/membership/membership';
 import Profile from './pages/profile/profile';
 import Category from './pages/category/category';
 import Ads from './pages/ads/ads';
-import jamuh_logo from './assets/icons/Jamuh_logo.png';
 import { getProfile } from './api/account';
 import Antique from './assets/background/jewelry.jpg';
 import Cars from './assets/background/cars.png';
+import Land from './assets/background/land.png';
 import Estate from './assets/background/estate.png';
 import Painting from './assets/background/Painting.png';
 import List from './pages/listNews/list';
@@ -37,7 +36,6 @@ import './App.css';
 export default function App() {
   const token = localStorage.getItem('jamukh_token');
 
-  const classes = useAppStyles();
   const loading = false;
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
@@ -93,13 +91,20 @@ export default function App() {
 
   if (loading)
     return (
-      <div className={classes.loading}>
-        <img
-          src={jamuh_logo}
-          alt={'jamukh logo'}
-          style={{ paddingBottom: 20, width: 50 }}
-        />
+      <div
+        style={{
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          color: 'white',
+          backgroundColor: 'black',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress sx={{ color: 'orange' }} size={40} thickness={4} />
+        Loading...
       </div>
     );
 
@@ -167,7 +172,7 @@ export default function App() {
             </Route>
             <Route path={'/land'}>
               <Category
-                bg={Cars}
+                bg={Land}
                 title='Газар'
                 phone={phoneSize}
                 tablet={tabletSize}

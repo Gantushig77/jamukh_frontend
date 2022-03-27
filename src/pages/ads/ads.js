@@ -107,7 +107,7 @@ export default function AdsDetail() {
             }
             phone={phoneSize}
             tablet={tabletSize}
-            avatar={
+            realtor={
               posts?.realtor !== null &&
               posts?.realtor !== undefined &&
               posts?.realtor?.length > 0
@@ -119,6 +119,13 @@ export default function AdsDetail() {
             liked={posts?.liked}
             id={posts?.ads_id}
             embed_link={posts?.embed_link}
+            youtube_link={
+              posts?.video_links !== null &&
+              posts?.video_links !== undefined &&
+              posts?.video_links?.length > 0
+                ? posts?.video_links[0]
+                : []
+            }
           />
         </>
       )}

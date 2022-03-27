@@ -80,10 +80,18 @@ export default function SliderCustom(props) {
 const SliderItem = (props) => {
   const classes = useStyles(props);
   return (
-    <div className={classes.sliderItemBackImg} style={{backgroundImage:props.backgroundImg, height:"500px"}}>
+    <div
+      className={classes.sliderItemBackImg}
+      style={{
+        backgroundImage: props.backgroundImg,
+        height: '500px',
+      }}
+    >
       <div className={classes.sliderItemContainer}>
         <div className={classes.textContainer}>{props?.title}</div>
-        <div className={classes.textSub}>{props?.avatar?.lastname} {props.avatar?.firstname}</div>
+        <div className={classes.textSub}>
+          {props?.avatar?.lastname} {props.avatar?.firstname}
+        </div>
       </div>
     </div>
   );
@@ -115,7 +123,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   sliderItemBackImg: {
-    position:'relative',
+    position: 'relative',
     background: colors.lightGray,
     backgroundImage: (props) => `url(${props.backgroundImg})`,
     backgroundPosition: 'center',
@@ -123,13 +131,12 @@ const useStyles = makeStyles({
     '-webkit9-filter': 'blur(0px)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    width: '100vw',
+    width: '100%',
     justifyContent: 'center',
-    // height: '600px',
   },
   sliderItemContainer: {
     position: 'absolute',
-    bottom:'0px',
+    bottom: '0px',
     zIndex: 99,
     width: '100%',
     background:

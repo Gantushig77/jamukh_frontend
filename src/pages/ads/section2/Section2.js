@@ -2,8 +2,6 @@ import React, { useRef, useContext, useState } from 'react';
 import { Container, Dialog, DialogTitle } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
-// import Background1 from '../../../assets/background/adsDetail.png';
-// import Background from '../../../assets/background/background.png';
 import Slider from 'react-slick';
 import ArrowL from '../../../assets/arrow/arrowL.png';
 import ArrowR from '../../../assets/arrow/arrowR.png';
@@ -90,7 +88,7 @@ export default function Section2(props) {
         setLike(true);
         handleSnackOpen({
           state: true,
-          msg: res.data.msg,
+          msg: 'Амжилттай зарыг хадгаллаа.',
           type: 'success',
         });
       })
@@ -132,6 +130,8 @@ export default function Section2(props) {
       });
   };
 
+  console.log(props?.realtor);
+
   return (
     <div className={classes.root}>
       <Snackbar
@@ -150,30 +150,51 @@ export default function Section2(props) {
       </Snackbar>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div
-          className={classes.bookMark}
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
             width: '100%',
             marginTop: 30,
+            marginRight: 50,
+            marginLeft: 50,
           }}
         >
           {isLoading === true ? (
             <HashLoader style={{ color: '#A2875A' }} />
           ) : like === true ? (
-            <BsFillBookmarkFill
-              style={{ color: '#A0845A', fontSize: '52px', cursor: 'pointer' }}
-              onClick={() => {
-                removeLiked();
-              }}
-            />
+            <div
+              style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
+            >
+              <div className={classes.price}>
+                {props.symbol}
+                {props.price}
+              </div>
+              <BsFillBookmarkFill
+                style={{ color: '#A0845A', fontSize: '52px', cursor: 'pointer' }}
+                onClick={() => {
+                  removeLiked();
+                }}
+              />
+            </div>
           ) : (
-            <BsFillBookmarkFill
-              style={{ color: 'white', fontSize: '52px', cursor: 'pointer' }}
-              onClick={() => {
-                liked();
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
-            />
+            >
+              <div className={classes.price}>
+                {props.symbol}
+                {props.price}
+              </div>
+              <BsFillBookmarkFill
+                style={{ color: 'white', fontSize: '52px', cursor: 'pointer' }}
+                onClick={() => {
+                  liked();
+                }}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -200,7 +221,6 @@ export default function Section2(props) {
               arrows: true,
               infinite: true,
               slidesToShow: 3,
-              centerMode: true,
               slidesToScroll: 1,
               nextArrow: <NextArrow />,
               prevArrow: <PrevArrow />,
@@ -228,14 +248,15 @@ export default function Section2(props) {
             className={classes.slider}
           >
             {props?.image.map((item, i) => (
-              <SliderItem
-                key={i + 'slider item'}
-                sliderRef={slider}
-                phone={props?.phone}
-                title={props?.title}
-                buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
-                backgroundImg={item?.url}
-              />
+              <div key={i + 'slider item'}>
+                <SliderItem
+                  sliderRef={slider}
+                  phone={props?.phone}
+                  title={props?.title}
+                  buttonText={account ? 'Үйлчилгээ харах' : 'SEE ALL >'}
+                  backgroundImg={item?.url}
+                />
+              </div>
             ))}
           </Slider>
         )}
@@ -244,48 +265,86 @@ export default function Section2(props) {
           <div className={classes.content}>
             <div className={classes.description}>{props?.description}</div>
           </div>
-          {/* 360 Video section */}
-          <div
-            style={{
-              marginTop: 20,
-              display: 'flex',
-              width: '100%',
-            }}
-            dangerouslySetInnerHTML={{ __html: props?.embed_link }}
-          />
         </Container>
-        <Container className={classes.cardContent}>
-          <div className={classes.avatar}>
-            <div className={classes.avatarContent}>
-              <img
-                src={props?.avatar?.avatar?.url}
-                style={{
-                  border: '1px solid white',
-                  height: '50px',
-                  width: '50px',
-                  borderRadius: '100%',
-                  marginRight: '10px',
-                }}
-                alt=''
-                onClick={() => {
-                  dialogOpen(
-                    props?.avatar?.avatar?.url,
-                    props?.avatar?.email,
-                    props?.avatar?.tel,
-                    props?.avatar?.firstname
-                  );
-                }}
-              />
-              {props.avatar?.firstname}
-            </div>
-            <div className={classes.price}>
-              {props.symbol}
-              {props.price}
-            </div>
-          </div>
-        </Container>
+        {/* 360 Video section */}
+        {props?.embed_link && (
+          <>
+            <div className={classes.zurag}>360 Үзүүлэн</div>
+            <div
+              style={{
+                marginTop: 20,
+                display: 'flex',
+                width: '100%',
+              }}
+              dangerouslySetInnerHTML={{ __html: props?.embed_link }}
+            />
+          </>
+        )}
+        {/* Youtube Video section */}
+        {props?.youtube_link?.length > 0 && (
+          <>
+            <div className={classes.zurag}>Youtube Бичлэг</div>
+            <div
+              style={{
+                marginTop: 20,
+                display: 'flex',
+                width: '100%',
+              }}
+              dangerouslySetInnerHTML={{
+                __html: `<iframe width="100%" height="700" 
+                src=${props?.youtube_link.replace('watch?v=', 'embed/')}
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; 
+                picture-in-picture" 
+                allowfullscreen>
+              </iframe>`,
+              }}
+            />
+          </>
+        )}
+        {/* Retailer */}
+        {props?.realtor?.length > 0 && (
+          <>
+            <div className={classes.zurag}>Риалтор</div>
+            <Container className={classes.cardContent}>
+              <div className={classes.avatar}>
+                <div className={classes.avatarContent}>
+                  <img
+                    src={props?.realtor?.avatar?.url}
+                    style={{
+                      border: '1px solid white',
+                      height: '50px',
+                      width: '50px',
+                      borderRadius: '100%',
+                      marginRight: '10px',
+                    }}
+                    alt=''
+                    onClick={() => {
+                      dialogOpen(
+                        props?.realtor?.avatar?.url,
+                        props?.realtor?.email,
+                        props?.realtor?.tel,
+                        props?.realtor?.firstname
+                      );
+                    }}
+                  />
+                  {props?.realtor?.firstname}
+                </div>
+                <div className={classes.price}>
+                  {props.symbol}
+                  {props.price}
+                </div>
+              </div>
+            </Container>
+          </>
+        )}
         <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
-          <img src={dialogAvatar} style={{ width: '250px', heigth: 'auto' }} alt='' />
+          <img
+            src={dialogAvatar}
+            style={{ width: '250px', heigth: 'auto' }}
+            alt='just alt'
+          />
           <DialogTitle>{dialogName}</DialogTitle>
           <div className={classes.dialogText}>
             <BsTelephone style={{ marginRight: '5px' }} />
@@ -307,17 +366,34 @@ const SliderItem = (props) => {
 
   return (
     <div className={classes.box}>
-      <img
-        style={{ margin: 20 }}
-        src={props.backgroundImg}
-        className={classes.boxImage}
-        alt='gave the alt'
-      />
+      <div style={{ marginLeft: 10, marginRight: 10, width: '99%', height: '99%' }}>
+        <img src={props.backgroundImg} className={classes.boxImage} alt='gave the alt' />
+      </div>
     </div>
   );
 };
 
 const useStyles = makeStyles({
+  box: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    height: '500px',
+    justifyContent: 'center',
+  },
+  boxImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    border: '1px solid #9E8458',
+    borderRadius: '10px',
+  },
+  dialogContent: {
+    padding: 10,
+  },
+  dialogText: {
+    padding: 10,
+  },
   root: {
     width: (props) => (props.phone ? '100%' : '100%'),
     overflow: 'hidden',
@@ -415,19 +491,6 @@ const useStyles = makeStyles({
     fontSize: '32px',
     fontWeight: '300',
   },
-  box: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    justifyContent: 'center',
-  },
-  boxImage: {
-    width: (props) => (props?.phone ? '100%' : '900px'),
-    height: (props) => (props?.phone ? '150px' : '500px'),
-    objectFit: 'cover',
-    border: '1px solid #9E8458',
-    borderRadius: '10px',
-  },
   bottomBox: {
     display: 'flex',
     alignItems: 'center',
@@ -461,7 +524,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     maxWidth: '100%',
-    margin: '100px 0px',
+    margin: '40px 0px',
   },
   cardContent: {
     display: 'flex',

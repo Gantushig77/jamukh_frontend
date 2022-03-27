@@ -128,11 +128,13 @@ export default function Section2(props) {
               >
                 <img src={realtor.avatar.url} className={classes.avatar} alt='' />
                 <div className={classes.nameText}>
-                  <div>{realtor?.firstname}</div>
-                  <div className={classes.lastname}>{realtor?.lastname}</div>
+                  <Typography noWrap>{realtor?.firstname}</Typography>
+                  <Typography noWrap className={classes.lastname}>
+                    {realtor?.lastname}
+                  </Typography>
                 </div>
                 <div className={classes.smallProfileRank}>
-                  <StarIcon sx={{ color: 'yellow' }} className={classes.starRank} />
+                  <StarIcon sx={{ color: '#C19D65' }} className={classes.starRank} />
                   <Typography
                     color={'black'}
                     sx={{
@@ -159,7 +161,11 @@ export default function Section2(props) {
         </div>
       )}
       <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
-        <img src={dialogAvatar} style={{ width: '250px', heigth: 'auto' }} alt='' />
+        <img
+          src={dialogAvatar}
+          style={{ width: '250px', heigth: 'auto' }}
+          alt='dialogue'
+        />
         <DialogTitle>{dialogName}</DialogTitle>
         <div className={classes.dialogText}>
           <BsTelephone style={{ marginRight: '5px' }} />
@@ -215,7 +221,8 @@ const useStyles = makeStyles({
     display: 'grid',
     fontSize: '0',
     gridTemplateColumns: (props) => (props?.phone ? '100%' : '25% 25% 25% 25%'),
-    width: (props) => (props?.phone ? '100%' : '1300px'),
+    width: '100%',
+    maxWidth: '1200px',
     zIndex: '1',
   },
   realtor: {
@@ -223,6 +230,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '10px',
+    paddingRight: 20,
+    paddingLeft: 20,
     flexDirection: 'column',
     cursor: 'pointer',
     '&:hover': {
@@ -242,6 +251,7 @@ const useStyles = makeStyles({
     fontSize: '18px',
     color: 'white',
     marginTop: '15px',
+    maxWidth: 150,
   },
   lastname: {
     marginLeft: '5px',

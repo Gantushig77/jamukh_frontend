@@ -14,6 +14,7 @@ import TruncateMarkup from 'react-truncate-markup';
 import { Link } from 'react-router-dom';
 import { getSearch } from '../../../api/ads';
 import HashLoader from 'react-spinners/HashLoader';
+import SearchIcon from '@mui/icons-material/Search';
 
 function NextArrow(props) {
   const classes = useStyles(props);
@@ -41,26 +42,6 @@ export default function Section(props) {
   const [isLoading, setLoading] = useState(false);
   const ContextHook = useContext(TheContext);
   const account = ContextHook.account;
-  // const [snackbarState, setSnackbarState] = useState({
-  //   open: false,
-  //   message: 'Амжилттай илгээлээ',
-  //   severity: 'success',
-  // });
-
-  // const handleSnackClose = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-  //   setSnackbarState({ ...snackbarState, open: false });
-  // };
-
-  // const handleSnackOpen = ({ state, msg, type }) => {
-  //   setSnackbarState({
-  //     open: state,
-  //     message: msg,
-  //     severity: type,
-  //   });
-  // };
 
   const search = (e) => {
     setLoading(true);
@@ -106,6 +87,7 @@ export default function Section(props) {
               variant='standard'
               className={classes.textField}
               placeholder='Хайх'
+              startAdornment={<SearchIcon />}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   search(e);
@@ -244,9 +226,10 @@ const useStyles = makeStyles({
   },
   boxImage: {
     width: (props) => (props?.phone ? '100%' : '100%'),
-    height: (props) => (props?.phone ? '150px' : '210px'),
+    height: (props) => (props?.phone ? '150px' : '250px'),
     borderTopRightRadius: '10px',
     borderTopLeftRadius: '10px',
+    objectFit: 'cover',
   },
   bottomBox: {
     display: 'flex',
@@ -317,23 +300,20 @@ const useStyles = makeStyles({
     width: '30%',
     height: '20px',
   },
-
   sliderItemBackImg: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    // background: 'rgb(0,0,0)',
     background: 'linear-gradient(0deg, rgba(0,0,0,0.85) 100%, rgba(0,0,0,0.85) 100%)',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
-    height: (props) => (props?.phone ? 'auto' : '320px'),
+    height: (props) => (props?.phone ? 'auto' : '350px'),
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',
-    width: (props) => (props?.phone ? 'auto' : '300px'),
+    width: (props) => (props?.phone ? 'auto' : '400px'),
   },
-
   empty: {
     display: 'flex',
     alignItems: 'center',
