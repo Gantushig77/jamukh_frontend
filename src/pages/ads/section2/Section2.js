@@ -130,6 +130,17 @@ export default function Section2(props) {
       });
   };
 
+  const linker = (str) => {
+    let linked = str;
+    try {
+      linked = str?.replace('watch?v=', 'embed/');
+      console.log(linked);
+    } catch (e) {
+      console.log(e);
+    }
+    return linked;
+  };
+
   console.log(props?.realtor);
 
   return (
@@ -292,7 +303,7 @@ export default function Section2(props) {
               }}
               dangerouslySetInnerHTML={{
                 __html: `<iframe width="100%" height="700" 
-                src=${props?.youtube_link.replace('watch?v=', 'embed/')}
+                src=${linker(props?.youtube_link)}
                 title="YouTube video player" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; 
