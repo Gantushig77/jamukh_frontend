@@ -1075,7 +1075,7 @@ export default function Profile() {
               {/* MEMBERS */}
               <div className={classes.memberContainer}>
                 <div className={classes.memberTop}>
-                  <div className={classes.memberTitle}>Realtors</div>
+                  <div className={classes.memberTitle}>Реалторууд</div>
                   <Button
                     onClick={() => history.push('/realtor')}
                     className={classes.memberTitleSEE}

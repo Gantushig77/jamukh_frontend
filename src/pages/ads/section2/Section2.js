@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Container, Dialog, DialogTitle } from '@mui/material';
+import { Container, Dialog, DialogTitle, Modal, Box } from '@mui/material';
 import colorss from '../../../constants/colors';
 import { makeStyles } from '@mui/styles';
 import Slider from 'react-slick';
@@ -52,6 +52,7 @@ export default function Section2(props) {
   const [dialogEmail, setDialogEmail] = useState('');
   const [dialogPhone, setDialogPhone] = useState('');
   const [open, setOpen] = useState(false);
+  const [imgDialogue, setImgDialogue] = useState(false);
 
   const dialogClosed = () => {
     setOpen(false);
@@ -141,7 +142,10 @@ export default function Section2(props) {
     return linked;
   };
 
-  console.log(props?.realtor);
+  const sliderItemClick = (url) => {
+    setImgDialogue(true);
+    setDialogAvatar(url);
+  };
 
   return (
     <div className={classes.root}>
@@ -259,7 +263,7 @@ export default function Section2(props) {
             className={classes.slider}
           >
             {props?.image.map((item, i) => (
-              <div key={i + 'slider item'}>
+              <div key={i + 'slider item'} onClick={() => sliderItemClick(item?.url)}>
                 <SliderItem
                   sliderRef={slider}
                   phone={props?.phone}
@@ -350,6 +354,7 @@ export default function Section2(props) {
             </Container>
           </>
         )}
+        {/* Realtor Dialogue */}
         <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
           <img
             src={dialogAvatar}
@@ -366,6 +371,33 @@ export default function Section2(props) {
             {dialogEmail}
           </div>
         </Dialog>
+        {/* Image Dialogue */}
+        <Modal
+          open={imgDialogue}
+          onClose={() => setImgDialogue(false)}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '80%',
+              bgcolor: 'transparent',
+              outline: 'none',
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <img
+              src={dialogAvatar}
+              style={{ width: '100%', heigth: 'auto' }}
+              alt='just alt'
+            />
+          </Box>
+        </Modal>
       </Container>
       <Footer phone={props.phone} tablet={props.tablet} />
     </div>
@@ -401,6 +433,11 @@ const useStyles = makeStyles({
   },
   dialogContent: {
     padding: 10,
+  },
+  imgDialogContent: {
+    padding: 10,
+    width: '100%',
+    height: '100%',
   },
   dialogText: {
     padding: 10,

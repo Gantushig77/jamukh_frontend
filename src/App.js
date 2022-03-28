@@ -31,6 +31,7 @@ import { useMediaQuery } from '@mui/material';
 import json2mq from 'json2mq';
 import apartment_bg from './assets/background/apartment.jpg';
 import house_bg from './assets/background/house.jpg';
+import AboutUs from './pages/aboutUs';
 import './App.css';
 
 export default function App() {
@@ -121,6 +122,9 @@ export default function App() {
             </Route>
             <Route path={'/detailNews/:id'}>
               <Detailnews />
+            </Route>
+            <Route path={'/about-us'}>
+              <AboutUs />
             </Route>
             <Route path={'/news'} authenticated={isAuthenticated()}>
               <List />

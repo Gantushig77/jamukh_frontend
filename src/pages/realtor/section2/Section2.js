@@ -156,6 +156,9 @@ export default function Section2(props) {
               count={posts?.pageCount}
               onChange={handlePagination}
               className='rowProfilePage'
+              sx={{
+                color: 'white',
+              }}
             />
           </div>
         </div>
@@ -220,7 +223,8 @@ const useStyles = makeStyles({
   content: {
     display: 'grid',
     fontSize: '0',
-    gridTemplateColumns: (props) => (props?.phone ? '100%' : '25% 25% 25% 25%'),
+    gridTemplateColumns: (props) =>
+      props?.phone ? '100%' : props?.tablet ? '50% 50%' : '25% 25% 25% 25%',
     width: '100%',
     maxWidth: '1200px',
     zIndex: '1',

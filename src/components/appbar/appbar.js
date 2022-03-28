@@ -29,7 +29,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Logo from '../../assets/logo/jamukh.png';
 import { logout } from '../../helpers/logout';
 import Background from '../../assets/background/background.png';
-import { BsFillBookmarkStarFill } from 'react-icons/bs';
 
 export default function Appbar(props) {
   // Navigation
@@ -117,14 +116,6 @@ export default function Appbar(props) {
               )}
             </Avatar>
             Профайл
-          </MenuItem>
-          <MenuItem>
-            <BsFillBookmarkStarFill
-              size={22}
-              style={{ cursor: 'pointer', color: 'gray', marginRight: 13 }}
-              onClick={() => history.push('/profile')}
-            />
-            Хадгалсан зарууд
           </MenuItem>
           <Divider />
           <MenuItem
@@ -350,6 +341,13 @@ export default function Appbar(props) {
                 style={{ color: currentRoute === '/news' ? '#C19D65' : 'white' }}
               >
                 Мэдээ
+              </Link>
+              <Link
+                className={classes.menuListItem}
+                to='/about-us'
+                style={{ color: currentRoute === '/about-us' ? '#C19D65' : 'white' }}
+              >
+                Бидний тухай
               </Link>
               <Link
                 to={'/antique'}
