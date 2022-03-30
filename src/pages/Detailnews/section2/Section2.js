@@ -5,29 +5,37 @@ import colors from '../../../constants/colors';
 import './section.css';
 import Background from '../../../assets/background/background.png';
 import Title from '../../../components/title/title';
-import HashLoader from "react-spinners/HashLoader";
-
-
-
-
+import HashLoader from 'react-spinners/HashLoader';
 
 export default function Section2(props) {
   const classes = useStyles(props);
   return (
     <Container disableGutters maxWidth={false} className={classes.root}>
-      {props?.isLoading === true ?
-        <Container disableGutters maxWidth={false} className={classes.container} style={{display:'flex',justifyContent:'center',alignItems:'center'}}><HashLoader color='#D38F63' loading={true} size={120} /> </Container>:
+      {props?.isLoading === true ? (
+        <Container
+          disableGutters
+          maxWidth={false}
+          className={classes.container}
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <HashLoader color='#D38F63' loading={true} size={120} />{' '}
+        </Container>
+      ) : (
         <>
           <Title name={props?.posts?.title} phone={props.phone} tablet={props.tablet} />
           <Container disableGutters maxWidth={false} className={classes.container}>
-            <img src={props?.posts?.meta_img_url} className={classes.coverImage} alt=""/>
+            <img src={props?.posts?.meta_img_url} className={classes.coverImage} alt='' />
             <div className={classes.containerNews}>
-              <div className={classes.newsText} dangerouslySetInnerHTML={{ __html: props?.posts?.html_content }} />
+              <div className={'ck-content'}>
+                <div
+                  className={classes.newsText}
+                  dangerouslySetInnerHTML={{ __html: props?.posts?.html_content }}
+                />
+              </div>
             </div>
           </Container>
         </>
-      }
-
+      )}
     </Container>
   );
 }
@@ -44,7 +52,7 @@ const useStyles = makeStyles({
   textSlide: {
     borderBottom: '2px solid #C6824D',
     marginBottom: '10px',
-    paddingBottom: '5px'
+    paddingBottom: '5px',
   },
   titleSlider: {
     display: 'flex',
@@ -173,7 +181,11 @@ const useStyles = makeStyles({
     textAlign: 'justify',
     fontWeight: '300',
     lineHeight: '25px',
-    margin: '10px 0'
+    margin: '10px 0',
+    maxWidth: '100%',
+    'img': {
+      maxWidth: '100%',
+    },
   },
   containerRec: {
     display: 'flex',
@@ -192,18 +204,20 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
+    maxWidth: '100%',
     marginTop: '20px',
-    color: '#C19D65'
+    color: '#C19D65',
   },
   container: {
     display: 'flex',
     flexDirection: 'column',
     padding: (props) => (props?.phone ? '10px' : '40px'),
     justifyContent: 'flex-start',
-    backgroundImage: (props) => `url(${Background})`,
-    width: (props) => (props?.phone ? '100%' : '1300px'),
-    height: "100%",
-    marginTop: '20px'
+    backgroundImage: `url(${Background})`,
+    maxWidth: '1300px',
+    width: '100%',
+    height: '100%',
+    marginTop: '20px',
   },
   titleNews: {
     fontFamily: 'normal',
@@ -303,7 +317,7 @@ const useStyles = makeStyles({
     minHeight: 64,
   },
   coverImage: {
-    width: '100%'
+    width: '100%',
   },
   button: {
     fontFamily: "'Roboto Condensed', sans-serif",

@@ -18,6 +18,7 @@ export default function Section2(props) {
   const limit = 10;
   const [news, setNews] = useState([]);
   const [page, setPage] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   const [setSnackbarState] = useState({
     open: false,
@@ -41,8 +42,10 @@ export default function Section2(props) {
       .then((res) => {
         setPage(res.page_length);
         setNews(res.data.blog_list);
+        setLoading(false);
       })
       .catch((e) => {
+        setLoading(false);
         handleSnackOpen({
           state: true,
           msg:
@@ -62,7 +65,21 @@ export default function Section2(props) {
       ) : (
         <>
           <Container className={classes.cardContent}>
-            {news.length > 0 ? (
+            {isLoading ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  position: 'absolute',
+                  width: '100%',
+                  minHeight: 200,
+                }}
+              >
+                <div className={classes.empty}>Уншиж байна...</div>
+              </div>
+            ) : news.length > 0 ? (
               <div className={classes.columm}>
                 {news?.map((item, i) => (
                   <Link
@@ -136,11 +153,13 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '30px',
+    marginBottom: '30px',
+    minHeight: 200,
+    height: '100%',
     color: '#C6824D',
     fontSize: '60px',
     fontFamily: "'Lobster', cursive",
   },
-
   menuListItem: {
     textDecoration: 'none',
     borderBottom: '1px solid #C19D6580',
@@ -154,9 +173,10 @@ const useStyles = makeStyles({
     alignItems: 'center',
     width: '100%',
     flexWrap: 'wrap',
-    position: 'relative',
+    // position: 'relative',
     backgroundImage: `url(${Background})`,
     backgroundSize: '300px 250px',
+    // backgroundAttachment: 'fixed',
     padding: '40px',
     marginTop: '20px',
     border: '1px solid #C6824D',

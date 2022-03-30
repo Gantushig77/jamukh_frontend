@@ -68,6 +68,7 @@ const useStyles = makeStyles({
     position: 'relative',
     backgroundImage: `url(${Background})`,
     backgroundPosition: 'center',
+    backgroundColor: 'black',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     height: '100vh',

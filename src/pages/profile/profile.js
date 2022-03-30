@@ -50,6 +50,7 @@ import Slider from 'react-slick';
 import { getads, getliked } from '../../api/ads';
 import '../../App.css';
 import { useHistory } from 'react-router-dom';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 //Slider arrow
 function NextArrow(props) {
@@ -1009,6 +1010,7 @@ export default function Profile() {
             <div className={classes.row1}>
               {/* Profile  */}
               <div className={classes.textContainer}>
+                {/* Avatar */}
                 <div className={classes.avatar}>
                   {authenticated === true ? (
                     <Avatar alt='Profile Avatar' className={classes.avatarImageBig}>
@@ -1031,18 +1033,14 @@ export default function Profile() {
                 </div>
                 {/* Name */}
                 <div className={classes.profile_name}>
-                  <div className={classes.profile_name_firstname}>
-                    <Typography style={{ textAlign: 'center' }}>
-                      {fieldState.firstname}
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography style={{ textAlign: 'center' }}>
-                      {account?.lastname}
-                    </Typography>
-                  </div>
+                  <Typography noWrap className={classes.profile_name_firstname}>
+                    {fieldState.firstname}
+                  </Typography>
+                  <Typography noWrap sx={{ textAlign: 'center' }}>
+                    {account?.lastname}
+                  </Typography>
                 </div>
-                {/* Member type */}
+                {/* Membership */}
                 <div className={classes.membership}>
                   <div className={classes.member_type_str}>
                     {account?.member_type_str}
@@ -1077,7 +1075,7 @@ export default function Profile() {
               {/* MEMBERS */}
               <div className={classes.memberContainer}>
                 <div className={classes.memberTop}>
-                  <div className={classes.memberTitle}>Realtors</div>
+                  <div className={classes.memberTitle}>Реалторууд</div>
                   <Button
                     onClick={() => history.push('/realtor')}
                     className={classes.memberTitleSEE}
@@ -1087,62 +1085,64 @@ export default function Profile() {
                   </Button>
                 </div>
                 <div className={classes.memberSmallProfiles}>
-                  {accListLoading ? (
-                    <div>
-                      <Typography sx={{ color: 'white' }}>Loading...</Typography>
-                    </div>
-                  ) : (
-                    listOfAccounts?.length > 0 &&
-                    listOfAccounts?.map((item, index) => {
-                      return (
-                        <div key={index + 'shit'} className={classes.smallProfile}>
-                          <div className={classes.smallProfileAvatar}>
-                            {item?.avatar?.url ? (
-                              <img
-                                alt={'avatar 3'}
-                                src={item?.avatar?.url}
-                                className={classes.avatarImage}
-                              />
-                            ) : (
-                              <Avatar sx={{ width: 80, height: 80 }}>
-                                <Typography
-                                  fontSize={35}
-                                  color={'white'}
-                                  fontWeight={'bolder'}
-                                >
-                                  {item?.firstname
-                                    ? item?.firstname?.charAt(0).toUpperCase()
-                                    : item?.username?.charAt(0).toUpperCase()}
+                  <ScrollContainer horizontal style={{ display: 'flex' }}>
+                    {accListLoading ? (
+                      <div>
+                        <Typography sx={{ color: 'white' }}>Loading...</Typography>
+                      </div>
+                    ) : (
+                      listOfAccounts?.length > 0 &&
+                      listOfAccounts?.map((item, index) => {
+                        return (
+                          <div key={index + 'shit'} className={classes.smallProfile}>
+                            <div className={classes.smallProfileAvatar}>
+                              {item?.avatar?.url ? (
+                                <img
+                                  alt={'avatar 3'}
+                                  src={item?.avatar?.url}
+                                  className={classes.avatarImage}
+                                />
+                              ) : (
+                                <Avatar sx={{ width: 80, height: 80 }}>
+                                  <Typography
+                                    fontSize={35}
+                                    color={'white'}
+                                    fontWeight={'bolder'}
+                                  >
+                                    {item?.firstname
+                                      ? item?.firstname?.charAt(0).toUpperCase()
+                                      : item?.username?.charAt(0).toUpperCase()}
+                                  </Typography>
+                                </Avatar>
+                              )}
+                              <div style={{ maxWidth: 120 }}>
+                                <Typography noWrap className={classes.smallProfileTitle}>
+                                  {item?.firstname && item?.lastname
+                                    ? item?.firstname + ' ' + item?.lastname
+                                    : item?.username
+                                    ? item?.username
+                                    : 'No name'}
                                 </Typography>
-                              </Avatar>
-                            )}
-                            <div style={{ maxWidth: 120 }}>
-                              <Typography noWrap className={classes.smallProfileTitle}>
-                                {item?.firstname && item?.lastname
-                                  ? item?.firstname + ' ' + item?.lastname
-                                  : item?.username
-                                  ? item?.username
-                                  : 'No name'}
-                              </Typography>
-                            </div>
-                            <div className={classes.smallProfileRank}>
-                              <StarIcon className={classes.starRank} />
-                              <Typography sx={{ pt: '4px', pl: '5px' }}>
-                                {item?.rating || 0}
-                              </Typography>
+                              </div>
+                              <div className={classes.smallProfileRank}>
+                                <StarIcon className={classes.starRank} />
+                                <Typography sx={{ pt: '4px', pl: '5px' }}>
+                                  {item?.rating || 0}
+                                </Typography>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  )}
+                        );
+                      })
+                    )}
+                  </ScrollContainer>
                 </div>
               </div>
             </div>
           </div>
           {/* SALES */}
           <div className={classes.saleBackground}>
-            <div className={classes.mySale}>
+            <div>
               <Title name='Таалагдсан зар' />
               {liked.length === 0 ? (
                 <div className={classes.empty}>Зар олдсонгүй</div>
@@ -1157,6 +1157,15 @@ export default function Profile() {
                     nextArrow: <NextArrow />,
                     prevArrow: <PrevArrow />,
                     responsive: [
+                      {
+                        breakpoint: 1310,
+                        settings: {
+                          slidesToShow: liked.length > 1 ? 2 : 1,
+                          slidesToScroll: 1,
+                          initialSlide: 1,
+                          arrows: true,
+                        },
+                      },
                       {
                         breakpoint: 600,
                         settings: {
@@ -1191,7 +1200,9 @@ export default function Profile() {
           </div>
         </div>
       </Container>
-      <Footer phone={phoneSize} tablet={tabletSize} />
+      <div style={{ marginTop: '-50px' }}>
+        <Footer phone={phoneSize} tablet={tabletSize} />
+      </div>
     </div>
   );
 }
@@ -1233,13 +1244,12 @@ const useStyles = makeStyles({
   },
   container: {
     backgroundImage: `url(${Background1})`,
-    height: '100%',
     width: '100%',
     backgroundPosition: 'center',
     backgroundRepeat: 'repeat',
+    backgroundSize: '300px 250px',
     fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
-    backgroundSize: '300px 250px',
   },
   profile_name: {
     display: 'flex',
@@ -1264,6 +1274,7 @@ const useStyles = makeStyles({
   },
   profile_name_firstname: {
     marginRight: (props) => (props?.phone ? '0px' : '5px'),
+    textAlign: 'center',
   },
   member_type_str: {
     marginRight: (props) => (props?.phone ? '0px' : '5px'),
@@ -1281,11 +1292,17 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   saleBackground: {
+    backgroundImage: `url(${Background1})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    backgroundSize: '300px 250px',
+    backgroundAttachment: 'fixed',
+    minHeight: '650px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: window.screen.availHeight,
+    height: window.screen.availHeight - 600,
   },
   memberTypeLoading: {
     display: 'flex',
@@ -1389,7 +1406,6 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     },
   },
-
   modalBox: {
     position: 'absolute',
     top: '50%',
@@ -1418,7 +1434,6 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     color: 'white!important',
   },
-
   memberModalBox: {
     position: 'absolute',
     top: '50%',
@@ -1432,7 +1447,6 @@ const useStyles = makeStyles({
     overflow: 'auto',
     maxHeight: '90%',
   },
-
   updateModalDiv: {
     marginTop: 30,
     outline: 'none',
@@ -1461,7 +1475,7 @@ const useStyles = makeStyles({
   },
   root: {
     width: '100%',
-    height: 'calc(100%)',
+    height: '100%',
   },
   rootRow: {
     height: 'auto',
@@ -1496,7 +1510,6 @@ const useStyles = makeStyles({
     color: 'black',
     fontSize: '20px',
   },
-  membersAdvantage: {},
   myDiv: {
     display: 'flex',
     padding: '40px',
@@ -1515,10 +1528,13 @@ const useStyles = makeStyles({
     maxWidth: 130,
   },
   memberSmallProfiles: {
+    width: '100%',
     display: 'flex',
     alignItems: 'flex-start',
     padding: '5px',
     overflow: 'hidden',
+    paddingRight: 10,
+    paddingLeft: 10,
   },
   smallProfileAvatar: {
     display: 'flex',
@@ -1544,6 +1560,8 @@ const useStyles = makeStyles({
     display: 'flex',
     minWidth: (props) => (props.phone ? '100%' : '60%'),
     flexDirection: 'column',
+    maxWidth: '100%',
+    // overflow: 'auto',
   },
   avatarImage: {
     display: 'flex',
@@ -1597,7 +1615,8 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     flexDirection: (props) => (props?.phone ? 'column' : 'row'),
-    height: '100%',
+    height: (props) => (props?.phone ? '800px' : '100%'),
+    width: '100%',
   },
   faceIcon: {
     fontSize: '80px',
@@ -1645,7 +1664,7 @@ const useStyles = makeStyles({
     '-webkit9-filter': 'blur(0px)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: (props) => (props?.phone ? '600px' : '640px'),
+    height: (props) => (props?.phone ? '900px' : '640px'),
     justifyContent: 'center',
     width: '100%',
   },
@@ -1655,7 +1674,7 @@ const useStyles = makeStyles({
     width: '220px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    minHeight: '400px',
+    minHeight: '360px',
     margin: (props) => (props?.phone ? '90px' : '45px'),
     padding: (props) => (props?.phone ? '10px' : '10px'),
     borderRadius: '5px',

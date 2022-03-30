@@ -18,7 +18,7 @@ export default function Footer(props) {
             to='/realtor'
             style={{ marginRight: '10px' }}
           >
-            Риалторууд
+            Реалторууд
           </Link>
           <Link
             className={classes.menuListItem}
@@ -27,7 +27,7 @@ export default function Footer(props) {
           >
             Мэдээ
           </Link>
-          <Link className={classes.menuListItem} to='/about'>
+          <Link className={classes.menuListItem} to='/about-us'>
             Бидний тухай
           </Link>
         </div>

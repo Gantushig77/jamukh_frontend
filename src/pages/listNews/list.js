@@ -59,6 +59,7 @@ export default function News(props) {
 
 const useStyles = makeStyles({
   root: {
+    minHeight: window.screen.availHeight,
     width: '100%',
     height: '100%',
     margin: '0px',
@@ -67,7 +68,7 @@ const useStyles = makeStyles({
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
     fontFamily: "'Roboto Condensed', sans-serif",
-    position: 'absolute',
   },
 });
