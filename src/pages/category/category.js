@@ -45,6 +45,7 @@ export default function Category(props) {
         setLoading(false);
       })
       .catch((e) => {
+        console.log('land error : ', e);
         setLoading(false);
         handleSnackOpen({
           state: true,

@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: (props) => (props.phone ? 'column' : 'row'),
     justifyContent: 'center',
-    color: 'white',
+    color: (props) => props.linkColor || 'white',
     fontWeight: '100',
     fontFamily: "'Roboto', sans-serif",
     fontSize: '16px',
@@ -60,7 +60,7 @@ const useStyles = makeStyles({
   },
   menuListItem: {
     textDecoration: 'none',
-    color: 'white',
+    color: (props) => props.linkColor || 'white',
     cursor: 'position',
     '&:hover': {
       color: '#AA6139',
@@ -92,7 +92,7 @@ const useStyles = makeStyles({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: 'transparent',
-    color: 'white',
+    color: (props) => props.linkColor || 'white',
     fontSize: (props) => (props.tablet ? '22px' : props.phone ? '12px' : '20px'),
     textDecoration: 'none',
     textTransform: 'none',

@@ -6,7 +6,7 @@ import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Background from '../../assets/images/home.jpg';
+import Background from '../../assets/images/home.png';
 
 export default function Home(props) {
   const classes = useStyles(props);
@@ -34,7 +34,7 @@ export default function Home(props) {
 
   return (
     <div className={classes.background}>
-      <Appbar phone={phoneSize} tablet={tabletSize} />
+      <Appbar phone={phoneSize} tablet={tabletSize} linkColor={'#000000'} />
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -51,7 +51,7 @@ export default function Home(props) {
         </Alert>
       </Snackbar>
       <div className={classes.footer}>
-        <Footer phone={phoneSize} tablet={tabletSize} />
+        <Footer phone={phoneSize} tablet={tabletSize} linkColor={'#000000'} />
       </div>
     </div>
   );

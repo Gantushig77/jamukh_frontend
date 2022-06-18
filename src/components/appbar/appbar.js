@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
   Avatar,
-  Grid,
   Toolbar,
   AppBar,
   Typography,
@@ -26,7 +25,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Logout from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Logo from '../../assets/logo/jamukh.png';
+import Logo from '../../assets/logo/jamukh_black.png';
 import { logout } from '../../helpers/logout';
 import Background from '../../assets/background/background.png';
 
@@ -48,7 +47,12 @@ export default function Appbar(props) {
     threshold: 0,
     disableHysteresis: true,
   });
-  const classes = useStyles({ trigger, phone: phoneSize, tablet: tabletSize });
+  const classes = useStyles({
+    trigger,
+    phone: phoneSize,
+    tablet: tabletSize,
+    linkColor: props?.linkColor,
+  });
 
   // States
   const [anchorEl, setAnchorEl] = useState(null);
@@ -142,115 +146,94 @@ export default function Appbar(props) {
           </MenuItem>
         </Menu>
         {!props?.phone && !props?.tablet ? (
-          <>
-            <Grid
-              container
-              direction={'row'}
-              alignItems={'center'}
-              className={classes.menuContainer}
-            >
-              {/* Appbar links */}
-              <Grid item xs={4} className={classes.menuPadding}>
-                <div className={classes.menuListName}>
-                  {url.general.map((item, index) => (
-                    <Link
-                      key={item}
-                      to={item}
-                      style={{ textAlign: 'center' }}
+          <div className={classes.menuContainer}>
+            {/* Logo and links */}
+            <div className={classes.logoAndLinks}>
+              <img
+                src={Logo}
+                style={{ width: '150px', cursor: 'pointer', margin: '10px 10px' }}
+                onClick={() => history.push('/')}
+                alt='jamukh black logo'
+              />
+              <div className={classes.menuListName}>
+                {url.general.map((item, index) => (
+                  <Link key={item} to={item} style={{ textAlign: 'center' }}>
+                    <Typography
                       className={
                         currentRoute === item ? classes.activeLink : classes.link
                       }
                     >
                       {contextText.appbar.links.general[index]}
-                    </Link>
-                  ))}
-                  <Button
-                    id='basic-button'
-                    aria-controls={open1 ? 'basic-menu' : undefined}
-                    aria-haspopup='true'
-                    aria-expanded={open1 ? 'true' : undefined}
-                    onClick={handleClick1}
-                    className={classes.link}
-                    style={{ fontSize: 18 }}
-                  >
-                    Үл хөдлөх
-                  </Button>
-                  <Menu
-                    id='basic-menu'
-                    anchorEl={anchorEl1}
-                    open={open1}
-                    onClose={handleClose1}
-                    className={classes.realStateMenu}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
-                    <MenuItem onClick={() => history.push('/house')}>House</MenuItem>
-                    <MenuItem onClick={() => history.push('/apartment')}>
-                      Apartment
-                    </MenuItem>
-                  </Menu>
-                </div>
-              </Grid>
-              {/* Logo */}
-              <Grid item xs={4} className={classes.menuLogo}>
-                <img
-                  src={Logo}
-                  style={{ width: '250px', cursor: 'pointer' }}
-                  onClick={() => history.push('/')}
-                  alt='just alt pls'
-                />
-              </Grid>
-              {/* Menu filters and account settings */}
-              <Grid item xs={4}>
-                <Grid
-                  container
-                  direction={'row'}
-                  alignItems={'center'}
-                  className={classes.containerEnd}
+                    </Typography>
+                  </Link>
+                ))}
+                <Button
+                  id='basic-button'
+                  aria-controls={open1 ? 'basic-menu' : undefined}
+                  aria-haspopup='true'
+                  aria-expanded={open1 ? 'true' : undefined}
+                  onClick={handleClick1}
+                  className={classes.link}
+                  style={{ fontSize: 18 }}
                 >
-                  <div className={classes.contact}>
-                    <div className={classes.contactText}>Холбоо барих</div>
-                    <div className={classes.phoneNumber}>77779080</div>
-                  </div>
-                  {/* Profile menu thumbnail */}
-                  <Grid item>
-                    <div style={{ display: 'flex' }}>
-                      {authenticated ? (
-                        <Tooltip title='Account settings'>
-                          <Avatar
-                            alt='Profile Avatar'
-                            className={classes.avatar}
-                            onClick={handleClick}
-                          >
-                            {account?.avatar?.url ? (
-                              <img
-                                alt={'profile'}
-                                className={classes.avatar}
-                                src={account?.avatar?.url}
-                              />
-                            ) : (
-                              <p style={{ fontWeight: 'bold' }}>
-                                {account &&
-                                  account?.firstname?.length > 1 &&
-                                  account?.firstname[0]?.toUpperCase()}
-                              </p>
-                            )}
-                          </Avatar>
-                        </Tooltip>
+                  Үл хөдлөх
+                </Button>
+                <Menu
+                  id='basic-menu'
+                  anchorEl={anchorEl1}
+                  open={open1}
+                  onClose={handleClose1}
+                  className={classes.realStateMenu}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
+                  <MenuItem onClick={() => history.push('/house')}>
+                    Амьны орон сууц
+                  </MenuItem>
+                  <MenuItem onClick={() => history.push('/apartment')}>Байр</MenuItem>
+                </Menu>
+              </div>
+            </div>
+            {/* Contact link and login */}
+            <div className={classes.contactAndLogin}>
+              <div className={classes.contact}>
+                <div className={classes.contactText}>Холбоо барих</div>
+                <div className={classes.phoneNumber}>77779080</div>
+              </div>
+              <div style={{ display: 'flex' }}>
+                {authenticated ? (
+                  <Tooltip title='Account settings'>
+                    <Avatar
+                      alt='Profile Avatar'
+                      className={classes.avatar}
+                      onClick={handleClick}
+                    >
+                      {account?.avatar?.url ? (
+                        <img
+                          alt={'profile'}
+                          className={classes.avatar}
+                          src={account?.avatar?.url}
+                        />
                       ) : (
-                        // Login
-                        <Link className={classes.avatarLink} to='/login'>
-                          Нэвтрэх
-                        </Link>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {account &&
+                            account?.firstname?.length > 1 &&
+                            account?.firstname[0]?.toUpperCase()}
+                        </p>
                       )}
-                    </div>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
+                    </Avatar>
+                  </Tooltip>
+                ) : (
+                  // Login
+                  <Link className={classes.avatarLink} to='/login'>
+                    Нэвтрэх
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
         ) : (
           <div className={classes.iconButtonContainer}>
             {/* Drawer menu icon */}
@@ -267,8 +250,8 @@ export default function Appbar(props) {
               <img
                 src={Logo}
                 style={{
-                  width: phoneSize ? '100%' : '250px',
-                  maxWidth: 250,
+                  width: phoneSize ? '100px' : '150px',
+                  maxWidth: 150,
                   cursor: 'pointer',
                 }}
                 onClick={() => history.push('/')}
@@ -308,9 +291,6 @@ export default function Appbar(props) {
         )}
         {/* The burger menu */}
         <SwipeableDrawer
-          sx={{
-            width: 1 / 2,
-          }}
           anchor={'right'}
           open={drawerOpen}
           className={classes.drawer}
@@ -326,12 +306,12 @@ export default function Appbar(props) {
                   marginTop: 20,
                   marginLeft: 10,
                   marginRight: 10,
-                  height: '100%',
+                  height: '90%',
                 }}
                 alt='jamukhLogo'
               />
             </div>
-            <div style={{ height: '80%' }} className={classes.menuList}>
+            <div style={{ height: '100%' }} className={classes.menuList}>
               <Link className={classes.menuListItem} to='/'>
                 Нүүр
               </Link>
@@ -433,14 +413,29 @@ const useStyles = makeStyles((props) => ({
       },
     },
   },
+  contactAndLogin: {
+    width: '22%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginTop: '10px',
+  },
+  logoAndLinks: {
+    display: 'flex',
+  },
   menuContainer: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
-    margin: '0px 10px',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: 20,
   },
   menuListName: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: '20px',
+    marginTop: '10px',
   },
   contact: {
     fontWeight: '100',
@@ -450,6 +445,7 @@ const useStyles = makeStyles((props) => ({
   },
   contactText: {
     fontSize: (props) => (props?.tablet || props?.phone ? '14px' : '18px'),
+    color: (props) => props.linkColor || 'white',
     marginRight: '20px',
   },
   phoneNumber: {
@@ -624,8 +620,8 @@ const useStyles = makeStyles((props) => ({
     },
   },
   avatarLink: {
+    color: (props) => props.linkColor || 'white',
     textDecoration: 'none',
-    color: 'white',
     fontWeight: '100',
     '&:hover': {
       color: colors.brandTextColor,
@@ -644,7 +640,7 @@ const useStyles = makeStyles((props) => ({
   link: {
     textDecoration: 'none',
     textTransform: 'none',
-    color: 'white',
+    color: (props) => props.linkColor || 'white',
     padding: '20px',
     fontWeight: '100',
     fontSize: (props) => (props?.tablet ? '14px' : '18px'),
@@ -676,12 +672,17 @@ const useStyles = makeStyles((props) => ({
       color: colors.lightPurple,
     },
   },
+  drawer: {
+    '& .MuiDrawer-paperAnchorRight': {
+      backgroundImage: `url(${Background})`,
+      backgroundSize: '300px 250px',
+      backgroundRepeat: 'repeat',
+      height: '100%',
+    },
+  },
   burgerPadding: {
     padding: '10px',
     position: 'relative',
-    backgroundImage: `url(${Background})`,
-    backgroundSize: '300px 250px',
-    height: '100vh',
   },
   authLinkActive: {
     textDecoration: 'none',
