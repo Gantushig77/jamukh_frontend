@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
+import MusicPlayer from '../musicPlayer/musicPlayer';
+import music from '../../assets/Mariage_dAmour.mp3';
 
 export default function Footer(props) {
   const classes = useStyles(props);
@@ -11,6 +13,9 @@ export default function Footer(props) {
       <div className={classes.flexContainer}>
         <div className={classes.address} style={{ fontSize: 14 }}>
           Бүх эрх хуулиар хамгаалагдсан. Jamukha Proporties © {new Date().getFullYear()}
+        </div>
+        <div style={{ marginRight: '12%' }}>
+          <MusicPlayer url={music} />
         </div>
         <div className={classes.social}>
           <Link

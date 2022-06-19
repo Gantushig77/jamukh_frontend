@@ -151,7 +151,7 @@ export default function Appbar(props) {
             <div className={classes.logoAndLinks}>
               <img
                 src={Logo}
-                style={{ width: '150px', cursor: 'pointer', margin: '10px 10px' }}
+                className={classes.leftLogo}
                 onClick={() => history.push('/')}
                 alt='jamukh black logo'
               />
@@ -413,12 +413,18 @@ const useStyles = makeStyles((props) => ({
       },
     },
   },
+  leftLogo: {
+    height: '100%',
+    width: '100px',
+    cursor: 'pointer',
+    marginTop: '15px',
+    marginLeft: '10px',
+  },
   contactAndLogin: {
     width: '22%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    marginTop: '10px',
   },
   logoAndLinks: {
     display: 'flex',
@@ -429,7 +435,7 @@ const useStyles = makeStyles((props) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginTop: 20,
+    // marginTop: 20,
   },
   menuListName: {
     display: 'flex',

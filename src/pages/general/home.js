@@ -6,6 +6,7 @@ import Footer from '../../components/footer/footer';
 import { Alert } from '@mui/lab';
 import { Snackbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import logo from '../../assets/logo/jamukh_black.png';
 import Background from '../../assets/images/home.png';
 
 export default function Home(props) {
@@ -50,6 +51,9 @@ export default function Home(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
+      <div>
+        <img src={logo} alt={'jamukh logo'} style={{ maxWidth: 200 }} />
+      </div>
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} linkColor={'#000000'} />
       </div>
@@ -64,6 +68,7 @@ const useStyles = makeStyles({
   background: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'column',
     position: 'relative',
     backgroundImage: `url(${Background})`,
