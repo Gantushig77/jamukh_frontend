@@ -7,10 +7,11 @@ const base_url =
     : // ? `http://192.168.1.26:${backend_port}`
       `http://43.231.114.19:${backend_port}`;
 
-const img_url = DEV === true ? `${base_url}/image/` : `${base_url}/image/`;
+const img_url = `${base_url}/image/`;
 
-const membership_img_url =
-  DEV === true ? `${base_url}/membership/` : `${base_url}/membership/`;
+const blog_img_url = `${base_url}/blog-img/`;
+
+const membership_img_url = `${base_url}/membership/`;
 
 const url = {
   general: ['/antique', '/cars', '/painting'],
@@ -41,4 +42,4 @@ const bmLinks = {
   ],
 };
 
-export { base_url, DEV, img_url, url, bmLinks, membership_img_url };
+export { base_url, DEV, img_url, blog_img_url, url, bmLinks, membership_img_url };
