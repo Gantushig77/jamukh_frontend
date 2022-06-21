@@ -33,7 +33,7 @@ import apartment_bg from './assets/background/apartment.jpg';
 import house_bg from './assets/background/house.jpg';
 import AboutUs from './pages/aboutUs';
 import './App.css';
-// import Contact from './pages/contact/contact'
+import Contact from './pages/contact/contact'
 
 export default function App() {
   const token = localStorage.getItem('jamukh_token');
@@ -121,9 +121,9 @@ export default function App() {
             <Route path={'/adsDetail/:id'} authenticated={isAuthenticated()}>
               <Ads />
             </Route>
-            {/* <Route path={'contact'}>
+            <Route path={'/contact'}>
               <Contact />
-            </Route> */}
+            </Route>
             <Route path={'/detailNews/:id'}>
               <Detailnews />
             </Route>

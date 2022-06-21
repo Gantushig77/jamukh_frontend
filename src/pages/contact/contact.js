@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
-import Appbar from '../components/appbar/appbar';
-import Footer from '../components/footer/footer';
+import Appbar from '../../components/appbar/appbar';
+import Footer from '../../components/footer/footer';
+import Background from '../../assets/images/home.png';
+import { makeStyles } from '@mui/styles';
 import {
   Container,
   Typography,
@@ -14,15 +16,17 @@ import {
   CircularProgress,
   Button,
 } from '@mui/material';
-import theContext from '../context/context';
-import { url } from '../constants/constants';
+import theContext from '../../context/context';
+import { base_url } from '../../constants/url';
 import axios from 'axios';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import CallIcon from '@mui/icons-material/Call';
-import mapImg from '../assets/mapImg.jpg';
+import mapImg from '../../assets/mapImg.jpg';
 
-export default function Contact() {
+export default function Contact(props) {
+  const classes = useStyles(props);
+
   const [fullname, setFullname] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -34,9 +38,11 @@ export default function Contact() {
     severity: 'success',
   });
 
+
+
   // Context
   const contextHook = useContext(theContext);
-  const contextVal = contextHook.contextVal;
+  const contextVal = contextHook.contextValue;
   const contextText = contextVal.contextText;
 
   let mail = {
@@ -98,7 +104,7 @@ export default function Contact() {
     } else {
       setModalState(true);
       axios
-        .post(url.base + 'email/send-email', mail)
+        .post(base_url + 'email/send-email', mail)
         .then((res) => {
           console.log(res);
           setModalState(false);
@@ -121,8 +127,8 @@ export default function Contact() {
   };
 
   return (
-    <div>
-      <Appbar />
+    <div className={classes.background} style={{padding:'30px 0px'}}>
+      <Appbar/>
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -344,3 +350,28 @@ export default function Contact() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+    root: {
+      width: '100%',
+    },
+    background: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      position: 'relative',
+      backgroundImage: `url(${Background})`,
+      backgroundPosition: 'center',
+      backgroundColor: 'black',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      height: '100vh',
+    },
+    footer: {
+      position: 'sticky',
+      top: 'calc( 100vh - 60px )',
+      width: '100%',
+    },
+  });
+  

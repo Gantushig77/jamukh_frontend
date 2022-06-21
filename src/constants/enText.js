@@ -64,6 +64,19 @@ const enText = {
   termsAndConditions: {
     title: 'Terms and conditions',
   },
+  contactUs: {
+    title: 'Contact Us',
+    title2: 'Feedback',
+    address: 'Mongolia, Ulaanbaatar, Chingeltei, 5-th khoroo, Orange Plasa, 701',
+    subtitle: 'Feedback Form',
+    subtitle2:
+      'If you have any feedback or complaints about our service and products, please kindly send your messege through our feedback form.',
+    submit: 'Send',
+    name: 'Fullname',
+    phone: 'Phone number',
+    email: 'Email address',
+    message: 'Feedback message',
+  },
 };
 
 export default enText;
