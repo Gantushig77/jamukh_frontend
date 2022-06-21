@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
 import MusicPlayer from '../musicPlayer/musicPlayer';
 import music from '../../assets/Mariage_dAmour.mp3';
+import { Link } from 'react-router-dom';
 
 export default function Footer(props) {
   const classes = useStyles(props);
@@ -10,15 +11,21 @@ export default function Footer(props) {
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
-        <div className={classes.address} style={{ fontSize: 14 }}>
+        <div className={classes.address} style={{ fontSize: 16 }}>
           Бүх эрх хуулиар хамгаалагдсан. Jamukha Proporties © {new Date().getFullYear()}
         </div>
-        <div style={{ marginRight: '12%' }}>
+        <div style={{ marginRight: '10%' }}>
           <MusicPlayer url={music} />
         </div>
         <div className={classes.contact}>
-                <div className={classes.contactText}>Холбоо барих</div>
-                <div className={classes.phoneNumber}>77779080</div>
+          <Link
+            className={classes.menuListItem}
+            to='/realtor'
+            style={{ marginRight: '10px' }}
+          >
+            Холбоо барих
+          </Link>
+          <div className={classes.phoneNumber}>77779080</div>
         </div>
       </div>
     </div>
@@ -46,7 +53,7 @@ const useStyles = makeStyles({
   social: {
     display: 'flex',
     alignItems: 'center',
-    fontSize:'18px'
+    fontSize: '18px',
   },
   menuListItem: {
     textDecoration: 'none',
@@ -82,6 +89,7 @@ const useStyles = makeStyles({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: 'transparent',
+    fontWeight: 300,
     color: (props) => props.linkColor || 'white',
     fontSize: (props) => (props.tablet ? '22px' : props.phone ? '12px' : '20px'),
     textDecoration: 'none',
@@ -100,22 +108,26 @@ const useStyles = makeStyles({
     '&:hover': {
       backgroundColor: 'transparent',
     },
-
-  
   },
   contact: {
     fontWeight: 300,
     fontFamily: "'Roboto', sans-serif",
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize:'18px'
+    fontSize: '18px',
   },
   contactText: {
     fontSize: (props) => (props?.tablet || props?.phone ? '14px' : '18px'),
     color: (props) => props.linkColor || 'white',
-    marginRight: '20px',
+    fontWeight: 300,
+    marginRight: '40px',
+    textDecoration: 'none',
+    '&:hover': {
+      color: '#AA6139',
+    },
   },
   phoneNumber: {
     color: '#C19D65',
+    fontWeight: 300,
   },
 });

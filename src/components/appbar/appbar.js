@@ -157,7 +157,11 @@ export default function Appbar(props) {
               />
               <div className={classes.menuListName}>
                 {url.general.map((item, index) => (
-                  <Link key={item} to={item} style={{ textAlign: 'center' , fontWeight:'500'}}>
+                  <Link
+                    key={item}
+                    to={item}
+                    style={{ textAlign: 'center', fontWeight: '500' }}
+                  >
                     <Typography
                       className={
                         currentRoute === item ? classes.activeLink : classes.link
@@ -189,35 +193,33 @@ export default function Appbar(props) {
                   }}
                 >
                   <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
-                  <MenuItem onClick={() => history.push('/house')}>
-                    Амьны орон сууц
-                  </MenuItem>
+                  <MenuItem onClick={() => history.push('/house')}>Хаус</MenuItem>
                   <MenuItem onClick={() => history.push('/apartment')}>Байр</MenuItem>
                 </Menu>
               </div>
             </div>
             {/* Contact link and login */}
             <div className={classes.contactAndLogin}>
-            <div className={classes.social}>
-          <Link
-            className={classes.menuListItem}
-            to='/realtor'
-            style={{ marginRight: '10px' }}
-          >
-            Агентууд
-          </Link>
-          <Link
-            className={classes.menuListItem}
-            to='/news'
-            style={{ marginRight: '10px' }}
-          >
-            Мэдээ
-          </Link>
-          <Link className={classes.menuListItem} to='/about-us'>
-            Бидний тухай
-          </Link>
-        </div>
-            
+              <div className={classes.social}>
+                <Link
+                  className={classes.menuListItem}
+                  to='/realtor'
+                  style={{ marginRight: '10px' }}
+                >
+                  Агентууд
+                </Link>
+                <Link
+                  className={classes.menuListItem}
+                  to='/news'
+                  style={{ marginRight: '10px' }}
+                >
+                  Мэдээ
+                </Link>
+                <Link className={classes.menuListItem} to='/about-us'>
+                  Бидний тухай
+                </Link>
+              </div>
+
               <div style={{ display: 'flex' }}>
                 {authenticated ? (
                   <Tooltip title='Account settings'>
@@ -492,7 +494,7 @@ const useStyles = makeStyles((props) => ({
     padding: '20px',
     fontSize: '18px',
     textAlign: 'flex-start',
-    color: 'white',
+    color: (props) => props.linkColor || 'white',
     fontWeight: '300',
   },
   burgerLogo: {
@@ -644,7 +646,7 @@ const useStyles = makeStyles((props) => ({
   avatarLink: {
     color: (props) => props.linkColor || 'white',
     textDecoration: 'none',
-    fontWeight: '100',
+    fontWeight: '300',
     '&:hover': {
       color: colors.brandTextColor,
     },
@@ -664,7 +666,7 @@ const useStyles = makeStyles((props) => ({
     textTransform: 'none',
     color: (props) => props.linkColor || 'white',
     padding: '20px',
-    fontWeight:300,
+    fontWeight: 300,
     fontSize: (props) => (props?.tablet ? '14px' : '18px'),
     cursor: 'pointer',
     '&:hover': {
