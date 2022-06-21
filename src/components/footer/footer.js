@@ -20,7 +20,7 @@ export default function Footer(props) {
         <div className={classes.contact}>
           <Link
             className={classes.menuListItem}
-            to='/realtor'
+            to='/contact'
             style={{ marginRight: '10px' }}
           >
             Холбоо барих

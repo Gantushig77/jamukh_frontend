@@ -220,7 +220,7 @@ export default function Appbar(props) {
                 </Link>
               </div>
 
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', paddingRight: 20 }}>
                 {authenticated ? (
                   <Tooltip title='Account settings'>
                     <Avatar

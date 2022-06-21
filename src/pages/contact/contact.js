@@ -38,8 +38,6 @@ export default function Contact(props) {
     severity: 'success',
   });
 
-
-
   // Context
   const contextHook = useContext(theContext);
   const contextVal = contextHook.contextValue;
@@ -127,8 +125,8 @@ export default function Contact(props) {
   };
 
   return (
-    <div className={classes.background} style={{padding:'30px 0px'}}>
-      <Appbar/>
+    <div className={classes.background} style={{ padding: '30px 0px' }}>
+      <Appbar linkColor='#000000' />
       {/* Snackbar */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -175,7 +173,11 @@ export default function Contact(props) {
             }}
           >
             <div
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <CircularProgress sx={{ mr: 2 }} />
               <div>
@@ -201,6 +203,7 @@ export default function Contact(props) {
           maxWidth: '1440px',
         }}
       >
+        {/* Map section */}
         <div style={{ width: '50%', marginRight: 20 }}>
           <Typography
             sx={{
@@ -239,21 +242,37 @@ export default function Contact(props) {
                 alignItems: 'center',
                 maxWidth: 500,
                 marginTop: '20px',
+                color: 'white',
               }}
             >
               <LocationOnIcon sx={{ marginRight: '10px' }} />
               {contextText?.contactUs?.address}
             </Typography>
-            <Typography sx={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+            <Typography
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: '20px',
+                color: 'white',
+              }}
+            >
               <EmailIcon sx={{ marginRight: '10px' }} />
               {'info@erkhetmongol.mn'}
             </Typography>
-            <Typography sx={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+            <Typography
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: '20px',
+                color: 'white',
+              }}
+            >
               <CallIcon sx={{ marginRight: '10px' }} />
               {'7610 9080'}
             </Typography>
           </div>
         </div>
+        {/* Form */}
         <div style={{ width: '50%', marginLeft: 20 }}>
           <Typography
             sx={{
@@ -269,7 +288,7 @@ export default function Contact(props) {
             style={{
               borderRadius: 10,
               border: '1px solid black',
-              backgroundColor: 'white',
+              // backgroundColor: 'white',
             }}
           >
             <Typography
@@ -346,32 +365,33 @@ export default function Contact(props) {
           </div>
         </div>
       </Container>
-      <Footer />
+      <div className={classes.footer}>
+        <Footer linkColor='#000000' />
+      </div>
     </div>
   );
 }
 
 const useStyles = makeStyles({
-    root: {
-      width: '100%',
-    },
-    background: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      position: 'relative',
-      backgroundImage: `url(${Background})`,
-      backgroundPosition: 'center',
-      backgroundColor: 'black',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      height: '100vh',
-    },
-    footer: {
-      position: 'sticky',
-      top: 'calc( 100vh - 60px )',
-      width: '100%',
-    },
-  });
-  
+  root: {
+    width: '100%',
+  },
+  background: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+    backgroundColor: 'black',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+  },
+  footer: {
+    position: 'sticky',
+    top: 'calc( 100vh - 60px )',
+    width: '100%',
+  },
+});
