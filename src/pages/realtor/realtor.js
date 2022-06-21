@@ -9,6 +9,7 @@ import Section2 from './section2/Section2';
 
 export default function Detailnews(props) {
   const classes = useStyles(props);
+  
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
     json2mq({
