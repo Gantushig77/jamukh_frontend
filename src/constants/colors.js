@@ -12,6 +12,7 @@ const colors = {
   gray70: 'rgba(0,0,0,0.7)',
   gray50: 'rgba(0,0,0,0.5)',
   gray0: 'rgba(0,0,0,0)',
+  brandColor: '#C6824D',
 };
 
 export default colors;

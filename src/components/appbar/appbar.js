@@ -173,9 +173,10 @@ export default function Appbar(props) {
                 ))}
                 <Button
                   id='basic-button'
-                  aria-controls={open1 ? 'basic-menu' : undefined}
-                  aria-haspopup='true'
-                  aria-expanded={open1 ? 'true' : undefined}
+                  disableRipple
+                  disableElevation
+                  disableFocusRipple
+                  disableTouchRipple
                   onClick={handleClick1}
                   className={classes.link}
                   style={{ fontSize: 18 }}
@@ -245,7 +246,11 @@ export default function Appbar(props) {
                   </Tooltip>
                 ) : (
                   // Login
-                  <Link className={classes.avatarLink} to='/login'>
+                  <Link
+                    style={{ paddingLeft: 20 }}
+                    className={classes.avatarLink}
+                    to='/login'
+                  >
                     Нэвтрэх
                   </Link>
                 )}
@@ -439,7 +444,6 @@ const useStyles = makeStyles((props) => ({
     marginLeft: '10px',
   },
   contactAndLogin: {
-    width: '32%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -453,7 +457,6 @@ const useStyles = makeStyles((props) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    // marginTop: 20,
   },
   menuListName: {
     display: 'flex',
@@ -494,8 +497,11 @@ const useStyles = makeStyles((props) => ({
     padding: '20px',
     fontSize: '18px',
     textAlign: 'flex-start',
-    color: (props) => props.linkColor || 'white',
+    color: (props) => (props.trigger ? 'white' : props.linkColor || 'white'),
     fontWeight: '300',
+    '&:hover': {
+      color: colors.brandTextColor,
+    },
   },
   burgerLogo: {
     display: 'flex',
@@ -664,7 +670,7 @@ const useStyles = makeStyles((props) => ({
   link: {
     textDecoration: 'none',
     textTransform: 'none',
-    color: (props) => props.linkColor || 'white',
+    color: (props) => (props.trigger ? 'white' : props.linkColor || 'white'),
     padding: '20px',
     fontWeight: 300,
     fontSize: (props) => (props?.tablet ? '14px' : '18px'),

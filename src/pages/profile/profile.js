@@ -1614,9 +1614,12 @@ const useStyles = makeStyles({
   row1: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: (props) => (props?.phone ? 'column' : 'row'),
     height: (props) => (props?.phone ? '800px' : '100%'),
     width: '100%',
+    maxWidth: '1600px',
+    margin: 'auto',
   },
   faceIcon: {
     fontSize: '80px',

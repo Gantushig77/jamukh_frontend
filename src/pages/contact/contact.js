@@ -23,6 +23,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import CallIcon from '@mui/icons-material/Call';
 import mapImg from '../../assets/mapImg.jpg';
+import TopArrow from '../../assets/arrow/topArrow.png';
+import colors from '../../constants/colors';
 
 export default function Contact(props) {
   const classes = useStyles(props);
@@ -196,171 +198,175 @@ export default function Contact(props) {
       <Container
         maxWidth={false}
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
           marginTop: '40px',
           marginBottom: '40px',
           maxWidth: '1440px',
         }}
       >
-        {/* Map section */}
-        <div style={{ width: '50%', marginRight: 20 }}>
-          <Typography
-            sx={{
-              paddingBottom: '10px',
-              marginBottom: '20px',
-              borderBottom: '1px solid black',
-              color: '#C8A457',
-            }}
-          >
-            {contextText?.contactUs?.title}
-          </Typography>
-          <div style={{ backgroundColor: 'transparent', height: 420, width: '100%' }}>
-            <div>
-              <img
-                onClick={() =>
-                  window.open(
-                    'https://www.google.com/maps/place/Orange+Plaza/@47.9239781,106.9051597,296m/data=!3m1!1e3!4m5!3m4!1s0x5d96927de52a3f39:0xe7081ccfed425970!8m2!3d47.9239186!4d106.9050301',
-                    '_blank'
-                  )
-                }
-                src={mapImg}
-                alt='map'
-                style={{
-                  cursor: 'pointer',
-                  objectFit: 'cover',
-                  width: '100%',
-                  height: '100%',
+        {/* Title */}
+        <Box className={classes.titleContainer}>
+          <Typography className={classes.title}>Бидний тухай</Typography>
+          <img src={TopArrow} alt='arrow' />
+        </Box>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {/* Map section */}
+          <div style={{ width: '50%', marginRight: 20 }}>
+            <Typography
+              sx={{
+                paddingBottom: '10px',
+                marginBottom: '20px',
+                borderBottom: '1px solid black',
+                color: '#C8A457',
+              }}
+            >
+              {contextText?.contactUs?.title}
+            </Typography>
+            <div style={{ backgroundColor: 'transparent', height: 420, width: '100%' }}>
+              <div>
+                <img
+                  onClick={() =>
+                    window.open(
+                      'https://www.google.com/maps/place/Orange+Plaza/@47.9239781,106.9051597,296m/data=!3m1!1e3!4m5!3m4!1s0x5d96927de52a3f39:0xe7081ccfed425970!8m2!3d47.9239186!4d106.9050301',
+                      '_blank'
+                    )
+                  }
+                  src={mapImg}
+                  alt='map'
+                  style={{
+                    cursor: 'pointer',
+                    objectFit: 'cover',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 50 }}>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  maxWidth: 500,
+                  marginTop: '20px',
+                  color: 'white',
                 }}
-              />
+              >
+                <LocationOnIcon sx={{ marginRight: '10px' }} />
+                {contextText?.contactUs?.address}
+              </Typography>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '20px',
+                  color: 'white',
+                }}
+              >
+                <EmailIcon sx={{ marginRight: '10px' }} />
+                {'info@erkhetmongol.mn'}
+              </Typography>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '20px',
+                  color: 'white',
+                }}
+              >
+                <CallIcon sx={{ marginRight: '10px' }} />
+                {'7610 9080'}
+              </Typography>
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 50 }}>
+          {/* Form */}
+          <div style={{ width: '50%', marginLeft: 20 }}>
             <Typography
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                maxWidth: 500,
-                marginTop: '20px',
-                color: 'white',
+                paddingBottom: '10px',
+                marginBottom: '20px',
+                borderBottom: '1px solid black',
+                color: colors.brandColor,
               }}
             >
-              <LocationOnIcon sx={{ marginRight: '10px' }} />
-              {contextText?.contactUs?.address}
+              {contextText?.contactUs?.title2}
             </Typography>
-            <Typography
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                marginTop: '20px',
-                color: 'white',
+            <div
+              style={{
+                borderRadius: 10,
+                border: '1px solid black',
               }}
             >
-              <EmailIcon sx={{ marginRight: '10px' }} />
-              {'info@erkhetmongol.mn'}
-            </Typography>
-            <Typography
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                marginTop: '20px',
-                color: 'white',
-              }}
-            >
-              <CallIcon sx={{ marginRight: '10px' }} />
-              {'7610 9080'}
-            </Typography>
-          </div>
-        </div>
-        {/* Form */}
-        <div style={{ width: '50%', marginLeft: 20 }}>
-          <Typography
-            sx={{
-              paddingBottom: '10px',
-              marginBottom: '20px',
-              borderBottom: '1px solid black',
-              color: '#C8A457',
-            }}
-          >
-            {contextText?.contactUs?.title2}
-          </Typography>
-          <div
-            style={{
-              borderRadius: 10,
-              border: '1px solid black',
-              // backgroundColor: 'white',
-            }}
-          >
-            <Typography
-              sx={{
-                backgroundColor: '#031544',
-                color: 'white',
-                borderTopRightRadius: '10px',
-                borderTopLeftRadius: '10px',
-                padding: '10px',
-                textAlign: 'center',
-              }}
-            >
-              {contextText?.contactUs?.subtitle}
-            </Typography>
-            <Typography
-              sx={{
-                padding: '10px',
-                paddingLeft: '20px',
-                paddingRight: '20px',
-                fontSize: '14px',
-              }}
-            >
-              {contextText?.contactUs?.subtitle2}
-            </Typography>
-            <div style={{ paddingRight: 20, paddingLeft: 20, padding: 20 }}>
-              {/* Full name */}
-              <TextField
-                sx={{ mb: 2, width: '100%' }}
-                id='outlined-basic'
-                label={contextText?.contactUs?.name}
-                variant='outlined'
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-              />
-              {/* Phone number */}
-              <TextField
-                sx={{ mb: 2, width: '100%' }}
-                id='outlined-basic'
-                label={contextText?.contactUs?.phone}
-                variant='outlined'
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              {/* Email */}
-              <TextField
-                sx={{ mb: 2, width: '100%' }}
-                id='outlined-basic'
-                label={contextText?.contactUs?.email}
-                variant='outlined'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {/* Critics */}
-              <TextField
-                multiline
-                maxRows={4}
-                rows={4}
-                sx={{ mb: 2, width: '100%' }}
-                id='outlined-basic'
-                label={contextText?.contactUs?.message}
-                variant='outlined'
-                value={critics}
-                onChange={(e) => setCritics(e.target.value)}
-              />
-              <Button
-                onClick={() => sendEmail()}
-                fullWidth
-                variant='contained'
-                sx={{ backgroundColor: '#031544' }}
+              <Typography
+                sx={{
+                  backgroundColor: colors.brandColor,
+                  color: 'white',
+                  borderTopRightRadius: '10px',
+                  borderTopLeftRadius: '10px',
+                  padding: '10px',
+                  textAlign: 'center',
+                }}
               >
-                {contextText?.contactUs?.submit}
-              </Button>
+                {contextText?.contactUs?.subtitle}
+              </Typography>
+              <Typography
+                sx={{
+                  padding: '10px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  fontSize: '14px',
+                }}
+              >
+                {contextText?.contactUs?.subtitle2}
+              </Typography>
+              <div style={{ paddingRight: 20, paddingLeft: 20, padding: 20 }}>
+                {/* Full name */}
+                <TextField
+                  sx={{ mb: 2, width: '100%' }}
+                  id='outlined-basic'
+                  label={contextText?.contactUs?.name}
+                  variant='outlined'
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+                {/* Phone number */}
+                <TextField
+                  sx={{ mb: 2, width: '100%' }}
+                  id='outlined-basic'
+                  label={contextText?.contactUs?.phone}
+                  variant='outlined'
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                {/* Email */}
+                <TextField
+                  sx={{ mb: 2, width: '100%' }}
+                  id='outlined-basic'
+                  label={contextText?.contactUs?.email}
+                  variant='outlined'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {/* Critics */}
+                <TextField
+                  multiline
+                  maxRows={4}
+                  rows={4}
+                  sx={{ mb: 2, width: '100%' }}
+                  id='outlined-basic'
+                  label={contextText?.contactUs?.message}
+                  variant='outlined'
+                  value={critics}
+                  onChange={(e) => setCritics(e.target.value)}
+                />
+                <Button
+                  onClick={() => sendEmail()}
+                  fullWidth
+                  variant='contained'
+                  sx={{ backgroundColor: colors.brandColor }}
+                >
+                  {contextText?.contactUs?.submit}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -376,18 +382,37 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
   },
-  background: {
+  titleContainer: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'column',
-    position: 'relative',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 50,
+  },
+  title: {
+    borderBottom: '2px solid #C6824D',
+    marginBottom: '10px',
+    paddingBottom: '5px',
+    color: 'white',
+    fontSize: (props) => (props?.phone ? '42px' : '65px'),
+    fontFamily: 'Roboto, sans-serif',
+    fontWeight: '100',
+  },
+  background: {
+    justifyContent: 'center',
+    height: '100%',
+    paddingTop: '120px',
+    marginBottom: '-60px',
     backgroundImage: `url(${Background})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
     backgroundPosition: 'center',
     backgroundColor: 'black',
     backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    overflow: 'auto',
   },
   footer: {
     position: 'sticky',
