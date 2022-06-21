@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
 import MusicPlayer from '../musicPlayer/musicPlayer';
@@ -17,24 +16,9 @@ export default function Footer(props) {
         <div style={{ marginRight: '12%' }}>
           <MusicPlayer url={music} />
         </div>
-        <div className={classes.social}>
-          <Link
-            className={classes.menuListItem}
-            to='/realtor'
-            style={{ marginRight: '10px' }}
-          >
-            Реалторууд
-          </Link>
-          <Link
-            className={classes.menuListItem}
-            to='/news'
-            style={{ marginRight: '10px' }}
-          >
-            Мэдээ
-          </Link>
-          <Link className={classes.menuListItem} to='/about-us'>
-            Бидний тухай
-          </Link>
+        <div className={classes.contact}>
+                <div className={classes.contactText}>Холбоо барих</div>
+                <div className={classes.phoneNumber}>77779080</div>
         </div>
       </div>
     </div>
@@ -62,6 +46,7 @@ const useStyles = makeStyles({
   social: {
     display: 'flex',
     alignItems: 'center',
+    fontSize:'18px'
   },
   menuListItem: {
     textDecoration: 'none',
@@ -115,5 +100,22 @@ const useStyles = makeStyles({
     '&:hover': {
       backgroundColor: 'transparent',
     },
+
+  
+  },
+  contact: {
+    fontWeight: 300,
+    fontFamily: "'Roboto', sans-serif",
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize:'18px'
+  },
+  contactText: {
+    fontSize: (props) => (props?.tablet || props?.phone ? '14px' : '18px'),
+    color: (props) => props.linkColor || 'white',
+    marginRight: '20px',
+  },
+  phoneNumber: {
+    color: '#C19D65',
   },
 });

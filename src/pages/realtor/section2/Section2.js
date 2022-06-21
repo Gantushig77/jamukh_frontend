@@ -97,7 +97,7 @@ export default function Section2(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Title name='Realtor' />
+      <Title name='Агентууд' />
       {isLoading === true ? (
         <div className={classes.root}>
           <Container

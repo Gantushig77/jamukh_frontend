@@ -157,7 +157,7 @@ export default function Appbar(props) {
               />
               <div className={classes.menuListName}>
                 {url.general.map((item, index) => (
-                  <Link key={item} to={item} style={{ textAlign: 'center' }}>
+                  <Link key={item} to={item} style={{ textAlign: 'center' , fontWeight:'500'}}>
                     <Typography
                       className={
                         currentRoute === item ? classes.activeLink : classes.link
@@ -198,10 +198,26 @@ export default function Appbar(props) {
             </div>
             {/* Contact link and login */}
             <div className={classes.contactAndLogin}>
-              <div className={classes.contact}>
-                <div className={classes.contactText}>Холбоо барих</div>
-                <div className={classes.phoneNumber}>77779080</div>
-              </div>
+            <div className={classes.social}>
+          <Link
+            className={classes.menuListItem}
+            to='/realtor'
+            style={{ marginRight: '10px' }}
+          >
+            Агентууд
+          </Link>
+          <Link
+            className={classes.menuListItem}
+            to='/news'
+            style={{ marginRight: '10px' }}
+          >
+            Мэдээ
+          </Link>
+          <Link className={classes.menuListItem} to='/about-us'>
+            Бидний тухай
+          </Link>
+        </div>
+            
               <div style={{ display: 'flex' }}>
                 {authenticated ? (
                   <Tooltip title='Account settings'>
@@ -421,7 +437,7 @@ const useStyles = makeStyles((props) => ({
     marginLeft: '10px',
   },
   contactAndLogin: {
-    width: '22%',
+    width: '32%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -444,7 +460,7 @@ const useStyles = makeStyles((props) => ({
     marginTop: '10px',
   },
   contact: {
-    fontWeight: '100',
+    fontWeight: 300,
     fontFamily: "'Roboto', sans-serif",
     display: 'flex',
     justifyContent: 'space-between',
@@ -474,10 +490,10 @@ const useStyles = makeStyles((props) => ({
   menuListItem: {
     textDecoration: 'none',
     padding: '20px',
-    fontSize: '20px',
+    fontSize: '18px',
     textAlign: 'flex-start',
     color: 'white',
-    fontWeight: '100',
+    fontWeight: '300',
   },
   burgerLogo: {
     display: 'flex',
@@ -648,7 +664,7 @@ const useStyles = makeStyles((props) => ({
     textTransform: 'none',
     color: (props) => props.linkColor || 'white',
     padding: '20px',
-    fontWeight: '100',
+    fontWeight:300,
     fontSize: (props) => (props?.tablet ? '14px' : '18px'),
     cursor: 'pointer',
     '&:hover': {
@@ -765,6 +781,11 @@ const paperProps = {
       bgcolor: 'background.paper',
       transform: 'translateY(-50%) rotate(45deg)',
       zIndex: 0,
+    },
+    social: {
+      display: 'flex',
+      alignItems: 'center',
+      color: (props) => props.linkColor || 'white',
     },
   },
 };

@@ -52,7 +52,7 @@ export default function Home(props) {
         </Alert>
       </Snackbar>
       <div>
-        <img src={logo} alt={'jamukh logo'} style={{ maxWidth: 200 }} />
+        <img src={logo} alt={'jamukh logo'} style={{ maxWidth: 250 }} />
       </div>
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} linkColor={'#000000'} />

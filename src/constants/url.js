@@ -3,14 +3,13 @@ const backend_port = '4000';
 
 const base_url =
   DEV === true
-    ? `http://localhost:${backend_port}`
+    ? `http://192.168.1.161:${backend_port}`
     : // ? `http://192.168.1.26:${backend_port}`
       `http://43.231.114.19:${backend_port}`;
 
 const img_url = `${base_url}/image/`;
 
 const blog_img_url = `${base_url}/blog-img/`;
-
 const membership_img_url = `${base_url}/membership/`;
 
 const url = {
