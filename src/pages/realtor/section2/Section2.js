@@ -19,7 +19,9 @@ import { BsTelephone } from 'react-icons/bs';
 import { MdOutlineMailOutline } from 'react-icons/md';
 
 export default function Section2(props) {
+  
   const classes = useStyles(props);
+
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState({});
@@ -27,6 +29,7 @@ export default function Section2(props) {
   const [dialogName, setDialogName] = useState('');
   const [dialogEmail, setDialogEmail] = useState('');
   const [dialogPhone, setDialogPhone] = useState('');
+  const [dialogBio, setDialogBio] = useState('');
   const [isLoading, setLoading] = useState(true);
 
   const handlePagination = (event, value) => {
@@ -49,12 +52,15 @@ export default function Section2(props) {
   const dialogClosed = () => {
     setOpen(false);
   };
-  const dialogOpen = (img, email, phone, name) => {
+  const dialogOpen = (img, email, phone, name ,bio) => {
+    console.log(img, email, phone, name ,bio)
     setOpen(true);
     setDialogAvatar(img);
     setDialogName(name);
     setDialogPhone(phone);
     setDialogEmail(email);
+    setDialogBio(bio);
+    
   };
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -114,6 +120,7 @@ export default function Section2(props) {
         <div className={classes.root}>
           <div className={classes.content}>
             {posts?.account_list?.map((realtor, index) => (
+         
               <div
                 key={index}
                 className={classes.realtor}
@@ -122,7 +129,8 @@ export default function Section2(props) {
                     realtor.avatar.url,
                     realtor.email,
                     realtor.tel,
-                    realtor.firstname
+                    realtor.firstname,
+                    realtor.bio
                   );
                 }}
               >
@@ -163,10 +171,14 @@ export default function Section2(props) {
           </div>
         </div>
       )}
+      
       <Dialog onClose={dialogClosed} open={open} className={classes.dialogContent}>
+        {console.log(dialogBio,"dialogBio",dialogPhone)}
+        <div className={classes.dialogBg}>
+        <div className={classes.dialogAvatar} >
         <img
           src={dialogAvatar}
-          style={{ width: '250px', heigth: 'auto' }}
+          style={{ width: '100%', heigth: 'auto' }}
           alt='dialogue'
         />
         <DialogTitle>{dialogName}</DialogTitle>
@@ -176,7 +188,16 @@ export default function Section2(props) {
         </div>
         <div className={classes.dialogText}>
           <MdOutlineMailOutline style={{ marginRight: '5px' }} />
-          {dialogEmail}
+         <div style={{ fontSize: '14px' }}>{dialogEmail}</div> 
+        </div>
+        </div>
+        <div className={classes.dialogDetail} >
+          <div style={{fontSize:'28px',fontWeight:'500',borderBottom:'1px solid #C6824D'}}>
+              Био
+          </div>
+        
+         {dialogBio}
+        </div>
         </div>
       </Dialog>
     </div>
@@ -195,8 +216,37 @@ const useStyles = makeStyles({
   },
   dialogContent: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems:'center',
     textAlign: 'center',
+  
+  },
+  dialogAvatar:{
+    display:'flex',
+    flexDirection:'column',
+    color:'white',
+    width:(props) => (props?.phone ? '100%' : '50%'),
+    backgroundColor:'#0d0d0db3',
+    fontWeight:'300'
+  },
+  dialogDetail:{
+    width:(props) => (props?.phone ? '100%' : '50%'),
+    marginLeft:(props) => (props?.phone ? '0px' : '10px'),
+    color:"white",
+    padding:'5px',
+    fontWeight:'300',
+    textAlign:'left'
+  },
+  dialogBg:{
+    maxWidth:'800px',
+    width:'100%',
+    display: 'flex',
+    backgroundImage: `url(${Background})`,
+    backgroundSize: '300px 250px',
+    border: '1px solid #C6824D',
+    borderRadius: '10px',
+    padding:(props) => (props?.phone ? '2px' : '20px'),
+    flexDirection: (props) => (props?.phone ? 'column' : 'row'),
   },
   dialogText: {
     display: 'flex',
@@ -210,10 +260,8 @@ const useStyles = makeStyles({
     fontWeight: 100,
     marginTop: '20px',
     backgroundImage: `url(${Background})`,
-    backgroundRepeat: 'no-repeat, repeat',
-    backgroundPosition: 'center',
-    height: 'auto',
-    backgroundSize: 'cover',
+    backgroundSize: '300px 250px',
+    border: '1px solid #C6824D',
     borderRadius: '10px',
   },
   page: {
@@ -224,7 +272,7 @@ const useStyles = makeStyles({
     display: 'grid',
     fontSize: '0',
     gridTemplateColumns: (props) =>
-      props?.phone ? '100%' : props?.tablet ? '50% 50%' : '25% 25% 25% 25%',
+    props?.phone ? '100%' : props?.tablet ? '50% 50%' : '25% 25% 25% 25%',
     width: '100%',
     maxWidth: '1200px',
     zIndex: '1',
@@ -238,6 +286,7 @@ const useStyles = makeStyles({
     paddingLeft: 20,
     flexDirection: 'column',
     cursor: 'pointer',
+    border: '1px solid transparent',
     '&:hover': {
       border: '1px solid white',
       boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
