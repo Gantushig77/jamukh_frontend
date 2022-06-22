@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import colors from '../../constants/colors';
-import MusicPlayer from '../musicPlayer/musicPlayer';
-import music from '../../assets/Mariage_dAmour.mp3';
+// import MusicPlayer from '../musicPlayer/musicPlayer';
+// import music from '../../assets/Mariage_dAmour.mp3';
 import { Link } from 'react-router-dom';
 
 export default function Footer(props) {
@@ -14,9 +14,9 @@ export default function Footer(props) {
         <div className={classes.address} style={{ fontSize: 16 }}>
           Бүх эрх хуулиар хамгаалагдсан. Jamukha Proporties © {new Date().getFullYear()}
         </div>
-        <div style={{ marginRight: '10%' }}>
+        {/* <div className={classes.musicPlayerContainer}>
           <MusicPlayer url={music} />
-        </div>
+        </div> */}
         <div className={classes.contact}>
           <Link
             className={classes.menuListItem}
@@ -42,6 +42,11 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto', sans-serif",
     fontSize: '16px',
     padding: '0 10px',
+  },
+  musicPlayerContainer: {
+    position: 'absolute',
+    left: (props) => (props.phone ? '10px' : '49%'),
+    bottom: (props) => (props.phone ? '10px' : 'auto'),
   },
   flexContainer: {
     display: 'flex',
@@ -92,6 +97,8 @@ const useStyles = makeStyles({
     fontWeight: 300,
     color: (props) => props.linkColor || 'white',
     fontSize: (props) => (props.tablet ? '22px' : props.phone ? '12px' : '20px'),
+    maxWidth: (props) => (props.tablet ? '300px' : '100%'),
+    textAlign: (props) => (props.phone ? 'center' : 'left'),
     textDecoration: 'none',
     textTransform: 'none',
   },

@@ -13,7 +13,7 @@ const blog_img_url = `${base_url}/blog-img/`;
 const membership_img_url = `${base_url}/membership/`;
 
 const url = {
-  general: ['/antique', '/cars', '/painting'],
+  general: ['/', '/antique', '/cars', '/painting'],
 };
 
 const bmLinks = {

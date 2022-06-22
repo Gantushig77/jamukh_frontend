@@ -205,7 +205,7 @@ export default function Contact(props) {
       >
         {/* Title */}
         <Box className={classes.titleContainer}>
-          <Typography className={classes.title}>Бидний тухай</Typography>
+          <Typography className={classes.title}>Холбоо барих</Typography>
           <img src={TopArrow} alt='arrow' />
         </Box>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -372,7 +372,7 @@ export default function Contact(props) {
         </div>
       </Container>
       <div className={classes.footer}>
-        <Footer linkColor='#000000' />
+        <Footer linkColor='#FFFFFF' />
       </div>
     </div>
   );

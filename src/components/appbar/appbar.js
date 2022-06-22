@@ -149,12 +149,12 @@ export default function Appbar(props) {
           <div className={classes.menuContainer}>
             {/* Logo and links */}
             <div className={classes.logoAndLinks}>
-              <img
+              {/* <img
                 src={Logo}
                 className={classes.leftLogo}
                 onClick={() => history.push('/')}
                 alt='jamukh black logo'
-              />
+              /> */}
               <div className={classes.menuListName}>
                 {url.general.map((item, index) => (
                   <Link
@@ -195,7 +195,9 @@ export default function Appbar(props) {
                 >
                   <MenuItem onClick={() => history.push('/land')}>Газар</MenuItem>
                   <MenuItem onClick={() => history.push('/house')}>Хаус</MenuItem>
-                  <MenuItem onClick={() => history.push('/apartment')}>Байр</MenuItem>
+                  <MenuItem onClick={() => history.push('/apartment')}>
+                    Орон сууц
+                  </MenuItem>
                 </Menu>
               </div>
             </div>
@@ -426,10 +428,12 @@ const useStyles = makeStyles((props) => ({
       borderRadius: 6,
       color: '#C19D65',
       backgroundColor: 'transparent',
-      boxShadow:
-        'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+      boxShadow: 'none',
+      marginLeft: 10,
+      // boxShadow:
+      //   'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
       '& .MuiMenu-list': {
-        padding: '4px 0',
+        padding: '0px 0px',
       },
       '& .MuiMenuItem-root': {
         borderBottom: '1px solid #C19D65',

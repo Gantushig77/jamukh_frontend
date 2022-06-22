@@ -33,7 +33,9 @@ import apartment_bg from './assets/background/apartment.jpg';
 import house_bg from './assets/background/house.jpg';
 import AboutUs from './pages/aboutUs';
 import './App.css';
-import Contact from './pages/contact/contact'
+import Contact from './pages/contact/contact';
+import MusicPlayer from './components/musicPlayer/musicPlayer';
+import music from './assets/Mariage_dAmour.mp3';
 
 export default function App() {
   const token = localStorage.getItem('jamukh_token');
@@ -59,6 +61,7 @@ export default function App() {
         ? localStorage.getItem('activeLang')
         : 'mn',
   });
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const langChange = (lang) => {
     setContextValue(
@@ -90,6 +93,12 @@ export default function App() {
         });
     }
   }, [token]);
+
+  useEffect(() => {
+    window.addEventListener('mousedown', (event) => {
+      if (isPlaying === false) setIsPlaying(true);
+    });
+  }, [isPlaying]);
 
   if (loading)
     return (
@@ -220,6 +229,9 @@ export default function App() {
             </Route>
           </Switch>
         </Router>
+        <div style={{ position: 'absolute', bottom: 50, zIndex: 5, display: 'none' }}>
+          <MusicPlayer url={music} isPlaying={isPlaying} />
+        </div>
       </TheContext.Provider>
     </div>
   );

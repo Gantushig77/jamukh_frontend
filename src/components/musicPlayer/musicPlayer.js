@@ -3,11 +3,11 @@ import { IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 
-const useAudio = (url) => {
+const useAudio = (url, bool) => {
   const [audio] = useState(new Audio(url));
   const [playing, setPlaying] = useState(false);
 
-  const toggle = () => setPlaying(!playing);
+  const toggle = () => setPlaying(bool);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
@@ -23,8 +23,12 @@ const useAudio = (url) => {
   return [playing, toggle];
 };
 
-export default function MusicPlayer({ url }) {
-  const [playing, toggle] = useAudio(url);
+export default function MusicPlayer({ url, isPlaying }) {
+  const [playing, toggle] = useAudio(url, isPlaying);
+
+  useEffect(() => {
+    toggle();
+  }, [isPlaying, toggle]);
 
   return (
     <div
@@ -33,7 +37,13 @@ export default function MusicPlayer({ url }) {
         backgroundColor: 'rgba(0,0,0,0.5)',
       }}
     >
-      <IconButton aria-label='play' onClick={toggle}>
+      <IconButton
+        aria-label='play'
+        onClick={(e) => {
+          e.stopPropagation();
+          toggle();
+        }}
+      >
         {playing ? (
           <PauseIcon htmlColor='#FFFFFF' />
         ) : (
