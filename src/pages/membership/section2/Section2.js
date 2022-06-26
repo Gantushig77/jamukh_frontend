@@ -10,13 +10,13 @@ import { Snackbar } from '@mui/material';
 
 export default function Section2(props) {
   const classes = useStyles(props);
-
   const token = localStorage.getItem('jamukh_token');
 
   // States
-  const [tab, setTab] = useState('Bronze');
-  const [count, setCount] = useState(1);
-  const [memberid, setMemberId] = useState(1);
+  const [tab, setTab] = useState('Basic');
+  const [membershipId, setMembershipId] = useState(5);
+  const [memberIndex, setMemberIndex] = useState(0);
+  const [membershipData, setMembershipData] = useState([]);
   const [snackbarState, setSnackbarState] = useState({
     open: false,
     message: 'Амжилттай илгээлээ',
@@ -40,24 +40,32 @@ export default function Section2(props) {
   };
 
   const requestCode = () => {
-    console.log(memberid, 'memberid');
-    if (memberid !== -1) {
-      getMembershipSend(memberid)
-        .then((res) => {
-          handleSnackOpen({
-            state: true,
-            msg: res.data.msg,
-            type: 'success',
+    console.log(membershipId, 'membershipId');
+    if (membershipData?.length > 0) {
+      if (membershipId !== membershipData[membershipData.length - 1]?.id) {
+        getMembershipSend(membershipId)
+          .then((res) => {
+            handleSnackOpen({
+              state: true,
+              msg: res.data.msg,
+              type: 'success',
+            });
+          })
+          .catch((e) => {
+            console.log(e.response.data.msg, 'e');
+            handleSnackOpen({
+              state: true,
+              msg: e.response.data.msg,
+              type: 'error',
+            });
           });
-        })
-        .catch((e) => {
-          console.log(e.response.data.msg, 'e');
-          handleSnackOpen({
-            state: true,
-            msg: e.response.data.msg,
-            type: 'error',
-          });
+      } else {
+        handleSnackOpen({
+          state: true,
+          msg: 'Энгийн хэрэглэгчид хүсэлт илгээх боломжгүй.',
+          type: 'error',
         });
+      }
     }
   };
 
@@ -65,7 +73,9 @@ export default function Section2(props) {
   useEffect(() => {
     if (token)
       getMembershipType()
-        .then((res) => {})
+        .then((res) => {
+          if (res.data !== null) setMembershipData(res.data);
+        })
         .catch((e) => {
           handleSnackOpen({
             state: true,
@@ -78,7 +88,15 @@ export default function Section2(props) {
         });
   }, [token]);
 
-  console.log(props?.parentId, 'props?.parentId');
+  useEffect(() => {
+    console.log('membership data : ', membershipData);
+  }, [membershipData]);
+
+  useEffect(() => {
+    console.log('props data : ', props);
+    setTab(props?.membershipTypeStr);
+    setMembershipId(props?.membershipId);
+  }, [props]);
 
   return (
     <div className={classes.root}>
@@ -99,57 +117,43 @@ export default function Section2(props) {
       <div className={classes.titleTop}>
         <Title name='Зэрэглэл' />
       </div>
-
       <Container className={classes.container}>
         <>
           <div className={classes.members}>
             <div className={classes.tabs}>
-              <div
-                className={tab === 'Bronze' ? classes.tabActive : classes.tab}
-                onClick={() => {
-                  setTab('Bronze');
-                  setCount(1);
-                }}
-              >
-                Bronze
-              </div>
-              <div
-                className={tab === 'Silver' ? classes.tabActive : classes.tab}
-                onClick={() => {
-                  setTab('Silver');
-                  setCount(2);
-                }}
-              >
-                Silver
-              </div>
-              <div
-                className={tab === 'Gold' ? classes.tabActive : classes.tab}
-                onClick={() => {
-                  setTab('Gold');
-                  setCount(3);
-                }}
-              >
-                Gold
-              </div>
-              <div
-                className={tab === 'Platinium' ? classes.tabActive : classes.tab}
-                onClick={() => {
-                  setTab('Platinium');
-                  setCount(4);
-                }}
-              >
-                Platinium
-              </div>
+              {membershipData?.length > 0 &&
+                membershipData.map((item, index) => (
+                  <div
+                    key={index}
+                    className={tab === item?.type_name ? classes.tabActive : classes.tab}
+                    onClick={() => {
+                      setTab(item?.type_name);
+                      setMembershipId(item?.id);
+                      setMemberIndex(index);
+                    }}
+                  >
+                    {item?.type_name}
+                  </div>
+                ))}
             </div>
             <div className={classes.subTitle}>
-              <div></div>
+              <div>
+                <p style={{ color: 'white' }}>
+                  Таны зэрэглэл : <b>{props?.membershipTypeStr}</b>
+                </p>
+              </div>
               <div className={classes.counterMember}>
-                {tab} зэрэглэлийн 132 гишүүд байна
+                <p style={{ color: '#C19D65', paddingRight: 10 }}>{tab}</p>
+                зэрэглэлийн {membershipData[memberIndex]?.total_account || 0} гишүүд байна
               </div>
             </div>
             <div className={classes.membersContainer}>
-              {/* <div className={classes.description}>{data[count].description}</div>
-              <div className={classes.subDescription}>{data[count].subDescription}</div> */}
+              <div className={classes.description}>
+                {membershipData[memberIndex]?.description}
+              </div>
+              <div className={classes.subDescription}>
+                {membershipData[memberIndex]?.promo}
+              </div>
               <div
                 className={classes.reqButton}
                 onClick={() => {
@@ -165,7 +169,7 @@ export default function Section2(props) {
           <div className={classes.rowNumber}>
             <div className={classes.number}>1</div>{' '}
             <div className={classes.numberDes}>
-              “Жамух пропертиз”-н гишүүнчлэл нь дараах үндсэн 6 сонголттой байна: VIP,
+              “Жамух пропертиз”-н гишүүнчлэл нь дараах үндсэн 5 сонголттой байна:
               Platinium, Gold, Silver, Bronze ба Member. Сонирхогч хувь хүн, эсхүл
               байгууллага, нь Гишүүнчлэлийн төрлөөс өөрийн хэрэгцээ, сонирхолд тулгуурлан
               сонголтоо хийх эрхтэй ба хураамжийг Төлбөрийн нөхцөлийн дагуу барагдуулах
@@ -173,9 +177,8 @@ export default function Section2(props) {
             </div>
           </div>
           <div className={classes.rowNumber}>
-            <div className={classes.number}>2</div>{' '}
+            <div className={classes.number}>2</div>
             <div className={classes.numberDes}>
-              {' '}
               Гишүүнчлэлийн хугацаа нийт 12 сар байх ба гишүүний хураамж төлсөн өдрөөс
               эхлэн “Жамух пропертиз”- н Гишүүнээр тооцогдон, “Жамух пропертиз”-зохион
               байгуулж буй нэр заасан арга хэмжээ, үйл ажиллагаа, гишүүдийн дотоод
@@ -187,7 +190,6 @@ export default function Section2(props) {
           <div className={classes.rowNumber}>
             <div className={classes.number}>3</div>{' '}
             <div className={classes.numberDes}>
-              {' '}
               Гишүүнчлэлийн төрлөө шатлал шатлалаар ахиулах эрхийг гишүүн бүр тэгш эдэлнэ.
             </div>
           </div>
@@ -205,17 +207,6 @@ export default function Section2(props) {
     </div>
   );
 }
-
-// const Member = (props) => {
-//   const classes = useStyles(props.phone);
-//   return (
-//     <div className={classes.cardRoot}>
-//       <img src={Avatar} className={classes.imageCard} alt={''} />
-//       <div className={classes.lastName}>Jamukha</div>
-//       <div className={classes.firstName}>Jadraan</div>
-//     </div>
-//   );
-// };
 
 const useStyles = makeStyles({
   root: {
@@ -255,13 +246,16 @@ const useStyles = makeStyles({
     color: 'white',
     fontSize: '20px',
     marginTop: '30px',
+    textAlign: 'center',
   },
   subDescription: {
     display: 'flex',
     justifyContent: 'flex-end',
+    textAlign: 'center',
     color: '#C19D65',
     fontSize: '20px',
     marginTop: '30px',
+    textTransform: 'uppercase',
   },
   reqButton: {
     display: 'flex',
@@ -371,9 +365,10 @@ const useStyles = makeStyles({
   },
   counterMember: {
     color: 'white',
+    display: 'flex',
+    alignItems: 'center',
     fontSize: (props) => (props.phone ? '12px' : '18px'),
   },
-
   cardRoot: {
     display: 'flex',
     alignItems: 'center',

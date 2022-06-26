@@ -10,7 +10,7 @@ import Appbar from '../../components/appbar/appbar';
 import Footer from '../../components/footer/footer';
 import TheContext from '../../context/context';
 
-export default function News(props) {
+export default function Membership(props) {
   const classes = useStyles(props);
   const phoneSize = useMediaQuery('(max-width: 767px)');
   const tabletSize = useMediaQuery(
@@ -58,7 +58,12 @@ export default function News(props) {
           {snackbarState.message}
         </Alert>
       </Snackbar>
-      <Section2 member_type={account.member_type} phone={phoneSize} tablet={tabletSize} />
+      <Section2
+        membershipId={account?.member_type}
+        membershipTypeStr={account?.member_type_str}
+        phone={phoneSize}
+        tablet={tabletSize}
+      />
       <div className={classes.footer}>
         <Footer phone={phoneSize} tablet={tabletSize} />
       </div>
