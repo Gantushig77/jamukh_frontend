@@ -162,7 +162,7 @@ const SliderItem = (props) => {
     <Container
       disableGutters
       maxWidth={false}
-      style={{ display: 'flex', justifyContent: 'center' }}
+      style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
     >
       <div className={classes.sliderItemBackImg}>
         <img src={props.image} className={classes.boxImage} alt='' />
@@ -309,11 +309,11 @@ const useStyles = makeStyles({
     background: 'linear-gradient(0deg, rgba(0,0,0,0.85) 100%, rgba(0,0,0,0.85) 100%)',
     filter: 'blur(0px)',
     '-webkit9-filter': 'blur(0px)',
-    height: (props) => (props?.phone ? 'auto' : '350px'),
+    height: (props) => (props?.phone ? 'auto' : 350),
     margin: '10px',
     borderRadius: '10px',
     border: '1px solid #C19D65',
-    width: (props) => (props?.phone ? 'auto' : '400px'),
+    width: (props) => (props?.phone ? 'auto' : 400),
   },
   empty: {
     display: 'flex',
@@ -328,7 +328,6 @@ const useStyles = makeStyles({
     width: '100%',
     fontFamily: "'Lobster', cursive",
   },
-
   sliderItemContainer: {
     position: 'relative',
     zIndex: 99,
@@ -338,7 +337,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   avatar: {
     display: 'flex',
     alignItems: 'center',
@@ -347,7 +345,6 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif",
     marginTop: (props) => (props?.phone ? '10px' : '80px  '),
   },
-
   avatarColumn: {
     display: 'flex',
     flexDirection: 'column',
@@ -356,12 +353,10 @@ const useStyles = makeStyles({
     fontSize: 18,
     marginLeft: 8,
   },
-
   column: {
     display: 'flex',
     alignItems: 'center',
   },
-
   area: {
     display: 'flex',
     alignItems: 'center',
@@ -371,7 +366,6 @@ const useStyles = makeStyles({
     marginRight: '10px',
     fontSize: (props) => (props?.phone ? 18 : 18),
   },
-
   avatarColumnTime: {
     display: 'flex',
     flexDirection: 'column',
@@ -381,7 +375,6 @@ const useStyles = makeStyles({
     color: 'white',
     fontSize: (props) => (props?.phone ? 12 : 12),
   },
-
   title: {
     display: 'flex',
     alignItems: 'flex-end',
@@ -393,7 +386,6 @@ const useStyles = makeStyles({
     maxWidth: '300px',
     minHeight: 30,
   },
-
   description: {
     display: 'flex',
     alignItems: 'center',
@@ -405,7 +397,6 @@ const useStyles = makeStyles({
     color: 'white',
     minHeight: 64,
   },
-
   button: {
     fontFamily: "'Roboto Condensed', sans-serif",
     backgroundColor: colors.brandTextColor,
@@ -415,7 +406,6 @@ const useStyles = makeStyles({
       color: 'white',
     },
   },
-
   link: {
     textDecoration: 'none',
     color: 'white',
@@ -423,7 +413,6 @@ const useStyles = makeStyles({
       color: 'white',
     },
   },
-
   thirtyPercentSquare: {
     display: 'flex',
     flexDirection: 'column',
@@ -438,7 +427,6 @@ const useStyles = makeStyles({
     zIndex: 999,
     backgroundColor: colors.orange,
   },
-
   thirtyPercentRound: {
     display: 'flex',
     flexDirection: 'column',
@@ -453,27 +441,23 @@ const useStyles = makeStyles({
     zIndex: 10,
     backgroundColor: colors.orange,
   },
-
   saleText: {
     color: 'white',
     fontSize: 36,
     textAlign: 'center',
     fontWeight: 'bold',
   },
-
   saleLine: {
     backgroundColor: 'white',
     height: 3,
     width: 45,
   },
-
   saleLineLong: {
     marginTop: 8,
     backgroundColor: 'white',
     height: 3,
     width: 60,
   },
-
   dots_container: {
     display: 'flex',
     justifyContent: 'center',
